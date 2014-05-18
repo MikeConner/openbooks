@@ -1,0 +1,8 @@
+https://webvpn.pittsburghpa.gov/zeo
+
+username zeo.user
+
+you will need to call for the password.
+
+0p3nR3c0rd$
+rdp -> 127.0.0.1:60000

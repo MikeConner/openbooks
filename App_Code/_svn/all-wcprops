@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/ZEODEV/!svn/ver/2495/openbook/App_Code
+END
+Utils.cs
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/ZEODEV/!svn/ver/2297/openbook/App_Code/Utils.cs
+END
+SearchLobbyists.cs
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/ZEODEV/!svn/ver/1308/openbook/App_Code/SearchLobbyists.cs
+END
+Auth.cs
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/ZEODEV/!svn/ver/554/openbook/App_Code/Auth.cs
+END
+SearchParamsLobbyists.cs
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/ZEODEV/!svn/ver/1308/openbook/App_Code/SearchParamsLobbyists.cs
+END
+SearchExpenditures.cs
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/ZEODEV/!svn/ver/761/openbook/App_Code/SearchExpenditures.cs
+END
+SearchContracts.cs
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/ZEODEV/!svn/ver/406/openbook/App_Code/SearchContracts.cs
+END
+SearchVendors.cs
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/ZEODEV/!svn/ver/284/openbook/App_Code/SearchVendors.cs
+END
+SearchParamsContract.cs
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/ZEODEV/!svn/ver/2486/openbook/App_Code/SearchParamsContract.cs
+END
+SearchParamsVendor.cs
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/ZEODEV/!svn/ver/284/openbook/App_Code/SearchParamsVendor.cs
+END
+Admin.cs
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/ZEODEV/!svn/ver/2495/openbook/App_Code/Admin.cs
+END
+SearchContributions.cs
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/ZEODEV/!svn/ver/764/openbook/App_Code/SearchContributions.cs
+END
+SearchParamsContribution.cs
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/ZEODEV/!svn/ver/764/openbook/App_Code/SearchParamsContribution.cs
+END
+SearchParamsExpenditures.cs
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/ZEODEV/!svn/ver/761/openbook/App_Code/SearchParamsExpenditures.cs
+END

@@ -1,0 +1,104 @@
+<%@ Page Title="" Language="C#" MasterPageFile="~/_Masters/AdminMasterPage.master" AutoEventWireup="true" CodeFile="AddLobbyist.aspx.cs" 
+Inherits="Admin_AddLobbyist" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+<div class="mainwrap">
+<div class="contractdetails">
+<h2>Register Lobbyist</h2>
+
+	<table class="companydetails" cellpadding="0" cellspacing="0">
+		<tr>
+			<td><label>Full Name </label></td>
+			<td><asp:TextBox ID="txtFullName" runat="server" Width="200" MaxLength="100" />
+			
+				<asp:RequiredFieldValidator id="val1" runat="server" 
+					ControlToValidate="txtFullName" 
+					ErrorMessage="[error] Required Field. " 
+					Display="Dynamic" />
+			</td>
+		</tr>
+		<tr>
+			<td><label>Position </label></td>
+			<td><asp:TextBox ID="txtPosition" runat="server" Width="200" MaxLength="50" />
+			
+				<asp:RequiredFieldValidator id="val2" runat="server" 
+					ControlToValidate="txtPosition" 
+					ErrorMessage="[error] Required Field. " 
+					Display="Dynamic" />
+			</td>
+		</tr>
+	</table>
+	<br />
+
+	<table cellpadding="0" cellspacing="0">
+		<tr>
+			<td><label>Relationship</label></td>
+			<td>
+			<asp:RadioButtonList ID="rblRelationship" runat="server" RepeatColumns="2" RepeatDirection="Horizontal">
+				<asp:ListItem Text="Employer" Value="Employer" Selected="True" />
+				<asp:ListItem Text="Additional Company" Value="Additional Company" />
+			</asp:RadioButtonList>
+			</td>
+		</tr>
+		<tr>
+			<td><label>Company</label></td>
+			<td><asp:TextBox ID="txtCompany" runat="server" Width="200" MaxLength="50" />
+			
+				<asp:RequiredFieldValidator id="val3" runat="server" 
+					ControlToValidate="txtCompany" 
+					ErrorMessage="[error] Required Field. " 
+					Display="Dynamic" />
+			</td>
+		</tr>
+		<tr>
+			<td><label>Address</label></td>
+			<td><asp:TextBox ID="txtAddress" runat="server" Width="200" MaxLength="50" /></td>
+		</tr>
+		<tr>
+			<td><label>City</label></td>
+			<td><asp:TextBox ID="txtCity" runat="server" Width="200" MaxLength="50" /></td>
+		</tr>
+		<tr>
+			<td><label>State</label></td>
+			<td><asp:DropDownList ID="ddlState" runat="server" 
+					DataSourceID="SqlDataSource1" 
+					DataTextField="state_name" 
+					DataValueField="state_code" /> 
+				<asp:SqlDataSource ID="SqlDataSource1" runat="server" 
+					ConnectionString="<%$ ConnectionStrings:CityControllerConnectionString %>" 
+					SelectCommand="SELECT * FROM [tlk_States] ORDER BY state_name ASC" /></td>
+		</tr>
+		<tr>
+			<td><label>Zip Code</label></td>
+			<td><asp:TextBox ID="txtZip" runat="server" Width="200" MaxLength="50" /></td>
+		</tr>
+	</table>
+
+	<asp:ImageButton ID="Button2" runat="server" onclick="btnAddLineItems_Click" ImageUrl="~/img/addbtn.gif" /><br />
+
+
+<asp:GridView ID="grvLineItems" runat="server" 
+	AutoGenerateColumns="False"
+	OnRowDeleting="grvLineItems_RowDeleting" EmptyDataText="Please enter employer address and any companies/organizations represented by lobbyist above.">
+	<Columns>
+		<asp:CommandField ShowDeleteButton="True" DeleteText="x" />
+		<asp:BoundField DataField="companyName" HeaderText="Company" />
+		<asp:BoundField DataField="addr1" HeaderText="Address" />
+		<asp:BoundField DataField="city" HeaderText="City" />
+		<asp:BoundField DataField="state" HeaderText="State" />
+		<asp:BoundField DataField="zip" HeaderText="Zip" />
+		<asp:BoundField DataField="relationship" HeaderText="Relationship" />
+	</Columns>
+</asp:GridView>
+
+	
+	<asp:ImageButton ID="Button1" runat="server" OnClick="Button1_Click" ImageUrl="~/img/savebtn.gif" />
+
+	<asp:Label ID="lblMessage" runat="server" />
+
+
+
+</div>
+</div>
+</asp:Content>
+

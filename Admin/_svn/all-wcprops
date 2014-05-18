@@ -1,0 +1,269 @@
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/ZEODEV/!svn/ver/2497/openbook/Admin
+END
+AddVendor.aspx
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/ZEODEV/!svn/ver/511/openbook/Admin/AddVendor.aspx
+END
+EditVendor.aspx.cs
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/ZEODEV/!svn/ver/2297/openbook/Admin/EditVendor.aspx.cs
+END
+login.aspx
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/ZEODEV/!svn/ver/407/openbook/Admin/login.aspx
+END
+AddExpenditure.aspx.cs
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/ZEODEV/!svn/ver/2297/openbook/Admin/AddExpenditure.aspx.cs
+END
+ResetPassword.aspx.cs
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/ZEODEV/!svn/ver/426/openbook/Admin/ResetPassword.aspx.cs
+END
+AddVendor.aspx.cs
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/ZEODEV/!svn/ver/2297/openbook/Admin/AddVendor.aspx.cs
+END
+login.aspx.cs
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/ZEODEV/!svn/ver/232/openbook/Admin/login.aspx.cs
+END
+Expenditures.aspx
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/ZEODEV/!svn/ver/762/openbook/Admin/Expenditures.aspx
+END
+EditContract.aspx
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/ZEODEV/!svn/ver/511/openbook/Admin/EditContract.aspx
+END
+AddCandidate.aspx
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/ZEODEV/!svn/ver/409/openbook/Admin/AddCandidate.aspx
+END
+EditContribution.aspx
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/ZEODEV/!svn/ver/650/openbook/Admin/EditContribution.aspx
+END
+AddUser.aspx.cs
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/ZEODEV/!svn/ver/426/openbook/Admin/AddUser.aspx.cs
+END
+EditLobbyist.aspx
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/ZEODEV/!svn/ver/1303/openbook/Admin/EditLobbyist.aspx
+END
+Contracts.aspx
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/ZEODEV/!svn/ver/2302/openbook/Admin/Contracts.aspx
+END
+Contributions.aspx
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/ZEODEV/!svn/ver/760/openbook/Admin/Contributions.aspx
+END
+EditExpenditure.aspx
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/ZEODEV/!svn/ver/650/openbook/Admin/EditExpenditure.aspx
+END
+EditVendor.aspx
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/ZEODEV/!svn/ver/511/openbook/Admin/EditVendor.aspx
+END
+Contracts.aspx.cs
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/ZEODEV/!svn/ver/2486/openbook/Admin/Contracts.aspx.cs
+END
+AddExpenditure.aspx
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/ZEODEV/!svn/ver/756/openbook/Admin/AddExpenditure.aspx
+END
+ResetPassword.aspx
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/ZEODEV/!svn/ver/426/openbook/Admin/ResetPassword.aspx
+END
+Users.aspx.cs
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/ZEODEV/!svn/ver/2297/openbook/Admin/Users.aspx.cs
+END
+Contributions.aspx.cs
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/ZEODEV/!svn/ver/2297/openbook/Admin/Contributions.aspx.cs
+END
+EditExpenditure.aspx.cs
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/ZEODEV/!svn/ver/2297/openbook/Admin/EditExpenditure.aspx.cs
+END
+Lobbyists.aspx
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/ZEODEV/!svn/ver/2302/openbook/Admin/Lobbyists.aspx
+END
+Lobbyists.aspx.cs
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/ZEODEV/!svn/ver/2297/openbook/Admin/Lobbyists.aspx.cs
+END
+Vendors.aspx
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/ZEODEV/!svn/ver/2302/openbook/Admin/Vendors.aspx
+END
+Expenditures.aspx.cs
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/ZEODEV/!svn/ver/2297/openbook/Admin/Expenditures.aspx.cs
+END
+Vendors.aspx.cs
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/ZEODEV/!svn/ver/2297/openbook/Admin/Vendors.aspx.cs
+END
+Default.aspx
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/ZEODEV/!svn/ver/418/openbook/Admin/Default.aspx
+END
+AddContract.aspx
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/ZEODEV/!svn/ver/2497/openbook/Admin/AddContract.aspx
+END
+EditContract.aspx.cs
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/ZEODEV/!svn/ver/2486/openbook/Admin/EditContract.aspx.cs
+END
+AddUser.aspx
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/ZEODEV/!svn/ver/411/openbook/Admin/AddUser.aspx
+END
+Default.aspx.cs
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/ZEODEV/!svn/ver/426/openbook/Admin/Default.aspx.cs
+END
+AddContribution.aspx
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/ZEODEV/!svn/ver/756/openbook/Admin/AddContribution.aspx
+END
+Contracts.aspx.exclude
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/ZEODEV/!svn/ver/428/openbook/Admin/Contracts.aspx.exclude
+END
+AddCandidate.aspx.cs
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/ZEODEV/!svn/ver/426/openbook/Admin/AddCandidate.aspx.cs
+END
+EditContribution.aspx.cs
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/ZEODEV/!svn/ver/2297/openbook/Admin/EditContribution.aspx.cs
+END
+AddContract.aspx.cs
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/ZEODEV/!svn/ver/2487/openbook/Admin/AddContract.aspx.cs
+END
+AddContribution.aspx.cs
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/ZEODEV/!svn/ver/2297/openbook/Admin/AddContribution.aspx.cs
+END
+Contracts.aspx.cs.exclude
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/ZEODEV/!svn/ver/428/openbook/Admin/Contracts.aspx.cs.exclude
+END
+AddLobbyist.aspx
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/ZEODEV/!svn/ver/1301/openbook/Admin/AddLobbyist.aspx
+END
+Users.aspx
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/ZEODEV/!svn/ver/554/openbook/Admin/Users.aspx
+END
+EditLobbyist.aspx.cs
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/ZEODEV/!svn/ver/1299/openbook/Admin/EditLobbyist.aspx.cs
+END
+AddLobbyist.aspx.cs
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/ZEODEV/!svn/ver/1308/openbook/Admin/AddLobbyist.aspx.cs
+END

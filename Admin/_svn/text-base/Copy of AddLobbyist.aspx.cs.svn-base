@@ -1,0 +1,164 @@
+﻿using System;
+using System.Collections.Generic;
+
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+using System.Data;
+using OpenBookPgh;
+
+public partial class Admin_AddLobbyist : System.Web.UI.Page
+{
+
+	protected DataSet dsTemp = null;
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+			// Save previous page string
+			if (Request.UrlReferrer != null)
+			{
+				Session.Add("PreviousPage", Request.UrlReferrer.AbsoluteUri);
+			}
+			// Preload
+			PreLoadDataSet();
+        }
+		else
+		{
+			// Load Temp DataSet
+			dsTemp = (DataSet)Session["DATASET"];
+		}
+    }
+    private void PreLoadDataSet()
+	{
+		// Create Temporary Data Set for Line Items GridView
+		dsTemp = LoadDataSet();
+		grvLineItems.DataSource = dsTemp;
+		grvLineItems.DataBind();
+		Session["DATASET"] = dsTemp;
+	}
+	private DataSet LoadDataSet()
+	{
+		DataSet ds = new DataSet("companies");
+		DataTable dt = new DataTable("companies.lineitems");
+
+		dt.Columns.Add("companyName");
+		dt.Columns.Add("addr1");
+		dt.Columns.Add("city");
+		dt.Columns.Add("state");
+		dt.Columns.Add("zip");
+		dt.Columns.Add("relationship");
+		
+		ds.Tables.Add(dt);
+
+		return ds;
+	}
+	protected void grvLineItems_RowDeleting(object sender, GridViewDeleteEventArgs e)
+	{
+		DataTable dt = dsTemp.Tables["companies.lineitems"];
+		DataRow dr = dt.Rows[e.RowIndex];
+		dt.Rows.Remove(dr);
+
+		grvLineItems.EditIndex = -1;
+		grvLineItems.DataSource = dsTemp;
+		grvLineItems.DataBind();
+	}
+	
+	protected void btnAddLineItems_Click(object sender, EventArgs e)
+	{
+		string relationship = rblRelationship.SelectedValue;
+		string companyName = txtCompany.Text;
+		string addr1 = txtAddress.Text;
+		string city = txtCity.Text;
+		string state = ddlState.SelectedValue;
+		string zip = txtZip.Text;
+
+		DataTable dt = dsTemp.Tables["companies.lineitems"];
+		DataRow dr = dt.NewRow();
+
+			dr["companyName"] = companyName;
+			dr["addr1"] = addr1;
+			dr["city"] = city;
+			dr["state"] = state;
+			dr["zip"] = zip;
+			dr["relationship"] = relationship;
+						
+		dt.Rows.Add(dr);
+
+		grvLineItems.DataSource = dsTemp;
+		grvLineItems.DataBind();
+	}
+	protected void Button1_Click(object sender, EventArgs e)
+	{
+		DataTable lineitems = dsTemp.Tables["companies.lineitems"];
+		if(lineitems.Rows.Count > 0)
+		{
+			string companyName = string.Empty;
+			string addr1 = string.Empty;
+			string city = string.Empty;
+			string state = string.Empty;
+			string zip = string.Empty;
+			string relationship = string.Empty;
+		
+			// Check & Set employer record
+			// - find first occurence of employer record
+			// - if another position found, ignore and use first only
+			// - if no position found set to first record
+			int posEmployer = -1;
+			for(int i = 0; i < lineitems.Rows.Count; i++)
+			{
+				DataRow row = lineitems.Rows[i];
+				
+				relationship = row["relationship"].ToString();
+				if(relationship == "Employer" && posEmployer == -1)
+				{
+					posEmployer = i;
+					break;
+				}			
+			}
+			if(posEmployer == -1)
+			{
+				lineitems.Rows[0].SetField("relationship", "Employer");
+				posEmployer = 0;
+			}
+			
+			// Add Lobbyist
+			string fullName = txtFullName.Text;
+			string position = txtPosition.Text;
+			
+			// Get LobbyistID
+			int lobbyistID = Admin.AddLobbyist(fullName, position);
+			
+			bool isEmployer = false;
+
+			for(int i = 0; i < lineitems.Rows.Count; i++)
+			{
+				DataRow row = lineitems.Rows[i];
+
+				companyName = row["companyName"].ToString();
+				addr1 = row["addr1"].ToString();
+				city = row["city"].ToString();
+				state = row["state"].ToString();
+				zip = row["zip"].ToString();
+
+				if(i == posEmployer)
+				{
+					isEmployer = true;
+				}
+				else
+				{
+					isEmployer = false;
+				}
+				// Add employer & Aditional Company records
+				Admin.AddLobbyistCompany(lobbyistID, companyName, addr1, city, state, zip, isEmployer);
+			}
+		}
+		else
+		{
+			lblMessage.Text = "Please enter the employer address.";
+		}
+	}
+
+}

@@ -1,0 +1,93 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeFile="AdminMasterPage.master.cs" Inherits="_Masters_AdminMasterPage" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title>Welcome to Open Book Pittsburgh</title>
+    <link rel="stylesheet" type="text/css" href="~/css/main.css" media="screen" />
+</head>
+
+<body><form id="form1" runat="server">
+<div id="wrap">
+	<div id="headerinternal">
+		<div class="headerwrapinternal">
+			<div class="logo">
+				<a id="A5" href="~/Default.aspx" runat="server">
+					<asp:image id="Img1" ImageUrl="~/img/logo.gif" runat="server" alt="Open Book Pittsburgh" />
+				</a>
+			</div>
+			<div class="controllerlogo">
+				<a id="A1" href="http://www.city.pittsburgh.pa.us/co/" target="blank" runat="server">
+					<asp:Image ID="Img2" ImageUrl="~/img/controllersymbol.gif" runat="server" alt="Pittsburgh City Controller"/>
+				</a>
+			</div>
+		</div> 
+	</div>
+	<div class="adminnavigation">
+		<div class="adminleftnav">
+		<ul>
+			<li><b>Administrator</b></li>
+			<li class="adminlogin">
+				<asp:Panel ID="panelNotLoggedIn" runat="server" Visible="true">
+					<asp:HyperLink ID="hlLogin" runat="server" NavigateUrl="~/Admin/login.aspx"> Login</asp:HyperLink>
+				</asp:Panel>
+			</li>
+			<li class="adminlogin">
+				<asp:Panel ID="panelLoggedIn" runat="server" Visible="false">
+				<asp:LinkButton ID="lbtnLogout" runat="server" Text="Logout" OnClick="lbtnLogout_Click" />
+				</asp:Panel>
+			</li>
+		</ul>
+		</div>
+		<div class="adminrightnav">
+			<ul>
+				<li><asp:HyperLink ID="HyperLink1" Text="View Contracts" NavigateUrl="~/Admin/Contracts.aspx" runat="server" /></li>
+				<li><asp:HyperLink ID="HyperLink2" Text="View Contributions" NavigateUrl="~/Admin/Contributions.aspx" runat="server" /></li>
+				<li><asp:HyperLink ID="HyperLink3" Text="View Expenditures" NavigateUrl="~/Admin/Expenditures.aspx" runat="server" /></li>
+				<li><asp:HyperLink ID="HyperLink4" Text="View Vendors" NavigateUrl="~/Admin/Vendors.aspx" runat="server" /></li>
+				<li><asp:HyperLink ID="HyperLink7" Text="View Lobbyists" NavigateUrl="~/Admin/Lobbyists.aspx" runat="server" /></li>
+				<li><asp:HyperLink ID="HyperLink5" Text="View Users" NavigateUrl="~/Admin/Users.aspx" runat="server" /></li>
+			</ul>
+		</div>
+		</div>
+		<div class="subnavigation">
+			<div class="subnavigationleft">
+			</div>
+			<div class="subnavigationright">
+
+				<ul>
+					<li><asp:HyperLink ID="hl1" NavigateUrl="~/Admin/AddContract.aspx" Text="Add Contract" runat="server" /></li>
+						<li><asp:HyperLink ID="hl2" NavigateUrl="~/Admin/AddContribution.aspx" Text="Add Contribution" runat="server" /></li>
+							<li><asp:HyperLink ID="hl3" NavigateUrl="~/Admin/AddExpenditure.aspx" Text="Add Expenditure" runat="server" /></li>
+								<li><asp:HyperLink ID="hl4" NavigateUrl="~/Admin/AddVendor.aspx" Text="Add Vendor" runat="server" /></li>
+							<li><asp:HyperLink ID="HyperLink6" NavigateUrl="~/Admin/AddLobbyist.aspx" Text="Add Lobbyist" runat="server" /></li>
+						<li><asp:HyperLink ID="hl5" NavigateUrl="~/Admin/AddCandidate.aspx" Text="Add Candidate" runat="server" /></li>
+					<li><asp:HyperLink ID="hl6" NavigateUrl="~/Admin/AddUser.aspx" Text="Add User" runat="server" /></li>
+				</ul>
+		</div>
+		</div>
+		<div class="gridview">
+			<asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+			</asp:ContentPlaceHolder>
+		</div>
+		</div>
+
+<div id="footerinternal">
+	<div class="footerwrapinternal">
+		<div class="footerleft">
+			<div class="copyright">
+				<p>Copyright 2009, Pittsburgh City Controller</p>
+			</div>
+		</div>
+		<div class="footerright">
+			<div class="contactus">
+				<p><a href="">Contact Us</a></p>
+			</div>
+		</div>
+	</div>
+</div>
+</form>
+</body>
+</html>

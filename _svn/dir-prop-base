@@ -1,0 +1,17 @@
+K 10
+svn:ignore
+V 96
+*.aps
+*.eto
+*.ncb
+*.suo
+*.user
+NON-WEB
+[Bb]in
+[Dd]ebug
+[Rr]elease
+_ReSharper.*
+obj
+openbook.sln
+
+END

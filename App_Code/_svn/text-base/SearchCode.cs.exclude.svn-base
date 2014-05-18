@@ -1,0 +1,218 @@
+﻿using System;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
+using System.Web;
+
+namespace OpenBookPgh
+{
+	/// <summary>
+	/// Summary description for SearchCode
+	/// </summary>
+	public class SearchCode
+	{
+
+
+		public static string GenerateQueryString(string vendorKeywords, string vendorSearchOptions, int cityDept, int contractType, string keywords, 
+			string month1, int year1, string month2, int year2,
+			int contractAmt)
+		{
+			string queryString = "~/SearchResults.aspx?";
+
+			// Keywords
+			if (!string.IsNullOrEmpty(keywords))
+			{
+				queryString += "&q=" + keywords;
+			}
+
+			// Vendor Keywords
+			if (!string.IsNullOrEmpty(vendorKeywords) && !string.IsNullOrEmpty(vendorSearchOptions))
+			{
+				queryString += "&vendor=" + vendorKeywords + "&vtype=" + vendorSearchOptions;
+			}
+			// City Department
+			if (cityDept != 0)
+			{
+				queryString += "&dept=" + cityDept.ToString();
+			}
+			// Contract Type
+			if (contractType != 0)
+			{
+				queryString += "&ctype=" + contractType.ToString();
+			}
+
+			// Begin & End Date Filter
+			if (year1 != 0 && year2 != 0)
+			{
+				queryString += "&mo1=" + month1 + "&yr1=" + year1 + "&mo2=" + month2 + "&yr2=" + year2;
+			}
+			// Contract Amount
+			if (contractAmt != 0)
+			{
+				queryString += "&amt=" + contractAmt.ToString();
+			}
+
+			return queryString;
+		}
+
+		public static SearchParamsContract GetQueryStringValues(System.Web.HttpRequest Request)
+		{
+			SearchParamsContract sp = new SearchParamsContract();
+
+			// Vendor Keywords
+			string vendorKeywords = string.Empty;
+			vendorKeywords = (Request.QueryString["vendor"] ?? "").Trim();
+			vendorKeywords = Utils.CleanChars(vendorKeywords);
+			if (vendorKeywords != "")
+			{
+				sp.vendorKeywords = vendorKeywords;
+			}
+			// Vendor Search Options
+			string vendorSearchOptions = string.Empty;
+			vendorSearchOptions = (Request.QueryString["vtype"] ?? "").Trim();
+			if (vendorSearchOptions != "")
+			{
+				// check C, B, E -> default in class is E
+				sp.vendorSearchOptions = vendorSearchOptions;
+			}
+			// Keywords
+			string keywordsString = string.Empty;
+			keywordsString = (Request.QueryString["q"] ?? "").Trim();
+			if (keywordsString != "")
+			{
+				sp.keywords = keywordsString;
+			}
+			
+			// City Department
+			string deptString = string.Empty;
+			deptString = (Request.QueryString["dept"] ?? "").Trim();
+			if (deptString != "")
+			{
+				int dept = 0;
+				bool deptOK = Int32.TryParse(deptString, out dept);
+				if (deptOK)
+					sp.cityDept = dept;
+			}
+			
+			// Contract Type
+			string contractString = string.Empty;
+			contractString = (Request.QueryString["ctype"] ?? "").Trim();
+			if (contractString != "")
+			{
+				int contract = 0;
+				bool contractOK = Int32.TryParse(contractString, out contract);
+				if (contractOK)
+					sp.contractType = contract;
+			}
+			
+			// Date Filters
+			string beginString = string.Empty;
+			string endString = string.Empty;
+			beginString = (Request.QueryString["beg"] ?? "").Trim();
+			endString = (Request.QueryString["end"] ?? "").Trim();
+			if (beginString != "" && endString != "")
+			{
+				sp.beginDate = Convert.ToDateTime(beginString);
+				sp.endDate = Convert.ToDateTime(endString);
+			}
+			
+			string yr1String = string.Empty;
+			string yr2String = string.Empty;
+			string mo1String = string.Empty;
+			string mo2String = string.Empty;
+			yr1String = (Request.QueryString["yr1"] ?? "").Trim();
+			yr2String = (Request.QueryString["yr2"] ?? "").Trim();
+			mo1String = (Request.QueryString["mo1"] ?? "").Trim();
+			mo2String = (Request.QueryString["mo2"] ?? "").Trim();
+			
+			if (yr1String != "" && yr2String != "")
+			{
+				if (mo1String != "" && mo2String != "")
+				{
+				
+				}
+				sp.beginDate = Convert.ToDateTime(mo1String + "/01/" + yr1String);
+				sp.endDate = Convert.ToDateTime(mo2String + "/01/" + yr2String);
+				
+			}
+			
+			
+			// Contract Amount
+			string amountString = string.Empty;
+			amountString = (Request.QueryString["amt"] ?? "").Trim();
+			if (amountString != "")
+			{
+				int amount = 0;
+				bool amountOK = Int32.TryParse(amountString, out amount);
+				if (amountOK)
+					sp.contractAmt = amount;
+			}
+			return sp;
+			
+		}
+
+		public static DataTable GetContracts(SearchParamsContract sp, int pageIndex, int maximumRows, string sortColumn, string sortDirection)
+		{
+			DataTable results = new DataTable("Results");
+			using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
+			{
+				using (SqlCommand cmd = new SqlCommand("SearchContractsSQL", conn))
+				{
+					cmd.CommandType = CommandType.StoredProcedure;
+					cmd.Parameters.Add("@pageIndex", SqlDbType.Int).Value = pageIndex;
+					cmd.Parameters.Add("@maximumRows", SqlDbType.Int).Value = maximumRows;
+					cmd.Parameters.Add("@sortColumn", SqlDbType.VarChar, 25).Value = sortColumn;
+					cmd.Parameters.Add("@sortDirection", SqlDbType.Char, 4).Value = sortDirection;
+					cmd.Parameters.Add("@vendorKeywords", SqlDbType.VarChar, 100).Value = (sp.vendorKeywords == null) ? System.DBNull.Value : (object)sp.vendorKeywords;
+					cmd.Parameters.Add("@vendorSearchOptions", SqlDbType.Char, 1).Value = (sp.vendorSearchOptions == null) ? System.DBNull.Value : (object)sp.vendorSearchOptions;
+					cmd.Parameters.Add("@cityDept", SqlDbType.Int).Value = (sp.cityDept== 0) ? System.DBNull.Value : (object)sp.cityDept;
+					cmd.Parameters.Add("@contractType", SqlDbType.Int).Value = (sp.contractType == 0) ? System.DBNull.Value : (object)sp.contractType;
+					cmd.Parameters.Add("@keywords", SqlDbType.VarChar, 100).Value = (sp.keywords == null) ? System.DBNull.Value : (object)sp.keywords;
+					cmd.Parameters.Add("@beginDate", SqlDbType.DateTime).Value = (sp.beginDate == null) ? DateTime.MinValue : (object)sp.beginDate;
+					cmd.Parameters.Add("@endDate", SqlDbType.DateTime).Value = (sp.endDate == null) ? DateTime.MaxValue : (object)sp.endDate;
+					cmd.Parameters.Add("@contractAmt", SqlDbType.Int).Value = (sp.contractAmt == 0) ? System.DBNull.Value : (object)sp.contractAmt;
+					
+					conn.Open();
+					cmd.ExecuteNonQuery();
+					SqlDataAdapter da = new SqlDataAdapter(cmd);
+					da.Fill(results);
+
+					return results;
+				}
+			}
+		}
+
+		public static int GetContractsCount(SearchParamsContract sp)
+		{
+			using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
+			{
+				using (SqlCommand cmd = new SqlCommand("SearchContractsCount", conn))
+				{
+					cmd.CommandType = CommandType.StoredProcedure;
+					cmd.Parameters.Add("@vendorKeywords", SqlDbType.VarChar, 100).Value = (sp.vendorKeywords == null) ? System.DBNull.Value : (object)sp.vendorKeywords;
+					cmd.Parameters.Add("@vendorSearchOptions", SqlDbType.Char, 1).Value = (sp.vendorSearchOptions == null) ? System.DBNull.Value : (object)sp.vendorSearchOptions;
+					cmd.Parameters.Add("@cityDept", SqlDbType.Int).Value = (sp.cityDept== 0) ? System.DBNull.Value : (object)sp.cityDept;
+					cmd.Parameters.Add("@contractType", SqlDbType.Int).Value = (sp.contractType == 0) ? System.DBNull.Value : (object)sp.contractType;
+					cmd.Parameters.Add("@keywords", SqlDbType.VarChar, 100).Value = (sp.keywords == null) ? System.DBNull.Value : (object)sp.keywords;
+					cmd.Parameters.Add("@beginDate", SqlDbType.DateTime).Value = (sp.beginDate == null) ? DateTime.MinValue : (object)sp.beginDate;
+					cmd.Parameters.Add("@endDate", SqlDbType.DateTime).Value = (sp.endDate == null) ? DateTime.MaxValue : (object)sp.endDate;
+					cmd.Parameters.Add("@contractAmt", SqlDbType.Int).Value = (sp.contractAmt == 0) ? System.DBNull.Value : (object)sp.contractAmt;
+					
+					int rowCount = 0;
+					try
+					{
+						conn.Open();
+						rowCount = (Int32)cmd.ExecuteScalar();
+					}
+					catch (Exception ex)
+					{
+						throw ex;
+					}
+					return (int)rowCount;
+				}
+			}
+		}
+
+
+	}
+}
