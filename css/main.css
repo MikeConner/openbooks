@@ -6524,7 +6524,7 @@ footer {
 
 /* line 1, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/home.css.scss */
 .homepage-hero {
-  background: url("/assets/city-background-5f150967e6b897a1585739ed30c83492.png") no-repeat center center fixed;
+  background: url("/img/city-background.png") no-repeat center center fixed;
   background-size: cover;
   padding: 4rem 0; }
   /* line 5, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/home.css.scss */
