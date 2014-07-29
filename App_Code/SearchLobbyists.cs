@@ -116,7 +116,7 @@ namespace OpenBookPgh
 		}
 
 		public static DataTable GetLobbyistsCompanies(string xmlString)
-		{
+		{            
 			DataTable table = new DataTable("Companies");
 			using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
 			{
@@ -131,6 +131,30 @@ namespace OpenBookPgh
 					return table;
 				}
 			}
+        }
+   		public static DataTable GetLobbyistsCompanies(DataTable dt)  //DAS
+		{
+            string LobbyistIDs = "";
+
+            foreach (DataRow sourcerow in dt.Rows)
+            {
+                LobbyistIDs += sourcerow["LobbyistID"].ToString() + ',';
+            }
+
+            DataTable table = new DataTable("Companies");
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("SearchLobbyistsCompanies", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@LobbyistIDs", LobbyistIDs);
+                    conn.Open();
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    table.Load(reader);
+                    return table;
+                }
+            }
 		}
 	
 		public static string GetXMLString(DataTable searchDT)

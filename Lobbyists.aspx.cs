@@ -32,9 +32,11 @@ public partial class Search_Lobbyists : System.Web.UI.Page
 		// Fill DataTable from Search Results
 		DataTable searchDT = SearchLobbyists.GetLobbyists(sp, PageIndex, PageSize, SortExpression, SortDirection);
 		
-		// Fill DataTable of Additional Companies
-		string xmlString = SearchLobbyists.GetXMLString(searchDT);
-		DataTable companiesDT = SearchLobbyists.GetLobbyistsCompanies(xmlString);
+        // Fill DataTable of Additional Companies
+        //DAS string xmlString = SearchLobbyists.GetXMLString(searchDT);
+        //DAS DataTable companiesDT = SearchLobbyists.GetLobbyistsCompanies(xmlString);
+        DataTable companiesDT = SearchLobbyists.GetLobbyistsCompanies(searchDT);
+
 
 		// Create DataSet, Add DataTables, Relate Tables
 		DataSet ds = new DataSet("LobbyistsDS");
