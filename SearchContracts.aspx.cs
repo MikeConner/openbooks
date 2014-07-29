@@ -15,27 +15,27 @@ public partial class SearchContractsPage : System.Web.UI.Page
 	protected void btnSearch_Click(object sender, EventArgs e)
 	{
 		// Vendor Search Keywords
-		string vendor = txtVendor.Text;
+		//string vendor = txtVendor.Text;
 		
 		//Vendor Search Options (Begins with, Contains, Exact)
-		string vendorSearchOptions = rblVendorSearchOptions.SelectedValue;
+		//string vendorSearchOptions = rblVendorSearchOptions.SelectedValue;
 		
 
 		// City Dept
-		int dept = Convert.ToInt32(ddlDepartment.SelectedValue);
+		//int dept = Convert.ToInt32(ddlDepartment.SelectedValue);
 		
 		// Contract Type
-		int service = Convert.ToInt32(ddlServices.SelectedValue);
+		//int service = Convert.ToInt32(ddlServices.SelectedValue);
 		
 		// Search Keywords
-		string keywords = txtKeywords.Text;
+		//string keywords = txtKeywords.Text;
 		
 		// Original Approval Date
 		int year1 = 0;
 		int year2 = 0;
-		Int32.TryParse(ddlBeginYear1.SelectedValue, out year1);
-		Int32.TryParse(ddlBeginYear2.SelectedValue, out year2);
-
+		//Int32.TryParse(ddlBeginYear1.SelectedValue, out year1);
+		//Int32.TryParse(ddlBeginYear2.SelectedValue, out year2);
+        /*
 		string month1 = ddlBeginMonth1.SelectedValue;
 		string month2 = ddlBeginMonth2.SelectedValue;
 		if (month1 == "00")
@@ -55,6 +55,7 @@ public partial class SearchContractsPage : System.Web.UI.Page
 		string queryString = SearchContracts.GenerateQueryString(0, 0, vendor, vendorSearchOptions, dept, service, keywords, month1, year1, month2, year2, amount);
 		Response.Redirect(queryString);		
 		//Response.Write(queryString);
-	}
+         *         */
+    }
 
 }
