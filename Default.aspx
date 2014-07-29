@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head id="Head1" runat="server">
-    <title>Welcome to Open Book Pittsburgh</title>
-    <link rel="stylesheet" type="text/css" href="~/css/main.css" media="screen" />
-</head>
-<body>
+﻿<%@ Page Title ="Open Book Pittsburgh"  Language="C#" MasterPageFile="~/_Masters/MasterPage.master"  AutoEventWireup="true" CodeFile="Default.aspx.cs" 
+Inherits="_Default" %>
+
+ 
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+
+ 
 <div id="wrap">
 	<div id="header">
 		<div class="headerwrap">
@@ -84,21 +84,8 @@
     </div>
 </div>
 </div>
-<div id="footer">
-	<div class="footerwrap">
-		<div class="footerleft">
-			<div class="copyright">
-				<p>Copyright 2013, Pittsburgh City Controller</p>
-			</div>
-		</div>
-		<div class="footerright">
-			<div class="contactus">
-				<p><a href="Contact.aspx">Contact Us</a></p>
-			</div>
-		</div>
-	</div>
-</div>
-</div>
-</body>
-</html>
+ 
+ 
+    
 
+</asp:Content>
