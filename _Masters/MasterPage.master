@@ -7,6 +7,9 @@
 <head runat="server">
     <title>Welcome to Open Book Pittsburgh</title>
     <link rel="stylesheet" type="text/css" href="~/css/main.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="~/css/foundation.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="~/css/normalize.css" media="screen" />
+
 </head>
 
 <body><form id="form1" runat="server">
