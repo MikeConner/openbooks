@@ -1,6 +1,13 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/_Masters/MasterPage.master" AutoEventWireup="true" CodeFile="Contracts.aspx.cs" Inherits="SearchResults" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+
+
+
+
+
+
+
 	<div class="mainwrap">
 	<div class="gridboxhead"><h2>Contract Search Results</h2></div>
 	<div class="results">
