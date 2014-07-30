@@ -16,7 +16,7 @@ namespace OpenBookPgh
 		public static string GenerateQueryString(int candidateID, string office, int year1, string contributorKeywords, string contributorSearchOptions, 
 													string employerKeywords, string zip, double distance)
 		{
-			string queryString = "~/Contributions.aspx?";
+			string queryString = "~/SearchContributions.aspx?";
 
 			// Candidate ID
 			if (candidateID != 0)

@@ -20,14 +20,7 @@ Inherits="_SearchContributionsPageClass" %>
 <div class="pagination right">
 <span>View</span>
 <span>
-<a class="button dropdown" data-dropdown="drop3" href="http://openbookpgh.herokuapp.com/campaign-contributions#">5 per page</a>
-<ul class="f-dropdown" data-dropdown-content="" id="drop3">
-<li><a href="http://openbookpgh.herokuapp.com/campaign-contributions#">10 per page</a></li>
-<li><a href="http://openbookpgh.herokuapp.com/campaign-contributions#">25 per page</a></li>
-<li><a href="http://openbookpgh.herokuapp.com/campaign-contributions#">50 per page</a></li>
-</ul>
 </span>
-<span>Results: 1 - 10 of 11487</span>
 </div>
 </div>
 </div>
@@ -115,214 +108,84 @@ Inherits="_SearchContributionsPageClass" %>
 <div class="medium-8 large-9 columns">
 <div class="items-container">
 <div class="item">
-<span class="name-label">Contributer</span>
-<h2>Caroline H. Stewart</h2>
-<div class="label-group">
-<div class="label-item">
-<div class="type">Office sought</div>
-<div class="title">Mayor</div>
-</div>
-<div class="label-item">
-<div class="type">Candidate</div>
-<div class="title">William Peduto</div>
-</div>
-</div>
-<div class="details">
-<ul>
-<li>
-<span class="key">Date</span>
-<span class="value">05/12/2009</span>
-</li>
-<li>
-<span class="key">Amount</span>
-<span class="value">$100</span>
-</li>
-<li>
-<span class="key">Address</span>
-<span class="value">Pittsburgh, PA 15217</span>
-</li>
-</ul>
-</div>
-</div>
+        			<asp:DropDownList ID="ddlPageSize" runat="server"  
+				OnSelectedIndexChanged="ddlPageSize_SelectedIndexChanged"
+				AutoPostBack="true">
+					<asp:ListItem Text="10 per page" Value="10" />
+					<asp:ListItem Text="25 per page" Value="25" />
+					<asp:ListItem Text="50 per page" Value="50"  />
+					<asp:ListItem Text="100 per page" Value="100" />
+			</asp:DropDownList>
+		</div>
+		<div class="resultsright">
+			<asp:Label ID="lblCurrentPage" runat="server" /> 
+		</div>
+	</div>
+<div class="items-container">
+<asp:Repeater ID="rptContributions" runat="server">
+<ItemTemplate>
 <div class="item">
 <span class="name-label">Contributer</span>
-<h2>Caroline H. Stewart</h2>
+<h2><%# DataBinder.Eval(Container.DataItem, "ContributorName") %></h2>
 <div class="label-group">
 <div class="label-item">
 <div class="type">Office sought</div>
-<div class="title">Mayor</div>
+<div class="title"><%# DataBinder.Eval(Container.DataItem, "Office") %></div>
 </div>
 <div class="label-item">
 <div class="type">Candidate</div>
-<div class="title">William Peduto</div>
+<div class="title"><%# DataBinder.Eval(Container.DataItem, "CandidateName") %></div>
 </div>
+<div class="label-item">
+<div class="type">Employer</div>
+<div class="title"><%# DataBinder.Eval(Container.DataItem, "Employer")%></div>
+</div>
+<div class="label-item">
+<div class="type">Occupation</div>
+<div class="title"><%# DataBinder.Eval(Container.DataItem, "Occupation") %></div>
+</div>
+
 </div>
 <div class="details">
 <ul>
 <li>
 <span class="key">Date</span>
-<span class="value">05/12/2009</span>
+<span class="value"><%# DataBinder.Eval(Container.DataItem, "DateContribution", "{0:MM/dd/yyyy}")%></span>
 </li>
 <li>
 <span class="key">Amount</span>
-<span class="value">$100</span>
+<span class="value"><%# DataBinder.Eval(Container.DataItem, "Amount", "{0:C}")%></span>
 </li>
 <li>
 <span class="key">Address</span>
-<span class="value">Pittsburgh, PA 15217</span>
+<span class="value"><%# DataBinder.Eval(Container.DataItem, "City")%>, <%# DataBinder.Eval(Container.DataItem, "State")%> <%# DataBinder.Eval(Container.DataItem, "Zip")%></span>
 </li>
+<li>
+<span class="description">Description</span>
+<span><%# DataBinder.Eval(Container.DataItem, "Description") %></span>
+</li>
+<li>
+<span class="key">pnlDistance</span>
+<span class="value"><%# DataBinder.Eval(Container.DataItem, "distance") != DBNull.Value %></span>
+</li>
+<li>
+<span class="key">lblDistance</span>
+<span class="value"><%# DataBinder.Eval(Container.DataItem, "distance") %> miles</span>
+</li>
+
 </ul>
 </div>
 </div>
-<div class="item">
-<span class="name-label">Contributer</span>
-<h2>Caroline H. Stewart</h2>
-<div class="label-group">
-<div class="label-item">
-<div class="type">Office sought</div>
-<div class="title">Mayor</div>
-</div>
-<div class="label-item">
-<div class="type">Candidate</div>
-<div class="title">William Peduto</div>
-</div>
-</div>
-<div class="details">
-<ul>
-<li>
-<span class="key">Date</span>
-<span class="value">05/12/2009</span>
-</li>
-<li>
-<span class="key">Amount</span>
-<span class="value">$100</span>
-</li>
-<li>
-<span class="key">Address</span>
-<span class="value">Pittsburgh, PA 15217</span>
-</li>
-</ul>
-</div>
-</div>
-<div class="item">
-<span class="name-label">Contributer</span>
-<h2>Caroline H. Stewart</h2>
-<div class="label-group">
-<div class="label-item">
-<div class="type">Office sought</div>
-<div class="title">Mayor</div>
-</div>
-<div class="label-item">
-<div class="type">Candidate</div>
-<div class="title">William Peduto</div>
-</div>
-</div>
-<div class="details">
-<ul>
-<li>
-<span class="key">Date</span>
-<span class="value">05/12/2009</span>
-</li>
-<li>
-<span class="key">Amount</span>
-<span class="value">$100</span>
-</li>
-<li>
-<span class="key">Address</span>
-<span class="value">Pittsburgh, PA 15217</span>
-</li>
-</ul>
-</div>
-</div>
-<div class="item">
-<span class="name-label">Contributer</span>
-<h2>Caroline H. Stewart</h2>
-<div class="label-group">
-<div class="label-item">
-<div class="type">Office sought</div>
-<div class="title">Mayor</div>
-</div>
-<div class="label-item">
-<div class="type">Candidate</div>
-<div class="title">William Peduto</div>
-</div>
-</div>
-<div class="details">
-<ul>
-<li>
-<span class="key">Date</span>
-<span class="value">05/12/2009</span>
-</li>
-<li>
-<span class="key">Amount</span>
-<span class="value">$100</span>
-</li>
-<li>
-<span class="key">Address</span>
-<span class="value">Pittsburgh, PA 15217</span>
-</li>
-</ul>
-</div>
-</div>
-<div class="item">
-<span class="name-label">Contributer</span>
-<h2>Caroline H. Stewart</h2>
-<div class="label-group">
-<div class="label-item">
-<div class="type">Office sought</div>
-<div class="title">Mayor</div>
-</div>
-<div class="label-item">
-<div class="type">Candidate</div>
-<div class="title">William Peduto</div>
-</div>
-</div>
-<div class="details">
-<ul>
-<li>
-<span class="key">Date</span>
-<span class="value">05/12/2009</span>
-</li>
-<li>
-<span class="key">Amount</span>
-<span class="value">$100</span>
-</li>
-<li>
-<span class="key">Address</span>
-<span class="value">Pittsburgh, PA 15217</span>
-</li>
-</ul>
-</div>
-</div>
-<div class="item">
-<span class="name-label">Contributer</span>
-<h2>Caroline H. Stewart</h2>
-<div class="label-group">
-<div class="label-item">
-<div class="type">Office sought</div>
-<div class="title">Mayor</div>
-</div>
-<div class="label-item">
-<div class="type">Candidate</div>
-<div class="title">William Peduto</div>
-</div>
-</div>
-<div class="details">
-<ul>
-<li>
-<span class="key">Date</span>
-<span class="value">05/12/2009</span>
-</li>
-<li>
-<span class="key">Amount</span>
-<span class="value">$100</span>
-</li>
-<li>
-<span class="key">Address</span>
-<span class="value">Pittsburgh, PA 15217</span>
-</li>
-</ul>
-</div>
+</ItemTemplate>
+</asp:Repeater>
+    	<div class="bottomnav">
+		<div class="bottomnavbtns">
+		    <asp:ImageButton ID="ibtnFirstPageTop" runat="server" OnClick="FirstPage_Click" />
+			<asp:ImageButton ID="ibtnPrevPageTop" runat="server" OnClick="PrevPage_Click" />
+			<asp:ImageButton ID="ibtnNextPageTop" runat="server" OnClick="NextPage_Click" />
+			<asp:ImageButton ID="ibtnLastPageTop" runat="server" OnClick="LastPage_Click" />
+		</div>
+    </div>
 </div>
 </div>
 <div class="large-12 columns pagination-controls">
