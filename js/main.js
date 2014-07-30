@@ -13,15 +13,17 @@
     });
 
     // Range Slider
-    var range = $('.input-range')
-      , value = $('.range-value');
+    var range = $('.input-range'),
+        value = $('.range-value');
 
     value.html(range.attr('value'));
 
     range.on('change', function () {
-        value.html(this.value);
+        if ("dblMinContract" == this.id) {
+            $('span#minContract').html(this.value);
+        }
+        else {
+            $('span#maxContract').html(this.value);
+        }
     });
-
-
-
 });

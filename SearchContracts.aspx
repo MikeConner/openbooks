@@ -95,12 +95,12 @@ Inherits="SearchContractsPage" %>
 <div class="range-slider">
 <label>Minimum Amount</label>
 <input class="input-range" max="10000" min="1" type="range" value="250" id="dblMinContract">
-<span class="range-value">250</span>
+<span id="minContract" class="range-value">250</span>
 </div>
 <div class="range-slider">
 <label>Maximum Amount</label>
 <input class="input-range" max="10000" min="1" type="range" value="250" id="dblMaxContract">
-<span class="range-value">250</span>
+<span id="maxContract" class="range-value">250</span>
 </div>
 </div>
 <div class="search-field">
