@@ -13,7 +13,7 @@ namespace OpenBookPgh
 	{
 		public static string GenerateQueryString(int candidateID, string office, string vendorKeywords, string vendorSearchOptions, string keywords)
 		{
-			string queryString = "~/Expenditures.aspx?";
+			string queryString = "~/SearchExpenditures.aspx?";
 
 			// Candidate ID
 			if (candidateID != 0)

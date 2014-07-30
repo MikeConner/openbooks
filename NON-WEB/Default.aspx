@@ -1,5 +1,10 @@
 ﻿-- Database Change Log
 
+--NOTE: add the following comments to the relevant sprocs
+    --exec SearchExpendituresSQL @pageIndex=0,@maximumRows=100,@sortColumn='ExpenditureID',@sortDirection='DESC',@candidateID=NULL,@office=NULL,@vendorKeywords=NULL,@vendorSearchOptions=NULL,@keywords=NULL
+    --exec SearchLobbyistsCompanies 4, 6
+    --SELECT * FROM dbo.StrToTable('28394,28395') 
+
 
 USE [CityController]
 GO

@@ -18,16 +18,18 @@ Inherits="SearchExpendituresPage" %>
 </div>
 <div class="medium-8 large-6 columns">
 <div class="pagination right">
-<span>View</span>
 <span>
-<a class="button dropdown" data-dropdown="drop3" href="http://openbookpgh.herokuapp.com/campaign-expenditures#">5 per page</a>
-<ul class="f-dropdown" data-dropdown-content="" id="drop3">
-<li><a href="http://openbookpgh.herokuapp.com/campaign-expenditures#">10 per page</a></li>
-<li><a href="http://openbookpgh.herokuapp.com/campaign-expenditures#">25 per page</a></li>
-<li><a href="http://openbookpgh.herokuapp.com/campaign-expenditures#">50 per page</a></li>
-</ul>
+			<asp:Label ID="lblPageSize" runat="server" Text="View:" />
+			<asp:DropDownList ID="ddlPageSize" runat="server"  
+				OnSelectedIndexChanged="ddlPageSize_SelectedIndexChanged"
+				AutoPostBack="true">
+					<asp:ListItem Text="10 per page" Value="10" />
+					<asp:ListItem Text="25 per page" Value="25" />
+					<asp:ListItem Text="50 per page" Value="50"  />
+					<asp:ListItem Text="100 per page" Value="100" />
+			</asp:DropDownList>
+			<asp:Label ID="lblCurrentPage" runat="server" />
 </span>
-<span>Results: 1 - 10 of 11487</span>
 </div>
 </div>
 </div>
@@ -72,237 +74,50 @@ Inherits="SearchExpendituresPage" %>
 </div>
 <div class="medium-8 large-9 columns">
 <div class="items-container">
+
+<asp:Repeater ID="rptExpenditures" runat="server">
+	<ItemTemplate>
 <div class="item">
 <span class="name-label">Company or Individual</span>
-<h2>GoDaddy.com</h2>
+<h2><%# DataBinder.Eval(Container.DataItem, "CompanyName") %></h2>
 <div class="label-group">
 <div class="label-item">
 <div class="type">Office sought</div>
-<div class="title">Mayor</div>
+<div class="title"><%# DataBinder.Eval(Container.DataItem, "Office") %></div>
 </div>
 <div class="label-item">
 <div class="type">Candidate</div>
-<div class="title">William Peduto</div>
+<div class="title"><%# DataBinder.Eval(Container.DataItem, "CandidateName") %></div>
 </div>
 </div>
 <div class="details">
 <ul>
 <li>
 <span class="key">Date</span>
-<span class="value">05/12/2009</span>
+<span class="value"><%# DataBinder.Eval(Container.DataItem, "DatePaid", "{0:MM/dd/yyyy}")%></span>
 </li>
 <li>
 <span class="key">Amount</span>
-<span class="value">$100</span>
+<span class="value"><%# DataBinder.Eval(Container.DataItem, "Amount", "{0:C}")%></span>
 </li>
 <li>
 <span class="key">Address</span>
-<span class="value">No Address</span>
+<span class="value">><%# DataBinder.Eval(Container.DataItem, "Address1")%>, <%# DataBinder.Eval(Container.DataItem, "City")%>, <%# DataBinder.Eval(Container.DataItem, "State")%> <%# DataBinder.Eval(Container.DataItem, "Zip")%></span>
 </li>
 </ul>
 </div>
 <div class="description">
-<span>Food for pitt students, clean ups district</span>
+<span><%# DataBinder.Eval(Container.DataItem, "Description") %></span>
 </div>
 </div>
-<div class="item">
-<span class="name-label">Company or Individual</span>
-<h2>GoDaddy.com</h2>
-<div class="label-group">
-<div class="label-item">
-<div class="type">Office sought</div>
-<div class="title">Mayor</div>
-</div>
-<div class="label-item">
-<div class="type">Candidate</div>
-<div class="title">William Peduto</div>
-</div>
-</div>
-<div class="details">
-<ul>
-<li>
-<span class="key">Date</span>
-<span class="value">05/12/2009</span>
-</li>
-<li>
-<span class="key">Amount</span>
-<span class="value">$100</span>
-</li>
-<li>
-<span class="key">Address</span>
-<span class="value">No Address</span>
-</li>
-</ul>
-</div>
-<div class="description">
-<span>Food for pitt students, clean ups district</span>
-</div>
-</div>
-<div class="item">
-<span class="name-label">Company or Individual</span>
-<h2>GoDaddy.com</h2>
-<div class="label-group">
-<div class="label-item">
-<div class="type">Office sought</div>
-<div class="title">Mayor</div>
-</div>
-<div class="label-item">
-<div class="type">Candidate</div>
-<div class="title">William Peduto</div>
-</div>
-</div>
-<div class="details">
-<ul>
-<li>
-<span class="key">Date</span>
-<span class="value">05/12/2009</span>
-</li>
-<li>
-<span class="key">Amount</span>
-<span class="value">$100</span>
-</li>
-<li>
-<span class="key">Address</span>
-<span class="value">No Address</span>
-</li>
-</ul>
-</div>
-<div class="description">
-<span>Food for pitt students, clean ups district</span>
-</div>
-</div>
-<div class="item">
-<span class="name-label">Company or Individual</span>
-<h2>GoDaddy.com</h2>
-<div class="label-group">
-<div class="label-item">
-<div class="type">Office sought</div>
-<div class="title">Mayor</div>
-</div>
-<div class="label-item">
-<div class="type">Candidate</div>
-<div class="title">William Peduto</div>
-</div>
-</div>
-<div class="details">
-<ul>
-<li>
-<span class="key">Date</span>
-<span class="value">05/12/2009</span>
-</li>
-<li>
-<span class="key">Amount</span>
-<span class="value">$100</span>
-</li>
-<li>
-<span class="key">Address</span>
-<span class="value">No Address</span>
-</li>
-</ul>
-</div>
-<div class="description">
-<span>Food for pitt students, clean ups district</span>
-</div>
-</div>
-<div class="item">
-<span class="name-label">Company or Individual</span>
-<h2>GoDaddy.com</h2>
-<div class="label-group">
-<div class="label-item">
-<div class="type">Office sought</div>
-<div class="title">Mayor</div>
-</div>
-<div class="label-item">
-<div class="type">Candidate</div>
-<div class="title">William Peduto</div>
-</div>
-</div>
-<div class="details">
-<ul>
-<li>
-<span class="key">Date</span>
-<span class="value">05/12/2009</span>
-</li>
-<li>
-<span class="key">Amount</span>
-<span class="value">$100</span>
-</li>
-<li>
-<span class="key">Address</span>
-<span class="value">No Address</span>
-</li>
-</ul>
-</div>
-<div class="description">
-<span>Food for pitt students, clean ups district</span>
-</div>
-</div>
-<div class="item">
-<span class="name-label">Company or Individual</span>
-<h2>GoDaddy.com</h2>
-<div class="label-group">
-<div class="label-item">
-<div class="type">Office sought</div>
-<div class="title">Mayor</div>
-</div>
-<div class="label-item">
-<div class="type">Candidate</div>
-<div class="title">William Peduto</div>
-</div>
-</div>
-<div class="details">
-<ul>
-<li>
-<span class="key">Date</span>
-<span class="value">05/12/2009</span>
-</li>
-<li>
-<span class="key">Amount</span>
-<span class="value">$100</span>
-</li>
-<li>
-<span class="key">Address</span>
-<span class="value">No Address</span>
-</li>
-</ul>
-</div>
-<div class="description">
-<span>Food for pitt students, clean ups district</span>
-</div>
-</div>
-<div class="item">
-<span class="name-label">Company or Individual</span>
-<h2>GoDaddy.com</h2>
-<div class="label-group">
-<div class="label-item">
-<div class="type">Office sought</div>
-<div class="title">Mayor</div>
-</div>
-<div class="label-item">
-<div class="type">Candidate</div>
-<div class="title">William Peduto</div>
-</div>
-</div>
-<div class="details">
-<ul>
-<li>
-<span class="key">Date</span>
-<span class="value">05/12/2009</span>
-</li>
-<li>
-<span class="key">Amount</span>
-<span class="value">$100</span>
-</li>
-<li>
-<span class="key">Address</span>
-<span class="value">No Address</span>
-</li>
-</ul>
-</div>
-<div class="description">
-<span>Food for pitt students, clean ups district</span>
-</div>
-</div>
+</ItemTemplate>
+</asp:Repeater>
+
+        <asp:ImageButton ID="ibtnFirstPageTop" runat="server" OnClick="FirstPage_Click" ImageUrl="~/img/firstbtn.gif" />
+        <asp:ImageButton ID="ibtnPrevPageTop" runat="server" OnClick="PrevPage_Click" ImageUrl="~/img/previousbtn.gif" />
+        <asp:ImageButton ID="ibtnNextPageTop" runat="server" OnClick="NextPage_Click" ImageUrl="~/img/nextbtn.gif" />
+        <asp:ImageButton ID="ibtnLastPageTop" runat="server" OnClick="LastPage_Click" ImageUrl="~/img/lastbtn.gif" />
+
 </div>
 <div class="large-12 columns pagination-controls">
 <div class="prev">
