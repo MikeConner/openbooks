@@ -1,6 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/_Masters/MasterPage.master" 
-AutoEventWireup="true" CodeFile="SearchContributions.aspx.cs" 
-Inherits="_SearchContributionsPageClass" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/_Masters/MasterPage.master" AutoEventWireup="true" CodeFile="SearchContributions.aspx.cs" Inherits="_SearchContributionsPageClass" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 
@@ -18,9 +16,17 @@ Inherits="_SearchContributionsPageClass" %>
 </div>
 <div class="medium-8 large-6 columns">
 <div class="pagination right">
-<span>View</span>
-<span>
-</span>
+<asp:Label ID="lblPageSize" runat="server" Text="View:" />
+    <asp:DropDownList ID="ddlPageSize" runat="server"  
+				OnSelectedIndexChanged="ddlPageSize_SelectedIndexChanged"
+				AutoPostBack="true">
+					<asp:ListItem Text="10 per page" Value="10" />
+					<asp:ListItem Text="25 per page" Value="25" />
+					<asp:ListItem Text="50 per page" Value="50"  />
+					<asp:ListItem Text="100 per page" Value="100" />
+			</asp:DropDownList>
+    <asp:Label ID="lblCurrentPage" runat="server" /> 
+
 </div>
 </div>
 </div>
@@ -106,21 +112,6 @@ Inherits="_SearchContributionsPageClass" %>
 </div>
 </div>
 <div class="medium-8 large-9 columns">
-<div class="items-container">
-<div class="item">
-        			<asp:DropDownList ID="ddlPageSize" runat="server"  
-				OnSelectedIndexChanged="ddlPageSize_SelectedIndexChanged"
-				AutoPostBack="true">
-					<asp:ListItem Text="10 per page" Value="10" />
-					<asp:ListItem Text="25 per page" Value="25" />
-					<asp:ListItem Text="50 per page" Value="50"  />
-					<asp:ListItem Text="100 per page" Value="100" />
-			</asp:DropDownList>
-		</div>
-		<div class="resultsright">
-			<asp:Label ID="lblCurrentPage" runat="server" /> 
-		</div>
-	</div>
 <div class="items-container">
 <asp:Repeater ID="rptContributions" runat="server">
 <ItemTemplate>
