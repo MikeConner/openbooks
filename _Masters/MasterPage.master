@@ -41,7 +41,7 @@
 <div class='button'><a href="../SearchContributions.aspx">Campaign Finance</a></div>
 </div>
 <div class='large-4 columns'>
-<div class='button'><a href="../Lobbyists.aspx">Lobbyists</a></div>
+<div class='button'><a href="../SearchLobbyists.aspx">Lobbyists</a></div>
 </div>
 </div>
 </section>
