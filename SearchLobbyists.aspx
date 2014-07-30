@@ -16,14 +16,21 @@ Inherits="SearchLobbyistsPage" %>
 </div>
 <div class="medium-8 large-6 columns">
 <div class="pagination right">
-<span>View</span>
-<a class="button dropdown" data-dropdown="drop3" href="http://openbookpgh.herokuapp.com/Searchlobbyists#">5 per page</a>
-<ul class="f-dropdown" data-dropdown-content="" id="drop3">
-<li><a href="http://openbookpgh.herokuapp.com/Searchlobbyists#">10 per page</a></li>
-<li><a href="http://openbookpgh.herokuapp.com/Searchlobbyists#">25 per page</a></li>
-<li><a href="http://openbookpgh.herokuapp.com/Searchlobbyists#">50 per page</a></li>
-</ul>
-<span>Results: 1 - 10 of 11487</span>
+ 
+
+
+    <asp:Label ID="lblPageSize" runat="server" Text="View:" />
+			<asp:DropDownList ID="ddlPageSize" runat="server"   class=" dropdown"
+				OnSelectedIndexChanged="ddlPageSize_SelectedIndexChanged"
+				AutoPostBack="true">
+					<asp:ListItem Text="10 per page" Value="10" />
+					<asp:ListItem Text="25 per page" Value="25" />
+					<asp:ListItem Text="50 per page" Value="50"  />
+					<asp:ListItem Text="100 per page" Value="100" />
+			</asp:DropDownList>
+
+
+<span><asp:Label ID="lblCurrentPage" runat="server" /></span>
 </div>
 </div>
 </div>
@@ -57,56 +64,65 @@ Inherits="SearchLobbyistsPage" %>
 </div>
 <div class="medium-8 large-9 columns">
 <div class="items-container">
+
+     
+
+
+
 <div class="item">
     	<div class="results">
 		<div class="resultsleft">
-			<asp:Label ID="lblPageSize" runat="server" Text="View:" />
-			<asp:DropDownList ID="ddlPageSize" runat="server"  
-				OnSelectedIndexChanged="ddlPageSize_SelectedIndexChanged"
-				AutoPostBack="true">
-					<asp:ListItem Text="10 per page" Value="10" />
-					<asp:ListItem Text="25 per page" Value="25" />
-					<asp:ListItem Text="50 per page" Value="50"  />
-					<asp:ListItem Text="100 per page" Value="100" />
-			</asp:DropDownList>
+			
 		</div>
 		<div class="resultsright">
-			<asp:Label ID="lblCurrentPage" runat="server" />
+			
 		</div>
 	</div>
 
-		<table class="ob-gridview" cellpadding="0" cellspacing="0">
-			<tr>
-				<th><asp:LinkButton ID="lb1" Text="Full&nbsp;Name" OnClick="sortLobbyist" runat="server" /></th>
-				<th>Position</th>
-				<th><asp:LinkButton ID="lb2" Text="Employer" OnClick="sortEmployer" runat="server" /></th>
-				<th>Additional Companies</th>
-				<th>Status&nbsp;</th>
-			</tr>
+		 
 
     <asp:Repeater ID="rptLobbyists" runat="server" OnItemDataBound="rptLobbyists_ItemDataBound">
 	<ItemTemplate>
-		<tr class='<%# Container.ItemIndex % 2 == 0 ? "" : "even" %>'>
-			<td><%# Eval("LobbyistName") %></td>
-			<td><%# Eval("Position") %></td>
-			<td>
-				<b><%# Eval("EmployerName")%></b><br/>
-				<%# Eval("Address")%><br/>
-				<%# Eval("City") + " " + Eval("State") + ", " + Eval("Zip")%><br/>
-			</td>
-			<td><asp:Repeater ID="rptCompanies" runat="server">
+
+
+
+        
+<div class="item <%# Container.ItemIndex % 2 == 0 ? "" : "even" %>">
+<span class="name-label">Full Name</span>
+<h2><%# Eval("LobbyistName") %></h2>
+<div class="information">
+<span class="position"><%# Eval("Position") %></span>
+<span class="status"><%#Eval ("LobbyistStatus") %></span>
+</div>
+<div class="label-group">
+<div class="label-item">
+<div class="type"><%# Eval("EmployerName")%></div>
+<div class="title"><%# Eval("Address")%> <%# Eval("City") + " " + Eval("State") + ", " + Eval("Zip")%> </div>
+</div>
+</div>
+<div class="additional-companies">
+    <ul>
+        <asp:Repeater ID="rptCompanies" runat="server">
 					<ItemTemplate>
-						<b><%# Eval("CompanyName")%></b>,
-						<%# Eval("Address")%>,
-						<%# Eval("City") + " " + Eval("State") + ", " + Eval("Zip")%><br/>
+                        <li>
+                            <span class="company"><%# Eval("CompanyName")%>:</span>
+                            <span class="address"><%# Eval("Address")%>,
+						<%# Eval("City") + " " + Eval("State") + ", " + Eval("Zip")%></span>
+ 
+                            </li>
 					</ItemTemplate>
 				</asp:Repeater>
-			<td><%#Eval ("LobbyistStatus") %>&nbsp;&nbsp;</td>
-		</tr>
+
+    </ul>
+</div>
+</div>
+
+
+
 	</ItemTemplate>
 </asp:Repeater>
 
-</table>
+ 
    <div class="bottomnav">
     <div class="bottomnavbtns">
         <asp:ImageButton ID="ibtnFirstPageTop" runat="server" OnClick="FirstPage_Click" ImageUrl="~/img/firstbtn.gif" />
@@ -121,10 +137,10 @@ Inherits="SearchLobbyistsPage" %>
 </div>
 <div class="large-12 columns pagination-controls">
 <div class="prev">
-<a href="http://openbookpgh.herokuapp.com/Searchlobbyists#">Previous</a>
+<a href="#">Previous</a>
 </div>
 <div class="next">
-<a href="http://openbookpgh.herokuapp.com/Searchlobbyists#">Next</a>
+<a href="#">Next</a>
 </div>
 </div>
 </div>
