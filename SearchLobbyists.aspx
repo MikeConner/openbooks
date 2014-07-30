@@ -1,4 +1,6 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/_Masters/MasterPage.master" AutoEventWireup="true" CodeFile="SearchLobbyists.aspx.cs" 
+﻿<%--//DAS--%>
+
+<%@ Page Title="" Language="C#" MasterPageFile="~/_Masters/MasterPage.master" AutoEventWireup="true" CodeFile="SearchLobbyists.aspx.cs" 
 Inherits="SearchLobbyistsPage" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
@@ -8,21 +10,19 @@ Inherits="SearchLobbyistsPage" %>
 <div class="medium-4 large-6 columns campaign-nav">
 <nav>
 <ul>
-<li><a class="active" href="http://openbookpgh.herokuapp.com/lobbyists#">Lobbyists</a></li>
+<li><a class="active" href="http://openbookpgh.herokuapp.com/Searchlobbyists#">Lobbyists</a></li>
 </ul>
 </nav>
 </div>
 <div class="medium-8 large-6 columns">
 <div class="pagination right">
 <span>View</span>
-<span>
-<a class="button dropdown" data-dropdown="drop3" href="http://openbookpgh.herokuapp.com/lobbyists#">5 per page</a>
+<a class="button dropdown" data-dropdown="drop3" href="http://openbookpgh.herokuapp.com/Searchlobbyists#">5 per page</a>
 <ul class="f-dropdown" data-dropdown-content="" id="drop3">
-<li><a href="http://openbookpgh.herokuapp.com/lobbyists#">10 per page</a></li>
-<li><a href="http://openbookpgh.herokuapp.com/lobbyists#">25 per page</a></li>
-<li><a href="http://openbookpgh.herokuapp.com/lobbyists#">50 per page</a></li>
+<li><a href="http://openbookpgh.herokuapp.com/Searchlobbyists#">10 per page</a></li>
+<li><a href="http://openbookpgh.herokuapp.com/Searchlobbyists#">25 per page</a></li>
+<li><a href="http://openbookpgh.herokuapp.com/Searchlobbyists#">50 per page</a></li>
 </ul>
-</span>
 <span>Results: 1 - 10 of 11487</span>
 </div>
 </div>
@@ -32,11 +32,11 @@ Inherits="SearchLobbyistsPage" %>
 <div class="search-field">
 <h2>Lobbyist</h2>
 
-<asp:TextBox ID="txtLobbyist" runat="server" placeholder="Name of lobbyist..." MaxLength="100" />
+<asp:TextBox ID="txtLobbyist" runat="server" MaxLength="100" />
 </div>
 <div class="search-field">
 <h2>Employer</h2>
-    <asp:TextBox ID="txtEmployer" runat="server"  placeholder="Name of employer..."  MaxLength="100" />
+    <asp:TextBox ID="txtEmployer" runat="server" MaxLength="100" />
  
 </div>
 <div class="search-field">
@@ -58,173 +58,76 @@ Inherits="SearchLobbyistsPage" %>
 <div class="medium-8 large-9 columns">
 <div class="items-container">
 <div class="item">
-<span class="name-label">Full Name</span>
-<h2>Meghan W. Fisher</h2>
-<div class="information">
-<span class="position">Government Relations Professional</span>
-<span class="status">Current 2014</span>
+    	<div class="results">
+		<div class="resultsleft">
+			<asp:Label ID="lblPageSize" runat="server" Text="View:" />
+			<asp:DropDownList ID="ddlPageSize" runat="server"  
+				OnSelectedIndexChanged="ddlPageSize_SelectedIndexChanged"
+				AutoPostBack="true">
+					<asp:ListItem Text="10 per page" Value="10" />
+					<asp:ListItem Text="25 per page" Value="25" />
+					<asp:ListItem Text="50 per page" Value="50"  />
+					<asp:ListItem Text="100 per page" Value="100" />
+			</asp:DropDownList>
+		</div>
+		<div class="resultsright">
+			<asp:Label ID="lblCurrentPage" runat="server" />
+		</div>
+	</div>
+
+		<table class="ob-gridview" cellpadding="0" cellspacing="0">
+			<tr>
+				<th><asp:LinkButton ID="lb1" Text="Full&nbsp;Name" OnClick="sortLobbyist" runat="server" /></th>
+				<th>Position</th>
+				<th><asp:LinkButton ID="lb2" Text="Employer" OnClick="sortEmployer" runat="server" /></th>
+				<th>Additional Companies</th>
+				<th>Status&nbsp;</th>
+			</tr>
+
+    <asp:Repeater ID="rptLobbyists" runat="server" OnItemDataBound="rptLobbyists_ItemDataBound">
+	<ItemTemplate>
+		<tr class='<%# Container.ItemIndex % 2 == 0 ? "" : "even" %>'>
+			<td><%# Eval("LobbyistName") %></td>
+			<td><%# Eval("Position") %></td>
+			<td>
+				<b><%# Eval("EmployerName")%></b><br/>
+				<%# Eval("Address")%><br/>
+				<%# Eval("City") + " " + Eval("State") + ", " + Eval("Zip")%><br/>
+			</td>
+			<td><asp:Repeater ID="rptCompanies" runat="server">
+					<ItemTemplate>
+						<b><%# Eval("CompanyName")%></b>,
+						<%# Eval("Address")%>,
+						<%# Eval("City") + " " + Eval("State") + ", " + Eval("Zip")%><br/>
+					</ItemTemplate>
+				</asp:Repeater>
+			<td><%#Eval ("LobbyistStatus") %>&nbsp;&nbsp;</td>
+		</tr>
+	</ItemTemplate>
+</asp:Repeater>
+
+</table>
+   <div class="bottomnav">
+    <div class="bottomnavbtns">
+        <asp:ImageButton ID="ibtnFirstPageTop" runat="server" OnClick="FirstPage_Click" ImageUrl="~/img/firstbtn.gif" />
+        <asp:ImageButton ID="ibtnPrevPageTop" runat="server" OnClick="PrevPage_Click" ImageUrl="~/img/previousbtn.gif" />
+        <asp:ImageButton ID="ibtnNextPageTop" runat="server" OnClick="NextPage_Click" ImageUrl="~/img/nextbtn.gif" />
+        <asp:ImageButton ID="ibtnLastPageTop" runat="server" OnClick="LastPage_Click" ImageUrl="~/img/lastbtn.gif" />
+    </div>
+    </div>
 </div>
-<div class="label-group">
-<div class="label-item">
-<div class="type">BUCHANAN INGERSOSLL &amp; Rooney PC</div>
-<div class="title">301 Grant Street One Oxford Center 20th Fl</div>
-</div>
-</div>
-<div class="additional-companies">
-<ul>
-<li>
-<span class="company">Western PA Conservancy:</span>
-<span class="address">800 Waterfront Drive, Pittsburgh PA, 15222</span>
-</li>
-<li>
-<span class="company">The Granite Building c/o Holly Brubach:</span>
-<span class="address">2359 Railroad Street #3901, Pittsburgh PA, 15222</span>
-</li>
-<li>
-<span class="company">Pittsburgh Supercomputing:</span>
-<span class="address">300 S. Craig Street, Pittsburgh PA, 15213</span>
-</li>
-<li>
-<span class="company">L.R. Kimball and Associates:</span>
-<span class="address">437 Grant Street , Pittsburgh PA, 15219</span>
-</li>
-<li>
-<span class="company">Junior Achievement:</span>
-<span class="address">One Allegheny Center Suite 430, Pittsburgh PA, 15212</span>
-</li>
-<li>
-<span class="company">BNY Mellon:</span>
-<span class="address">500 Grant Street Suite 4045, Pittsburgh PA, 15258</span>
-</li>
-<li>
-<span class="company">Pittsburgh School District: 341 S. Bellefield Avenue, Pittsburgh PA, 15213</span>
-<span class="address">800 Waterfront Drive, Pittsburgh PA, 15222</span>
-</li>
-</ul>
-</div>
-</div>
-<div class="item">
-<span class="name-label">Full Name</span>
-<h2>Meghan W. Fisher</h2>
-<div class="information">
-<span class="position">Government Relations Professional</span>
-<span class="status">Current 2014</span>
-</div>
-<div class="label-group">
-<div class="label-item">
-<div class="type">BUCHANAN INGERSOSLL &amp; Rooney PC</div>
-<div class="title">301 Grant Street One Oxford Center 20th Fl</div>
-</div>
-</div>
-<div class="additional-companies">
-<ul>
-<li>
-<span class="company">Western PA Conservancy:</span>
-<span class="address">800 Waterfront Drive, Pittsburgh PA, 15222</span>
-</li>
-<li>
-<span class="company">The Granite Building c/o Holly Brubach:</span>
-<span class="address">2359 Railroad Street #3901, Pittsburgh PA, 15222</span>
-</li>
-<li>
-<span class="company">Pittsburgh Supercomputing:</span>
-<span class="address">300 S. Craig Street, Pittsburgh PA, 15213</span>
-</li>
-<li>
-<span class="company">L.R. Kimball and Associates:</span>
-<span class="address">437 Grant Street , Pittsburgh PA, 15219</span>
-</li>
-<li>
-<span class="company">Junior Achievement:</span>
-<span class="address">One Allegheny Center Suite 430, Pittsburgh PA, 15212</span>
-</li>
-<li>
-<span class="company">BNY Mellon:</span>
-<span class="address">500 Grant Street Suite 4045, Pittsburgh PA, 15258</span>
-</li>
-<li>
-<span class="company">Pittsburgh School District: 341 S. Bellefield Avenue, Pittsburgh PA, 15213</span>
-<span class="address">800 Waterfront Drive, Pittsburgh PA, 15222</span>
-</li>
-</ul>
-</div>
-</div>
-<div class="item">
-<span class="name-label">Full Name</span>
-<h2>Meghan W. Fisher</h2>
-<div class="information">
-<span class="position">Government Relations Professional</span>
-<span class="status">Current 2014</span>
-</div>
-<div class="label-group">
-<div class="label-item">
-<div class="type">BUCHANAN INGERSOSLL &amp; Rooney PC</div>
-<div class="title">301 Grant Street One Oxford Center 20th Fl</div>
-</div>
-</div>
-<div class="additional-companies">
-<ul>
-<li>
-<span class="company">Western PA Conservancy:</span>
-<span class="address">800 Waterfront Drive, Pittsburgh PA, 15222</span>
-</li>
-<li>
-<span class="company">The Granite Building c/o Holly Brubach:</span>
-<span class="address">2359 Railroad Street #3901, Pittsburgh PA, 15222</span>
-</li>
-<li>
-<span class="company">Pittsburgh Supercomputing:</span>
-<span class="address">300 S. Craig Street, Pittsburgh PA, 15213</span>
-</li>
-<li>
-<span class="company">L.R. Kimball and Associates:</span>
-<span class="address">437 Grant Street , Pittsburgh PA, 15219</span>
-</li>
-<li>
-<span class="company">Junior Achievement:</span>
-<span class="address">One Allegheny Center Suite 430, Pittsburgh PA, 15212</span>
-</li>
-<li>
-<span class="company">BNY Mellon:</span>
-<span class="address">500 Grant Street Suite 4045, Pittsburgh PA, 15258</span>
-</li>
-<li>
-<span class="company">Pittsburgh School District: 341 S. Bellefield Avenue, Pittsburgh PA, 15213</span>
-<span class="address">800 Waterfront Drive, Pittsburgh PA, 15222</span>
-</li>
-</ul>
-</div>
+
 </div>
 </div>
 <div class="large-12 columns pagination-controls">
 <div class="prev">
-<a href="http://openbookpgh.herokuapp.com/lobbyists#">Previous</a>
+<a href="http://openbookpgh.herokuapp.com/Searchlobbyists#">Previous</a>
 </div>
 <div class="next">
-<a href="http://openbookpgh.herokuapp.com/lobbyists#">Next</a>
+<a href="http://openbookpgh.herokuapp.com/Searchlobbyists#">Next</a>
 </div>
 </div>
 </div>
 </div>
-</div>
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-     
 </asp:Content>
 

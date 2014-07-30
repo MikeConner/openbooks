@@ -1,4 +1,6 @@
-﻿using System;
+﻿//DAS
+
+using System;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -13,7 +15,7 @@ namespace OpenBookPgh
 	{
 		public static string GenerateQueryString(int lobbyistID, string lobbyistKeywords, string companyKeywords)
 		{
-			string queryString = "Lobbyists.aspx?";
+			string queryString = "SearchLobbyists.aspx?";
 
 			// LobbyistID Only Search in Admin
 			if(lobbyistID != 0)
