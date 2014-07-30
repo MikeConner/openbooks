@@ -5,8 +5,6 @@
 <head runat="server">
     <title>Welcome to Open Book Pittsburgh</title>
     <link rel="stylesheet" type="text/css" href="~/css/main.css" media="screen" />
-
-
 </head>
 
 <body>
@@ -37,13 +35,13 @@
 <section class='search-menu'>
 <div class='row'>
 <div class='large-4 columns'>
-<div class='button'><a href="/city-contracts">City Contracts</a></div>
+<div class='button'><a href="../SearchContracts.aspx">City Contracts</a></div>
 </div>
 <div class='large-4 columns'>
-<div class='button'><a href="/campaign-contributions">Campaign Finance</a></div>
+<div class='button'><a href="../SearchContributions.aspx">Campaign Finance</a></div>
 </div>
 <div class='large-4 columns'>
-<div class='button'><a href="/lobbyists">Lobbyists</a></div>
+<div class='button'><a href="../Lobbyists.aspx">Lobbyists</a></div>
 </div>
 </div>
 </section>
@@ -82,14 +80,11 @@
 </div>
 </div>
 </div>
-
-     
-
-    <link rel="javacript" type="text/javascript" href="../js/vendor/modernizr.js" />
-    <link rel="javacript" type="text/javascript" href="../js/jquery.js" />
-    <link rel="javacript" type="text/javascript" href="../js/jquery-ui.js" />
-    <link rel="javacript" type="text/javascript" href="../js/foundation.min.js" />
-    <link rel="javacript" type="text/javascript" href="../js/main.js" />
+    <script src="/js/vendor/modernizr.js" type="text/javascript"></script>
+    <script src="/js/jquery.js" type="text/javascript"></script>
+    <script src="/js/jquery-ui.js" type="text/javascript"></script>
+    <script src="/js/foundation.min.js" type="text/javascript"></script>
+    <script src="/js/main.js" type="text/javascript"></script>
 </form>
 </body>
 
