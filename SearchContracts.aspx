@@ -17,26 +17,22 @@ Inherits="SearchContractsPage" %>
 </div>
 <div class="medium-8 large-6 columns">
 <div class="pagination right">
-<span>View</span>
-<span>
-<a class="button dropdown" data-dropdown="drop3" href="#">5 per page</a>
-<ul class="f-dropdown" data-dropdown-content="" id="drop3">
-<li><a href="#">10 per page</a></li>
-<li><a href="#">25 per page</a></li>
-<li><a href="#">50 per page</a></li>
-</ul>
-</span>
-<span>Results: 1 - x of xxxx</span>
+<asp:Label ID="lblPageSize" runat="server" Text="View:" />
+    <asp:DropDownList ID="ddlPageSize" runat="server"  
+				OnSelectedIndexChanged="ddlPageSize_SelectedIndexChanged"
+				AutoPostBack="true">
+					<asp:ListItem Text="10 per page" Value="10" />
+					<asp:ListItem Text="25 per page" Value="25" />
+					<asp:ListItem Text="50 per page" Value="50"  />
+					<asp:ListItem Text="100 per page" Value="100" />
+			</asp:DropDownList>
+    <asp:Label ID="lblCurrentPage" runat="server" /> 
+
 </div>
 </div>
 </div>
 <div class="row">
-<div class="large-3 columns">
-<button class="submit expand filter-toggle" href="#">Filter Options</button>
-</div>
-</div>
-<div class="row">
-<div class="medium-4 large-3 columns filter-controls">
+<div class="medium-4 large-3 columns">
 <div class="search-field">
 <h2>City Department</h2>
 
@@ -111,13 +107,22 @@ Inherits="SearchContractsPage" %>
 </div>
 </div>
 
-
-
-
-
 <div class="medium-8 large-9 columns">
 <div class="items-container">
 
+<table class="ob-gridview" cellpadding="0" cellspacing="0">
+		<tr>
+			<th><asp:LinkButton ID="LinkButton1" Text="Vendor&nbsp;Name" OnClick="sortVendor" runat="server" /><asp:Image ID="imgSortVendor" runat="server" /></th>
+			<th><asp:LinkButton ID="LinkButton2" Text="Agency&nbsp;Name" OnClick="sortAgency" runat="server" /><asp:Image ID="imgSortAgency" runat="server" /></th>
+			<th><asp:LinkButton ID="LinkButton3" Text="Contract&nbsp;#" OnClick="sortContractID" runat="server" /><asp:Image ID="imgSortContractID" runat="server" /></th>
+			<th><asp:LinkButton ID="LinkButton4" Text="Amount" OnClick="sortAmount" runat="server" /><asp:Image ID="imgSortAmount" runat="server" /></th>
+			<th><asp:LinkButton ID="LinkButton5" Text="Original<br/>Amount" OnClick="sortOriginalAmount" runat="server" /><asp:Image ID="imgSortOriginalAmount" runat="server" /></th>
+			<th><asp:LinkButton ID="LinkButton6" Text="Contract&nbsp;Description" OnClick="sortDescription" runat="server" /><asp:Image ID="imgSortDescription" runat="server" /></th>
+			<th><asp:LinkButton ID="LinkButton9" Text="Contract&nbsp;Type" OnClick="sortContractType" runat="server" /><asp:Image ID="imgSortContractType" runat="server" /></th>
+			<th><asp:LinkButton ID="LinkButton10" Text="Contract Approval Date" OnClick="sortApprovalDate" runat="server" /><asp:Image ID="imgSortApproval" runat="server" /></th>
+			<th><asp:LinkButton ID="LinkButton8" Text="Contract End Date" OnClick="sortEndDate" runat="server" /><asp:Image ID="imgSortEndDate" runat="server" /></th>
+			<th></th>
+		</tr>
 	<asp:Repeater ID="rptContracts" runat="server" 
 			onitemcommand="rptContracts_ItemCommand">
 	<ItemTemplate>
@@ -146,60 +151,27 @@ Inherits="SearchContractsPage" %>
 		</tr>
 	</ItemTemplate>
 	</asp:Repeater>
+    </table>
 
-	<div class="gridboxhead"><h2>Contract Search Results</h2></div>
-	<div class="results">
-		<div class="resultsleft">
-			<asp:Label ID="lblPageSize" runat="server" Text="View:" />
-			<asp:DropDownList ID="ddlPageSize" runat="server"  
-				OnSelectedIndexChanged="ddlPageSize_SelectedIndexChanged"
-				AutoPostBack="true">
-					<asp:ListItem Text="10 per page" Value="10" />
-					<asp:ListItem Text="25 per page" Value="25" />
-					<asp:ListItem Text="50 per page" Value="50"  />
-					<asp:ListItem Text="100 per page" Value="100" />
-			</asp:DropDownList>
-		</div>
-		<div class="resultsright">
-			<asp:Label ID="lblCurrentPage" runat="server" />
-		</div>
-	</div>
-
-	<table class="ob-gridview" cellpadding="0" cellspacing="0">
-		<tr>
-			<th><asp:LinkButton ID="LinkButton1" Text="Vendor&nbsp;Name" OnClick="sortVendor" runat="server" /><asp:Image ID="imgSortVendor" runat="server" /></th>
-			<th><asp:LinkButton ID="LinkButton2" Text="Agency&nbsp;Name" OnClick="sortAgency" runat="server" /><asp:Image ID="imgSortAgency" runat="server" /></th>
-			<th><asp:LinkButton ID="LinkButton3" Text="Contract&nbsp;#" OnClick="sortContractID" runat="server" /><asp:Image ID="imgSortContractID" runat="server" /></th>
-			<th><asp:LinkButton ID="LinkButton4" Text="Amount" OnClick="sortAmount" runat="server" /><asp:Image ID="imgSortAmount" runat="server" /></th>
-			<th><asp:LinkButton ID="LinkButton5" Text="Original<br/>Amount" OnClick="sortOriginalAmount" runat="server" /><asp:Image ID="imgSortOriginalAmount" runat="server" /></th>
-			<th><asp:LinkButton ID="LinkButton6" Text="Contract&nbsp;Description" OnClick="sortDescription" runat="server" /><asp:Image ID="imgSortDescription" runat="server" /></th>
-			<th><asp:LinkButton ID="LinkButton9" Text="Contract&nbsp;Type" OnClick="sortContractType" runat="server" /><asp:Image ID="imgSortContractType" runat="server" /></th>
-			<th><asp:LinkButton ID="LinkButton10" Text="Contract Approval Date" OnClick="sortApprovalDate" runat="server" /><asp:Image ID="imgSortApproval" runat="server" /></th>
-			<th><asp:LinkButton ID="LinkButton8" Text="Contract End Date" OnClick="sortEndDate" runat="server" /><asp:Image ID="imgSortEndDate" runat="server" /></th>
-			<th></th>
-		</tr>
-        </table>
-<div class="large-12 columns pagination-controls">
-<div class="prev">
-<a href="http://openbookpgh.herokuapp.com/city-contracts#">Previous</a>
-</div>
-<div class="next">
-<a href="http://openbookpgh.herokuapp.com/city-contracts#">Next</a>
-</div>
-</div>
-</div>
-   
-</div>
-</div>
-	</div>
     	<div class="bottomnav">
 		<div class="bottomnavbtns">
-			<asp:ImageButton ID="ibtnFirstPageTop" runat="server" OnClick="FirstPage_Click" ImageUrl="~/img/firstbtn.gif" />
-			<asp:ImageButton ID="ibtnPrevPageTop" runat="server" OnClick="PrevPage_Click" ImageUrl="~/img/previousbtn.gif" />
-			<asp:ImageButton ID="ibtnNextPageTop" runat="server" OnClick="NextPage_Click" ImageUrl="~/img/nextbtn.gif" />
-			<asp:ImageButton ID="ibtnLastPageTop" runat="server" OnClick="LastPage_Click" ImageUrl="~/img/lastbtn.gif" />
+		    <asp:ImageButton ID="ibtnFirstPageTop" runat="server" OnClick="FirstPage_Click" />
+			<asp:ImageButton ID="ibtnPrevPageTop" runat="server" OnClick="PrevPage_Click" />
+			<asp:ImageButton ID="ibtnNextPageTop" runat="server" OnClick="NextPage_Click" />
+			<asp:ImageButton ID="ibtnLastPageTop" runat="server" OnClick="LastPage_Click" />
 		</div>
-
-
+    </div>
+</div>
+</div>
+<div class="large-12 columns pagination-controls">
+<div class="prev">
+<a href="#">Previous</a>
+</div>
+<div class="next">
+<a href="#">Next</a>
+</div>
+</div>
+</div>
+</div>
 </asp:Content>
 
