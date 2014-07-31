@@ -25,7 +25,8 @@ public partial class SearchResults : System.Web.UI.Page
 	public void GetSearchResults()
     {
 		// Get SearchParams Class from query string
-		SearchParamsContract sp = SearchContracts.GetQueryStringValues(HttpContext.Current.Request);
+		//SearchParamsContract sp = SearchContracts.GetQueryStringValues(HttpContext.Current.Request);
+        SearchRangeParamsContract sp = SearchContracts.GetRangeQueryStringValues(HttpContext.Current.Request);
 
 		//Determine the Results Per Page from user
 		SetPageSize();
@@ -49,7 +50,9 @@ public partial class SearchResults : System.Web.UI.Page
 		}
 
 	}
-	public void GetResultsCount(SearchParamsContract sp)
+
+    // Argument formerly SearchParamsContract
+	public void GetResultsCount(SearchRangeParamsContract sp)
 	{
 		// Get total rows
 		int totalRows = SearchContracts.GetContractsCount(sp);

@@ -42,7 +42,7 @@ public partial class SearchContractsPage : System.Web.UI.Page
 
         string startDate = Request.Form["dtmStart"];
         string endDate = Request.Form["dtmFinish"];
-        DateTime startDT = string.IsNullOrEmpty(startDate) ? DateTime.Today.AddYears(-10) : Convert.ToDateTime(startDate);
+        DateTime startDT = string.IsNullOrEmpty(startDate) ? SearchRangeParamsContract.DEFAULT_START_DATE : Convert.ToDateTime(startDate);
         DateTime endDT = string.IsNullOrEmpty(endDate) ? DateTime.Today : Convert.ToDateTime(startDate);
 
         if (startDT > endDT)
@@ -55,44 +55,21 @@ public partial class SearchContractsPage : System.Web.UI.Page
         int cityDept = Convert.ToInt32(CityDepartment.SelectedValue);
         int contractType = Convert.ToInt32(ContractType.SelectedValue);
 
-        string vendor = Vendor.Text;
-        string keywords = Keywords.Text;
+        string vendorKeywords = Vendor.Text;
+        string searchKeywords = Keywords.Text;
+        string keywordOptions = rbVendor.SelectedValue;
 
-        SearchContracts.GetContractsRange(0, 0, "contractID", "DESC", cityDept, contractType, vendor, keywords, startDT, endDT, minContractAmount, maxContractAmount);
-        //string queryString = SearchContracts.GenerateQueryString(0, 0, vendor, vendorSearchOptions, dept, service, keywords, month1, year1, month2, year2, amount);
-        //Response.Redirect(queryString);
-        // Original Approval Date
-
-		//Int32.TryParse(ddlBeginYear1.SelectedValue, out year1);
-		//Int32.TryParse(ddlBeginYear2.SelectedValue, out year2);
-        /*
-		string month1 = ddlBeginMonth1.SelectedValue;
-		string month2 = ddlBeginMonth2.SelectedValue;
-		if (month1 == "00")
-		{
-			month1 = "01";
-		}
-		if (month2 == "00")
-		{
-			month2 = "01";
-		}
-
-		// Contract Amount
-		int amount = 0;
-		Int32.TryParse(ddlAmount.SelectedValue, out amount);
-
-
-		string queryString = SearchContracts.GenerateQueryString(0, 0, vendor, vendorSearchOptions, dept, service, keywords, month1, year1, month2, year2, amount);
+        string queryString = SearchContracts.GenerateRangeQueryString(0, 0, vendorKeywords, keywordOptions, cityDept, contractType, searchKeywords, startDate, endDate, minContractAmount, maxContractAmount);
 		Response.Redirect(queryString);		
 		//Response.Write(queryString);
-         *         */
     }
 
     // Page Load
     public void GetSearchResults()
     {
         // Get SearchParams Class from query string
-        SearchParamsContract sp = SearchContracts.GetQueryStringValues(HttpContext.Current.Request);
+        //SearchParamsContract sp = SearchContracts.GetQueryStringValues(HttpContext.Current.Request);
+        SearchRangeParamsContract sp = SearchContracts.GetRangeQueryStringValues(HttpContext.Current.Request);
 
         //Determine the Results Per Page from user
         SetPageSize();
@@ -116,7 +93,9 @@ public partial class SearchContractsPage : System.Web.UI.Page
         }
 
     }
-    public void GetResultsCount(SearchParamsContract sp)
+
+    // Formerly SearchParamsContract
+    public void GetResultsCount(SearchRangeParamsContract sp)
     {
         // Get total rows
         int totalRows = SearchContracts.GetContractsCount(sp);

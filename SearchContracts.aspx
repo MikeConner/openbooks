@@ -63,7 +63,7 @@ Inherits="SearchContractsPage" %>
 </div>
 <div class="search-field">
 <h2>Vendor</h2>
-<asp:RadioButtonList ID="rbVendor" runat="server" RepeatDirection="Horizontal" hidden>
+<asp:RadioButtonList ID="rbVendor" runat="server" RepeatDirection="Vertical">
 					<asp:ListItem Text="Begins with" Value="B" />
 					<asp:ListItem Text="Contains" Value="C" Selected="True" />
 					<asp:ListItem Text="Exact" Value="E" />

@@ -74,7 +74,7 @@ namespace OpenBookPgh
 			get { return _keywords; }
 			set { _keywords = value; }
 		}
-		private DateTime _beginDate = Convert.ToDateTime("1/1/1990");
+        private DateTime _beginDate = SearchRangeParamsContract.DEFAULT_START_DATE;
 		public DateTime beginDate
 		{
 			get { return _beginDate; }
