@@ -48,7 +48,7 @@
 </div>
 
 <div class='main-container'>
-    
+    <asp:Label id="FlashErrorMessage" runat="server"/>
 
  	<div class="gridview">
 		<asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">

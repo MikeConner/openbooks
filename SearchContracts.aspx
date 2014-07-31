@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/_Masters/MasterPage.master" AutoEventWireup="true" CodeFile="SearchContracts.aspx.cs" 
 Inherits="SearchContractsPage" %>
+<%@ MasterType virtualpath="~/_Masters/MasterPage.master" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 
@@ -10,7 +11,7 @@ Inherits="SearchContractsPage" %>
 <div class="medium-4 large-6 columns campaign-nav">
 <nav>
 <ul>
-<li><a class="active" href="#">City Contacts</a></li>
+<li><a class="active" href="#">City Contracts</a></li>
 </ul>
 </nav>
 </div>
@@ -39,7 +40,7 @@ Inherits="SearchContractsPage" %>
 <div class="search-field">
 <h2>City Department</h2>
 
-    <asp:DropDownList ID="DropDownList1" runat="server" 
+    <asp:DropDownList ID="CityDepartment" runat="server" 
 					DataSourceID="SqlDataSource4" 
 					DataTextField="DeptName" 
 					DataValueField="DeptCode" 
@@ -53,7 +54,7 @@ Inherits="SearchContractsPage" %>
 </div>
 <div class="search-field">
 <h2>Contract Type</h2>
-<asp:DropDownList ID="DropDownList2" runat="server" 
+<asp:DropDownList ID="ContractType" runat="server" 
 					DataSourceID="SqlDataSource1" 
 					DataTextField="ServiceName" 
 					DataValueField="ID" 
@@ -66,27 +67,27 @@ Inherits="SearchContractsPage" %>
 </div>
 <div class="search-field">
 <h2>Vendor</h2>
-<asp:RadioButtonList ID="RadioButtonList1" runat="server" RepeatDirection="Horizontal" hidden>
+<asp:RadioButtonList ID="rbVendor" runat="server" RepeatDirection="Horizontal" hidden>
 					<asp:ListItem Text="Begins with" Value="B" />
 					<asp:ListItem Text="Contains" Value="C" Selected="True" />
 					<asp:ListItem Text="Exact" Value="E" />
 				</asp:RadioButtonList>
-				<asp:TextBox ID="TextBox1" runat="server" Placeholder ="Name of Vendor... " />
+				<asp:TextBox ID="Vendor" runat="server" Placeholder ="Name of Vendor... " />
 </div>
 <div class="search-field">
 <h2>Keyword</h2>
-<asp:TextBox ID="TextBox2" runat="server" placeholder="Keywords..."/>
+<asp:TextBox ID="Keywords" runat="server" placeholder="Keywords..."/>
 </div>
 <div class="search-field">
 <h2>Contract Approval Date</h2>
 <div class="row date-select">
 <div class="large-12 columns">
 <label class="date">From:</label>
-<input placeholder="Start" type="date" id="dtmStart">
+<input placeholder="Start" type="date" id="dtmStart" name="dtmStart">
 </div>
 <div class="large-12 columns">
 <label class="date">To:</label>
-<input placeholder="End" type="date" id="dtmFinish">
+<input placeholder="End" type="date" id="dtmFinish" name="dtmFinish">
 </div>
 </div>
 </div>
@@ -94,19 +95,19 @@ Inherits="SearchContractsPage" %>
 <h2>Contract Amount</h2>
 <div class="range-slider">
 <label>Minimum Amount</label>
-<input class="input-range" max="10000" min="1" type="range" value="250" id="dblMinContract">
+<input class="input-range" max="10000" min="1" type="range" value="250" id="dblMinContract" name="dblMinContract">
 <span id="minContract" class="range-value">250</span>
 </div>
 <div class="range-slider">
+<asp:HiddenField ID="MaxContractField" runat="server" />
+
 <label>Maximum Amount</label>
-<input class="input-range" max="10000" min="1" type="range" value="250" id="dblMaxContract">
+<input class="input-range" max="10000" min="1" type="range" value="250" id="dblMaxContract" name="dblMaxContract">
 <span id="maxContract" class="range-value">250</span>
 </div>
 </div>
 <div class="search-field">
-
     <asp:Button ID="ImageButton1" runat="server" Text="Search" onclick="btnSearch_Click" CssClass="button" />
-
 </div>
 </div>
 
@@ -116,127 +117,68 @@ Inherits="SearchContractsPage" %>
 
 <div class="medium-8 large-9 columns">
 <div class="items-container">
-<div class="item">
-<h2>SMAIL, KATHLEEN</h2>
-<div class="price-group">
-<span class="original">Contract Amount: $34,723.31</span>
-<span class="current">$34,723.31 Spent</span>
-</div>
-<div class="label-group">
-<div class="label-item">
-<div class="type">Type</div>
-<div class="title">Grant Agreement</div>
-</div>
-<div class="label-item">
-<div class="type">Agency Name</div>
-<div class="title">Personnel/Civil Service</div>
-</div>
-</div>
-<div class="agenda">
-<span class="title">Contract Agenda:</span>
-<span>04/30/2014 — 03/14/2014</span>
-</div>
-<div class="description">
-<p>Memo/Severance Incentive Program</p>
-</div>
-</div>
-<div class="item">
-<h2>YMCA OF GTR. PGH.- HAZELWOOD SEEDS TO SOUP d/b/a YMCA</h2>
-<div class="price-group">
-<span class="original">Contract Amount: $34,723.31</span>
-<span class="current">$34,723.31 Spent</span>
-</div>
-<div class="label-group">
-<div class="label-item">
-<div class="type">Type</div>
-<div class="title">Grant Agreement</div>
-</div>
-<div class="label-item">
-<div class="type">Agency Name</div>
-<div class="title">Personnel/Civil Service</div>
-</div>
-</div>
-<div class="agenda">
-<span class="title">Contract Agenda:</span>
-<span>03/28/2014 — 05/31/2014</span>
-</div>
-<div class="description">
-<p>Independant Employee Assistance Provider</p>
-</div>
-</div>
-<div class="item">
-<h2>VARIOUS VENDORS - COUNTY CONTRACTS</h2>
-<div class="price-group">
-<span class="original">Contract Amount: $34,723.31</span>
-<span class="current">$34,723.31 Spent</span>
-</div>
-<div class="label-group">
-<div class="label-item">
-<div class="type">Type</div>
-<div class="title">Grant Agreement</div>
-</div>
-<div class="label-item">
-<div class="type">Agency Name</div>
-<div class="title">Personnel/Civil Service</div>
-</div>
-</div>
-<div class="agenda">
-<span class="title">Contract Agenda:</span>
-<span>04/23/2014 — 12/31/2014</span>
-</div>
-<div class="description">
-<p>Athletic Supplies &amp; Equipment/Spec. 7178- 48252, 48263, 48271, 48272</p>
-</div>
-</div>
-<div class="item">
-<h2>YMCA OF GTR. PGH.- HAZELWOOD SEEDS TO SOUP d/b/a YMCA</h2>
-<div class="price-group">
-<span class="original">Contract Amount: $34,723.31</span>
-<span class="current">$34,723.31 Spent</span>
-</div>
-<div class="label-group">
-<div class="label-item">
-<div class="type">Type</div>
-<div class="title">Grant Agreement</div>
-</div>
-<div class="label-item">
-<div class="type">Agency Name</div>
-<div class="title">Personnel/Civil Service</div>
-</div>
-</div>
-<div class="agenda">
-<span class="title">Contract Agenda:</span>
-<span>03/28/2014 — 05/31/2014</span>
-</div>
-<div class="description">
-<p>Independant Employee Assistance Provider</p>
-</div>
-</div>
-<div class="item">
-<h2>YMCA OF GTR. PGH.- HAZELWOOD SEEDS TO SOUP d/b/a YMCA</h2>
-<div class="price-group">
-<span class="original">Contract Amount: $34,723.31</span>
-<span class="current">$34,723.31 Spent</span>
-</div>
-<div class="label-group">
-<div class="label-item">
-<div class="type">Type</div>
-<div class="title">Grant Agreement</div>
-</div>
-<div class="label-item">
-<div class="type">Agency Name</div>
-<div class="title">Personnel/Civil Service</div>
-</div>
-</div>
-<div class="agenda">
-<span class="original">Contract Amount: $34,723.31</span>
-<span class="current">$34,723.31 Spent</span>
-</div>
-<div class="description">
-<p>Independant Employee Assistance Provider</p>
-</div>
-</div>
-</div>
+
+	<asp:Repeater ID="rptContracts" runat="server" 
+			onitemcommand="rptContracts_ItemCommand">
+	<ItemTemplate>
+		<tr class='<%# Container.ItemIndex % 2 == 0 ? "" : "even" %>' valign="top">
+			<td class="vendor"><a href="VendorDetail.aspx?ID=<%# Eval("VendorNo") %>"><%# Eval("VendorName") %></a></td>
+			<td class="agency"><%# Eval("DepartmentName") %></td>
+			<td class="contract">
+				<a href="ContractDetail.aspx?ID=<%# Eval("ContractID") %>&sup=<%# Eval("SupplementalNo") %>">
+					<%# Eval("SupplementalNo").ToString() == "0" ? Eval("ContractID") : Eval("ContractID") + "." + Eval("SupplementalNo")%>
+				</a>
+			</td>
+			<td class="amount"><%# Eval("Amount", "{0:C}")%></td>
+			<td class="oamount"><%# Eval("OriginalAmount", "{0:C}")%></td>
+			<td class="description"><%# Eval("Description") %></td>
+		    <td class="contracttype"><%# Eval("ServiceName") %></td>
+			<td class="approvaldate"><%# Eval("DateCountersigned", "{0:MM/dd/yyyy}")%></td>
+			<td class="date"><%# Eval("DateDuration", "{0:MM/dd/yyyy}")%></td>
+			<td valign="middle" style="padding-right: 5px;">
+				<asp:Panel ID="pnlContractPDF" runat="server" Visible='<%# Eval("HasPDF").ToString() == "True" %>'>
+					<asp:ImageButton ID="ibtnContractPDF" runat="server" 
+						ImageUrl="~/img/pdficon.gif"
+						CommandName="ViewPDF" 
+						CommandArgument='<%# Eval("ContractID") %>' />
+				</asp:Panel>
+			</td>
+		</tr>
+	</ItemTemplate>
+	</asp:Repeater>
+
+	<div class="gridboxhead"><h2>Contract Search Results</h2></div>
+	<div class="results">
+		<div class="resultsleft">
+			<asp:Label ID="lblPageSize" runat="server" Text="View:" />
+			<asp:DropDownList ID="ddlPageSize" runat="server"  
+				OnSelectedIndexChanged="ddlPageSize_SelectedIndexChanged"
+				AutoPostBack="true">
+					<asp:ListItem Text="10 per page" Value="10" />
+					<asp:ListItem Text="25 per page" Value="25" />
+					<asp:ListItem Text="50 per page" Value="50"  />
+					<asp:ListItem Text="100 per page" Value="100" />
+			</asp:DropDownList>
+		</div>
+		<div class="resultsright">
+			<asp:Label ID="lblCurrentPage" runat="server" />
+		</div>
+	</div>
+
+	<table class="ob-gridview" cellpadding="0" cellspacing="0">
+		<tr>
+			<th><asp:LinkButton ID="LinkButton1" Text="Vendor&nbsp;Name" OnClick="sortVendor" runat="server" /><asp:Image ID="imgSortVendor" runat="server" /></th>
+			<th><asp:LinkButton ID="LinkButton2" Text="Agency&nbsp;Name" OnClick="sortAgency" runat="server" /><asp:Image ID="imgSortAgency" runat="server" /></th>
+			<th><asp:LinkButton ID="LinkButton3" Text="Contract&nbsp;#" OnClick="sortContractID" runat="server" /><asp:Image ID="imgSortContractID" runat="server" /></th>
+			<th><asp:LinkButton ID="LinkButton4" Text="Amount" OnClick="sortAmount" runat="server" /><asp:Image ID="imgSortAmount" runat="server" /></th>
+			<th><asp:LinkButton ID="LinkButton5" Text="Original<br/>Amount" OnClick="sortOriginalAmount" runat="server" /><asp:Image ID="imgSortOriginalAmount" runat="server" /></th>
+			<th><asp:LinkButton ID="LinkButton6" Text="Contract&nbsp;Description" OnClick="sortDescription" runat="server" /><asp:Image ID="imgSortDescription" runat="server" /></th>
+			<th><asp:LinkButton ID="LinkButton9" Text="Contract&nbsp;Type" OnClick="sortContractType" runat="server" /><asp:Image ID="imgSortContractType" runat="server" /></th>
+			<th><asp:LinkButton ID="LinkButton10" Text="Contract Approval Date" OnClick="sortApprovalDate" runat="server" /><asp:Image ID="imgSortApproval" runat="server" /></th>
+			<th><asp:LinkButton ID="LinkButton8" Text="Contract End Date" OnClick="sortEndDate" runat="server" /><asp:Image ID="imgSortEndDate" runat="server" /></th>
+			<th></th>
+		</tr>
+        </table>
 <div class="large-12 columns pagination-controls">
 <div class="prev">
 <a href="http://openbookpgh.herokuapp.com/city-contracts#">Previous</a>
@@ -246,8 +188,18 @@ Inherits="SearchContractsPage" %>
 </div>
 </div>
 </div>
+   
 </div>
 </div>
+	</div>
+    	<div class="bottomnav">
+		<div class="bottomnavbtns">
+			<asp:ImageButton ID="ibtnFirstPageTop" runat="server" OnClick="FirstPage_Click" ImageUrl="~/img/firstbtn.gif" />
+			<asp:ImageButton ID="ibtnPrevPageTop" runat="server" OnClick="PrevPage_Click" ImageUrl="~/img/previousbtn.gif" />
+			<asp:ImageButton ID="ibtnNextPageTop" runat="server" OnClick="NextPage_Click" ImageUrl="~/img/nextbtn.gif" />
+			<asp:ImageButton ID="ibtnLastPageTop" runat="server" OnClick="LastPage_Click" ImageUrl="~/img/lastbtn.gif" />
+		</div>
+
 
 </asp:Content>
 

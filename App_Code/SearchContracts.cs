@@ -11,6 +11,33 @@ namespace OpenBookPgh
 	/// </summary>
 	public class SearchContracts
 	{
+        const int DEFAULT_MAX_PRICE = 1000000;
+
+        public static int GetMaxContractPrice()
+        {
+            int maxPrice = DEFAULT_MAX_PRICE;
+
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("SELECT MAX(Amount) FROM contracts", conn))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    conn.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            Object[] result = new Object[1];
+                            reader.GetValues(result);
+                            maxPrice = Convert.ToInt32(result[0]);
+                        }
+                    }
+                }
+            }
+
+            return maxPrice;
+        }
+
 		public static string GenerateQueryString(int vendorID, int contractID, string vendorKeywords, string vendorSearchOptions, int cityDept, int contractType, string keywords,
 													string month1, int year1, string month2, int year2, int contractAmt)
 		{
@@ -147,6 +174,41 @@ namespace OpenBookPgh
 			return sp;
 
 		}
+
+        public static DataTable GetContractsRange(int pageIndex, int maximumRows, string sortColumn, string sortDirection, int cityDept, int contractType, string vendor, string keywords, DateTime startDate, DateTime endDate, int minAmount, int maxAmount)
+        {
+            DataTable results = new DataTable("Results");
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("SearchContractsRange", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@pageIndex", SqlDbType.Int).Value = pageIndex;
+                    cmd.Parameters.Add("@maximumRows", SqlDbType.Int).Value = maximumRows;
+                    cmd.Parameters.Add("@sortColumn", SqlDbType.VarChar, 25).Value = sortColumn;
+                    cmd.Parameters.Add("@sortDirection", SqlDbType.Char, 4).Value = sortDirection;
+                    //cmd.Parameters.Add("@contractID", SqlDbType.Int).Value = (sp.contractID == 0) ? System.DBNull.Value : (object)sp.contractID;
+                    //cmd.Parameters.Add("@vendorID", SqlDbType.Int).Value = (sp.vendorID == 0) ? System.DBNull.Value : (object)sp.vendorID;
+                    //cmd.Parameters.Add("@vendorKeywords", SqlDbType.VarChar, 100).Value = (sp.vendorKeywords == null) ? System.DBNull.Value : (object)sp.vendorKeywords;
+                    //cmd.Parameters.Add("@vendorSearchOptions", SqlDbType.Char, 1).Value = (sp.vendorSearchOptions == null) ? System.DBNull.Value : (object)sp.vendorSearchOptions;
+                    cmd.Parameters.Add("@cityDept", SqlDbType.Int).Value = (cityDept == 0) ? System.DBNull.Value : (object)cityDept;
+                    cmd.Parameters.Add("@contractType", SqlDbType.Int).Value = (contractType == 0) ? System.DBNull.Value : (object)contractType;
+                    cmd.Parameters.Add("@keywords", SqlDbType.VarChar, 100).Value = (keywords == null) ? System.DBNull.Value : (object)keywords;
+                    cmd.Parameters.Add("@beginDate", SqlDbType.DateTime).Value = startDate;
+                    cmd.Parameters.Add("@endDate", SqlDbType.DateTime).Value = endDate;
+                    cmd.Parameters.Add("@minContractAmt", SqlDbType.Int).Value = (minAmount == 0) ? System.DBNull.Value : (object)minAmount;
+                    cmd.Parameters.Add("@maxContractAmt", SqlDbType.Int).Value = (maxAmount == 0) ? System.DBNull.Value : (object)maxAmount;
+                    cmd.Parameters.Add("@vendor", SqlDbType.VarChar, 100).Value = (vendor == null) ? System.DBNull.Value : (object)vendor;
+
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(results);
+
+                    return results;
+                }
+            }
+        }
 
 		public static DataTable GetContracts(SearchParamsContract sp, int pageIndex, int maximumRows, string sortColumn, string sortDirection)
 		{
