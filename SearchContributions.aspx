@@ -33,7 +33,7 @@
 <div class="row">
 <div class="medium-4 large-3 columns">
 <div class="search-field">
-<h2>Candidate Name</h2>
+<h2>Candidate</h2>
 
     <asp:DropDownList ID="ddlCandidateName" runat="server" 
 					DataSourceID="CandidateDataSource" 
@@ -51,7 +51,7 @@
 
 </div>
 <div class="search-field">
-<h2>Office</h2>
+<h2>Office Sought</h2>
 <asp:DropDownList ID="ddlOffice" runat="server">
 					<asp:ListItem Text="All" Value="all" />
 					<asp:ListItem Text="Mayor" Value="mayor" />
@@ -129,11 +129,11 @@
 </div>
 <div class="label-item">
 <div class="type">Employer</div>
-<div class="title"><%# DataBinder.Eval(Container.DataItem, "Employer")%></div>
+<div class="title"><%# DataBinder.Eval(Container.DataItem, "Employer")%>&nbsp</div>
 </div>
 <div class="label-item">
 <div class="type">Occupation</div>
-<div class="title"><%# DataBinder.Eval(Container.DataItem, "Occupation") %></div>
+<div class="title"><%# DataBinder.Eval(Container.DataItem, "Occupation") %>&nbsp</div>
 </div>
 
 </div>

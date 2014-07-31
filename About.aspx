@@ -33,33 +33,21 @@ In addition to auditing city departments, the City Controller reviews and approv
 <cite>Open Book</cite>
 </blockquote>
 <p>Lastly, the City Controller sits on the boards of the city’s Municipal Pension Fund and the Comprehensive Municipal Fund.</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-
-</div>
-<footer class="row">
-<div class="large-8 columns">
-<h3>Office of Controller Michael Lamb</h3>
-<p>The City Controller is one of two, independently elected, citywide offices in the City of Pittsburgh, the other being the Mayor. The term of office for the City Controller is four years, and is not term limited.</p>
-<ul>
-<li>
-<a href="http://pittsburghpa.gov/controller/" target="_blank">Office of the City Controller →</a>
-</li>
-</ul>
-</div>
 
 <ul>
-<li><asp:HyperLink NavigateUrl="~/About.aspx" runat="server" ID="About">About</asp:HyperLink></li>
 <li><asp:HyperLink NavigateUrl="~/SearchTips.aspx" runat="server" ID="SearchTips">Search Tips</asp:HyperLink></li>
 <li><asp:HyperLink NavigateUrl="~/ReportFraud.aspx" runat="server" ID="HyperLink10">Report Fraud</asp:HyperLink></li>
 <li><asp:HyperLink NavigateUrl="~/Contact.aspx" runat="server" ID="Contact">Contact</asp:HyperLink></li>
 </ul>
-</div>
 
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 
 </asp:Content>
 

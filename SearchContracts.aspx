@@ -11,7 +11,7 @@ Inherits="SearchContractsPage" %>
 <div class="medium-4 large-6 columns campaign-nav">
 <nav>
 <ul>
-<li><a class="active" href="#">City Contracts</a></li>
+<li><h3>City Contracts</h3></li>
 </ul>
 </nav>
 </div>
@@ -62,7 +62,7 @@ Inherits="SearchContractsPage" %>
 					SelectCommand="SELECT [ID], [ServiceName] FROM [tlk_service] ORDER BY ServiceName" />
 </div>
 <div class="search-field">
-<h2>Vendor</h2>
+<h2>Vendor Name</h2>
 <asp:RadioButtonList ID="rbVendor" runat="server" RepeatDirection="Vertical">
 					<asp:ListItem Text="Begins with" Value="B" />
 					<asp:ListItem Text="Contains" Value="C" Selected="True" />

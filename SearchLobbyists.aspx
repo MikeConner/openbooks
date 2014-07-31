@@ -10,7 +10,7 @@ Inherits="SearchLobbyistsPage" %>
 <div class="medium-4 large-6 columns campaign-nav">
 <nav>
 <ul>
-<li><a class="active" href="http://openbookpgh.herokuapp.com/Searchlobbyists#">Lobbyists</a></li>
+<li><h2>Lobbyists</h2></li>
 </ul>
 </nav>
 </div>
@@ -37,7 +37,7 @@ Inherits="SearchLobbyistsPage" %>
 <div class="row">
 <div class="medium-4 large-3 columns">
 <div class="search-field">
-<h2>Lobbyist</h2>
+<h2>Name Search</h2>
 
 <asp:TextBox ID="txtLobbyist" runat="server" MaxLength="100" />
 </div>

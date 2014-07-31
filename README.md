@@ -1,4 +1,4 @@
 openbooks
 =========
 
-Open Books
+Open Book

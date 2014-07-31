@@ -35,7 +35,7 @@
 <div class="row">
 <div class="medium-4 large-3 columns">
 <div class="search-field">
-<h2>Candidate Name</h2>
+<h2>Candidate</h2>
 <asp:DropDownList ID="ddlCandidateName" runat="server" 
 					DataSourceID="CandidateDataSource" 
 					DataTextField="CandidateName" 
@@ -49,7 +49,7 @@
 				</asp:SqlDataSource>
 </div>
 <div class="search-field">
-<h2>Vendor</h2>
+<h2>Company or Individual</h2>
 
     <asp:RadioButtonList ID="rblVendorSearchOptions" runat="server" RepeatDirection="Horizontal" hidden>
 					<asp:ListItem Text="Begins with" Value="B" Selected="True" />
@@ -120,10 +120,10 @@
 </div>
 <div class="large-12 columns pagination-controls">
 <div class="prev">
-<a href="http://openbookpgh.herokuapp.com/campaign-expenditures#">Previous</a>
+<a href="./SearchExpenditures.aspx#">Previous</a>
 </div>
 <div class="next">
-<a href="http://openbookpgh.herokuapp.com/campaign-expenditures#">Next</a>
+<a href="./SearchExpenditures.aspx#">Next</a>
 </div>
 </div>
 </div>

@@ -28,7 +28,7 @@
 <li class='search-toggle'><a href="#">Search</a></li>
 <li><a href="../About.aspx">About</a></li>
 <li><a href="../Contact.aspx">Contact</a></li>
-<li class='controller'><a href="/"><img alt="Controller logo" src="../img/controller-logo.png" /></a></li>
+<li class='controller'><img alt="Controller logo" src="../img/controller-logo.png" /></li>
 </ul>
 </section>
 </nav>
@@ -71,7 +71,7 @@
 <div class='copyright'>
 <div class='row'>
 <div class='large-12 columns'>
-<span><a href="/"><img alt="Footer logo" src="../img/footer-logo.png" /></a></span>
+<span><img alt="Footer logo" src="../img/footer-logo.png" /></span>
 <span class='copy'>
 
 
