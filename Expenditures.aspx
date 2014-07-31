@@ -37,7 +37,9 @@
 			<td><%# DataBinder.Eval(Container.DataItem, "CompanyName") %></td>
 			<td><%# DataBinder.Eval(Container.DataItem, "CandidateName") %></td>
 			<td><%# DataBinder.Eval(Container.DataItem, "Office") %></td>
-			<td><%# DataBinder.Eval(Container.DataItem, "Address1")%>, <%# DataBinder.Eval(Container.DataItem, "City")%>, <%# DataBinder.Eval(Container.DataItem, "State")%> <%# DataBinder.Eval(Container.DataItem, "Zip")%></td>
+			<td> 
+               <asp:Literal ID="PrettyAddress" runat="server" Text='<%# prettyPrintAddress((string)Eval("Address1"), (string)Eval("City"), (string)Eval("State"), (string)Eval("Zip")) %>' />
+			</td>
 			<td><%# DataBinder.Eval(Container.DataItem, "Description") %></td>
 			<td><%# DataBinder.Eval(Container.DataItem, "Amount", "{0:C}")%></td>
 			<td><%# DataBinder.Eval(Container.DataItem, "DatePaid", "{0:MM/dd/yyyy}")%></td>

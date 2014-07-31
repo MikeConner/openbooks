@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
+using System.Text;
 using OpenBookPgh;
 
 public partial class Expenditures : System.Web.UI.Page
@@ -341,4 +342,37 @@ public partial class Expenditures : System.Web.UI.Page
 		// Reload Search
 		GetSearchResults();
 	}
+
+    /* Format Addresses */
+    protected string prettyPrintAddress(string address, string city, string state, string zip) {
+        StringBuilder sb = new StringBuilder();
+        if (!string.IsNullOrEmpty(address))
+        {
+            sb.Append(address);
+        }
+
+        string[] elements = { city, state };
+
+        foreach (string element in elements) {
+            if (!string.IsNullOrEmpty(element))
+            {
+                if (sb.Length > 0)
+                {
+                    sb.Append(", ");
+                }
+                sb.Append(element);
+            }
+        }
+
+        if (!string.IsNullOrEmpty(zip))
+        {
+            if (sb.Length > 0)
+            {
+                sb.Append(" ");
+            }
+            sb.Append(zip);
+        }
+
+        return sb.ToString();
+    }
 }
