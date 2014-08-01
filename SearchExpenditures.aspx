@@ -112,27 +112,28 @@
 </ItemTemplate>
 </asp:Repeater>
 
-        <asp:ImageButton ID="ibtnFirstPageTop" runat="server" OnClick="FirstPage_Click" ImageUrl="~/img/firstbtn.gif" />
-        <asp:ImageButton ID="ibtnPrevPageTop" runat="server" OnClick="PrevPage_Click" ImageUrl="~/img/previousbtn.gif" />
-        <asp:ImageButton ID="ibtnNextPageTop" runat="server" OnClick="NextPage_Click" ImageUrl="~/img/nextbtn.gif" />
-        <asp:ImageButton ID="ibtnLastPageTop" runat="server" OnClick="LastPage_Click" ImageUrl="~/img/lastbtn.gif" />
 
 </div>
 <div class="large-12 columns pagination-controls">
-<div class="prev">
-<a href="./SearchExpenditures.aspx#">Previous</a>
-</div>
-<div class="next">
-<a href="./SearchExpenditures.aspx#">Next</a>
-</div>
-</div>
-</div>
-</div>
-</div>
+    <div class ="large-3 columns prev button">
+        <asp:Button ID="ibtnFirstPageTop" runat="server" OnClick="FirstPage_Click" Text="First" class="button prev" />
 
+    </div>
+    <div class ="large-3 columns prev button">
+        <asp:Button ID="ibtnPrevPageTop" runat="server" OnClick="PrevPage_Click"  Text="Previous" class="button prev" />
+
+    </div>
+        <div class ="large-3 columns prev button">
+        <asp:Button ID="ibtnNextPageTop" runat="server" OnClick="NextPage_Click"  Text="Next" class="button prev"/>
+
+    </div>
+        <div class ="large-3 columns prev button">
+        <asp:Button ID="ibtnLastPageTop" runat="server" OnClick="LastPage_Click"  Text="Last" class="button prev" />
+
+    </div>
 </div>
-
-
-
+</div>
+</div>
+</div>
 </asp:Content>
 
