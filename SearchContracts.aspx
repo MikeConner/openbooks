@@ -161,23 +161,24 @@ Inherits="SearchContractsPage" %>
 
     	    <div class="bottomnav">
 		      <div class="bottomnavbtns">
-		        <asp:ImageButton ID="ibtnFirstPageTop" runat="server" OnClick="FirstPage_Click" />
-			    <asp:ImageButton ID="ibtnPrevPageTop" runat="server" OnClick="PrevPage_Click" />
-			    <asp:ImageButton ID="ibtnNextPageTop" runat="server" OnClick="NextPage_Click" />
-			    <asp:ImageButton ID="ibtnLastPageTop" runat="server" OnClick="LastPage_Click" />
+                <div class="large-12 columns pagination-controls">
+                  <div class ="large-3 columns prev button">
+                    <asp:Button ID="ibtnFirstPageTop" runat="server" OnClick="FirstPage_Click" Text="First" class="button prev" />
+                  </div>
+                  <div class ="large-3 columns prev button">
+                    <asp:Button ID="ibtnPrevPageTop" runat="server" OnClick="PrevPage_Click"  Text="Previous" class="button prev" />
+                  </div>
+                  <div class ="large-3 columns prev button">
+                    <asp:Button ID="ibtnNextPageTop" runat="server" OnClick="NextPage_Click"  Text="Next" class="button prev"/>
+                  </div>
+                  <div class ="large-3 columns prev button">
+                    <asp:Button ID="ibtnLastPageTop" runat="server" OnClick="LastPage_Click"  Text="Last" class="button prev" />
+                  </div>
+                </div>		      
 		      </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      <div class="large-12 columns pagination-controls">
-        <div class="prev">
-          <a href="#">Previous</a>
-        </div>
-        <div class="next">
-          <a href="#">Next</a>
-        </div>
+		</div>
       </div>
     </div>
   </div>
