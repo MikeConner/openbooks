@@ -2,13 +2,18 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 	<div class="contractdetails">
+	<div class="gridboxhead">
+		<div class="gridboxleft"><h2>Vendor Details</h2></div>
+		<div class="gridboxright"></div>
+	</div>
+
 <asp:Repeater ID="rptCompanyInfo" runat="server">
 	<HeaderTemplate>
 		<div class="companyinfo">	
 	</HeaderTemplate>
 	<ItemTemplate>
-		<h3><%# DataBinder.Eval(Container.DataItem, "VendorName") %></h3>
-		<table cellpadding="0" cellspacing="0">
+		<h3>Vendor Name: <%# DataBinder.Eval(Container.DataItem, "VendorName") %></h3>
+		<table cellpadding="0" cellspacing="0" >
 			<tr>
 				<td><%# DataBinder.Eval(Container.DataItem, "Address1") %></td>
 			</tr>		
