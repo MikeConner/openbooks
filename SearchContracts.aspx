@@ -168,11 +168,7 @@ Inherits="SearchContractsPage" %>
 	          </asp:Repeater>
 
 
-          <div class="item">
-            <div class="results">
-		      <div class="resultsleft"></div>
-		      <div class="resultsright"></div>
-	        </div>
+
 
 
 
@@ -195,6 +191,9 @@ Inherits="SearchContractsPage" %>
 
 
 -->
+
+
+          </div>
     	    <div class="bottomnav">
 		      <div class="bottomnavbtns">
                 <div class="large-12 columns pagination-controls">
@@ -213,7 +212,6 @@ Inherits="SearchContractsPage" %>
                 </div>		      
 		      </div>
             </div>
-          </div>
 		</div>
       </div>
     </div>
