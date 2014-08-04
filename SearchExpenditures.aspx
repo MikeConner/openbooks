@@ -41,8 +41,8 @@
 <h2>Company or Individual</h2>
 
     <asp:RadioButtonList ID="rblVendorSearchOptions" runat="server" RepeatDirection="Horizontal" hidden>
-					<asp:ListItem Text="Begins with" Value="B" Selected="True" />
-					<asp:ListItem Text="Contains" Value="C" />
+					<asp:ListItem Text="Begins with" Value="B" />
+					<asp:ListItem Text="Contains" Value="C" Selected="True" />
 					<asp:ListItem Text="Exact" Value="E" />
 				</asp:RadioButtonList>
 				<asp:TextBox ID="txtVendor" runat="server" placeholder="Name of vendor..." />
