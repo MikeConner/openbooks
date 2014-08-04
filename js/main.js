@@ -16,10 +16,12 @@
     var range = $('.input-range'),
         value = $('.range-value');
 
-    // Set range max (server sets a hidden field; copy it to the control). Cannot do on the server without breaking client JS.
-    $('#dblMaxContract').attr('max', $('#ctl00_ContentPlaceHolder1_MaxContractField').val());
-
     value.html(range.attr('value'));
+    // Set range max (server sets a hidden field; copy it to the control). Cannot do on the server without breaking client JS.
+    var contractMax = $('#ctl00_ContentPlaceHolder1_MaxContractField').val();
+
+    $('#dblMaxContract').attr('max', contractMax);
+    $('span#maxContract').html(contractMax);
 
     range.on('change', function () {
         // ctl00_ContentPlaceHolder1_
