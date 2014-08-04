@@ -1,19 +1,14 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/_Masters/MasterPage.master" AutoEventWireup="true" CodeFile="ReportFraud.aspx.cs" Inherits="ReportFraud" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-<div id="mainpagebox">
-<div class="infoleftnav">
-<ul>
-<li><asp:HyperLink NavigateUrl="~/About.aspx" runat="server" ID="HyperLink1">About</asp:HyperLink></li>
-<li><asp:HyperLink NavigateUrl="~/SearchTips.aspx" runat="server" ID="HyperLink2">Search Tips</asp:HyperLink></li>
-<li><asp:HyperLink NavigateUrl="~/ReportFraud.aspx" runat="server" ID="HyperLink10">Report Fraud</asp:HyperLink></li>
-<li><asp:HyperLink NavigateUrl="~/Contact.aspx" runat="server" ID="HyperLink4">Contact</asp:HyperLink></li>
-</ul>
 
-</div>
+    
+<div class="contact">
+<div class="row">
+<div class="large-12 columns">
 
-<div class="inforightcontent">
-<h3>Report Fraud or Waste</h3>
+
+    <h3>Report Fraud or Waste</h3>
 <p>Report waste, fraud, mismanagement of your city tax dollars. Use the below form to report allegations of: </p>
 	<ul>
 		<li>Inefficiency</li>
@@ -24,44 +19,78 @@
 	</ul>
 <p>Complete the form below with as much information as possible. Be assured that your information will be held in the strictest of confidence. When you complete the form, click submit to send the information. If you have problems completing the form, or wish to speak with someone in person, please call at 412-255-4777.</p>
 <p>This hotline works for you!</p><br />
-<table id="contact" cellspacing="0">
-<tr>
-<td>First Name:<br />
-<asp:TextBox ID="FNameTB" runat="server" />
-</td>
-</tr>
-<tr>
-<td>Last Name:<br />
+     
+
+
+
+
+     
+<hr>
+</div>
+</div>
+<div class="row">
+<div class="large-4 columns">
+<label>
+First Name
+   <asp:TextBox ID="FNameTB" runat="server" />
+<asp:RequiredFieldValidator ID="rfvFName" runat="server" ControlToValidate="FNameTB" ErrorMessage="First Name is required" Display="Dynamic" />
+</label>
+</div>
+<div class="large-4 columns">
+<label>
+Last Name
 <asp:TextBox ID="LNameTB" runat="server" />
-</td>
-</tr>
-<tr>
-<td>Email:<br />
-<asp:TextBox ID="EmailTB" runat="server" />
+<asp:RequiredFieldValidator ID="rfvLName" runat="server" ControlToValidate="LNameTB" ErrorMessage="Last Name is required" Display="Dynamic" />
+</label>
+</div>
+<div class="large-4 columns">
+<div class="row collapse">
+<label>Email Address</label>
+<div class="small-12 columns">
+   <asp:TextBox ID="EmailTB" runat="server" />
 <asp:RegularExpressionValidator ID="revEmail" runat="server" ValidationExpression=".*@.*\..*"
  ControlToValidate="EmailTB" ErrorMessage="Not a valid Email Address" Display="Dynamic" />
-</td>
-</tr>
-<tr>
-<td>Location of Fraud, Waste or Abuse:<br />
+ 
+</div>
+
+</div>
+
+
+</div>
+
+
+
+<div class ="large-12 columns">
+
+    
+         <label>
+Location of Fraud, Waste or Abuse:
+     
+ </label>
 <asp:TextBox ID="LocationF" runat="server" />
 <asp:RequiredFieldValidator ID="revLocationF" runat="server" ControlToValidate="LocationF" ErrorMessage="Location is required" Display="Dynamic" />
-</td>
-</tr>
-<tr>
-<td>Description of Fraudulent Act:<br />
-<asp:TextBox ID="CommentsTB" runat="server" TextMode="MultiLine" Width="300px" Height="100px"/>
+</div>
+
+
+<div class="large-12 columns">
+<label>
+Description of Fraudulent Act:
+</label>
+
+    <asp:TextBox ID="CommentsTB" runat="server" TextMode="MultiLine" />
 <asp:RequiredFieldValidator ID="rfvComments" runat="server" ControlToValidate="CommentsTB" ErrorMessage="Description is required" Display="Dynamic" />
-</td>
-</tr>                                                                                                                                         
-</table>
-<table><tr><td>Please Enter the Code Below:</td></tr></table>
-<div><asp:CustomValidator ID="validator" runat="server" ControlToValidate="txtVerify" ErrorMessage="You have Entered a Wrong Verification Code! Please Re-Enter and Try Again!" OnServerValidate="CAPTCHAValidate"></asp:CustomValidator> <br />     
+ 
+
+    Please Enter the Code Below:
+   <asp:CustomValidator ID="validator" runat="server" ControlToValidate="txtVerify" ErrorMessage="You have Entered a Wrong Verification Code! Please Re-Enter and Try Again!" OnServerValidate="CAPTCHAValidate"></asp:CustomValidator> <br />     
    <asp:Image ID="imCaptcha" ImageUrl="Captcha.ashx" runat="server" /><br />
    <asp:TextBox ID="txtVerify" runat="server"></asp:TextBox><br /><br />     
-   <asp:ImageButton ID="btnSubmit" runat="server" AlternateText="Submit" onclick="SendMail"  ImageUrl="~/img/submitbtn.gif" CssClass="contactbtn"/>
-</div>
-<asp:PlaceHolder ID="formPH" runat="server" Visible="true">
+   
+   <asp:Button ID="btnSubmit" runat="server" AlternateText="Submit" Text="Submit" onclick="SendMail"    CssClass="button submit"/>
+
+ 
+
+    <asp:PlaceHolder ID="formPH" runat="server" Visible="true">
 </asp:PlaceHolder>
 <asp:PlaceHolder ID="sucessPH" runat="server" Visible="false">
 <p>Thank you for contacting Open Book Pittsburgh.</p>
@@ -82,5 +111,14 @@ Pittsburgh, PA 15219<br /><br />
 </p>
 </div>
 </div>
+
+
+
+
+
+
+
+
+ 
 </asp:Content>
 

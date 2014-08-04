@@ -3,15 +3,11 @@ Inherits="_SearchTips" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 
-<div id="mainpagebox">
-<div class="infoleftnav">
-<ul>
-<li><asp:HyperLink NavigateUrl="~/About.aspx" runat="server" ID="HyperLink1">About</asp:HyperLink></li>
-<li><asp:HyperLink NavigateUrl="~/SearchTips.aspx" runat="server" ID="HyperLink2">Search Tips</asp:HyperLink></li>
-<li><asp:HyperLink NavigateUrl="~/ReportFraud.aspx" runat="server" ID="HyperLink10">Report Fraud</asp:HyperLink></li>
-<li><asp:HyperLink NavigateUrl="~/Contact.aspx" runat="server" ID="HyperLink4">Contact</asp:HyperLink></li>
-</ul>
-</div>
+ 
+<div class="contact">
+<div class="row">
+<div class="large-12 columns">
+
 
 <div class="inforightcontent">
 <h3>Open Book Search Tip's</h3>
@@ -42,5 +38,6 @@ Inherits="_SearchTips" %>
 </div>
 
 </div>
+    </div>
 
 </asp:Content>

@@ -15,7 +15,6 @@ Inherits="_Contact" %>
 <hr>
 </div>
 </div>
-<form>
 <div class="row">
 <div class="large-4 columns">
 <label>
@@ -60,18 +59,11 @@ Comments
  
 </div>
 </div>
-</form>
-</div>
 
-</div>
-
-     
-</div>
 <asp:PlaceHolder ID="formPH" runat="server" Visible="true">
 </asp:PlaceHolder>
 <asp:PlaceHolder ID="sucessPH" runat="server" Visible="false">
 <p>Thank you for contacting Open Book Pittsburgh.</p>
 </asp:PlaceHolder>
-</div>
-</div>
+
 </asp:Content>
