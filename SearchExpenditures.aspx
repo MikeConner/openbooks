@@ -1,10 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/_Masters/MasterPage.master" AutoEventWireup="true" CodeFile="SearchExpenditures.aspx.cs" Inherits="SearchExpendituresPage" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-     
-
-
-    
+         
 <div class="search-page">
 <div class="row controls">
 <div class="medium-4 large-6 columns campaign-nav">
@@ -37,16 +34,8 @@
 <div class="search-field">
 <h2>Candidate</h2>
 <asp:DropDownList ID="ddlCandidateName" runat="server" 
-					DataSourceID="CandidateDataSource" 
-					DataTextField="CandidateName" 
-					DataValueField="ID" 
 					AppendDataBoundItems="true">
-					<asp:ListItem Text="All" Value="0" />
 				</asp:DropDownList>
-   				<asp:SqlDataSource ID="CandidateDataSource" runat="server" 
-					ConnectionString="<%$ ConnectionStrings:CityControllerConnectionString %>" 
-					SelectCommand="SELECT [ID], [CandidateName] FROM [tlk_candidate] ORDER BY CandidateName ASC">
-				</asp:SqlDataSource>
 </div>
 <div class="search-field">
 <h2>Company or Individual</h2>

@@ -16,8 +16,6 @@ Inherits="SearchLobbyistsPage" %>
 </div>
 <div class="medium-8 large-6 columns">
 <div class="pagination right">
- 
-
 
     <asp:Label ID="lblPageSize" runat="server" Text="View:" />
 			<asp:DropDownList ID="ddlPageSize" runat="server"   class=" dropdown"
@@ -28,8 +26,7 @@ Inherits="SearchLobbyistsPage" %>
 					<asp:ListItem Text="50 per page" Value="50"  />
 					<asp:ListItem Text="100 per page" Value="100" />
 			</asp:DropDownList>
-
-
+    
 <span><asp:Label ID="lblCurrentPage" runat="server" /></span>
 </div>
 </div>
@@ -42,6 +39,7 @@ Inherits="SearchLobbyistsPage" %>
 <asp:TextBox ID="txtLobbyist" runat="server" MaxLength="100" />
 </div>
 <div class="search-field">
+<h2>OR</h2>
 <h2>Employer</h2>
     <asp:TextBox ID="txtEmployer" runat="server" MaxLength="100" />
  

@@ -12,7 +12,9 @@ using OpenBookPgh;
 
 
 public partial class Search_Lobbyists : System.Web.UI.Page
+    
 {
+    SearchParamsLobbyists sp;
 	protected void Page_Load(object sender, EventArgs e)
 	{
 		if (!IsPostBack)
@@ -24,7 +26,7 @@ public partial class Search_Lobbyists : System.Web.UI.Page
 	public void GetSearchResults()
 	{
 		// Get SearchParams Class from query string
-		SearchParamsLobbyists sp = SearchLobbyists.GetQueryStringValues(HttpContext.Current.Request);
+		sp = SearchLobbyists.GetQueryStringValues(HttpContext.Current.Request);
 		
 		// Update Pager Results
 		GetResultsCount(sp);

@@ -18,6 +18,23 @@ public partial class _SearchContributionsPageClass: System.Web.UI.Page
             // Search
             GetSearchResults();
         }
+        else
+        {
+            GetSearchResults();
+              
+        }
+        //else
+        //{
+             
+        //    //sticky criteria
+        //    SearchParamsContribution sp = SearchContributions.GetQueryStringValues(HttpContext.Current.Request);
+        //    ListItem li = ddlCandidateName.Items.FindByValue(sp.candidateID.ToString());
+
+        //    if (li != null)
+        //    {
+        //        li.Selected = true;
+        //    }
+        //}
     }
 	protected void Button1_Click(object sender, EventArgs e)
 	{
@@ -43,7 +60,9 @@ public partial class _SearchContributionsPageClass: System.Web.UI.Page
 {
     // Get SearchParams Class from query string
     SearchParamsContribution sp = SearchContributions.GetQueryStringValues(HttpContext.Current.Request);
-
+    if (sp.office != null){
+    ddlOffice.Items.FindByValue(sp.office).Selected = true;
+    }
     //Determine the Results Per Page from user
     SetPageSize();
 
@@ -56,6 +75,9 @@ public partial class _SearchContributionsPageClass: System.Web.UI.Page
     // Load repeater with data
     rptContributions.DataSource = dt;
     rptContributions.DataBind();
+
+
+
 }
 public void SetPageSize()
 {

@@ -155,16 +155,15 @@
 <span class="description">Description</span>
 <span><%# DataBinder.Eval(Container.DataItem, "Description") %></span>
 </li>
-<li>
-<span class="key">pnlDistance</span>
-<span class="value"><%# DataBinder.Eval(Container.DataItem, "distance") != DBNull.Value %></span>
-</li>
-<li>
-<span class="key">lblDistance</span>
-<span class="value"><%# DataBinder.Eval(Container.DataItem, "distance") %> miles</span>
-</li>
-
 </ul>
+<ul>
+<li>
+	<asp:panel id="pnlDistance" runat="server" visible='<%# DataBinder.Eval(Container.DataItem, "distance") != DBNull.Value %>'>
+		<span class="key">Distance</span> <asp:label id="lblDistance" runat="server" text='<%# DataBinder.Eval(Container.DataItem, "distance") %>' /> miles
+	</asp:panel>
+</li>
+</ul>
+
 </div>
 </div>
 </ItemTemplate>

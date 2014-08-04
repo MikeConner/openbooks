@@ -5,10 +5,12 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using OpenBookPgh;
 using System.Data;
-
+using System.Data.SqlClient;
 
 public partial class SearchExpendituresPage : System.Web.UI.Page
 {
+    public SearchParamsExpenditures sp;
+
 	protected void Button1_Click(object sender, EventArgs e)
 	{
 		int candidateID = Convert.ToInt32(ddlCandidateName.SelectedValue);
@@ -29,13 +31,47 @@ public partial class SearchExpendituresPage : System.Web.UI.Page
             //DAS clearImages();
             // Search
             GetSearchResults();
+            LoadCandidates();
+            txtVendor.Text = sp.vendorKeywords;
+            txtKeywords.Text = sp.keywords;            
         }
+    }
+    private void LoadCandidates()
+    {
+        DataTable candidates = new DataTable();
+
+        using (SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
+        {
+            try
+            {
+                SqlDataAdapter adapter = new SqlDataAdapter("SELECT [ID], [CandidateName] FROM [tlk_candidate] ORDER BY CandidateName ASC", con);
+                adapter.Fill(candidates);
+
+                ddlCandidateName.DataSource = candidates;
+                ddlCandidateName.DataTextField = "CandidateName";
+                ddlCandidateName.DataValueField = "ID";
+                ddlCandidateName.DataBind();
+            }
+            catch (Exception ex)
+            {
+                // Handle the error
+            }
+        }
+
+        // Add the initial item - you can add this even if the options from the
+        // db were not successfully loaded
+        ddlCandidateName.Items.Insert(0, new ListItem("All", "0"));
+
+    }
+    protected void Page_LoadComplete(object sender, EventArgs e)
+    {
+        ddlCandidateName.Items.FindByValue(sp.candidateID.ToString()).Selected = true;
     }
 
     public void GetSearchResults()
     {
         // Get SearchParams Class from query string
-        SearchParamsExpenditures sp = SearchExpenditures.GetQueryStringValues(HttpContext.Current.Request);
+        sp = SearchExpenditures.GetQueryStringValues(HttpContext.Current.Request);
 
         //Determine the Results Per Page from user
         SetPageSize();

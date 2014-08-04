@@ -15,6 +15,7 @@ using System.Configuration;
 
 public partial class SearchLobbyistsPage : System.Web.UI.Page
 {
+    public SearchParamsLobbyists sp;
     protected void btnSearch_Click(object sender, EventArgs e)
     {
         // Keywords
@@ -39,13 +40,15 @@ public partial class SearchLobbyistsPage : System.Web.UI.Page
         if (!IsPostBack)
         {
             GetSearchResults();
+            txtLobbyist.Text = sp.lobbyistKeywords;
+            txtEmployer.Text = sp.companyKeywords;
         }
     }
     // Page Load
     public void GetSearchResults()
     {
         // Get SearchParams Class from query string
-        SearchParamsLobbyists sp = SearchLobbyists.GetQueryStringValues(HttpContext.Current.Request);
+         sp = SearchLobbyists.GetQueryStringValues(HttpContext.Current.Request);
 
         // Update Pager Results
         GetResultsCount(sp);
