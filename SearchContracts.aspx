@@ -62,7 +62,7 @@ Inherits="SearchContractsPage" %>
 
         <div class="search-field">
           <h2>Vendor Name</h2>
-          <asp:RadioButtonList ID="rbVendor" runat="server" RepeatDirection="Vertical">
+          <asp:RadioButtonList ID="rbVendor" runat="server" RepeatDirection="Vertical" hidden>
 					<asp:ListItem Text="Begins with" Value="B" />
 					<asp:ListItem Text="Contains" Value="C" Selected="True" />
 					<asp:ListItem Text="Exact" Value="E" />
@@ -95,13 +95,13 @@ Inherits="SearchContractsPage" %>
           <div class="range-slider">
             <label>Minimum Amount</label>
             <input class="input-range" max="10000" min="1" type="range" value="250" id="dblMinContract" name="dblMinContract">
-            <span id="minContract" class="range-value">250</span>
+            <span id="minContract" class="range-value">1</span>
           </div>
           <div class="range-slider">
             <asp:HiddenField ID="MaxContractField" runat="server" />
             <label>Maximum Amount</label>
-            <input class="input-range" max="10000" min="1" type="range" value="250" id="dblMaxContract" name="dblMaxContract">
-            <span id="maxContract" class="range-value">250</span>
+            <input class="input-range" max="36000000" min="1" type="range" value="36000000" id="dblMaxContract" name="dblMaxContract">
+            <span id="maxContract" class="range-value">36000000</span>
           </div>
         </div>
 
@@ -117,7 +117,7 @@ Inherits="SearchContractsPage" %>
           <asp:Repeater ID="rptContracts" runat="server" OnItemCommand="rptContracts_ItemCommand">
 	            <ItemTemplate>
                     <div class="item">
-                        <h2><a href="VendorDetail.aspx?ID=<%# Eval("VendorNo") %>"><%# Eval("VendorName") %>     
+                        <h2><a href="VendorDetail.aspx?ID=<%# Eval("VendorNo") %>"><%# Eval("VendorName") %>  </a>   
                         <div class="price-group">
                         <span class="original">Contract Amount: <%# Eval("Amount", "{0:C}")%></span>
                         <span class="current"><%# Eval("OriginalAmount", "{0:C}")%> Original</span>
