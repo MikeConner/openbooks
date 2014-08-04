@@ -112,11 +112,72 @@ Inherits="SearchContractsPage" %>
 
       <div class="medium-8 large-9 columns">
         <div class="items-container">
+
+
+          <asp:Repeater ID="rptContracts" runat="server" OnItemCommand="rptContracts_ItemCommand">
+	            <ItemTemplate>
+                    <div class="item">
+                        <h2><a href="VendorDetail.aspx?ID=<%# Eval("VendorNo") %>"><%# Eval("VendorName") %>     
+                        <div class="price-group">
+                        <span class="original">Contract Amount: <%# Eval("Amount", "{0:C}")%></span>
+                        <span class="current"><%# Eval("OriginalAmount", "{0:C}")%> Original</span>
+
+                    </div>
+                    <div class="label-group">
+                      <div class="label-item">
+                          <div class="type">Type</div>
+                          <div class="title"><%# Eval("ServiceName") %></div>
+                      </div>
+                    <div class="label-item">
+                        <div class="type">Agency Name</div>
+                         <div class="title"><%# Eval("DepartmentName") %></div>
+                    </div>
+                    </div>
+                    <div class="agenda">
+                    <span class="title">Contract 
+                        				     <i><b> <a href="ContractDetail.aspx?ID=<%# Eval("ContractID") %>&sup=<%# Eval("SupplementalNo") %>">
+					    <%# Eval("SupplementalNo").ToString() == "0" ? Eval("ContractID") : Eval("ContractID") + "." + Eval("SupplementalNo")%>
+				      </a></b></i>
+                        Agenda:</span>
+                    <span><%# Eval("DateCountersigned", "{0:MM/dd/yyyy}")%> —<%# Eval("DateDuration", "{0:MM/dd/yyyy}")%></span>
+                    </div>
+                    <div class="description">
+                    <p><%# Eval("Description") %></p>
+                    </div>
+                                                    <span class="current">
+                               <asp:Panel ID="pnlContractPDF" runat="server" Visible='<%# Eval("HasPDF").ToString() == "True" %>'>
+					            <asp:ImageButton ID="ibtnContractPDF" runat="server" 
+						        ImageUrl="~/img/pdficon.gif"
+						        CommandName="ViewPDF" 
+						        CommandArgument='<%# Eval("ContractID") %>' />
+				              </asp:Panel>
+                            </span>
+ 
+</div>
+
+
+
+
+
+                     
+
+
+
+
+	            </ItemTemplate>
+	          </asp:Repeater>
+
+
           <div class="item">
             <div class="results">
 		      <div class="resultsleft"></div>
 		      <div class="resultsright"></div>
 	        </div>
+
+
+
+
+<!--
             <table class="ob-gridview" cellpadding="0" cellspacing="0">
 		      <tr>
 			    <th><asp:LinkButton ID="LinkButton1" Text="Vendor&nbsp;Name" OnClick="sortVendor" runat="server" /><asp:Image ID="imgSortVendor" runat="server" /></th>
@@ -130,35 +191,10 @@ Inherits="SearchContractsPage" %>
 			    <th><asp:LinkButton ID="LinkButton8" Text="Contract End Date" OnClick="sortEndDate" runat="server" /><asp:Image ID="imgSortEndDate" runat="server" /></th>
 			    <th></th>
 		      </tr>
-	          <asp:Repeater ID="rptContracts" runat="server" OnItemCommand="rptContracts_ItemCommand">
-	            <ItemTemplate>
-		          <tr class='<%# Container.ItemIndex % 2 == 0 ? "" : "even" %>' valign="top">
-			        <td class="vendor"><a href="VendorDetail.aspx?ID=<%# Eval("VendorNo") %>"><%# Eval("VendorName") %></a></td>
-			        <td class="agency"><%# Eval("DepartmentName") %></td>
-			        <td class="contract">
-				      <a href="ContractDetail.aspx?ID=<%# Eval("ContractID") %>&sup=<%# Eval("SupplementalNo") %>">
-					    <%# Eval("SupplementalNo").ToString() == "0" ? Eval("ContractID") : Eval("ContractID") + "." + Eval("SupplementalNo")%>
-				      </a>
-			        </td>
-			        <td class="amount"><%# Eval("Amount", "{0:C}")%></td>
-			        <td class="oamount"><%# Eval("OriginalAmount", "{0:C}")%></td>
-			        <td class="description"><%# Eval("Description") %></td>
-		            <td class="contracttype"><%# Eval("ServiceName") %></td>
-			        <td class="approvaldate"><%# Eval("DateCountersigned", "{0:MM/dd/yyyy}")%></td>
-			        <td class="date"><%# Eval("DateDuration", "{0:MM/dd/yyyy}")%></td>
-			        <td valign="middle" style="padding-right: 5px;">
-				      <asp:Panel ID="pnlContractPDF" runat="server" Visible='<%# Eval("HasPDF").ToString() == "True" %>'>
-					    <asp:ImageButton ID="ibtnContractPDF" runat="server" 
-						ImageUrl="~/img/pdficon.gif"
-						CommandName="ViewPDF" 
-						CommandArgument='<%# Eval("ContractID") %>' />
-				      </asp:Panel>
-			        </td>
-		          </tr>
-	            </ItemTemplate>
-	          </asp:Repeater>
-            </table>
+	
 
+
+-->
     	    <div class="bottomnav">
 		      <div class="bottomnavbtns">
                 <div class="large-12 columns pagination-controls">

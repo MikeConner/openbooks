@@ -42,7 +42,7 @@ namespace OpenBookPgh
         public static string GenerateRangeQueryString(int vendorID, int contractID, string vendorKeywords, string vendorSearchOptions, int cityDept, int contractType, string keywords,
                                                       string startDate, string endDate, int minAmount, int maxAmount)
         {
-            string queryString = "~/Contracts.aspx?";
+            string queryString = "~/SearchContracts.aspx?";
 
             // Vendor/ContractID Only Search in Admin
             if (vendorID != 0 || contractID != 0)
