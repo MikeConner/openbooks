@@ -3,7 +3,6 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 
     
-<div id="mainpagebox">
 
 
 <div class="about">
@@ -80,7 +79,7 @@
 </div>
 </div>
 </div>	
-        </div>
+        </div></div>
 			
 	</FooterTemplate>
 </asp:Repeater>

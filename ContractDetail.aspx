@@ -1,7 +1,13 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/_Masters/MasterPage.master" AutoEventWireup="true" CodeFile="ContractDetail.aspx.cs" Inherits="ContractDetail" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-<div class="mainwrap">
+
+
+    
+<div class="about">
+<div class="row">
+<div class="large-12 columns">
+<div class="panel">
 	<div class="gridboxhead">
 		<div class="gridboxleft"><h2>Contract Details</h2></div>
 		<div class="gridboxright"></div>
@@ -60,10 +66,11 @@
 				<td><%# DataBinder.Eval(Container.DataItem, "ServiceName") %></td>
 			</tr>
 			<tr>
-				<td>
+				<td >
 				<asp:Panel ID="pnlContractPDF" runat="server" Visible='<%# Eval("HasPDF").ToString() == "True" %>'>
-					<asp:ImageButton ID="ibtnContractPDF" runat="server" 
-						ImageUrl="~/img/viewcontract-btn.gif"
+					<asp:Button ID="ibtnContractPDF" runat="server" 
+						class = "button submit"
+                        text ="View Contract"
 						CommandName="ViewPDF" 
 						CommandArgument='<%# Eval("ContractID") %>' />
 				</asp:Panel>
@@ -80,6 +87,6 @@
 <br />
 
 </div>
-
+    </div>
 </asp:Content>
 
