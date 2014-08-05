@@ -1,9 +1,17 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/_Masters/MasterPage.master" AutoEventWireup="true" CodeFile="VendorDetail.aspx.cs" Inherits="VendorDetail" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-	<div class="contractdetails">
+
+    
+<div id="mainpagebox">
+
+
+<div class="about">
+<div class="row">
+<div class="large-12 columns">
+<div class="panel">
 	<div class="gridboxhead">
-		<div class="gridboxleft"><h2>Vendor Details</h2></div>
+		<div class="gridboxleft "><h1>Vendor Details</h1></div>
 		<div class="gridboxright"></div>
 	</div>
 
@@ -12,24 +20,19 @@
 		<div class="companyinfo">	
 	</HeaderTemplate>
 	<ItemTemplate>
-		<h3>Vendor Name: <%# DataBinder.Eval(Container.DataItem, "VendorName") %></h3>
-		<table cellpadding="0" cellspacing="0" >
-			<tr>
-				<td><%# DataBinder.Eval(Container.DataItem, "Address1") %></td>
-			</tr>		
-			<tr>
-				<td><%# DataBinder.Eval(Container.DataItem, "Address2") %></td>
-			</tr>	
-			<tr>
-				<td><%# DataBinder.Eval(Container.DataItem, "Address3") %></td>
-			</tr>
-			<tr>
-				<td><%# DataBinder.Eval(Container.DataItem, "City") %>, 
+		<h3><%# DataBinder.Eval(Container.DataItem, "VendorName") %></h3>
+        
+        <div class ="large-12 column">
+            <span>
+                <h6><%# DataBinder.Eval(Container.DataItem, "Address1") %>
+                <%# DataBinder.Eval(Container.DataItem, "Address2") %>            
+                <%# DataBinder.Eval(Container.DataItem, "Address3") %>
+                <%# DataBinder.Eval(Container.DataItem, "City") %>, 
 					<%# DataBinder.Eval(Container.DataItem, "State") %> 
-					<%# DataBinder.Eval(Container.DataItem, "Zip") %>
-				</td>
-			</tr>			
-		</table>
+			    <%# DataBinder.Eval(Container.DataItem, "Zip") %></h6>
+                    </span>
+        </div>
+		<hr />
 	</ItemTemplate>
 	<FooterTemplate>
 	</FooterTemplate>
@@ -77,6 +80,7 @@
 </div>
 </div>
 </div>	
+        </div>
 			
 	</FooterTemplate>
 </asp:Repeater>
