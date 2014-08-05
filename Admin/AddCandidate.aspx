@@ -1,14 +1,17 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/_Masters/AdminMasterPage.master" AutoEventWireup="true" CodeFile="AddCandidate.aspx.cs" Inherits="Admin_AddCandidate" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-<div class="mainwrap">
+    
+<div class="about">
+<div class="row">
+<div class="large-12 columns">
 <div class="contractdetails">
 <h2>Add a Candidate</h2>
 
 	<table class="companydetails" cellpadding="0" cellspacing="0">
 		<tr>
-			<td><label>Vendor Name </label></td>
-			<td><asp:TextBox ID="txtCandidateName" runat="server" Width="200" />
+			<td><label>Candidate Name </label></td>
+			<td><asp:TextBox ID="txtCandidateName" runat="server"  />
 			
 				<asp:RequiredFieldValidator id="CandidateNameValidator" runat="server" 
 					ControlToValidate="txtCandidateName" 
@@ -19,10 +22,11 @@
 		</tr>
 	</table>
 	<br />
-	<asp:ImageButton ID="Button1" runat="server" OnClick="Button1_Click" ImageUrl="~/img/addbtn.gif" />
+	<asp:Button ID="Button1" runat="server" OnClick="Button1_Click" text="Add Candidate"  CssClass =" submit button"/>
 
 	<asp:Label ID="lblMessage" runat="server" />
 </div>
 </div>
+    </div></div>
 </asp:Content>
 

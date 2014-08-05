@@ -1,8 +1,9 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/_Masters/AdminMasterPage.master" AutoEventWireup="true" CodeFile="Users.aspx.cs" Inherits="Admin_Users" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-
-<div class="mainwrap">
+    <div class="about">
+<div class="row">
+<div class="large-12 columns">
 <div class="gridboxhead">
 <div class="gridboxleft">
 <h2>Admin :: Users</h2>
@@ -33,6 +34,7 @@
 				<asp:LinkButton ID="LinkButton1" runat="server" 
 					CommandArgument='<%# DataBinder.Eval(Container.DataItem, "UserID") %>' 
 					CommandName="delete" 
+                    CssClass =" tiny button"
 					OnClientClick="javascript:if(!confirm('Delete this item?'))return false;" 
 					Text="delete" /> 
 			</td>
@@ -46,6 +48,7 @@
 			<td><asp:LinkButton ID="lb1" runat="server" 
 					CommandArgument='<%# DataBinder.Eval(Container.DataItem, "UserID") %>' 
 					CommandName="reset" 
+                CssClass ="tiny button"
 					Text="reset password" />
 			</td>
 		</tr>
@@ -55,7 +58,7 @@
 
 </asp:Panel>
 
-</div>
+</div></div></div>
 
 
 </asp:Content>

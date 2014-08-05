@@ -1,8 +1,9 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/_Masters/AdminMasterPage.master" AutoEventWireup="true" CodeFile="AddUser.aspx.cs" Inherits="Admin_AddUser" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-<div class="mainwrap">
-<div class="contractdetails">
+<div class="about">
+<div class="row">
+<div class="large-12 columns">
 <h2>Add New User</h2>
 <table cellpadding="0" cellspacing="0">
 	<tr>
@@ -52,6 +53,6 @@
 
 		<asp:Label ID="lblMessage" runat="server" />
 		</div>
-</div>
+</div></div>
 </asp:Content>
 

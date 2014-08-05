@@ -7,7 +7,7 @@
 <p>To get started click on one of the above links.</p>
 <br />
 <br />
-<asp:ImageButton ID="lbtnLogout" runat="server" OnClick="lbtnLogout_Click" ImageUrl="~/img/logout.gif" />
+<asp:Button ID="lbtnLogout" runat="server" OnClick="lbtnLogout_Click" Text ="Logout" CssClass =" button submit"/>
 </div>
 </div>
 </asp:Content>

@@ -2,7 +2,9 @@
 Inherits="Admin_Contracts_new" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-<div class="mainwrap">
+<div class="about">
+<div class="row">
+<div class="large-12 columns">
 	<div class="gridboxhead">
 		<div class="gridboxleft"><h2>Admin :: Contracts</h2></div>
 		<div class="gridboxright"></div>
@@ -59,18 +61,21 @@ Inherits="Admin_Contracts_new" %>
 	onitemcommand="rptContracts_ItemCommand">
 	<ItemTemplate>
 		<tr class='<%# Container.ItemIndex % 2 == 0 ? "" : "even" %>' valign="top">
-			<td width="60px">
+			<td nowrap>
 				<asp:LinkButton ID="lb1" runat="server" 
 					CommandArgument='<%# Eval("ContractID") + "@" + Eval("SupplementalNo")%>'
-					CommandName="edit" 
+					CommandName="edit"
+                    CssClass ="button tiny" 
 					Text="edit" /> 
 				<asp:LinkButton ID="lb2" runat="server" 
 					CommandArgument='<%# Eval("ContractID") + "@" + Eval("SupplementalNo")%>' 
 					CommandName="delete" 
+                    CssClass ="button tiny" 
 					OnClientClick="javascript:if(!confirm('Delete this item?'))return false;"
 					Text="delete" /> 
 				<asp:LinkButton ID="lb3" runat="server" 
 					CommandArgument='<%# Eval("ContractID") + "@" + Eval("SupplementalNo")%>' 
+                    CssClass ="button tiny" 
 					CommandName="view" 
 					Text="view" />
 				
@@ -100,7 +105,7 @@ Inherits="Admin_Contracts_new" %>
         <asp:ImageButton ID="ibtnLastPageTop" runat="server" OnClick="LastPage_Click" ImageUrl="~/img/lastbtn.gif" />
     </div>
     </div>
-</div>
+</div></div></div>
 
 
 </asp:Content>

@@ -1,8 +1,9 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/_Masters/AdminMasterPage.master" AutoEventWireup="true" CodeFile="Contributions.aspx.cs" Inherits="Admin_Contributions" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-
-<div class="mainwrap">
+<div class="about">
+<div class="row">
+<div class="large-12 columns">
 	<div class="gridboxhead">
 		<div class="gridboxleft"><h2>Admin :: Campaign Contributions</h2></div>
 		<div class="gridboxright"></div>
@@ -67,14 +68,15 @@
 				onitemcommand="rptContributions_ItemCommand">
 	<ItemTemplate>
 		<tr class='<%# Container.ItemIndex % 2 == 0 ? "" : "even" %>' valign="top">
-			<td>
+			<td nowrap>
 				<asp:LinkButton ID="lb1" runat="server" 
 					CommandArgument='<%# DataBinder.Eval(Container.DataItem, "ContributionID") %>' 
-					CommandName="edit" 
-					Text="edit" /> | 
+					CommandName="edit" CssClass="tiny button " 
+					Text="edit" />  
 				<asp:LinkButton ID="lb2" runat="server" 
 					CommandArgument='<%# DataBinder.Eval(Container.DataItem, "ContributionID") %>' 
 					CommandName="delete" 
+                    CssClass="tiny button " 
 					OnClientClick="javascript:if(!confirm('Delete this item?'))return false;"
 					Text="delete" />
 			</td>
@@ -100,7 +102,7 @@
         <asp:ImageButton ID="ibtnLastPageTop" runat="server" OnClick="LastPage_Click" ImageUrl="~/img/lastbtn.gif" />
     </div>
     </div>
-</div>
+</div></div></div>
 
 </asp:Content>
 

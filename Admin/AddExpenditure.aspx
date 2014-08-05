@@ -1,8 +1,9 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/_Masters/AdminMasterPage.master" AutoEventWireup="true" CodeFile="AddExpenditure.aspx.cs" Inherits="Admin_AddExpenditure" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-<div class="mainwrap">
-<div class="contractdetails">
+<div class="about">
+<div class="row">
+<div class="large-12 columns">
 <h2>Add Campaign Expenditures</h2>
 
 	<table cellpadding="0" cellspacing="0">
@@ -96,6 +97,6 @@
 
 <asp:Label ID="lblMessage" runat="server" />
 </div>
-</div>
+</div></div>
 </asp:Content>
 

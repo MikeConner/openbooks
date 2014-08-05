@@ -2,7 +2,9 @@
 Inherits="Admin_Lobbyists" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-<div class="mainwrap">
+<div class="about">
+<div class="row">
+<div class="large-12 columns">
 	<div class="gridboxhead">
 		<div class="gridboxleft"><h2>Admin :: Lobbyists</h2></div>
 		<div class="gridboxright"></div>
@@ -62,14 +64,16 @@ Inherits="Admin_Lobbyists" %>
 	OnItemDataBound="rptLobbyists_ItemDataBound">
 	<ItemTemplate>
 		<tr class='<%# Container.ItemIndex % 2 == 0 ? "" : "even" %>' valign="top">
-			<td>
+			<td nowrap>
 				<asp:LinkButton ID="lb1" runat="server" 
 					CommandArgument='<%# DataBinder.Eval(Container.DataItem, "LobbyistID") %>' 
 					CommandName="edit" 
-					Text="edit" /> | 
+                    CssClass =" tiny button"
+					Text="edit" /> 
 				<asp:LinkButton ID="lb2" runat="server" 
 					CommandArgument='<%# DataBinder.Eval(Container.DataItem, "LobbyistID") %>' 
 					CommandName="delete" 
+                    CssClass =" tiny button"
 					OnClientClick="javascript:if(!confirm('Delete this item?'))return false;"
 					Text="delete" />
 			</td>
@@ -104,6 +108,7 @@ Inherits="Admin_Lobbyists" %>
     </div>
     </div>
 </div>
+    </div></div>
 
 
 </asp:Content>

@@ -1,8 +1,9 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/_Masters/AdminMasterPage.master" AutoEventWireup="true" CodeFile="AddContract.aspx.cs" Inherits="AddContract" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-<div class="mainwrap">
-<div class="contractdetails">
+<div class="about">
+<div class="row">
+<div class="large-12 columns">
 <h2>Add a Contract</h2>
 
 <asp:ValidationSummary ID="ValidationSummary1" runat="server" ShowSummary="true" CssClass="error-box" />
@@ -153,5 +154,6 @@
 
 <asp:Label ID="lblMessage" runat="server" />
 </div>
+    </div>
 </div>
 </asp:Content>

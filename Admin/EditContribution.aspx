@@ -2,7 +2,9 @@
 Inherits="Admin_EditContribution" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-<div class="mainwrap">
+<div class="about">
+<div class="row">
+<div class="large-12 columns">
 
 <h2>Edit Campaign Contribution</h2>
 
@@ -136,6 +138,6 @@ Inherits="Admin_EditContribution" %>
 	
 	</ItemTemplate>
 </asp:FormView>
-</div>
+</div></div></div>
 </asp:Content>
 

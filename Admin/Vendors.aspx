@@ -1,8 +1,9 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/_Masters/AdminMasterPage.master" AutoEventWireup="true" CodeFile="Vendors.aspx.cs" Inherits="Admin_Vendors" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-
-<div class="mainwrap">
+    <div class="about">
+<div class="row">
+<div class="large-12 columns">
 <div class="gridboxhead">
 <div class="gridboxleft">
 <h2>Admin :: Vendors</h2>
@@ -42,6 +43,7 @@
 				<asp:LinkButton ID="lb1" runat="server" 
 					CommandArgument='<%# DataBinder.Eval(Container.DataItem, "VendorNo") %>' 
 					CommandName="edit" 
+                    CssClass ="tiny button"
 					Text="edit" /> 
 			</td>
 			<td><%# DataBinder.Eval(Container.DataItem, "VendorName") %></td>
@@ -65,6 +67,6 @@
     </div>
 </div>
 
-
+    </div></div>
 </asp:Content>
 

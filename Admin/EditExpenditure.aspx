@@ -1,7 +1,9 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/_Masters/AdminMasterPage.master" AutoEventWireup="true" CodeFile="EditExpenditure.aspx.cs" Inherits="Admin_EditExpenditure" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-<div class="mainwrap">
+<div class="about">
+<div class="row">
+<div class="large-12 columns">>
 <h2>Edit Campaign Expenditures</h2>
 
 <asp:FormView ID="frmExpenditure" runat="server">
@@ -101,6 +103,6 @@
 
 	</ItemTemplate>
 </asp:FormView>
-</div>
+</div></div></div>
 </asp:Content>
 
