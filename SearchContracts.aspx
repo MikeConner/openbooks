@@ -33,31 +33,13 @@ Inherits="SearchContractsPage" %>
       <div class="medium-4 large-3 columns">
         <div class="search-field">
           <h2>City Department</h2>
-          <asp:DropDownList ID="CityDepartment" runat="server" 
-					DataSourceID="SqlDataSource4" 
-					DataTextField="DeptName" 
-					DataValueField="DeptCode" 
-					AppendDataBoundItems="true">
-					<asp:ListItem Text="All Organizations" Value="0" />
-		  </asp:DropDownList>
-		  <asp:SqlDataSource ID="SqlDataSource4" runat="server" 
-					ConnectionString="<%$ ConnectionStrings:CityControllerConnectionString %>" 
-					SelectCommand="SELECT [DeptCode], [DeptName] FROM [tlk_department] ORDER BY DeptName" />
+          <asp:DropDownList ID="CityDepartment" runat="server" AppendDataBoundItems="true"></asp:DropDownList>
  
         </div>
 
         <div class="search-field">
           <h2>Contract Type</h2>
-          <asp:DropDownList ID="ContractType" runat="server" 
-					DataSourceID="SqlDataSource1" 
-					DataTextField="ServiceName" 
-					DataValueField="ID" 
-					AppendDataBoundItems="true">
-					<asp:ListItem Text="All Services" Value="0" />
-		  </asp:DropDownList>
-		  <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
-					ConnectionString="<%$ ConnectionStrings:CityControllerConnectionString %>" 
-					SelectCommand="SELECT [ID], [ServiceName] FROM [tlk_service] ORDER BY ServiceName" />
+          <asp:DropDownList ID="ContractType" runat="server" AppendDataBoundItems="true"></asp:DropDownList>
         </div>
 
         <div class="search-field">

@@ -7,9 +7,11 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Collections;
 using OpenBookPgh;
+using System.Data.SqlClient;
 
 public partial class SearchContractsPage : System.Web.UI.Page
 {
+    public SearchRangeParamsContract sp;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -23,7 +25,66 @@ public partial class SearchContractsPage : System.Web.UI.Page
 
             // Search
             GetSearchResults();
+            LoadDepartments();
+            LoadContractTypes();
         }
+    }
+    private void LoadDepartments()
+    {
+        DataTable dt = new DataTable();
+
+        using (SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
+        {
+            try
+            {
+                SqlDataAdapter adapter = new SqlDataAdapter("SELECT [DeptCode], [DeptName] FROM [tlk_department] ORDER BY DeptName", con);
+                adapter.Fill(dt);
+
+                CityDepartment.DataSource = dt;
+                CityDepartment.DataTextField = "DeptName";
+                CityDepartment.DataValueField = "DeptCode";
+                CityDepartment.DataBind();
+            }
+            catch (Exception ex)
+            {
+                // Handle the error
+            }
+        }
+
+        // Add the initial item - you can add this even if the options from the
+        // db were not successfully loaded
+        CityDepartment.Items.Insert(0, new ListItem("All Organizations", "0"));
+    }
+    private void LoadContractTypes()
+    {
+        DataTable dt = new DataTable();
+
+        using (SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
+        {
+            try
+            {
+                SqlDataAdapter adapter = new SqlDataAdapter("SELECT [ID], [ServiceName] FROM [tlk_service] ORDER BY ServiceName", con);
+                adapter.Fill(dt);
+
+                ContractType.DataSource = dt;
+                ContractType.DataTextField = "ServiceName";
+                ContractType.DataValueField = "ID";
+                ContractType.DataBind();
+            }
+            catch (Exception ex)
+            {
+                // Handle the error
+            }
+        }
+
+        // Add the initial item - you can add this even if the options from the
+        // db were not successfully loaded
+        ContractType.Items.Insert(0, new ListItem("All Services", "0"));
+    }
+    protected void Page_LoadComplete(object sender, EventArgs e)
+    {
+        CityDepartment.Items.FindByValue(sp.cityDept.ToString()).Selected = true;
+        ContractType.Items.FindByValue(sp.contractType.ToString()).Selected = true;
     }
 
 	protected void btnSearch_Click(object sender, EventArgs e)
@@ -69,7 +130,7 @@ public partial class SearchContractsPage : System.Web.UI.Page
     {
         // Get SearchParams Class from query string
         //SearchParamsContract sp = SearchContracts.GetQueryStringValues(HttpContext.Current.Request);
-        SearchRangeParamsContract sp = SearchContracts.GetRangeQueryStringValues(HttpContext.Current.Request);
+        sp = SearchContracts.GetRangeQueryStringValues(HttpContext.Current.Request);
 
         //Determine the Results Per Page from user
         SetPageSize();
