@@ -27,6 +27,10 @@ public partial class SearchContractsPage : System.Web.UI.Page
             GetSearchResults();
             LoadDepartments();
             LoadContractTypes();
+            Vendor.Text = sp.vendorKeywords;
+            Keywords.Text = sp.keywords;
+            
+
         }
     }
     private void LoadDepartments()
@@ -83,8 +87,11 @@ public partial class SearchContractsPage : System.Web.UI.Page
     }
     protected void Page_LoadComplete(object sender, EventArgs e)
     {
-        CityDepartment.Items.FindByValue(sp.cityDept.ToString()).Selected = true;
-        ContractType.Items.FindByValue(sp.contractType.ToString()).Selected = true;
+        if (sp != null)
+        {
+            CityDepartment.Items.FindByValue(sp.cityDept.ToString()).Selected = true;
+            ContractType.Items.FindByValue(sp.contractType.ToString()).Selected = true;
+        }
     }
 
 	protected void btnSearch_Click(object sender, EventArgs e)
