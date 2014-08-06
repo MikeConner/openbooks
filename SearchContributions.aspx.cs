@@ -1,40 +1,100 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using OpenBookPgh;
-
 using System.Data;
-
+using System.Data.SqlClient;
 
 public partial class _SearchContributionsPageClass: System.Web.UI.Page
 {
+    public SearchParamsContribution sp;
+
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
             // Search
             GetSearchResults();
+            LoadCandidates();
+            if (sp.office != null)
+            { 
+                ddlOffice.Items.FindByValue(sp.office.ToString()).Selected = true;
+            }
+            if (sp.contributorSearchOptions != null)
+            {
+                rblContributorSearch.SelectedValue = sp.contributorSearchOptions.ToString();
+                txtContributor.Text = sp.contributorKeywords.ToString();
+            }
+            LoadYears();
+            if (sp.employerKeywords != null)
+            {
+                txtEmployer.Text = sp.employerKeywords.ToString();
+            }
+            if (sp.zip != null)
+            {
+                txtZip.Text = sp.zip.ToString();
+            }
         }
-        else
-        {
-            GetSearchResults();
-              
-        }
-        //else
-        //{
-             
-        //    //sticky criteria
-        //    SearchParamsContribution sp = SearchContributions.GetQueryStringValues(HttpContext.Current.Request);
-        //    ListItem li = ddlCandidateName.Items.FindByValue(sp.candidateID.ToString());
+    }
+    private void LoadYears()
+    {
+        DataTable dt = new DataTable();
 
-        //    if (li != null)
-        //    {
-        //        li.Selected = true;
-        //    }
-        //}
+        using (SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
+        {
+            try
+            {
+                SqlDataAdapter adapter = new SqlDataAdapter("SELECT [yearName], [yearValue] FROM [tlk_year]", con);
+                adapter.Fill(dt);
+
+                ddldateContribution.DataSource = dt;
+                ddldateContribution.DataTextField = "yearName";
+                ddldateContribution.DataValueField = "yearValue";
+                ddldateContribution.DataBind();
+            }
+            catch (Exception ex)
+            {
+                // Handle the error
+            }
+        }
+
+        // Add the initial item - you can add this even if the options from the
+        // db were not successfully loaded
+        ddldateContribution.Items.Insert(0, new ListItem("All Years", "0"));
+    }
+    private void LoadCandidates()
+    {
+        DataTable candidates = new DataTable();
+
+        using (SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
+        {
+            try
+            {
+                SqlDataAdapter adapter = new SqlDataAdapter("SELECT [ID], [CandidateName] FROM [tlk_candidate] ORDER BY CandidateName ASC", con);
+                adapter.Fill(candidates);
+
+                ddlCandidateName.DataSource = candidates;
+                ddlCandidateName.DataTextField = "CandidateName";
+                ddlCandidateName.DataValueField = "ID";
+                ddlCandidateName.DataBind();
+            }
+            catch (Exception ex)
+            {
+                // Handle the error
+            }
+        }
+
+        // Add the initial item - you can add this even if the options from the
+        // db were not successfully loaded
+        ddlCandidateName.Items.Insert(0, new ListItem("All", "0"));
+    }
+    protected void Page_LoadComplete(object sender, EventArgs e)
+    {
+        ddlCandidateName.Items.FindByValue(sp.candidateID.ToString()).Selected = true;
+        ddldateContribution.Items.FindByValue(sp.dateContribution.ToString()).Selected = true;
+        ddlDistance.Items.FindByValue(sp.radius.ToString()).Selected = true;
     }
 	protected void Button1_Click(object sender, EventArgs e)
 	{
@@ -55,11 +115,10 @@ public partial class _SearchContributionsPageClass: System.Web.UI.Page
 		
 		Response.Redirect(queryString);	
 	}
-
     public void GetSearchResults()
 {
     // Get SearchParams Class from query string
-    SearchParamsContribution sp = SearchContributions.GetQueryStringValues(HttpContext.Current.Request);
+    sp = SearchContributions.GetQueryStringValues(HttpContext.Current.Request);
     if (sp.office != null){
     ddlOffice.Items.FindByValue(sp.office).Selected = true;
     }

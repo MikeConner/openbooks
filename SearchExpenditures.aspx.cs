@@ -61,7 +61,6 @@ public partial class SearchExpendituresPage : System.Web.UI.Page
         // Add the initial item - you can add this even if the options from the
         // db were not successfully loaded
         ddlCandidateName.Items.Insert(0, new ListItem("All", "0"));
-
     }
     protected void Page_LoadComplete(object sender, EventArgs e)
     {

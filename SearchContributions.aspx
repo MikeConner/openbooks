@@ -35,19 +35,7 @@
 <div class="search-field">
 <h2>Candidate</h2>
 
-    <asp:DropDownList ID="ddlCandidateName" runat="server" 
-					DataSourceID="CandidateDataSource" 
-					DataTextField="CandidateName" 
-					DataValueField="ID" 
-					AppendDataBoundItems="true">
-					<asp:ListItem Text="All" Value="0" />
-				</asp:DropDownList>
-
-				<asp:SqlDataSource ID="CandidateDataSource" runat="server" 
-					ConnectionString="<%$ ConnectionStrings:CityControllerConnectionString %>" 
-					SelectCommand="SELECT [ID], [CandidateName] FROM [tlk_candidate] ORDER BY CandidateName ASC">
-				</asp:SqlDataSource>
-
+<asp:DropDownList ID="ddlCandidateName" runat="server" AppendDataBoundItems="true"></asp:DropDownList>
 
 </div>
 <div class="search-field">
@@ -61,15 +49,7 @@
 </div>
 <div class="search-field">
 <h2>Year</h2>
-		   <asp:DropDownList ID="ddldateContribution" runat="server" 
-					DataSourceID="SqlDataSource3" 
-					DataTextField="yearName" 
-					DataValueField="yearValue" /> 
-					
-				<asp:SqlDataSource ID="SqlDataSource3" runat="server" 
-					ConnectionString="<%$ ConnectionStrings:CityControllerConnectionString %>" 
-					SelectCommand="SELECT [yearName], [yearValue] FROM [tlk_year]">
-				</asp:SqlDataSource>
+    <asp:DropDownList ID="ddldateContribution" runat="server"  AppendDataBoundItems="true" /> 
 </div>
 <div class="search-field ">
 <h2>Search by</h2>

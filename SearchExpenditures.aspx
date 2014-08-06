@@ -33,9 +33,7 @@
 <div class="medium-4 large-3 columns">
 <div class="search-field">
 <h2>Candidate</h2>
-<asp:DropDownList ID="ddlCandidateName" runat="server" 
-					AppendDataBoundItems="true">
-				</asp:DropDownList>
+    <asp:DropDownList ID="ddlCandidateName" runat="server" AppendDataBoundItems="true"></asp:DropDownList>
 </div>
 <div class="search-field">
 <h2>Company or Individual</h2>
