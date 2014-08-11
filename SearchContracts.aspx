@@ -62,7 +62,11 @@ Inherits="SearchContractsPage" %>
           <div class="row date-select">
             <div class="large-12 columns">
               <label class="date">From:</label>
+                <% if (null == sp) { %>
+              <input placeholder="Start" type="date" id="dtmStart" name="dtmStart" text="">
+                <% } else { %>
               <input placeholder="Start" type="date" id="dtmStart" name="dtmStart" text="<%=sp.beginDate.ToShortDateString()%>">
+                <%  } %>
             </div>
 
             <div class="large-12 columns">

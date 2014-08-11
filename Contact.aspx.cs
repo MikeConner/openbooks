@@ -56,9 +56,9 @@ public partial class _Contact : System.Web.UI.Page
 
 	public void SetVerificationText()
 	{
-		Random ran = new Random();
-		int no = ran.Next();
-		Session["Captcha"] = no.ToString();
+         Random oRandom = new Random();
+         int iNumber = oRandom.Next(100000, 999999);
+         Session["Captcha"] = iNumber.ToString();
 	}
 
     protected void CAPTCHAValidate(object source, ServerValidateEventArgs args)
