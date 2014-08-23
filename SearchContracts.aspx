@@ -8,7 +8,7 @@ Inherits="SearchContractsPage" %>
       <div class="medium-4 large-6 columns campaign-nav">
         <nav>
           <ul>
-            <li><h2>City Contracts</h2></li>
+            <li><a href="#">City Contracts</a></li>
           </ul>
         </nav>
       </div>
@@ -24,7 +24,7 @@ Inherits="SearchContractsPage" %>
 					<asp:ListItem Text="50 per page" Value="50"  />
 					<asp:ListItem Text="100 per page" Value="100" />
 		  </asp:DropDownList>
-          <asp:Label ID="lblCurrentPage" runat="server" /> 
+          <asp:Label ID="lblCurrentPage" runat="server" CssClass="results" /> 
         </div>
       </div>
     </div>
@@ -34,7 +34,6 @@ Inherits="SearchContractsPage" %>
         <div class="search-field">
           <h2>City Department</h2>
           <asp:DropDownList ID="CityDepartment" runat="server" AppendDataBoundItems="true"></asp:DropDownList>
- 
         </div>
 
         <div class="search-field">
@@ -97,13 +96,15 @@ Inherits="SearchContractsPage" %>
       </div> 
 
       <div class="medium-8 large-9 columns">
-        <div class="items-container">
-
-
+           <div class="search-field">
+              <h2>Sort Results by:</h2>
+              <asp:DropDownList ID="DropDownList1" runat="server" AppendDataBoundItems="true"></asp:DropDownList>
+           </div>
+          <div class="items-container">
           <asp:Repeater ID="rptContracts" runat="server" OnItemCommand="rptContracts_ItemCommand">
 	            <ItemTemplate>
                     <div class="item">
-                        <h2><a href="VendorDetail.aspx?ID=<%# Eval("VendorNo") %>"><%# Eval("VendorName") %>  </a>   
+                        <h2><a href="VendorDetail.aspx?ID=<%# Eval("VendorNo") %>"><%# Eval("VendorName") %>  </a></h2>   
                         <div class="price-group">
                         <span class="original">Contract Amount: <%# Eval("Amount", "{0:C}")%></span>
                         <span class="current"><%# Eval("OriginalAmount", "{0:C}")%> Original</span>

@@ -54,7 +54,7 @@
 <div class="search-field ">
 <h2>Search by</h2>
 
-<asp:RadioButtonList ID="rblContributorSearch" runat="server" RepeatDirection="Horizontal">
+<asp:RadioButtonList ID="rblContributorSearch" runat="server" RepeatDirection="Horizontal" TextAlign="Right" CssClass="search-by">
 	<asp:ListItem Text="Commitee" Value="co" Selected="True" />
 	<asp:ListItem Text="Contributor" Value="in" />
 </asp:RadioButtonList>
@@ -92,6 +92,10 @@
 </div>
 </div>
 <div class="medium-8 large-9 columns">
+    <div class="search-field">
+        <h2>Sort Results by:</h2>
+        <asp:DropDownList ID="DropDownList1" runat="server" AppendDataBoundItems="true"></asp:DropDownList>
+    </div>
 <div class="items-container">
 <asp:Repeater ID="rptContributions" runat="server">
 <ItemTemplate>

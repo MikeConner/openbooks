@@ -10,7 +10,7 @@ Inherits="SearchLobbyistsPage" %>
 <div class="medium-4 large-6 columns campaign-nav">
 <nav>
 <ul>
-<li><h2>Lobbyists</h2></li>
+<li><a href="#">Lobbyists</a></li>
 </ul>
 </nav>
 </div>
@@ -27,7 +27,7 @@ Inherits="SearchLobbyistsPage" %>
 					<asp:ListItem Text="100 per page" Value="100" />
 			</asp:DropDownList>
     
-<span><asp:Label ID="lblCurrentPage" runat="server" /></span>
+<asp:Label ID="lblCurrentPage" runat="server" />
 </div>
 </div>
 </div>
@@ -48,7 +48,7 @@ Inherits="SearchLobbyistsPage" %>
 <asp:Button ID="btnSearch" runat="server" Text="Search" onclick="btnSearch_Click" CssClass="submit button" />
 </div>
 
-      <div class="items-container">
+    <div class="information-section">
     <p>In 2009, Pittsburgh City Council past an ordinance that mandates that any person engaged in compensated lobby activities that aim to influence decisions made by Pittsburgh government officials, be registered with the Office of the City Controller.</p>
     <p>Here you will be able to search by name and employer those persons who have registered as lobbyist with the City of Pittsburgh.  You will also find information regarding the lobbyist registration ordinance and lobbyist registration form and instructions.</p>
     <p><b>
@@ -61,13 +61,16 @@ Inherits="SearchLobbyistsPage" %>
 
 </div>
 <div class="medium-8 large-9 columns">
+    <div class="search-field">
+              <h2>Sort Results by:</h2>
+              <asp:DropDownList ID="DropDownList1" runat="server" AppendDataBoundItems="true"></asp:DropDownList>
+           </div>
 <div class="items-container">
 
      
 
 
 
-<div class="item">
     	<div class="results">
 		<div class="resultsleft">
 			
@@ -120,7 +123,6 @@ Inherits="SearchLobbyistsPage" %>
 	</ItemTemplate>
 </asp:Repeater>
 
- </div>
    <div class="large-12 columns pagination-controls">
     <div class ="large-3 columns prev button">
         <asp:Button ID="ibtnFirstPageTop" runat="server" OnClick="FirstPage_Click" Text="First" class="button prev" />

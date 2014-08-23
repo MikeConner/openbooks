@@ -1,3 +1,50 @@
 ﻿.controller-logo {
-    margin: 1rem;
+    margin: 0.75rem 1rem;
+}
+.controls .pagination span {
+    display: inline-block;
+    margin: 0 0  1rem;
+}
+
+.pagination-controls .button {
+    padding: 0;
+    margin: 0;
+}
+.search-page button, .search-page .button:hover {
+    background: #ffb745;
+}
+.search-page button, .search-page .button input {
+    width: 100%;
+    height: auto;
+    color: white;
+    padding: 1rem;
+}
+.information-section {
+    color: white;
+    margin-top: 1rem;
+}
+.about-links {
+    list-style: none;
+    margin-left: 0;
+}
+.about-links li {
+    display: inline-block;
+}
+.search-by {
+    background: none;
+    border: none;
+}
+.search-by td {
+    padding: 0;
+}
+.search-by input[type="checkbox"] + label, input[type="radio"] + label {
+    color: white;
+    margin: 0 0.5rem;
+}
+.pagination select {
+    dislay: inline-block;
+    float: left;
+}
+.item h2 a {
+    color: #333333;
 }

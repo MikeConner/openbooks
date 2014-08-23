@@ -5,6 +5,7 @@
 <head runat="server">
     <title>Welcome to Open Book Pittsburgh</title>
     <link rel="stylesheet" type="text/css" href="~/css/main.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="~/css/overrides.css" media="screen" />
 </head>
 
 <body>
@@ -28,7 +29,7 @@
 <li class='search-toggle'><a href="#">Search</a></li>
 <li><a href="../About.aspx">About</a></li>
 <li><a href="../Contact.aspx">Contact</a></li>
-<li class='controller'><img alt="Controller logo" src="../img/controller-logo.png" /></li>
+<li class='controller'><img alt="Controller logo" class="controller-logo" src="../img/controller-logo.png" /></li>
 </ul>
 </section>
 </nav>

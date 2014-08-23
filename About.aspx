@@ -34,11 +34,12 @@ In addition to auditing city departments, the City Controller reviews and approv
 </blockquote>
 <p>Lastly, the City Controller sits on the boards of the city’s Municipal Pension Fund and the Comprehensive Municipal Fund.</p>
 
-<ul>
-<li><asp:HyperLink NavigateUrl="~/SearchTips.aspx" runat="server" ID="SearchTips">Search Tips</asp:HyperLink></li>
-<li><asp:HyperLink NavigateUrl="~/ReportFraud.aspx" runat="server" ID="HyperLink10">Report Fraud</asp:HyperLink></li>
-<li><asp:HyperLink NavigateUrl="~/Contact.aspx" runat="server" ID="Contact">Contact</asp:HyperLink></li>
+<ul class="about-links">
+<li><asp:HyperLink NavigateUrl="~/SearchTips.aspx" CssClass="button" runat="server" ID="SearchTips">Search Tips</asp:HyperLink></li>
+<li><asp:HyperLink NavigateUrl="~/ReportFraud.aspx" CssClass="button" runat="server" ID="HyperLink10">Report Fraud</asp:HyperLink></li>
+<li><asp:HyperLink NavigateUrl="~/Contact.aspx" CssClass="button" runat="server" ID="Contact">Contact</asp:HyperLink></li>
 </ul>
+
 
 </div>
 </div>
