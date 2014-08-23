@@ -59,6 +59,10 @@
 </div>
 </div>
 <div class="medium-8 large-9 columns">
+    <div class="search-field">
+        <h2>Sort Results by:</h2>
+        <asp:DropDownList ID="DropDownList1" runat="server" AppendDataBoundItems="true"></asp:DropDownList>
+    </div>
 <div class="items-container">
 
 <asp:Repeater ID="rptExpenditures" runat="server">
