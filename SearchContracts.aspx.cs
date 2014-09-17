@@ -17,7 +17,7 @@ public partial class SearchContractsPage : System.Web.UI.Page
         if (!IsPostBack)
         {
             // Set Initial sort image state
-            clearImages();
+            initializeSorting();
             
             ((Label)Master.FindControl("FlashErrorMessage")).Text = "";
             int maxContractAmount = SearchContracts.GetMaxContractPrice();
@@ -29,8 +29,8 @@ public partial class SearchContractsPage : System.Web.UI.Page
             LoadContractTypes();
             Vendor.Text = sp.vendorKeywords;
             Keywords.Text = sp.keywords;
-            
-
+            StickyMinContract.Value = sp.minContractAmt.ToString();
+            StickyMaxContract.Value = sp.maxContractAmt.ToString();
         }
     }
     private void LoadDepartments()
@@ -99,8 +99,9 @@ public partial class SearchContractsPage : System.Web.UI.Page
         int minContractAmount = 0;
         int maxContractAmount = 0;
         // Pretty much can't fail, since it's a slider, so don't worry about exceptions
-        Int32.TryParse(Request.Form["dblMinContract"], out minContractAmount);
-        Int32.TryParse(Request.Form["dblMaxContract"], out maxContractAmount);
+        // Remove commas, though
+        Int32.TryParse(Request.Form["dblMinContract"].Replace(",",""), out minContractAmount);
+        Int32.TryParse(Request.Form["dblMaxContract"].Replace(",", ""), out maxContractAmount);
 
         if (minContractAmount > maxContractAmount)
         {
@@ -307,254 +308,29 @@ public partial class SearchContractsPage : System.Web.UI.Page
 
 
     // Sorting Controls
-    public void clearImages()
+    public void initializeSorting()
     {
-        imgSortVendor.ImageUrl = IMGNOSORT;
-        imgSortAgency.ImageUrl = IMGNOSORT;
-        imgSortContractID.ImageUrl = IMGNOSORT;
-        imgSortAmount.ImageUrl = IMGNOSORT;
-        imgSortOriginalAmount.ImageUrl = IMGNOSORT;
-        imgSortDescription.ImageUrl = IMGNOSORT;
-        //imgSortStartDate.ImageUrl = IMGNOSORT;
-        imgSortEndDate.ImageUrl = IMGNOSORT;
-        imgSortContractType.ImageUrl = IMGNOSORT;
-        imgSortApproval.ImageUrl = IMGNOSORT;
+        imgSortDirection.ImageUrl = IMGDESC;
+        SortDirection = DESCENDING;
+        SortExpression = ddlSortContracts.SelectedValue;
     }
-    public void sortVendor(object sender, EventArgs e)
-    {
-        clearImages();
 
-        if (SortExpression == "VendorName")
+    public void toggleSortDirection(object sender, ImageClickEventArgs e)
+    {
+        if (SortDirection == ASCENDING)
         {
-            if (SortDirection == ASCENDING)
-            {
-                SortDirection = DESCENDING;
-                imgSortVendor.ImageUrl = IMGDESC;
-            }
-            else
-            {
-                SortDirection = ASCENDING;
-                imgSortVendor.ImageUrl = IMGASC;
-            }
+            SortDirection = DESCENDING;
+            imgSortDirection.ImageUrl = IMGDESC;
         }
         else
         {
-            SortExpression = "VendorName";
             SortDirection = ASCENDING;
-            imgSortVendor.ImageUrl = IMGASC;
+            imgSortDirection.ImageUrl = IMGASC;
         }
 
+        // Reload Search
         GetSearchResults();
     }
-    public void sortAgency(object sender, EventArgs e)
-    {
-        clearImages();
-
-        if (SortExpression == "DepartmentID")
-        {
-            if (SortDirection == ASCENDING)
-            {
-                SortDirection = DESCENDING;
-                imgSortAgency.ImageUrl = IMGDESC;
-            }
-            else
-            {
-                SortDirection = ASCENDING;
-                imgSortAgency.ImageUrl = IMGASC;
-            }
-        }
-        else
-        {
-            SortExpression = "DepartmentID";
-            SortDirection = DESCENDING;
-            imgSortAgency.ImageUrl = IMGDESC;
-        }
-
-        GetSearchResults();
-    }
-    public void sortContractID(object sender, EventArgs e)
-    {
-        clearImages();
-
-        if (SortExpression == "contractID")
-        {
-            if (SortDirection == ASCENDING)
-            {
-                SortDirection = DESCENDING;
-                imgSortContractID.ImageUrl = IMGDESC;
-            }
-            else
-            {
-                SortDirection = ASCENDING;
-                imgSortContractID.ImageUrl = IMGASC;
-            }
-        }
-        else
-        {
-            SortExpression = "contractID";
-            SortDirection = DESCENDING;
-            imgSortContractID.ImageUrl = IMGDESC;
-        }
-
-        GetSearchResults();
-    }
-    public void sortAmount(object sender, EventArgs e)
-    {
-        clearImages();
-
-        if (SortExpression == "amount")
-        {
-            if (SortDirection == ASCENDING)
-            {
-                SortDirection = DESCENDING;
-                imgSortAmount.ImageUrl = IMGDESC;
-            }
-            else
-            {
-                SortDirection = ASCENDING;
-                imgSortAmount.ImageUrl = IMGASC;
-            }
-        }
-        else
-        {
-            SortExpression = "amount";
-            SortDirection = DESCENDING;
-            imgSortAmount.ImageUrl = IMGDESC;
-        }
-
-        GetSearchResults();
-    }
-    public void sortOriginalAmount(object sender, EventArgs e)
-    {
-        clearImages();
-
-        if (SortExpression == "OriginalAmount")
-        {
-            if (SortDirection == ASCENDING)
-            {
-                SortDirection = DESCENDING;
-                imgSortOriginalAmount.ImageUrl = IMGDESC;
-            }
-            else
-            {
-                SortDirection = ASCENDING;
-                imgSortOriginalAmount.ImageUrl = IMGASC;
-            }
-        }
-        else
-        {
-            SortExpression = "OriginalAmount";
-            SortDirection = DESCENDING;
-            imgSortOriginalAmount.ImageUrl = IMGDESC;
-        }
-
-        GetSearchResults();
-    }
-    public void sortDescription(object sender, EventArgs e)
-    {
-        clearImages();
-
-        if (SortExpression == "Description")
-        {
-            if (SortDirection == ASCENDING)
-            {
-                SortDirection = DESCENDING;
-                imgSortDescription.ImageUrl = IMGDESC;
-            }
-            else
-            {
-                SortDirection = ASCENDING;
-                imgSortDescription.ImageUrl = IMGASC;
-            }
-        }
-        else
-        {
-            SortExpression = "Description";
-            SortDirection = ASCENDING;
-            imgSortDescription.ImageUrl = IMGASC;
-        }
-
-        GetSearchResults();
-    }
-    public void sortEndDate(object sender, EventArgs e)
-    {
-        clearImages();
-
-        if (SortExpression == "DateDuration")
-        {
-            if (SortDirection == ASCENDING)
-            {
-                SortDirection = DESCENDING;
-                imgSortEndDate.ImageUrl = IMGDESC;
-            }
-            else
-            {
-                SortDirection = ASCENDING;
-                imgSortEndDate.ImageUrl = IMGASC;
-            }
-        }
-        else
-        {
-            SortExpression = "DateDuration";
-            SortDirection = DESCENDING;
-            imgSortEndDate.ImageUrl = IMGDESC;
-        }
-
-        GetSearchResults();
-    }
-    public void sortContractType(object sender, EventArgs e)
-    {
-        clearImages();
-
-        if (SortExpression == "Service")
-        {
-            if (SortDirection == ASCENDING)
-            {
-                SortDirection = DESCENDING;
-                imgSortContractType.ImageUrl = IMGDESC;
-            }
-            else
-            {
-                SortDirection = ASCENDING;
-                imgSortContractType.ImageUrl = IMGASC;
-            }
-        }
-        else
-        {
-            SortExpression = "Service";
-            SortDirection = DESCENDING;
-            imgSortContractType.ImageUrl = IMGDESC;
-        }
-
-        GetSearchResults();
-    }
-    public void sortApprovalDate(object sender, EventArgs e)
-    {
-        clearImages();
-
-        if (SortExpression == "DateCountersigned")
-        {
-            if (SortDirection == ASCENDING)
-            {
-                SortDirection = DESCENDING;
-                imgSortApproval.ImageUrl = IMGDESC;
-            }
-            else
-            {
-                SortDirection = ASCENDING;
-                imgSortApproval.ImageUrl = IMGASC;
-            }
-        }
-        else
-        {
-            SortExpression = "DateCountersigned";
-            SortDirection = DESCENDING;
-            imgSortApproval.ImageUrl = IMGDESC;
-        }
-
-        GetSearchResults();
-    }
-
     /* Page Actions */
     protected void ddlPageSize_SelectedIndexChanged(object sender, EventArgs e)
     {
@@ -564,6 +340,15 @@ public partial class SearchContractsPage : System.Web.UI.Page
         // Reload Search
         GetSearchResults();
     }
+ 
+    protected void ddlSortContracts_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        SortExpression = ddlSortContracts.SelectedValue;
+
+        // Reload Search
+        GetSearchResults();
+    }
+
     protected void rptContracts_ItemCommand(object source, RepeaterCommandEventArgs e)
     {
         if (e.CommandName == "ViewPDF")
@@ -575,7 +360,6 @@ public partial class SearchContractsPage : System.Web.UI.Page
     }
     public void OpenNewWindow(string url)
     {
-
         ClientScript.RegisterStartupScript(this.GetType(), "newWindow", String.Format("<script>window.open('{0}');</script>", url));
 
     }

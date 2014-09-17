@@ -15,6 +15,9 @@ public partial class _SearchContributionsPageClass: System.Web.UI.Page
     {
         if (!IsPostBack)
         {
+            // Set Initial sort image state
+            initializeSorting();
+
             // Search
             GetSearchResults();
             LoadCandidates();
@@ -134,10 +137,8 @@ public partial class _SearchContributionsPageClass: System.Web.UI.Page
     // Load repeater with data
     rptContributions.DataSource = dt;
     rptContributions.DataBind();
-
-
-
 }
+
 public void SetPageSize()
 {
     int numResults = Convert.ToInt32(ddlPageSize.Text);
@@ -289,151 +290,30 @@ private const string IMGDESC = "~/img/downarrow.gif";
 private const string IMGASC = "~/img/uparrow.gif";
 private const string IMGNOSORT = "~/img/placeholder.gif";
 
-// Sorting Controls
-public void sortContributor(object sender, EventArgs e)
-{
-    if (SortExpression == "ContributorName")
+    // Sorting Controls
+    public void initializeSorting()
+    {
+        imgSortDirection.ImageUrl = IMGASC;
+        SortDirection = ASCENDING;
+        SortExpression = ddlSortContributions.SelectedValue;
+    }
+
+    public void toggleSortDirection(object sender, ImageClickEventArgs e)
     {
         if (SortDirection == ASCENDING)
         {
             SortDirection = DESCENDING;
-            //imgSortContributor.ImageUrl = IMGDESC;
+            imgSortDirection.ImageUrl = IMGDESC;
         }
         else
         {
             SortDirection = ASCENDING;
-            //imgSortContributor.ImageUrl = IMGASC;
+            imgSortDirection.ImageUrl = IMGASC;
         }
-    }
-    else
-    {
-        SortExpression = "ContributorName";
-        SortDirection = ASCENDING;
-        //imgSortContributor.ImageUrl = IMGASC;
-    }
 
-    GetSearchResults();
-}
-public void sortCandidate(object sender, EventArgs e)
-{
-    if (SortExpression == "CandidateID")
-    {
-        if (SortDirection == ASCENDING)
-        {
-            SortDirection = DESCENDING;
-            //imgSortCandidate.ImageUrl = IMGDESC;
-        }
-        else
-        {
-            SortDirection = ASCENDING;
-            //imgSortCandidate.ImageUrl = IMGASC;
-        }
+        // Reload Search
+        GetSearchResults();
     }
-    else
-    {
-        SortExpression = "CandidateID";
-        SortDirection = ASCENDING;
-        //imgSortCandidate.ImageUrl = IMGASC;
-    }
-
-    GetSearchResults();
-}
-public void sortOffice(object sender, EventArgs e)
-{
-    if (SortExpression == "Office")
-    {
-        if (SortDirection == ASCENDING)
-        {
-            SortDirection = DESCENDING;
-            //imgSortOffice.ImageUrl = IMGDESC;
-        }
-        else
-        {
-            SortDirection = ASCENDING;
-            //imgSortOffice.ImageUrl = IMGASC;
-        }
-    }
-    else
-    {
-        SortExpression = "Office";
-        SortDirection = ASCENDING;
-        //imgSortOffice.ImageUrl = IMGASC;
-    }
-
-    GetSearchResults();
-}
-public void sortEmployer(object sender, EventArgs e)
-{
-    if (SortExpression == "Employer")
-    {
-        if (SortDirection == ASCENDING)
-        {
-            SortDirection = DESCENDING;
-            //imgSortEmployer.ImageUrl = IMGDESC;
-        }
-        else
-        {
-            SortDirection = ASCENDING;
-            //imgSortEmployer.ImageUrl = IMGASC;
-        }
-    }
-    else
-    {
-        SortExpression = "Employer";
-        SortDirection = ASCENDING;
-        //imgSortEmployer.ImageUrl = IMGASC;
-    }
-
-    GetSearchResults();
-}
-public void sortAmount(object sender, EventArgs e)
-{
-    if (SortExpression == "Amount")
-    {
-        if (SortDirection == ASCENDING)
-        {
-            SortDirection = DESCENDING;
-            //imgSortAmount.ImageUrl = IMGDESC;
-        }
-        else
-        {
-            SortDirection = ASCENDING;
-            //imgSortAmount.ImageUrl = IMGASC;
-        }
-    }
-    else
-    {
-        SortExpression = "Amount";
-        SortDirection = ASCENDING;
-        //imgSortAmount.ImageUrl = IMGASC;
-    }
-
-    GetSearchResults();
-}
-public void sortDate(object sender, EventArgs e)
-{
-    if (SortExpression == "DateContribution")
-    {
-        if (SortDirection == ASCENDING)
-        {
-            SortDirection = DESCENDING;
-            //imgSortDate.ImageUrl = IMGDESC;
-        }
-        else
-        {
-            SortDirection = ASCENDING;
-            //imgSortDate.ImageUrl = IMGASC;
-        }
-    }
-    else
-    {
-        SortExpression = "DateContribution";
-        SortDirection = ASCENDING;
-        //imgSortDate.ImageUrl = IMGASC;
-    }
-
-    GetSearchResults();
-}
 
 /* Page Actions */
     protected void ddlPageSize_SelectedIndexChanged(object sender, EventArgs e)
@@ -442,6 +322,13 @@ public void sortDate(object sender, EventArgs e)
         PageIndex = 0;
 
         // Reload Search
+        GetSearchResults();
+    }
+
+    protected void ddlSortContributions_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        SortExpression = ddlSortContributions.SelectedValue;
+
         GetSearchResults();
     }
 }

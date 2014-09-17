@@ -14,7 +14,7 @@ public partial class SearchExpendituresPage : System.Web.UI.Page
 	protected void Button1_Click(object sender, EventArgs e)
 	{
 		int candidateID = Convert.ToInt32(ddlCandidateName.SelectedValue);
-		string office = ""; // used in admin portion only
+        string office = ddlOffice.SelectedValue;
 		string vendor = txtVendor.Text;
 		string vendorSearchOptions = rblVendorSearchOptions.SelectedValue;
 		string keywords = txtKeywords.Text;
@@ -28,10 +28,15 @@ public partial class SearchExpendituresPage : System.Web.UI.Page
         if (!IsPostBack)
         {
             // Set Initial sort image state
-            //DAS clearImages();
+            initializeSorting();
+
             // Search
             GetSearchResults();
             LoadCandidates();
+            if (sp.office != null)
+            {
+                ddlOffice.Items.FindByValue(sp.office.ToString()).Selected = true;
+            }
             txtVendor.Text = sp.vendorKeywords;
             txtKeywords.Text = sp.keywords;            
         }
@@ -71,6 +76,11 @@ public partial class SearchExpendituresPage : System.Web.UI.Page
     {
         // Get SearchParams Class from query string
         sp = SearchExpenditures.GetQueryStringValues(HttpContext.Current.Request);
+
+        if (sp.office != null)
+        {
+            ddlOffice.Items.FindByValue(sp.office).Selected = true;
+        }
 
         //Determine the Results Per Page from user
         SetPageSize();
@@ -238,147 +248,29 @@ public partial class SearchExpendituresPage : System.Web.UI.Page
     private const string IMGNOSORT = "~/img/placeholder.gif";
 
     // Sorting Controls
-    /*
-    public void clearImages()
+    public void initializeSorting()
     {
-        imgSortCompany.ImageUrl = IMGNOSORT;
-        imgSortCandidate.ImageUrl = IMGNOSORT;
-        imgSortOffice.ImageUrl = IMGNOSORT;
-
-        imgSortAmount.ImageUrl = IMGNOSORT;
-        imgSortDate.ImageUrl = IMGNOSORT;
+        imgSortDirection.ImageUrl = IMGASC;
+        SortDirection = ASCENDING;
+        SortExpression = ddlSortExpenditures.SelectedValue;
     }
-    public void sortCompany(object sender, EventArgs e)
-    {
-        clearImages();
 
-        if (SortExpression == "CompanyName")
+    public void toggleSortDirection(object sender, ImageClickEventArgs e)
+    {
+        if (SortDirection == ASCENDING)
         {
-            if (SortDirection == ASCENDING)
-            {
-                SortDirection = DESCENDING;
-                imgSortCompany.ImageUrl = IMGDESC;
-            }
-            else
-            {
-                SortDirection = ASCENDING;
-                imgSortCompany.ImageUrl = IMGASC;
-            }
+            SortDirection = DESCENDING;
+            imgSortDirection.ImageUrl = IMGDESC;
         }
         else
         {
-            SortExpression = "CompanyName";
             SortDirection = ASCENDING;
-            imgSortCompany.ImageUrl = IMGASC;
+            imgSortDirection.ImageUrl = IMGASC;
         }
 
+        // Reload Search
         GetSearchResults();
     }
-    public void sortCandidate(object sender, EventArgs e)
-    {
-        clearImages();
-
-        if (SortExpression == "CandidateID")
-        {
-            if (SortDirection == ASCENDING)
-            {
-                SortDirection = DESCENDING;
-                imgSortCandidate.ImageUrl = IMGDESC;
-            }
-            else
-            {
-                SortDirection = ASCENDING;
-                imgSortCandidate.ImageUrl = IMGASC;
-            }
-        }
-        else
-        {
-            SortExpression = "CandidateID";
-            SortDirection = ASCENDING;
-            imgSortCandidate.ImageUrl = IMGASC;
-        }
-
-        GetSearchResults();
-    }
-    public void sortOffice(object sender, EventArgs e)
-    {
-        clearImages();
-
-        if (SortExpression == "Office")
-        {
-            if (SortDirection == ASCENDING)
-            {
-                SortDirection = DESCENDING;
-                imgSortOffice.ImageUrl = IMGDESC;
-            }
-            else
-            {
-                SortDirection = ASCENDING;
-                imgSortOffice.ImageUrl = IMGASC;
-            }
-        }
-        else
-        {
-            SortExpression = "Office";
-            SortDirection = ASCENDING;
-            imgSortOffice.ImageUrl = IMGASC;
-        }
-
-        GetSearchResults();
-    }
-    public void sortAmount(object sender, EventArgs e)
-    {
-        clearImages();
-
-        if (SortExpression == "Amount")
-        {
-            if (SortDirection == ASCENDING)
-            {
-                SortDirection = DESCENDING;
-                imgSortAmount.ImageUrl = IMGDESC;
-            }
-            else
-            {
-                SortDirection = ASCENDING;
-                imgSortAmount.ImageUrl = IMGASC;
-            }
-        }
-        else
-        {
-            SortExpression = "Amount";
-            SortDirection = ASCENDING;
-            imgSortAmount.ImageUrl = IMGASC;
-        }
-
-        GetSearchResults();
-    }
-    public void sortDate(object sender, EventArgs e)
-    {
-        clearImages();
-
-        if (SortExpression == "DatePaid")
-        {
-            if (SortDirection == ASCENDING)
-            {
-                SortDirection = DESCENDING;
-                imgSortDate.ImageUrl = IMGDESC;
-            }
-            else
-            {
-                SortDirection = ASCENDING;
-                imgSortDate.ImageUrl = IMGASC;
-            }
-        }
-        else
-        {
-            SortExpression = "DatePaid";
-            SortDirection = ASCENDING;
-            imgSortDate.ImageUrl = IMGASC;
-        }
-
-        GetSearchResults();
-    }
-    */
 
     /* Page Actions */
     protected void ddlPageSize_SelectedIndexChanged(object sender, EventArgs e)
@@ -387,6 +279,12 @@ public partial class SearchExpendituresPage : System.Web.UI.Page
         PageIndex = 0;
 
         // Reload Search
+        GetSearchResults();
+    }
+    protected void ddlSortExpenditures_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        SortExpression = ddlSortExpenditures.SelectedValue;
+
         GetSearchResults();
     }
 }

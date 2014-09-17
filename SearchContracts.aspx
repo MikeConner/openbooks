@@ -1,207 +1,182 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/_Masters/MasterPage.master" AutoEventWireup="true" CodeFile="SearchContracts.aspx.cs" 
-Inherits="SearchContractsPage" %>
-<%@ MasterType virtualpath="~/_Masters/MasterPage.master" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/_Masters/MasterPage.master" AutoEventWireup="true" CodeFile="SearchContracts.aspx.cs"
+    Inherits="SearchContractsPage" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-  <div class="search-page">
-    <div class="row controls">
-      <div class="medium-4 large-6 columns campaign-nav">
-        <nav>
-          <ul>
-            <li><a href="#">City Contracts</a></li>
-          </ul>
-        </nav>
-      </div>
+<%@ MasterType VirtualPath="~/_Masters/MasterPage.master" %>
 
-      <div class="medium-8 large-6 columns">
-        <div class="pagination right">
-          <asp:Label ID="lblPageSize" runat="server" Text="View:" />
-          <asp:DropDownList ID="ddlPageSize" runat="server"  
-				OnSelectedIndexChanged="ddlPageSize_SelectedIndexChanged"
-				AutoPostBack="true">
-					<asp:ListItem Text="10 per page" Value="10" />
-					<asp:ListItem Text="25 per page" Value="25" />
-					<asp:ListItem Text="50 per page" Value="50"  />
-					<asp:ListItem Text="100 per page" Value="100" />
-		  </asp:DropDownList>
-          <asp:Label ID="lblCurrentPage" runat="server" CssClass="results" /> 
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <div class="search-page">
+        <div class="row controls">
+            <div class="medium-4 large-6 columns campaign-nav">
+                <nav>
+                    <ul>
+                        <li><a href="#">City Contracts</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="medium-8 large-6 columns">
+                <div class="pagination right">
+                    <asp:Label ID="lblPageSize" runat="server" Text="View:" />
+                    <asp:DropDownList ID="ddlPageSize" runat="server"
+                        OnSelectedIndexChanged="ddlPageSize_SelectedIndexChanged"
+                        AutoPostBack="true">
+                        <asp:ListItem Text="10 per page" Value="10" />
+                        <asp:ListItem Text="25 per page" Value="25" />
+                        <asp:ListItem Text="50 per page" Value="50" />
+                        <asp:ListItem Text="100 per page" Value="100" />
+                    </asp:DropDownList>
+                    <asp:Label ID="lblCurrentPage" runat="server" CssClass="results" />
+                </div>
+            </div>
         </div>
-      </div>
+        <div class="row">
+            <div class="medium-4 large-3 columns">
+                <div class="search-field">
+                    <h2>Agency Name</h2>
+                    <asp:DropDownList ID="CityDepartment" runat="server" AppendDataBoundItems="true"></asp:DropDownList>
+                </div>
+                <div class="search-field">
+                    <h2>Contract Type</h2>
+                    <asp:DropDownList ID="ContractType" runat="server" AppendDataBoundItems="true"></asp:DropDownList>
+                </div>
+                <div class="search-field">
+                    <h2>Vendor Name</h2>
+                    <asp:RadioButtonList ID="rbVendor" runat="server" RepeatDirection="Vertical" hidden>
+                        <asp:ListItem Text="Begins with" Value="B" />
+                        <asp:ListItem Text="Contains" Value="C" Selected="True" />
+                        <asp:ListItem Text="Exact" Value="E" />
+                    </asp:RadioButtonList>
+                    <asp:TextBox ID="Vendor" runat="server" Placeholder="Name of Vendor... " />
+                </div>
+                <div class="search-field">
+                    <h2>Keyword</h2>
+                    <asp:TextBox ID="Keywords" runat="server" placeholder="Keywords..." />
+                </div>
+                <div class="search-field">
+                    <h2>Contract Approval Date</h2>
+                    <div class="row date-select">
+                        <div class="large-12 columns">
+                            <label class="date">From:</label>
+                            <% if (null == sp)
+                               { %>
+                            <input placeholder="Start" type="date" id="dtmStart" name="dtmStart" value="">
+                            <% }
+                               else
+                               { %>
+                            <input placeholder="Start" type="date" id="dtmStart" name="dtmStart" value="<%=sp.beginDate.ToString("yyyy-MM-dd")%>">
+                            <%  } %>
+                        </div>
+
+                        <div class="large-12 columns">
+                            <label class="date">To:</label>
+                            <% if (null == sp)
+                               { %>
+                            <input placeholder="End" type="date" id="dtmFinish" name="dtmFinish" value="">
+                            <% }
+                               else
+                               { %>
+                            <input placeholder="End" type="date" id="dtmFinish" name="dtmFinish" value="<%=sp.endDate.ToString("yyyy-MM-dd")%>">
+                            <%  } %>
+                        </div>
+                    </div>
+                </div>
+                <div class="search-field">
+                    <h2>Contract Amount</h2>
+                    <div class="range-slider">
+                        <label>Minimum Amount</label>
+                        <input class="input-range" max="10000" min="1" type="range" value="250" id="dblMinContract" name="dblMinContract">
+                        <span id="minContract" class="range-value">1</span>
+                    </div>
+                    <div class="range-slider">
+                        <asp:HiddenField ID="MaxContractField" runat="server" />
+                        <asp:HiddenField ID="StickyMinContract" runat="server" />
+                        <asp:HiddenField ID="StickyMaxContract" runat="server" />
+                        <label>Maximum Amount</label>
+                        <input class="input-range" min="1" type="range" id="dblMaxContract" name="dblMaxContract">
+                        <span id="maxContract" class="range-value">36000000</span>
+                    </div>
+                </div>
+                <div class="search-field">
+                    <asp:Button ID="ImageButton1" runat="server" Text="Search" OnClick="btnSearch_Click" CssClass="button" />
+                </div>
+            </div>
+            <div class="medium-8 large-9 columns">
+                <div class="search-field">
+                    <h2>Sort Results by:</h2>
+                    <asp:DropDownList ID="ddlSortContracts" CssClass="sort-dropdown" runat="server"
+                        OnSelectedIndexChanged="ddlSortContracts_SelectedIndexChanged"
+                        AutoPostBack="true">
+                        <asp:ListItem Text="Contract Amount" Value="amount" />
+                        <asp:ListItem Text="Agency Name" Value="DepartmentID" />
+                        <asp:ListItem Text="Contract Type" Value="Service" />
+                        <asp:ListItem Text="Vendor Name" Value="VendorName" />
+                        <asp:ListItem Text="Approval Date" Value="DateCountersigned" />
+                    </asp:DropDownList>
+                    <asp:ImageButton ID="imgSortDirection" OnClick="toggleSortDirection" runat="server" />
+                </div>
+                <div class="items-container">
+                    <asp:Repeater ID="rptContracts" runat="server" OnItemCommand="rptContracts_ItemCommand">
+                        <ItemTemplate>
+                            <div class="item">
+                                <h2><a href="VendorDetail.aspx?ID=<%# Eval("VendorNo") %>"><%# Eval("VendorName") %>  </a></h2>
+                                <div class="price-group">
+                                    <span class="original">Contract Amount: <%# Eval("Amount", "{0:C}")%></span>
+                                    <span class="current"><%# Eval("OriginalAmount", "{0:C}")%> Original</span>
+
+                                </div>
+                                <div class="label-group">
+                                    <div class="label-item">
+                                        <div class="type">Type</div>
+                                        <div class="title"><%# Eval("ServiceName") %></div>
+                                    </div>
+                                    <div class="label-item">
+                                        <div class="type">Agency Name</div>
+                                        <div class="title"><%# Eval("DepartmentName") %></div>
+                                    </div>
+                                </div>
+                                <div class="agenda">
+                                    <span class="title">Contract 
+                        				     <i><b><a href="ContractDetail.aspx?ID=<%# Eval("ContractID") %>&sup=<%# Eval("SupplementalNo") %>">
+                                                 <%# Eval("SupplementalNo").ToString() == "0" ? Eval("ContractID") : Eval("ContractID") + "." + Eval("SupplementalNo")%>
+                                             </a></b></i>
+                                        Term:</span>
+                                    <span><%# Eval("DateCountersigned", "{0:MM/dd/yyyy}")%> —<%# Eval("DateDuration", "{0:MM/dd/yyyy}")%></span>
+                                </div>
+                                <div class="description">
+                                    <p><%# Eval("Description") %></p>
+                                </div>
+                                <span class="current">
+                                    <asp:Panel ID="pnlContractPDF" runat="server" Visible='<%# Eval("HasPDF").ToString() == "True" %>'>
+                                        <asp:ImageButton ID="ibtnContractPDF" runat="server"
+                                            ImageUrl="~/img/pdficon.gif"
+                                            CommandName="ViewPDF"
+                                            CommandArgument='<%# Eval("ContractID") %>' />
+                                    </asp:Panel>
+                                </span>
+
+                            </div>
+                        </ItemTemplate>
+                    </asp:Repeater>
+                </div>
+                <div class="bottomnav">
+                    <div class="bottomnavbtns">
+                        <div class="large-12 columns pagination-controls">
+                            <div class="large-3 columns prev button">
+                                <asp:Button ID="ibtnFirstPageTop" runat="server" OnClick="FirstPage_Click" Text="First" class="button prev" />
+                            </div>
+                            <div class="large-3 columns prev button">
+                                <asp:Button ID="ibtnPrevPageTop" runat="server" OnClick="PrevPage_Click" Text="Previous" class="button prev" />
+                            </div>
+                            <div class="large-3 columns prev button">
+                                <asp:Button ID="ibtnNextPageTop" runat="server" OnClick="NextPage_Click" Text="Next" class="button prev" />
+                            </div>
+                            <div class="large-3 columns prev button">
+                                <asp:Button ID="ibtnLastPageTop" runat="server" OnClick="LastPage_Click" Text="Last" class="button prev" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <div class="row">
-      <div class="medium-4 large-3 columns">
-        <div class="search-field">
-          <h2>City Department</h2>
-          <asp:DropDownList ID="CityDepartment" runat="server" AppendDataBoundItems="true"></asp:DropDownList>
-        </div>
-
-        <div class="search-field">
-          <h2>Contract Type</h2>
-          <asp:DropDownList ID="ContractType" runat="server" AppendDataBoundItems="true"></asp:DropDownList>
-        </div>
-
-        <div class="search-field">
-          <h2>Vendor Name</h2>
-          <asp:RadioButtonList ID="rbVendor" runat="server" RepeatDirection="Vertical" hidden>
-					<asp:ListItem Text="Begins with" Value="B" />
-					<asp:ListItem Text="Contains" Value="C" Selected="True" />
-					<asp:ListItem Text="Exact" Value="E" />
-		  </asp:RadioButtonList>
-		  <asp:TextBox ID="Vendor" runat="server" Placeholder ="Name of Vendor... " />
-        </div>
-
-        <div class="search-field">
-          <h2>Keyword</h2>
-          <asp:TextBox ID="Keywords" runat="server" placeholder="Keywords..."/>
-        </div>
-
-        <div class="search-field">
-          <h2>Contract Approval Date</h2>
-          <div class="row date-select">
-            <div class="large-12 columns">
-              <label class="date">From:</label>
-                <% if (null == sp) { %>
-              <input placeholder="Start" type="date" id="dtmStart" name="dtmStart" text="">
-                <% } else { %>
-              <input placeholder="Start" type="date" id="dtmStart" name="dtmStart" text="<%=sp.beginDate.ToShortDateString()%>">
-                <%  } %>
-            </div>
-
-            <div class="large-12 columns">
-              <label class="date">To:</label>
-              <input placeholder="End" type="date" id="dtmFinish" name="dtmFinish">
-            </div>
-          </div>
-        </div>
-
-        <div class="search-field">
-          <h2>Contract Amount</h2>
-          <div class="range-slider">
-            <label>Minimum Amount</label>
-            <input class="input-range" max="10000" min="1" type="range" value="250" id="dblMinContract" name="dblMinContract">
-            <span id="minContract" class="range-value">1</span>
-          </div>
-          <div class="range-slider">
-            <asp:HiddenField ID="MaxContractField" runat="server" />
-            <label>Maximum Amount</label>
-            <input class="input-range" max="36000000" min="1" type="range" value="36000000" id="dblMaxContract" name="dblMaxContract">
-            <span id="maxContract" class="range-value">36000000</span>
-          </div>
-        </div>
-
-        <div class="search-field">
-          <asp:Button ID="ImageButton1" runat="server" Text="Search" onclick="btnSearch_Click" CssClass="button" />
-        </div>
-      </div> 
-
-      <div class="medium-8 large-9 columns">
-           <div class="search-field">
-              <h2>Sort Results by:</h2>
-              <asp:DropDownList ID="DropDownList1" runat="server" AppendDataBoundItems="true"></asp:DropDownList>
-           </div>
-          <div class="items-container">
-          <asp:Repeater ID="rptContracts" runat="server" OnItemCommand="rptContracts_ItemCommand">
-	            <ItemTemplate>
-                    <div class="item">
-                        <h2><a href="VendorDetail.aspx?ID=<%# Eval("VendorNo") %>"><%# Eval("VendorName") %>  </a></h2>   
-                        <div class="price-group">
-                        <span class="original">Contract Amount: <%# Eval("Amount", "{0:C}")%></span>
-                        <span class="current"><%# Eval("OriginalAmount", "{0:C}")%> Original</span>
-
-                    </div>
-                    <div class="label-group">
-                      <div class="label-item">
-                          <div class="type">Type</div>
-                          <div class="title"><%# Eval("ServiceName") %></div>
-                      </div>
-                    <div class="label-item">
-                        <div class="type">Agency Name</div>
-                         <div class="title"><%# Eval("DepartmentName") %></div>
-                    </div>
-                    </div>
-                    <div class="agenda">
-                    <span class="title">Contract 
-                        				     <i><b> <a href="ContractDetail.aspx?ID=<%# Eval("ContractID") %>&sup=<%# Eval("SupplementalNo") %>">
-					    <%# Eval("SupplementalNo").ToString() == "0" ? Eval("ContractID") : Eval("ContractID") + "." + Eval("SupplementalNo")%>
-				      </a></b></i>
-                        Agenda:</span>
-                    <span><%# Eval("DateCountersigned", "{0:MM/dd/yyyy}")%> —<%# Eval("DateDuration", "{0:MM/dd/yyyy}")%></span>
-                    </div>
-                    <div class="description">
-                    <p><%# Eval("Description") %></p>
-                    </div>
-                                                    <span class="current">
-                               <asp:Panel ID="pnlContractPDF" runat="server" Visible='<%# Eval("HasPDF").ToString() == "True" %>'>
-					            <asp:ImageButton ID="ibtnContractPDF" runat="server" 
-						        ImageUrl="~/img/pdficon.gif"
-						        CommandName="ViewPDF" 
-						        CommandArgument='<%# Eval("ContractID") %>' />
-				              </asp:Panel>
-                            </span>
- 
-</div>
-
-
-
-
-
-                     
-
-
-
-
-	            </ItemTemplate>
-	          </asp:Repeater>
-
-
-
-
-
-
-
-<!--
-            <table class="ob-gridview" cellpadding="0" cellspacing="0">
-		      <tr>
-			    <th><asp:LinkButton ID="LinkButton1" Text="Vendor&nbsp;Name" OnClick="sortVendor" runat="server" /><asp:Image ID="imgSortVendor" runat="server" /></th>
-			    <th><asp:LinkButton ID="LinkButton2" Text="Agency&nbsp;Name" OnClick="sortAgency" runat="server" /><asp:Image ID="imgSortAgency" runat="server" /></th>
-			    <th><asp:LinkButton ID="LinkButton3" Text="Contract&nbsp;#" OnClick="sortContractID" runat="server" /><asp:Image ID="imgSortContractID" runat="server" /></th>
-			    <th><asp:LinkButton ID="LinkButton4" Text="Amount" OnClick="sortAmount" runat="server" /><asp:Image ID="imgSortAmount" runat="server" /></th>
-			    <th><asp:LinkButton ID="LinkButton5" Text="Original<br/>Amount" OnClick="sortOriginalAmount" runat="server" /><asp:Image ID="imgSortOriginalAmount" runat="server" /></th>
-			    <th><asp:LinkButton ID="LinkButton6" Text="Contract&nbsp;Description" OnClick="sortDescription" runat="server" /><asp:Image ID="imgSortDescription" runat="server" /></th>
-			    <th><asp:LinkButton ID="LinkButton9" Text="Contract&nbsp;Type" OnClick="sortContractType" runat="server" /><asp:Image ID="imgSortContractType" runat="server" /></th>
-			    <th><asp:LinkButton ID="LinkButton10" Text="Contract Approval Date" OnClick="sortApprovalDate" runat="server" /><asp:Image ID="imgSortApproval" runat="server" /></th>
-			    <th><asp:LinkButton ID="LinkButton8" Text="Contract End Date" OnClick="sortEndDate" runat="server" /><asp:Image ID="imgSortEndDate" runat="server" /></th>
-			    <th></th>
-		      </tr>
-	
-
-
--->
-
-
-          </div>
-    	    <div class="bottomnav">
-		      <div class="bottomnavbtns">
-                <div class="large-12 columns pagination-controls">
-                  <div class ="large-3 columns prev button">
-                    <asp:Button ID="ibtnFirstPageTop" runat="server" OnClick="FirstPage_Click" Text="First" class="button prev" />
-                  </div>
-                  <div class ="large-3 columns prev button">
-                    <asp:Button ID="ibtnPrevPageTop" runat="server" OnClick="PrevPage_Click"  Text="Previous" class="button prev" />
-                  </div>
-                  <div class ="large-3 columns prev button">
-                    <asp:Button ID="ibtnNextPageTop" runat="server" OnClick="NextPage_Click"  Text="Next" class="button prev"/>
-                  </div>
-                  <div class ="large-3 columns prev button">
-                    <asp:Button ID="ibtnLastPageTop" runat="server" OnClick="LastPage_Click"  Text="Last" class="button prev" />
-                  </div>
-                </div>		      
-		      </div>
-            </div>
-		</div>
-      </div>
-    </div>
-  </div>
 </asp:Content>
 

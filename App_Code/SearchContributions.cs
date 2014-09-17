@@ -122,7 +122,7 @@ namespace OpenBookPgh
 		{
 			//Query Distance?
 			bool QueryDistance = false;
-			if(sp.zip != null && sp.radius != null)
+			if(sp.zip != null && (sp.radius != 0))
 			{
 				QueryDistance = true;
 			}

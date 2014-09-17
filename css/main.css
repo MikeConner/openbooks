@@ -6610,7 +6610,7 @@ footer {
   padding: 0 0 2rem; }
   /* line 3, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/search.css.scss */
   .search-page button, .search-page .button {
-    background-color: #333333;
+    background-color: #222222;
     font-size: 0.875rem; }
   /* line 8, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/search.css.scss */
   .search-page .search-field button, .search-page .search-field .button {
@@ -6864,6 +6864,7 @@ footer {
 .range-slider .input-range {
   -webkit-appearance: none;
   height: 10px;
+  width: 100px;
   border-radius: 5px;
   background: #ccc;
   outline: none;
@@ -6904,7 +6905,7 @@ footer {
 .range-slider .range-value {
   display: inline-block;
   position: relative;
-  width: 60px;
+  width: 100px;
   color: #fff;
   font-size: 16px;
   line-height: 20px;

@@ -39,6 +39,8 @@ public partial class SearchLobbyistsPage : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
+            initializeSorting();
+
             GetSearchResults();
             txtLobbyist.Text = sp.lobbyistKeywords;
             txtEmployer.Text = sp.companyKeywords;
@@ -152,6 +154,7 @@ public partial class SearchLobbyistsPage : System.Web.UI.Page
     }
 
     // Sort Constants
+    /*
     public string SortExpression
     {
         get
@@ -177,6 +180,30 @@ public partial class SearchLobbyistsPage : System.Web.UI.Page
             }
             return sortDirection;
         }
+    }*/
+    public string SortExpression
+    {
+        get
+        {
+            object o = ViewState["_SortExpression"];
+            if (o == null)
+                return DEFAULTCOL; // default sort by Relevance Score
+            else
+                return (string)o;
+        }
+        set { ViewState["_SortExpression"] = value; }
+    }
+    public string SortDirection
+    {
+        get
+        {
+            object o = ViewState["_SortDirection"];
+            if (o == null)
+                return DESCENDING;
+            else
+                return (string)o;
+        }
+        set { ViewState["_SortDirection"] = value; }
     }
 
     // Query determination
@@ -239,6 +266,7 @@ public partial class SearchLobbyistsPage : System.Web.UI.Page
     }
 
     // Sorting Controls
+    /*
     public void sortLobbyist(object sender, EventArgs e)
     {
         string var = "ASC";
@@ -262,7 +290,39 @@ public partial class SearchLobbyistsPage : System.Web.UI.Page
             var = "DESC";
 
         Response.Redirect(GenerateQueryString(PageIndex, "DateEntered", var, PageSize));
+    }*/
+
+    private const string DEFAULTCOL = "LobbyistName";
+    private const string ASCENDING = "ASC";
+    private const string DESCENDING = "DESC";
+    private const string IMGDESC = "~/img/downarrow.gif";
+    private const string IMGASC = "~/img/uparrow.gif";
+    private const string IMGNOSORT = "~/img/placeholder.gif";
+    // Sorting Controls
+    public void initializeSorting()
+    {
+        imgSortDirection.ImageUrl = IMGASC;
+        SortDirection = ASCENDING;
+        SortExpression = ddlSortLobbyists.SelectedValue;
     }
+
+    public void toggleSortDirection(object sender, ImageClickEventArgs e)
+    {
+        if (SortDirection == ASCENDING)
+        {
+            SortDirection = DESCENDING;
+            imgSortDirection.ImageUrl = IMGDESC;
+        }
+        else
+        {
+            SortDirection = ASCENDING;
+            imgSortDirection.ImageUrl = IMGASC;
+        }
+
+        // Reload Search
+        GetSearchResults();
+    }
+
 
     /* Page Actions */
     protected void ddlPageSize_SelectedIndexChanged(object sender, EventArgs e)
@@ -271,5 +331,11 @@ public partial class SearchLobbyistsPage : System.Web.UI.Page
         int numResults = Convert.ToInt32(ddlPageSize.Text);
 
         Response.Redirect(GenerateQueryString(page, SortExpression, SortDirection, numResults));
+    }
+    protected void ddlSortLobbyists_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        SortExpression = ddlSortLobbyists.SelectedValue;
+
+        GetSearchResults();
     }
 }
