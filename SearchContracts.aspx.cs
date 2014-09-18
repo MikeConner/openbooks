@@ -12,6 +12,13 @@ using System.Data.SqlClient;
 public partial class SearchContractsPage : System.Web.UI.Page
 {
     public SearchRangeParamsContract sp;
+
+    // .NET 2.0 doesn't support ClientIDMode, and name mangling (which JS needs to match) depends on page settings, which can vary
+    //   between 
+    public int maxContractAmount;
+    public int stickyMinContract;
+    public int stickyMaxContract;
+
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -20,8 +27,7 @@ public partial class SearchContractsPage : System.Web.UI.Page
             initializeSorting();
             
             ((Label)Master.FindControl("FlashErrorMessage")).Text = "";
-            int maxContractAmount = SearchContracts.GetMaxContractPrice();
-            MaxContractField.Value = maxContractAmount.ToString();
+            maxContractAmount = SearchContracts.GetMaxContractPrice();
 
             // Search
             GetSearchResults();
@@ -29,8 +35,8 @@ public partial class SearchContractsPage : System.Web.UI.Page
             LoadContractTypes();
             Vendor.Text = sp.vendorKeywords;
             Keywords.Text = sp.keywords;
-            StickyMinContract.Value = sp.minContractAmt.ToString();
-            StickyMaxContract.Value = sp.maxContractAmt.ToString();
+            stickyMinContract = sp.minContractAmt;
+            stickyMaxContract = sp.maxContractAmt;
         }
     }
     private void LoadDepartments()

@@ -18,9 +18,9 @@
 
     value.html(range.attr('value'));
     // Set range max (server sets a hidden field; copy it to the control). Cannot do on the server without breaking client JS.
-    var contractMax = $('#ctl00_ContentPlaceHolder1_MaxContractField').val();
-    var stickyMin = $('#ctl00_ContentPlaceHolder1_StickyMinContract').val();
-    var stickyMax = $('#ctl00_ContentPlaceHolder1_StickyMaxContract').val();
+    var contractMax = $('#MaxContractField').val();
+    var stickyMin = $('#StickyMinContract').val();
+    var stickyMax = $('#StickyMaxContract').val();
 
     if (($('#dblMaxContract').length > 0) && (undefined == $('#dblMaxContract').attr('max'))) {
         $('#dblMaxContract').attr('max', contractMax);

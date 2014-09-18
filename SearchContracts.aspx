@@ -87,9 +87,9 @@
                         <span id="minContract" class="range-value">1</span>
                     </div>
                     <div class="range-slider">
-                        <asp:HiddenField ID="MaxContractField" runat="server" />
-                        <asp:HiddenField ID="StickyMinContract" runat="server" />
-                        <asp:HiddenField ID="StickyMaxContract" runat="server" />
+                        <input type="hidden" id="MaxContractField" value="<%= maxContractAmount %>" />
+                        <input type="hidden" id="StickyMinContract" value="<%= stickyMinContract %>" />
+                        <input type="hidden" id="StickyMaxContract" value="<%= stickyMaxContract %>" />
                         <label>Maximum Amount</label>
                         <input class="input-range" min="1" type="range" id="dblMaxContract" name="dblMaxContract">
                         <span id="maxContract" class="range-value">36000000</span>
