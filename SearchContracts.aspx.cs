@@ -27,7 +27,6 @@ public partial class SearchContractsPage : System.Web.UI.Page
             initializeSorting();
             
             ((Label)Master.FindControl("FlashErrorMessage")).Text = "";
-            maxContractAmount = SearchContracts.GetMaxContractPrice();
 
             // Search
             GetSearchResults();
@@ -38,6 +37,8 @@ public partial class SearchContractsPage : System.Web.UI.Page
             stickyMinContract = sp.minContractAmt;
             stickyMaxContract = sp.maxContractAmt;
         }
+
+        maxContractAmount = SearchContracts.GetMaxContractPrice();
     }
     private void LoadDepartments()
     {
