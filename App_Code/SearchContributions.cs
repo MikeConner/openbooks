@@ -224,61 +224,6 @@ namespace OpenBookPgh
 			}
 		}
 
-		//public static DataTable GetContributions(SearchParamsContribution sp, int pageIndex, int maximumRows, string sortColumn, string sortDirection)
-		//{
-		//    DataTable results = new DataTable("Results");
-		//    using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
-		//    {
-		//        using (SqlCommand cmd = new SqlCommand("SearchContributionsSQL", conn))
-		//        {
-		//            cmd.CommandType = CommandType.StoredProcedure;
-		//            cmd.Parameters.Add("@pageIndex", SqlDbType.Int).Value = pageIndex;
-		//            cmd.Parameters.Add("@maximumRows", SqlDbType.Int).Value = maximumRows;
-		//            cmd.Parameters.Add("@sortColumn", SqlDbType.VarChar, 25).Value = sortColumn;
-		//            cmd.Parameters.Add("@sortDirection", SqlDbType.Char, 4).Value = sortDirection;
-		//            cmd.Parameters.Add("@candidateID", SqlDbType.Int).Value = (sp.candidateID == 0) ? System.DBNull.Value : (object)sp.candidateID;
-		//            cmd.Parameters.Add("@office", SqlDbType.NVarChar, 50).Value = (sp.office == null) ? System.DBNull.Value : (object)sp.office;
-		//            cmd.Parameters.Add("@contributorKeywords", SqlDbType.NVarChar, 100).Value = (sp.contributorKeywords == null) ? System.DBNull.Value : (object)sp.contributorKeywords;
-		//            cmd.Parameters.Add("@contributorSearchOptions", SqlDbType.Char, 2).Value = (sp.contributorSearchOptions == null) ? System.DBNull.Value : (object)sp.contributorSearchOptions;
-		//            cmd.Parameters.Add("@employerKeywords", SqlDbType.NVarChar, 100).Value = (sp.employerKeywords == null) ? System.DBNull.Value : (object)sp.employerKeywords;
-
-		//            conn.Open();
-		//            cmd.ExecuteNonQuery();
-		//            SqlDataAdapter da = new SqlDataAdapter(cmd);
-		//            da.Fill(results);
-
-		//            return results;
-		//        }
-		//    }
-		//}
-		//public static int GetContributionsCount(SearchParamsContribution sp)
-		//{
-		//    using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
-		//    {
-		//        using (SqlCommand cmd = new SqlCommand("SearchContributionsCount", conn))
-		//        {
-		//            cmd.CommandType = CommandType.StoredProcedure;
-		//            cmd.Parameters.Add("@candidateID", SqlDbType.Int).Value = (sp.candidateID == 0) ? System.DBNull.Value : (object)sp.candidateID;
-		//            cmd.Parameters.Add("@office", SqlDbType.NVarChar, 50).Value = (sp.office == null) ? System.DBNull.Value : (object)sp.office;
-		//            cmd.Parameters.Add("@contributorKeywords", SqlDbType.NVarChar, 100).Value = (sp.contributorKeywords == null) ? System.DBNull.Value : (object)sp.contributorKeywords;
-		//            cmd.Parameters.Add("@contributorSearchOptions", SqlDbType.Char, 2).Value = (sp.contributorSearchOptions == null) ? System.DBNull.Value : (object)sp.contributorSearchOptions;
-		//            cmd.Parameters.Add("@employerKeywords", SqlDbType.NVarChar, 100).Value = (sp.employerKeywords == null) ? System.DBNull.Value : (object)sp.employerKeywords;
-
-		//            int rowCount = 0;
-		//            try
-		//            {
-		//                conn.Open();
-		//                rowCount = (Int32)cmd.ExecuteScalar();
-		//            }
-		//            catch (Exception ex)
-		//            {
-		//                throw ex;
-		//            }
-		//            return (int)rowCount;
-		//        }
-		//    }
-		//}
-
 		/// <summary>
 		/// Uses zipcode database to calculate the origin based on Latitude & Longitude
 		/// </summary>

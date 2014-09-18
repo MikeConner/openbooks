@@ -18,8 +18,10 @@ public partial class SearchExpendituresPage : System.Web.UI.Page
 		string vendor = txtVendor.Text;
 		string vendorSearchOptions = rblVendorSearchOptions.SelectedValue;
 		string keywords = txtKeywords.Text;
+        int year1 = 0;
+        Int32.TryParse(ddldatePaid.SelectedValue, out year1);
 
-		string queryString = SearchExpenditures.GenerateQueryString(candidateID, office, vendor, vendorSearchOptions, keywords);
+		string queryString = SearchExpenditures.GenerateQueryString(candidateID, office, year1, vendor, vendorSearchOptions, keywords);
 		Response.Redirect(queryString);
 	}
 
@@ -33,6 +35,8 @@ public partial class SearchExpendituresPage : System.Web.UI.Page
             // Search
             GetSearchResults();
             LoadCandidates();
+            LoadYears();
+
             if (sp.office != null)
             {
                 ddlOffice.Items.FindByValue(sp.office.ToString()).Selected = true;
@@ -40,6 +44,33 @@ public partial class SearchExpendituresPage : System.Web.UI.Page
             txtVendor.Text = sp.vendorKeywords;
             txtKeywords.Text = sp.keywords;            
         }
+    }
+
+    private void LoadYears()
+    {
+        DataTable dt = new DataTable();
+
+        using (SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
+        {
+            try
+            {
+                SqlDataAdapter adapter = new SqlDataAdapter("SELECT [yearName], [yearValue] FROM [tlk_year]", con);
+                adapter.Fill(dt);
+
+                ddldatePaid.DataSource = dt;
+                ddldatePaid.DataTextField = "yearName";
+                ddldatePaid.DataValueField = "yearValue";
+                ddldatePaid.DataBind();
+            }
+            catch (Exception ex)
+            {
+                // Handle the error
+            }
+        }
+
+        // Add the initial item - you can add this even if the options from the
+        // db were not successfully loaded
+        ddldatePaid.Items.Insert(0, new ListItem("All Years", "0"));
     }
     private void LoadCandidates()
     {
@@ -70,6 +101,7 @@ public partial class SearchExpendituresPage : System.Web.UI.Page
     protected void Page_LoadComplete(object sender, EventArgs e)
     {
         ddlCandidateName.Items.FindByValue(sp.candidateID.ToString()).Selected = true;
+        ddldatePaid.Items.FindByValue(sp.datePaid.ToString()).Selected = true;
     }
 
     public void GetSearchResults()

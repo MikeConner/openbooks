@@ -9,11 +9,12 @@ namespace OpenBookPgh
 	{
 		public SearchParamsExpenditures(){}
 
-		private SearchParamsExpenditures(int candidateID, string office, string vendorKeywords, string vendorSearchOptions, string keywords)
+		private SearchParamsExpenditures(int candidateID, string office, int datePaid, string vendorKeywords, string vendorSearchOptions, string keywords)
 		{
 			this.candidateID = candidateID;
 			this.office = office;
-			this.vendorKeywords = vendorKeywords;
+            this.datePaid = datePaid;
+            this.vendorKeywords = vendorKeywords;
 			this.vendorSearchOptions = vendorSearchOptions;
 			this.keywords = keywords;
 		}
@@ -29,6 +30,12 @@ namespace OpenBookPgh
 			get { return _office; }
 			set { _office = value; }
 		}
+        private int _datePaid = 0;
+        public int datePaid
+        {
+            get { return _datePaid; }
+            set { _datePaid = value; }
+        }
 		private string _vendorKeywords;
 		public string vendorKeywords
 		{

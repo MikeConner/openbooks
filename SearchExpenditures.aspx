@@ -44,6 +44,10 @@
                     </asp:DropDownList>
                 </div>
                 <div class="search-field">
+                    <h2>Year</h2>
+                    <asp:DropDownList ID="ddldatePaid" runat="server" AppendDataBoundItems="true" />
+                </div>
+                <div class="search-field">
                     <h2>Company or Individual</h2>
                     <asp:RadioButtonList ID="rblVendorSearchOptions" runat="server" RepeatDirection="Horizontal" hidden>
                         <asp:ListItem Text="Begins with" Value="B" />

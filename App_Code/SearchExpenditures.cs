@@ -11,7 +11,7 @@ namespace OpenBookPgh
 	/// </summary>
 	public class SearchExpenditures
 	{
-		public static string GenerateQueryString(int candidateID, string office, string vendorKeywords, string vendorSearchOptions, string keywords)
+		public static string GenerateQueryString(int candidateID, string office, int year1, string vendorKeywords, string vendorSearchOptions, string keywords)
 		{
 			string queryString = "~/SearchExpenditures.aspx?";
 
@@ -25,7 +25,12 @@ namespace OpenBookPgh
 			{
 				queryString += "&office=" + office;
 			}
-			// Keywords
+            // Date Paid
+            if (year1 != 0)
+            {
+                queryString += "&yr1=" + year1;
+            }
+            // Keywords
 			if (!string.IsNullOrEmpty(keywords))
 			{
 				queryString += "&q=" + System.Web.HttpUtility.UrlEncode(keywords);
@@ -55,7 +60,13 @@ namespace OpenBookPgh
 			{
 				sp.office = office;
 			}
-			// Vendor Keywords
+            // Year Paid
+            int yr1 = Utils.GetIntFromQueryString(Request.QueryString["yr1"]);
+            if (yr1 != 0)
+            {
+                sp.datePaid = yr1;
+            }
+            // Vendor Keywords
 			string vendorKeywords = Utils.GetStringFromQueryString(Request.QueryString["vendor"], true);
 			if (vendorKeywords != "")
 			{
@@ -91,7 +102,8 @@ namespace OpenBookPgh
 					cmd.Parameters.Add("@sortDirection", SqlDbType.Char, 4).Value = sortDirection;
 					cmd.Parameters.Add("@candidateID", SqlDbType.Int).Value = (sp.candidateID == 0) ? System.DBNull.Value : (object)sp.candidateID;
 					cmd.Parameters.Add("@office", SqlDbType.NVarChar, 50).Value = (sp.office == null) ? System.DBNull.Value : (object)sp.office;
-					cmd.Parameters.Add("@vendorKeywords", SqlDbType.VarChar, 100).Value = (sp.vendorKeywords == null) ? System.DBNull.Value : (object)sp.vendorKeywords;
+                    cmd.Parameters.Add("@datePaid", SqlDbType.Int).Value = sp.datePaid;
+                    cmd.Parameters.Add("@vendorKeywords", SqlDbType.VarChar, 100).Value = (sp.vendorKeywords == null) ? System.DBNull.Value : (object)sp.vendorKeywords;
 					cmd.Parameters.Add("@vendorSearchOptions", SqlDbType.Char, 1).Value = (sp.vendorSearchOptions == null) ? System.DBNull.Value : (object)sp.vendorSearchOptions;
 					cmd.Parameters.Add("@keywords", SqlDbType.VarChar, 100).Value = (sp.keywords == null) ? System.DBNull.Value : (object)sp.keywords;
 
@@ -114,7 +126,8 @@ namespace OpenBookPgh
 					cmd.CommandType = CommandType.StoredProcedure;
 					cmd.Parameters.Add("@candidateID", SqlDbType.Int).Value = (sp.candidateID == 0) ? System.DBNull.Value : (object)sp.candidateID;
 					cmd.Parameters.Add("@office", SqlDbType.NVarChar, 50).Value = (sp.office == null) ? System.DBNull.Value : (object)sp.office;
-					cmd.Parameters.Add("@vendorKeywords", SqlDbType.VarChar, 100).Value = (sp.vendorKeywords == null) ? System.DBNull.Value : (object)sp.vendorKeywords;
+                    cmd.Parameters.Add("@datePaid", SqlDbType.Int).Value = sp.datePaid;
+                    cmd.Parameters.Add("@vendorKeywords", SqlDbType.VarChar, 100).Value = (sp.vendorKeywords == null) ? System.DBNull.Value : (object)sp.vendorKeywords;
 					cmd.Parameters.Add("@vendorSearchOptions", SqlDbType.Char, 1).Value = (sp.vendorSearchOptions == null) ? System.DBNull.Value : (object)sp.vendorSearchOptions;
 					cmd.Parameters.Add("@keywords", SqlDbType.VarChar, 100).Value = (sp.keywords == null) ? System.DBNull.Value : (object)sp.keywords;
 

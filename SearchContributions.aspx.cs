@@ -184,7 +184,6 @@ public void GetResultsCount(SearchParamsContribution sp)
     }
 }
 
-
 //Pager Constants
 public int PageIndex
 {
@@ -201,6 +200,7 @@ public int PageIndex
         ViewState["_PageIndex"] = value;
     }
 }
+
 public int PageSize
 {
     get
