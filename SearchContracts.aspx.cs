@@ -185,10 +185,22 @@ public partial class SearchContractsPage : System.Web.UI.Page
         PageCount = (totalRows / PageSize) + addPage;
 
         // Disable buttons if necessary
-        ibtnFirstPageTop.Enabled = !(PageIndex == 0);
-        ibtnPrevPageTop.Enabled = !(PageIndex == 0);
-        ibtnNextPageTop.Enabled = !(PageIndex >= PageCount - 1);
-        ibtnLastPageTop.Enabled = !(PageIndex >= PageCount - 1);
+        if ((PageIndex == 0))
+        {
+            ibtnFirstPageTop.Enabled = !(PageIndex == 0);
+            ibtnFirstPageTop.CssClass = "button prev";
+            ibtnPrevPageTop.Enabled = !(PageIndex == 0);
+            ibtnPrevPageTop.CssClass = "button prev";
+        }
+
+        if ((PageIndex >= PageCount - 1))
+        {
+            ibtnNextPageTop.Enabled = !(PageIndex >= PageCount - 1);
+            ibtnNextPageTop.CssClass = "button prev";
+            ibtnLastPageTop.Enabled = !(PageIndex >= PageCount - 1);
+            ibtnLastPageTop.CssClass = "button prev";
+        }
+       
 
         // Calculate Results & Update Pager
         int startResults = (PageIndex * PageSize) + addPage;
