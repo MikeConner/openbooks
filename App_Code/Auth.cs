@@ -14,6 +14,9 @@ namespace OpenBookPgh
 	/// </summary>
 	public class Auth
 	{
+        public const string ADMIN_USER_ROLE = "admin";
+        public const string CANDIDATE_USER_ROLE = "candidate";
+
 		public Auth()
 		{
 			//
@@ -151,7 +154,33 @@ namespace OpenBookPgh
 			}
 			return strRoles;
 		}
-		
+
+        public static Boolean ValidateUserRoles(string roles)
+        {
+            return (ADMIN_USER_ROLE == roles) || (CANDIDATE_USER_ROLE == roles) || (string.Empty == roles);
+        }
+
+        public static void SetUserRoles(string username, string roles)
+        {
+            if (ValidateUserRoles(roles))
+            {
+                using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand("SetUserRoles", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@PermissionGroup", SqlDbType.NVarChar, 50).Value = roles;
+                        cmd.Parameters.Add("@UserName", SqlDbType.NVarChar, 50).Value = username;
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            else
+            {
+                throw new System.ArgumentException("Invalid role", roles);
+            }
+        }
 		
 		public static void AddUser(string firstName, string lastName, string initials, string email, string userName, string passwordHash, string salt)
 		{

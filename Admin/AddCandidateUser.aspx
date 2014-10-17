@@ -1,10 +1,10 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/_Masters/AdminMasterPage.master" AutoEventWireup="true" CodeFile="AddUser.aspx.cs" Inherits="Admin_AddUser" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/_Masters/AdminMasterPage.master" AutoEventWireup="true" CodeFile="AddCandidateUser.aspx.cs" Inherits="Admin_AddUser" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 <div class="about">
 <div class="row">
 <div class="large-12 columns">
-<h2>Add New Admin User</h2>
+<h2>Add New Candidate User</h2>
 <table cellpadding="0" cellspacing="0">
 	<tr>
 		<td><asp:Label ID="Label1" runat="server">First Name:</asp:Label></td>
