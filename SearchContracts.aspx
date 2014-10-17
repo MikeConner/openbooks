@@ -31,7 +31,7 @@
         <div class="row">
             <div class="medium-4 large-3 columns">
                 <div class="search-field">
-                    <h2>Agency Name</h2>
+                    <h2>Department Name</h2>
                     <asp:DropDownList ID="CityDepartment" runat="server" AppendDataBoundItems="true"></asp:DropDownList>
                 </div>
                 <div class="search-field">
@@ -106,7 +106,7 @@
                         OnSelectedIndexChanged="ddlSortContracts_SelectedIndexChanged"
                         AutoPostBack="true">
                         <asp:ListItem Text="Contract Amount" Value="amount" />
-                        <asp:ListItem Text="Agency Name" Value="DepartmentID" />
+                        <asp:ListItem Text="Department Name" Value="DepartmentID" />
                         <asp:ListItem Text="Contract Type" Value="Service" />
                         <asp:ListItem Text="Vendor Name" Value="VendorName" />
                         <asp:ListItem Text="Approval Date" Value="DateCountersigned" />
@@ -120,7 +120,7 @@
                                 <h2><a href="VendorDetail.aspx?ID=<%# Eval("VendorNo") %>"><%# Eval("VendorName") %>  </a></h2>
                                 <div class="price-group">
                                     <span class="original">Contract Amount: <%# Eval("Amount", "{0:C}")%></span>
-                                    <span class="current"><%# Eval("OriginalAmount", "{0:C}")%> Original</span>
+                                    <span class="current"><%# Eval("OriginalAmount", "{0:C}")%> Original Contract </span>
 
                                 </div>
                                 <div class="label-group">
@@ -129,7 +129,7 @@
                                         <div class="title"><%# Eval("ServiceName") %></div>
                                     </div>
                                     <div class="label-item">
-                                        <div class="type">Agency Name</div>
+                                        <div class="type">Department Name</div>
                                         <div class="title"><%# Eval("DepartmentName") %></div>
                                     </div>
                                 </div>

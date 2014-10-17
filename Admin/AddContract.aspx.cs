@@ -38,8 +38,11 @@ public partial class AddContract : System.Web.UI.Page
 
 
 	protected void LoadDefaults()
-	{
-		int contractNo = 0;
+    {
+        String un = User.Identity.Name;
+
+
+        int contractNo = 0;
 		if (_ContractID != 0)
 		{
 			contractNo = _ContractID;
@@ -168,6 +171,8 @@ public partial class AddContract : System.Web.UI.Page
 		{
 			result = Admin.AddContract(contractNo, vendorNo, departmentID, supplementalNo, resolutionNo, service,
 				amount, originalAmount, description, dateDuration, dateApproval, dateEntered);
+            String un = User.Identity.Name;
+
 		}
 		return result;
 
