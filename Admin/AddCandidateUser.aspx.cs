@@ -18,7 +18,7 @@ public partial class Admin_AddUser : System.Web.UI.Page
 		try
 		{
 			Auth.AddUser(first_name.Text, last_name.Text, initials.Text, email.Text, user_name.Text, passwordHash, salt);
-            Auth.SetUserRoles(user_name.Text, Auth.ADMIN_USER_ROLE);
+            Auth.SetUserRoles(user_name.Text, Auth.CANDIDATE_USER_ROLE);
 		}
 		catch (Exception ex)
 		{
