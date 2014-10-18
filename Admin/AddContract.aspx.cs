@@ -40,7 +40,7 @@ public partial class AddContract : System.Web.UI.Page
 	protected void LoadDefaults()
     {
         String un = User.Identity.Name;
-
+//        User.IsInRole("admin");
 
         int contractNo = 0;
 		if (_ContractID != 0)

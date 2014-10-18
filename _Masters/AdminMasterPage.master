@@ -8,111 +8,111 @@
 
 <body>
     <form id="form2" runat="server">
-<div class='header-container'>
-<nav class='top-bar' data-topbar=''>
-<ul class='title-area'>
-<li class='name'>
-<h1><a href="/"><img alt="Logo" src="../img/logo.png" /></a></h1>
-</li>
-<li class='toggle-topbar menu-icon'>
-<a href='#'>
-<span>Menu</span>
-</a>
-</li>
-</ul>
-<section class='top-bar-section'>
-<!-- Right Nav Section -->
-<ul class='right'>
-<li><a href="/">Home</a></li>
-<li class='search-toggle'><a href="#">Search</a></li>
-<li><a href="../About.aspx">About</a></li>
-<li><a href="../Contact.aspx">Contact</a></li>
-    <li class="adminlogin">
-				<asp:Panel ID="panelNotLoggedIn" runat="server" Visible="true">
-					<asp:HyperLink ID="hlLogin" runat="server" NavigateUrl="~/Admin/login.aspx"> Login</asp:HyperLink>
-				</asp:Panel>
-			</li>
-			<li class="adminlogin">
-				<asp:Panel ID="panelLoggedIn" runat="server" Visible="false">
-				<asp:LinkButton ID="lbtnLogout" runat="server" Text="Logout" OnClick="lbtnLogout_Click" />
-				</asp:Panel>
-			</li>
-<li class='controller'><a href="/"><img alt="Controller logo" src="../img/controller-logo.png" /></a></li>
-</ul>
-</section>
-</nav>
-    <section class='search-menu'>
-        <div class='row'>
-            <div class='large-4 columns'>
-                <div class='button'><a href="../SearchContracts.aspx">City Contracts</a></div>
+        <div class='header-container'>
+            <nav class='top-bar' data-topbar=''>
+                <ul class='title-area'>
+                    <li class='name'>
+                      <h1><a href="/"><img alt="Logo" src="../img/logo.png" /></a></h1>
+                    </li>
+                    <li class='toggle-topbar menu-icon'>
+                        <a href='#'><span>Menu</span></a>
+                    </li>
+                </ul>
+                <section class='top-bar-section'>
+                <!-- Right Nav Section -->
+                    <ul class='right'>
+                        <li><a href="/">Home</a></li>
+                        <li class='search-toggle'><a href="#">Search</a></li>
+                        <li><a href="../About.aspx">About</a></li>
+                        <li><a href="../Contact.aspx">Contact</a></li>
+                        <li class="adminlogin">
+				            <asp:Panel ID="panelNotLoggedIn" runat="server" Visible="true">
+					            <asp:HyperLink ID="hlLogin" runat="server" NavigateUrl="~/Admin/login.aspx"> Login</asp:HyperLink>
+				            </asp:Panel>
+			            </li>
+			            <li class="adminlogin">
+				            <asp:Panel ID="panelLoggedIn" runat="server" Visible="false">
+				            <asp:LinkButton ID="lbtnLogout" runat="server" Text="Logout" OnClick="lbtnLogout_Click" />
+				            </asp:Panel>
+			            </li>
+                        <li class='controller'><a href="/"><img alt="Controller logo" src="../img/controller-logo.png" /></a></li>
+                    </ul>
+                </section>
+            </nav>
+            <section class='search-menu'>
+                <div class='row'>
+                    <div class='large-4 columns'>
+                        <div class='button'><a href="../SearchContracts.aspx">City Contracts</a></div>
+                    </div>
+                    <div class='large-4 columns'>
+                        <div class='button'><a href="../SearchContributions.aspx">Campaign Finance</a></div>
+                    </div>
+                    <div class='large-4 columns'>
+                        <div class='button'><a href="../SearchLobbyists.aspx">Lobbyists</a></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div >
+            <div id='leftmenu' class='large-2 columns medium-3'>
+     
+                <div class ='row'>
+                   <dl > <!-- class="sub-nav" -->
+			            <dt><b>Administrator</b></dt>
+				        <dd><asp:HyperLink ID="HyperLink1" Text="View Contracts" NavigateUrl="~/Admin/Contracts.aspx" runat="server" /></dd>
+				        <dd><asp:HyperLink ID="HyperLink2" Text="View Contributions" NavigateUrl="~/Admin/Contributions.aspx" runat="server" /></dd>
+				        <dd><asp:HyperLink ID="HyperLink3" Text="View Expenditures" NavigateUrl="~/Admin/Expenditures.aspx" runat="server" /></dd>
+				        <dd><asp:HyperLink ID="HyperLink4" Text="View Vendors" NavigateUrl="~/Admin/Vendors.aspx" runat="server" /></dd>
+				        <dd><asp:HyperLink ID="HyperLink7" Text="View Lobbyists" NavigateUrl="~/Admin/Lobbyists.aspx" runat="server" /></dd>
+				        <dd><asp:HyperLink ID="HyperLink5" Text="View Users" NavigateUrl="~/Admin/Users.aspx" runat="server" /></dd>
+			        </dl>
+                </div>
+                <div class ='row'>
+                    <dl >  <!-- class="sub-nav"    <section class ="top-bar-section"></section> -->
+		                <dd><asp:HyperLink ID="hl1" NavigateUrl="~/Admin/AddContract.aspx" Text="Add Contract" runat="server" /></dd>
+		                <dd><asp:HyperLink ID="hl2" NavigateUrl="~/Admin/AddContribution.aspx" Text="Add Contribution" runat="server" /></dd>
+		                <dd><asp:HyperLink ID="hl3" NavigateUrl="~/Admin/AddExpenditure.aspx" Text="Add Expenditure" runat="server" /></dd>
+		                <dd><asp:HyperLink ID="hl4" NavigateUrl="~/Admin/AddVendor.aspx" Text="Add Vendor" runat="server" /></dd>
+		                <dd><asp:HyperLink ID="HyperLink6" NavigateUrl="~/Admin/AddLobbyist.aspx" Text="Add Lobbyist" runat="server" /></dd>
+		                <dd><asp:HyperLink ID="hl5" NavigateUrl="~/Admin/AddCandidate.aspx" Text="Add Candidate" runat="server" /></dd>
+		                <dd><asp:HyperLink ID="hl6" NavigateUrl="~/Admin/AddUser.aspx" Text="Add User" runat="server" /></dd>
+		            </dl>
+                </div> 
             </div>
-            <div class='large-4 columns'>
-                <div class='button'><a href="../SearchContributions.aspx">Campaign Finance</a></div>
+            <div class='admin-container medium-9 large-10 columns'>
+         
+            <div id="wrap" class="large-12 column about">		 
+		        <div class="gridview">
+			        <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+			        </asp:ContentPlaceHolder>
+		        </div>
+	        </div>
+        </div>
+        </div>
+
+
+        <footer class='row'>
+            <div class='large-8 columns'>
+                <h3>Office of Controller Michael Lamb</h3>
             </div>
-            <div class='large-4 columns'>
-                <div class='button'><a href="../SearchLobbyists.aspx">Lobbyists</a></div>
+        </footer>
+        <div class='copyright'>
+            <div class='row'>
+                <div class='large-12 columns'>
+                    <span><a href="/"><img alt="Footer logo" src="../img/footer-logo.png" /></a></span>
+                    <span class='copy'>
+                        Copyright <asp:Literal ID="CopyYear" runat="server" />, Pittsburgh City Controller
+                    </span>
+                </div>
             </div>
         </div>
-    </section>
-
-
-</div>
-
-<div class='main-container'>
-    <section class ="top-bar-section">
- 
-    <div class ="row">
-        <dl class="sub-nav">
-			<dt><b>Administrator</b></dt>
-				<dd><asp:HyperLink ID="HyperLink1" Text="View Contracts" NavigateUrl="~/Admin/Contracts.aspx" runat="server" /></dd>
-				<dd><asp:HyperLink ID="HyperLink2" Text="View Contributions" NavigateUrl="~/Admin/Contributions.aspx" runat="server" /></dd>
-				<dd><asp:HyperLink ID="HyperLink3" Text="View Expenditures" NavigateUrl="~/Admin/Expenditures.aspx" runat="server" /></dd>
-				<dd><asp:HyperLink ID="HyperLink4" Text="View Vendors" NavigateUrl="~/Admin/Vendors.aspx" runat="server" /></dd>
-				<dd><asp:HyperLink ID="HyperLink7" Text="View Lobbyists" NavigateUrl="~/Admin/Lobbyists.aspx" runat="server" /></dd>
-				<dd><asp:HyperLink ID="HyperLink5" Text="View Users" NavigateUrl="~/Admin/Users.aspx" runat="server" /></dd>
-			</dl>
-    </div>
-    <div class ="row">
-        <dl class="sub-nav">
-		    <dd><asp:HyperLink ID="hl1" NavigateUrl="~/Admin/AddContract.aspx" Text="Add Contract" runat="server" /></dd>
-		    <dd><asp:HyperLink ID="hl2" NavigateUrl="~/Admin/AddContribution.aspx" Text="Add Contribution" runat="server" /></dd>
-		    <dd><asp:HyperLink ID="hl3" NavigateUrl="~/Admin/AddExpenditure.aspx" Text="Add Expenditure" runat="server" /></dd>
-		    <dd><asp:HyperLink ID="hl4" NavigateUrl="~/Admin/AddVendor.aspx" Text="Add Vendor" runat="server" /></dd>
-		    <dd><asp:HyperLink ID="HyperLink6" NavigateUrl="~/Admin/AddLobbyist.aspx" Text="Add Lobbyist" runat="server" /></dd>
-		    <dd><asp:HyperLink ID="hl5" NavigateUrl="~/Admin/AddCandidate.aspx" Text="Add Candidate" runat="server" /></dd>
-		    <dd><asp:HyperLink ID="hl6" NavigateUrl="~/Admin/AddUser.aspx" Text="Add User" runat="server" /></dd>
-		</dl>
-    </div> 
-</section>
-    <div id="wrap" class="large-12 column about">		 
-		<div class="gridview">
-			<asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
-			</asp:ContentPlaceHolder>
-		</div>
-	</div>
-
-    <footer class='row'>
-<div class='large-8 columns'>
-<h3>Office of Controller Michael Lamb</h3>
-</footer>
-<div class='copyright'>
-<div class='row'>
-<div class='large-12 columns'>
-<span><a href="/"><img alt="Footer logo" src="../img/footer-logo.png" /></a></span>
-<span class='copy'>
-
-
-    Copyright <asp:Literal ID="CopyYear" runat="server" />, Pittsburgh City Controller
-</span>
-</div>
-</div>
-</div>
-    <script src="/js/vendor/modernizr.js" type="text/javascript"></script>
-    <script src="/js/jquery.js" type="text/javascript"></script>
-    <script src="/js/jquery-ui.js" type="text/javascript"></script>
-    <script src="/js/foundation.min.js" type="text/javascript"></script>
-    <script src="/js/main.js" type="text/javascript"></script>
-</form>
+        <script src="/js/vendor/modernizr.js" type="text/javascript"></script>
+        <script src="/js/jquery.js" type="text/javascript"></script>
+        <script src="/js/jquery-ui.js" type="text/javascript"></script>
+        <script src="/js/foundation.min.js" type="text/javascript"></script>
+        <script src="/js/main.js" type="text/javascript"></script>
+    </form>
     
 </body>
 </html>
