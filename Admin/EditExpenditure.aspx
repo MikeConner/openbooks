@@ -2,8 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 <div class="about">
-<div class="row">
-<div class="large-12 columns">>
+<div class="large-12 columns">
 <h2>Edit Campaign Expenditures</h2>
 
 <asp:FormView ID="frmExpenditure" runat="server">
@@ -103,6 +102,6 @@
 
 	</ItemTemplate>
 </asp:FormView>
-</div></div></div>
+</div></div>
 </asp:Content>
 

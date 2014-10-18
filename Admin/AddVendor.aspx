@@ -2,7 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 <div class="about">
-<div class="row">
+
 <div class="large-12 columns">
 	<h2>Add a Vendor</h2>
 
@@ -91,6 +91,6 @@
 
 	<asp:Label ID="lblMessage" runat="server" />
 	</div>
-</div></div>
+</div>
 </asp:Content>
 

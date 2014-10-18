@@ -3,7 +3,7 @@ Inherits="Admin_EditContract" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 <div class="about">
-<div class="row">
+
 <div class="large-12 columns">
 <h2>Edit Contract</h2>
 
@@ -126,6 +126,6 @@ Inherits="Admin_EditContract" %>
 <asp:Label ID="lblMessage" runat="server" />
 	</ItemTemplate>
 </asp:FormView>
-</div></div></div>
+</div></div>
 </asp:Content>
 

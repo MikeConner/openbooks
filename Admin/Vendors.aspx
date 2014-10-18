@@ -2,7 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <div class="about">
-<div class="row">
+
 <div class="large-12 columns">
 <div class="gridboxhead">
 <div class="gridboxleft">
@@ -65,8 +65,9 @@
         <asp:ImageButton ID="ibtnLastPageTop" runat="server" OnClick="LastPage_Click" ImageUrl="~/img/lastbtn.gif" />
     </div>
     </div>
-</div>
 
-    </div></div>
+
+    </div>
+</div>
 </asp:Content>
 

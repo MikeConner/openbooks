@@ -3,7 +3,7 @@ Inherits="Admin_AddLobbyist" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 <div class="about">
-<div class="row">
+
 <div class="large-12 columns">
 <h2>Register Lobbyist</h2>
 
@@ -142,6 +142,6 @@ Inherits="Admin_AddLobbyist" %>
 
 
 </div></div>
-</div>
+
 </asp:Content>
 
