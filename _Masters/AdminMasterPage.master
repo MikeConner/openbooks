@@ -73,7 +73,7 @@
                     <dd><asp:HyperLink ID="hl1" NavigateUrl="~/Admin/AddContract.aspx" Text="Add Contract" runat="server" /></dd>
                     <dd><asp:HyperLink ID="hl4" NavigateUrl="~/Admin/AddVendor.aspx" Text="Add Vendor" runat="server" /></dd>
                     <dd><asp:HyperLink ID="HyperLink6" NavigateUrl="~/Admin/AddLobbyist.aspx" Text="Add Lobbyist" runat="server" /></dd>
-                    <dd<asp:HyperLink ID="hl5" NavigateUrl="~/Admin/AddCandidate.aspx" Text="Add Candidate" runat="server" /></dd>
+                    <dd><asp:HyperLink ID="hl5" NavigateUrl="~/Admin/AddCandidate.aspx" Text="Add Candidate" runat="server" /></dd>
                     <dd><asp:HyperLink ID="hl6" NavigateUrl="~/Admin/AddUser.aspx" Text="Add Admin User" runat="server" /></dd>
                     <dd><asp:HyperLink ID="HyperLink8" NavigateUrl="~/Admin/AddCandidateUser.aspx" Text="Add Candidate User" runat="server" /></dd>
                 </asp:Panel>
