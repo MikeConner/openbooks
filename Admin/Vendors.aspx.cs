@@ -7,23 +7,36 @@ using System.Web.UI.WebControls;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Net;
 using OpenBookPgh;
 
 public partial class Admin_Vendors : System.Web.UI.Page
 {
 	protected void Page_Load(object sender, EventArgs e)
 	{
-        if (!IsPostBack)
+        if (Auth.EnsureRole(Auth.ADMIN_USER_ROLE))
         {
-			if (Request.UrlReferrer != null)
-				Session.Add("PreviousPage", Request.UrlReferrer.AbsoluteUri);
+            if (!IsPostBack)
+            {
+                if (Request.UrlReferrer != null)
+                {
+                    Session.Add("PreviousPage", Request.UrlReferrer.AbsoluteUri);
+                }
 
-			GetSearchResults();
-			
-			LoadPage();
-
-		}
+                GetSearchResults();
+                LoadPage();
+            }
+        }
+        else
+        {
+            Response.Status = "403 Forbidden";
+            Response.StatusCode = (int)HttpStatusCode.Forbidden;
+            Response.StatusDescription = "Permission failure";
+            // Could also redirect to "/Error.aspx"
+            Response.Redirect("Default.aspx");
+        }
 	}
+
 	private void LoadPage()
 	{
 		// Load vendor drop down

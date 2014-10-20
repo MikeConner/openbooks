@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using System.Net;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -10,13 +11,24 @@ public partial class Admin_AddContributionPage : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-		if(!IsPostBack)
-		{
-			if (Request.UrlReferrer != null)
-				Session.Add("PreviousPage", Request.UrlReferrer.AbsoluteUri);
+        if (Auth.EnsureRole(Auth.CANDIDATE_USER_ROLE))
+        {
+            if (!IsPostBack)
+            {
+                if (Request.UrlReferrer != null)
+                    Session.Add("PreviousPage", Request.UrlReferrer.AbsoluteUri);
 
-			LoadPage();
-		}
+                LoadPage();
+            }
+        }
+        else
+        {
+            Response.Status = "403 Forbidden";
+            Response.StatusCode = (int)HttpStatusCode.Forbidden;
+            Response.StatusDescription = "Permission failure";
+            // Could also redirect to "/Error.aspx"
+            Response.Redirect("Default.aspx");
+        }
     }
     protected void LoadPage()
     {

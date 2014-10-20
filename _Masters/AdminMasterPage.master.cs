@@ -22,7 +22,10 @@ public partial class _Masters_AdminMasterPage : System.Web.UI.MasterPage
 			if (HttpContext.Current.User.Identity.IsAuthenticated)
 			{
 				FormsIdentity id = (FormsIdentity)HttpContext.Current.User.Identity;
-				
+                string role = id.Ticket.UserData;
+                panelViewAdminFunction.Visible = Auth.ADMIN_USER_ROLE == role;
+                panelAddAdminFunction.Visible = Auth.ADMIN_USER_ROLE == role;
+                panelCandidateFunction.Visible = Auth.CANDIDATE_USER_ROLE == role;
 
 				panelLoggedIn.Visible = true;
 				panelNotLoggedIn.Visible = false;

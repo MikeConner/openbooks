@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using System.Net;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -18,25 +19,31 @@ public partial class Admin_Users : System.Web.UI.Page
 {
 	protected void Page_Load(object sender, EventArgs e)
 	{
-        if (!IsPostBack)
+        if (Auth.EnsureRole(Auth.ADMIN_USER_ROLE))
         {
-			if (Request.UrlReferrer != null)
-				Session.Add("PreviousPage", Request.UrlReferrer.AbsoluteUri);
+            if (!IsPostBack)
+            {
+                if (Request.UrlReferrer != null)
+                    Session.Add("PreviousPage", Request.UrlReferrer.AbsoluteUri);
 
-			LoadPage();
-		}
+                LoadPage();
+            }
 
-
-		string[] authData = ((FormsIdentity)User.Identity).Ticket.UserData.Split(new char[] { '|' });
-		string authRole = authData[0];
-		if (authRole == "admin")
+            string[] authData = ((FormsIdentity)User.Identity).Ticket.UserData.Split(new char[] { '|' });
+            string authRole = authData[0];
+            if (authRole == "admin")
+            {
+                pnlAdmin.Visible = true;
+            }
+        }
+        else
         {
-			pnlAdmin.Visible = true;
-		}
-
-
-		
-		
+            Response.Status = "403 Forbidden";
+            Response.StatusCode = (int)HttpStatusCode.Forbidden;
+            Response.StatusDescription = "Permission failure";
+            // Could also redirect to "/Error.aspx"
+            Response.Redirect("Default.aspx");
+        }		
 	}
 	private void LoadPage()
 	{

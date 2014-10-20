@@ -56,46 +56,36 @@
                 </div>
             </section>
         </div>
-        <div class ="large-2 medium-3 columns">
-             <dl class="sub-nav">
-                        <dt><b>Administrator</b></dt>
-                        <dd>
-                            <asp:HyperLink ID="HyperLink1" Text="View Contracts" NavigateUrl="~/Admin/Contracts.aspx" runat="server" /></dd>
-                        <dd>
-                            <asp:HyperLink ID="HyperLink2" Text="View Contributions" NavigateUrl="~/Admin/Contributions.aspx" runat="server" /></dd>
-                        <dd>
-                            <asp:HyperLink ID="HyperLink3" Text="View Expenditures" NavigateUrl="~/Admin/Expenditures.aspx" runat="server" /></dd>
-                        <dd>
-                            <asp:HyperLink ID="HyperLink4" Text="View Vendors" NavigateUrl="~/Admin/Vendors.aspx" runat="server" /></dd>
-                        <dd>
-                            <asp:HyperLink ID="HyperLink7" Text="View Lobbyists" NavigateUrl="~/Admin/Lobbyists.aspx" runat="server" /></dd>
-                        <dd>
-                            <asp:HyperLink ID="HyperLink5" Text="View Users" NavigateUrl="~/Admin/Users.aspx" runat="server" /></dd>
-                    </dl>
-                 <dl class="sub-nav">
-                        <dd>
-                            <asp:HyperLink ID="hl1" NavigateUrl="~/Admin/AddContract.aspx" Text="Add Contract" runat="server" /></dd>
-                        <dd>
-                            <asp:HyperLink ID="hl2" NavigateUrl="~/Admin/AddContribution.aspx" Text="Add Contribution" runat="server" /></dd>
-                        <dd>
-                            <asp:HyperLink ID="hl3" NavigateUrl="~/Admin/AddExpenditure.aspx" Text="Add Expenditure" runat="server" /></dd>
-                        <dd>
-                            <asp:HyperLink ID="hl4" NavigateUrl="~/Admin/AddVendor.aspx" Text="Add Vendor" runat="server" /></dd>
-                        <dd>
-                            <asp:HyperLink ID="HyperLink6" NavigateUrl="~/Admin/AddLobbyist.aspx" Text="Add Lobbyist" runat="server" /></dd>
-                        <dd>
-                            <asp:HyperLink ID="hl5" NavigateUrl="~/Admin/AddCandidate.aspx" Text="Add Candidate" runat="server" /></dd>
-                        <dd>
-                            <asp:HyperLink ID="hl6" NavigateUrl="~/Admin/AddUser.aspx" Text="Add Admin User" runat="server" /></dd>
-                        <dd>
-                            <asp:HyperLink ID="HyperLink8" NavigateUrl="~/Admin/AddCandidateUser.aspx" Text="Add Candidate User" runat="server" /></dd>
-                    </dl>
+        <div class="large-2 medium-3 columns">
+            <dl class="sub-nav">
+                <dt><b>Administrator</b></dt>
+                <asp:Panel ID="panelViewAdminFunction" runat="server" Visible ="false">
+                    <dd><asp:HyperLink ID="HyperLink1" Text="View Contracts" NavigateUrl="~/Admin/Contracts.aspx" runat="server" /></dd>
+                    <dd><asp:HyperLink ID="HyperLink2" Text="View Contributions" NavigateUrl="~/Admin/Contributions.aspx" runat="server" /></dd>
+                    <dd><asp:HyperLink ID="HyperLink3" Text="View Expenditures" NavigateUrl="~/Admin/Expenditures.aspx" runat="server" /></dd>
+                    <dd><asp:HyperLink ID="HyperLink4" Text="View Vendors" NavigateUrl="~/Admin/Vendors.aspx" runat="server" /></dd>
+                    <dd><asp:HyperLink ID="HyperLink7" Text="View Lobbyists" NavigateUrl="~/Admin/Lobbyists.aspx" runat="server" /></dd>
+                    <dd><asp:HyperLink ID="HyperLink5" Text="View Users" NavigateUrl="~/Admin/Users.aspx" runat="server" /></dd>
+                </asp:Panel>
+            </dl>
+            <dl class="sub-nav">
+                <asp:Panel ID="panelAddAdminFunction" runat="server" Visible ="false">
+                    <dd><asp:HyperLink ID="hl1" NavigateUrl="~/Admin/AddContract.aspx" Text="Add Contract" runat="server" /></dd>
+                    <dd><asp:HyperLink ID="hl4" NavigateUrl="~/Admin/AddVendor.aspx" Text="Add Vendor" runat="server" /></dd>
+                    <dd><asp:HyperLink ID="HyperLink6" NavigateUrl="~/Admin/AddLobbyist.aspx" Text="Add Lobbyist" runat="server" /></dd>
+                    <dd<asp:HyperLink ID="hl5" NavigateUrl="~/Admin/AddCandidate.aspx" Text="Add Candidate" runat="server" /></dd>
+                    <dd><asp:HyperLink ID="hl6" NavigateUrl="~/Admin/AddUser.aspx" Text="Add Admin User" runat="server" /></dd>
+                    <dd><asp:HyperLink ID="HyperLink8" NavigateUrl="~/Admin/AddCandidateUser.aspx" Text="Add Candidate User" runat="server" /></dd>
+                </asp:Panel>
 
+                <asp:Panel ID="panelCandidateFunction" runat="server" Visible ="false">
+                    <dd><asp:HyperLink ID="hl2" NavigateUrl="~/Admin/AddContribution.aspx" Text="Add Contribution" runat="server" /></dd>
+                    <dd><asp:HyperLink ID="hl3" NavigateUrl="~/Admin/AddExpenditure.aspx" Text="Add Expenditure" runat="server" /></dd>
+                </asp:Panel>
+            </dl>
         </div>
- 
 
         <div class='admin-container medium-9 large-10 columns'>
-
             <div id="wrap" class="large-12 column about">
                 <div class="gridview">
                     <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
@@ -126,6 +116,5 @@
         <script src="/js/foundation.min.js" type="text/javascript"></script>
         <script src="/js/main.js" type="text/javascript"></script>
     </form>
-
 </body>
 </html>

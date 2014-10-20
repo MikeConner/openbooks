@@ -32,42 +32,38 @@ namespace OpenBookPgh
 		/// <returns>True if login successful, otherwise false</returns>
 		public static bool Login(Page page, string username, string password)
 		{
-			bool passwordVerified = false;
-
 			try
 			{
-				passwordVerified = CheckPassword(username, password);
-			}
+				bool passwordVerified = CheckPassword(username, password);
+
+                if (passwordVerified)
+                {
+                    string roles = GetUserRoles(username);
+
+                    // Create the authentication ticket
+                    FormsAuthenticationTicket authTicket = new
+                        FormsAuthenticationTicket(1,		                    // version
+                                                    username,        				// user name
+                                                    DateTime.Now,					// creation
+                                                    DateTime.Now.AddMinutes(60),	// Expiration
+                                                    false,						// Persistent
+                                                    roles							// User data
+                                                    );
+
+                    string encryptedTicket = FormsAuthentication.Encrypt(authTicket);
+
+                    HttpCookie authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
+                    page.Response.Cookies.Add(authCookie);
+
+                    return true;
+                }
+            }
 			catch (Exception ex)
 			{
 				throw ex;
 			}
 
-			if (passwordVerified == true)
-			{
-				string roles = GetUserRoles(username);
-
-				// Create the authentication ticket
-				FormsAuthenticationTicket authTicket = new
-					FormsAuthenticationTicket(1,		                    // version
-											  username,        				// user name
-											  DateTime.Now,					// creation
-											  DateTime.Now.AddMinutes(60),	// Expiration
-											  false,						// Persistent
-											  roles							// User data
-											 );
-
-				string encryptedTicket = FormsAuthentication.Encrypt(authTicket);
-
-				HttpCookie authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
-				page.Response.Cookies.Add(authCookie);
-
-				return true;
-			}
-			else
-			{
-				return false;
-			}
+            return false;
 		}
 
 		/// <summary>
@@ -121,6 +117,7 @@ namespace OpenBookPgh
 			}
 			return passwordMatch;
 		}
+
 		public static void ResetPassword(int userID, string passwordHash, string salt)
 		{
 			using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
@@ -158,6 +155,18 @@ namespace OpenBookPgh
         public static Boolean ValidateUserRoles(string roles)
         {
             return (ADMIN_USER_ROLE == roles) || (CANDIDATE_USER_ROLE == roles) || (string.Empty == roles);
+        }
+
+        // Return true if the role matches that of the currently logged in user -- or the user is an "admin"
+        //   False if there is no authenticated user, or the role doesn't match (e.g., an admin is required and it's a candidate)
+        public static Boolean EnsureRole(string role)
+        {
+            if ((HttpContext.Current.User != null) && HttpContext.Current.User.Identity.IsAuthenticated) {
+            	FormsIdentity id = (FormsIdentity)HttpContext.Current.User.Identity;
+                return (role == id.Ticket.UserData) || (ADMIN_USER_ROLE == id.Ticket.UserData);
+            }
+
+            return false;
         }
 
         public static void SetUserRoles(string username, string roles)
@@ -218,10 +227,5 @@ namespace OpenBookPgh
 			string hashedPwd = FormsAuthentication.HashPasswordForStoringInConfigFile(saltAndPwd, "SHA1");
 			return hashedPwd;
 		}
-
-
-
-
-
 	}
 }
