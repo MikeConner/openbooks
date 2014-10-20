@@ -21,8 +21,6 @@
 			<th>Initials</th>
 			<th>Group</th>
 			<th>UserName</th>
-			<th>Password Hash</th>
-			<th>Salt</th>
 			<th></th>
 		</tr>
 
@@ -43,8 +41,6 @@
 			<td><%# DataBinder.Eval(Container.DataItem, "Initials") %></td>
 			<td><%# DataBinder.Eval(Container.DataItem, "PermissionGroup") %></td>
 			<td><%# DataBinder.Eval(Container.DataItem, "UserName") %></td>
-			<td><%# DataBinder.Eval(Container.DataItem, "PasswordHash") %></td>
-			<td><%# DataBinder.Eval(Container.DataItem, "Salt") %></td>
 			<td><asp:LinkButton ID="lb1" runat="server" 
 					CommandArgument='<%# DataBinder.Eval(Container.DataItem, "UserID") %>' 
 					CommandName="reset" 
