@@ -33,7 +33,17 @@ public partial class Admin_AddExpenditure : System.Web.UI.Page
 
 	protected void LoadPage()
 	{
-		ddlState.SelectedValue = "PA";
+        string role = Auth.GetUserRoles(User.Identity.Name);
+
+        // If this is a candidate user, restrict to that user's candidate
+        if (Auth.CANDIDATE_USER_ROLE == role)
+        {
+            // Select and fix the candidate
+            ddlCandidateName.SelectedValue = Auth.GetCandidateID(User.Identity.Name);
+            ddlCandidateName.Enabled = false;
+        }
+
+        ddlState.SelectedValue = "PA";
 		txtDate.Text = DateTime.Now.ToShortDateString();
 	}
 	protected void Button1_Click(object sender, EventArgs e)

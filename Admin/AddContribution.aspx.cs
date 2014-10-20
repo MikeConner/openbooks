@@ -16,8 +16,9 @@ public partial class Admin_AddContributionPage : System.Web.UI.Page
             if (!IsPostBack)
             {
                 if (Request.UrlReferrer != null)
+                {
                     Session.Add("PreviousPage", Request.UrlReferrer.AbsoluteUri);
-
+                }
                 LoadPage();
             }
         }
@@ -32,6 +33,15 @@ public partial class Admin_AddContributionPage : System.Web.UI.Page
     }
     protected void LoadPage()
     {
+        string role = Auth.GetUserRoles(User.Identity.Name);
+
+        if (Auth.CANDIDATE_USER_ROLE == role)
+        {
+            // If this is a candidate user, restrict to that user's candidate
+            ddlCandidateName.SelectedValue = Auth.GetCandidateID(User.Identity.Name);
+            ddlCandidateName.Enabled = false;
+        }
+
 		rblContributor.SelectedValue = "in";
 		ddlState.SelectedValue = "PA";
 		txtDate.Text = DateTime.Now.ToShortDateString();

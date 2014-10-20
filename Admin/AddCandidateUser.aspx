@@ -7,6 +7,19 @@
 <h2>Add New Candidate User</h2>
 <table cellpadding="0" cellspacing="0">
 	<tr>
+		<td><label>Candidate Name</label></td>
+		<td><asp:DropDownList ID="ddlCandidateName" runat="server" 
+				DataSourceID="CandidateDataSource" 
+				DataTextField="CandidateName" 
+				DataValueField="ID" />
+
+			<asp:SqlDataSource ID="CandidateDataSource" runat="server" 
+				ConnectionString="<%$ ConnectionStrings:CityControllerConnectionString %>" 
+				SelectCommand="SELECT [ID], [CandidateName] FROM [tlk_candidate] ORDER BY CandidateName ASC">
+			</asp:SqlDataSource>
+		</td>
+	</tr>
+	<tr>
 		<td><asp:Label ID="Label1" runat="server">First Name:</asp:Label></td>
 		<td>
 			<asp:TextBox ID="first_name" runat="server" />

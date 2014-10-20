@@ -152,6 +152,27 @@ namespace OpenBookPgh
 			return strRoles;
 		}
 
+        public static string GetCandidateID(string username)
+        {
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand com = new SqlCommand("SELECT CandidateID FROM users WHERE UserName=@name", con))
+                {
+                    com.Parameters.AddWithValue("@name", username);
+                    using (SqlDataReader reader = com.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return ((int)reader["CandidateID"]).ToString();
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
         public static Boolean ValidateUserRoles(string roles)
         {
             return (ADMIN_USER_ROLE == roles) || (CANDIDATE_USER_ROLE == roles) || (string.Empty == roles);
@@ -187,10 +208,34 @@ namespace OpenBookPgh
             }
             else
             {
-                throw new System.ArgumentException("Invalid role", roles);
+                throw new ArgumentException("Invalid role", roles);
             }
         }
-		
+
+        public static void SetUserCandidateID(string username, int candidateID)
+        {
+            string role = GetUserRoles(username);
+
+            if (CANDIDATE_USER_ROLE == role)
+            {
+                using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand("SetUserCandidateID", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@CandidateID", SqlDbType.Int).Value = candidateID;
+                        cmd.Parameters.Add("@UserName", SqlDbType.NVarChar, 50).Value = username;
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            else
+            {
+                throw new ArgumentException("CandidateIDs only apply to candidate users", role);
+            }
+        }
+
 		public static void AddUser(string firstName, string lastName, string initials, string email, string userName, string passwordHash, string salt)
 		{
 			using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))

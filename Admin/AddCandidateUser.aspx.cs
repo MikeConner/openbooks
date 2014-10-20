@@ -31,6 +31,7 @@ public partial class Admin_AddUser : System.Web.UI.Page
 		{
 			Auth.AddUser(first_name.Text, last_name.Text, initials.Text, email.Text, user_name.Text, passwordHash, salt);
             Auth.SetUserRoles(user_name.Text, Auth.CANDIDATE_USER_ROLE);
+            Auth.SetUserCandidateID(user_name.Text, Convert.ToInt32(ddlCandidateName.SelectedValue));
 		}
 		catch (Exception ex)
 		{
