@@ -60,7 +60,7 @@ namespace OpenBookPgh
 
 		public static int AddContribution(int candidateID, string office, string contributorType, string contributorName, int contributionType, 
 										string description, string city, string state, string zip, string employer, string occupation, 
-										decimal amount, DateTime? dateContribution)
+										decimal amount, string createdBy, DateTime? dateContribution)
 		{
 			using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
 			{
@@ -80,7 +80,8 @@ namespace OpenBookPgh
 					cmd.Parameters.Add("@Employer", SqlDbType.NVarChar, 100).Value = employer;
 					cmd.Parameters.Add("@Occupation", SqlDbType.NVarChar, 100).Value = occupation;
 					cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = amount;
-					cmd.Parameters.Add("@DateContribution", SqlDbType.DateTime).Value = dateContribution;
+                    cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 50).Value = createdBy;
+                    cmd.Parameters.Add("@DateContribution", SqlDbType.DateTime).Value = dateContribution;
 
 					conn.Open();
 					cmd.ExecuteNonQuery();
@@ -92,7 +93,7 @@ namespace OpenBookPgh
 		
 		public static int AddExpenditure(int candidateID, string office, string company,
 								string address, string city, string state, string zip, string description,
-								decimal amount, DateTime? dateExpenditure)
+								decimal amount, string createdBy, DateTime? dateExpenditure)
 								
 						
 		{
@@ -112,6 +113,7 @@ namespace OpenBookPgh
 					cmd.Parameters.Add("@Description", SqlDbType.NVarChar, 100).Value = description;
 					cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = amount;
 					cmd.Parameters.Add("@DatePaid", SqlDbType.DateTime).Value = dateExpenditure;
+                    cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 50).Value = createdBy;
 
 					conn.Open();
 					cmd.ExecuteNonQuery();

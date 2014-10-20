@@ -67,9 +67,9 @@ public partial class Admin_AddExpenditure : System.Web.UI.Page
 		{
 			dateExpenditure = Convert.ToDateTime(txtDate.Text);
 		}
-		
 
-		int result = Admin.AddExpenditure(candidateID, office, company, address, city, state, zip, description, amount, dateExpenditure);
+
+        int result = Admin.AddExpenditure(candidateID, office, company, address, city, state, zip, description, amount, User.Identity.Name, dateExpenditure);
 		if (result != 0)
 		{
 			lblMessage.Text = "There were problems adding this expenditure. Error Code: [" + result + "]";
@@ -105,7 +105,7 @@ public partial class Admin_AddExpenditure : System.Web.UI.Page
 		}
 
 		//int result = 0;
-		int result = Admin.AddExpenditure(candidateID, office, company, address, city, state, zip, description, amount, dateExpenditure);
+        int result = Admin.AddExpenditure(candidateID, office, company, address, city, state, zip, description, amount, User.Identity.Name, dateExpenditure);
 		if (result != 0)
 		{
 			lblMessage.Text = "There were problems adding this expenditure. Error Code: [" + result + "]";

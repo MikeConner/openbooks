@@ -74,7 +74,7 @@ public partial class Admin_AddContributionPage : System.Web.UI.Page
 		}
 
 		int result = Admin.AddContribution(candidateID, office, contributorType, contributor, contributionType, description, city, state, zip, 
-												employer, occupation, amount, dateContribution);
+												employer, occupation, amount, User.Identity.Name, dateContribution);
 		if (result != 0)
 		{
 			lblMessage.Text = "There were problems adding this contribution. Error Code: [" + result + "]";
