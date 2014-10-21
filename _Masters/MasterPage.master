@@ -60,6 +60,8 @@
 </div>
 
 
+<%if (Page.ToString() != "ASP.default_aspx")
+  {  %>
     <footer class='row'>
 <div class='large-8 columns'>
 <h3>Office of Controller Michael Lamb</h3>
@@ -71,6 +73,7 @@
 </ul>
 </div>
 </footer>
+        <% } %>
 <div class='copyright'>
 <div class='row'>
 <div class='large-12 columns'>
