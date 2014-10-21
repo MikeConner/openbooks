@@ -32,4 +32,22 @@ RETURN
 END
 
 GO
+
+ALTER TABLE users ADD CandidateID int;
+
+
+
+ALTER TABLE contributions ADD CreatedBy nvarchar(50);
+ALTER TABLE contributions ADD   ApprovedBy nvarchar(50);
+ALTER TABLE contributions ADD   Approved bit default 0;
+ALTER TABLE contributions ADD DateApproved datetime;
+
+
+ALTER TABLE expenditures ADD CreatedBy nvarchar(50);
+ALTER TABLE expenditures ADD   ApprovedBy nvarchar(50);
+ALTER TABLE expenditures ADD   Approved bit default 0;
+ALTER TABLE expenditures ADD DateApproved datetime;
+
+
+
 */
