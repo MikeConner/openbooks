@@ -1,7 +1,10 @@
-﻿USE [CityController]
+﻿
+/*
+USE [CityController]
 GO
 
-/****** Object:  StoredProcedure [dbo].[SetUserRoles]    Script Date: 10/17/2014 7:47:18 PM ******/
+
+
 SET ANSI_NULLS ON
 GO
 
@@ -29,3 +32,4 @@ RETURN
 END
 
 GO
+*/
