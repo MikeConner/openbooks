@@ -44,6 +44,8 @@
 				<asp:ListItem Text="-- candidate --" Value="0" />
 		</asp:DropDownList>
 
+        <asp:CheckBox ID="cbApproved" runat="server" AutoPostBack="true" OnCheckedChanged="cbApproved_CheckedChanged"/>
+        Approved
 		<asp:SqlDataSource ID="CandidateDataSource" runat="server" 
 			ConnectionString="<%$ ConnectionStrings:CityControllerConnectionString %>" 
 			SelectCommand="SELECT [ID], [CandidateName] FROM [tlk_candidate] ORDER BY CandidateName ASC">
@@ -79,6 +81,12 @@
                     CssClass="tiny button " 
 					OnClientClick="javascript:if(!confirm('Delete this item?'))return false;"
 					Text="delete" />
+                <asp:LinkButton ID="lb3" runat="server" 
+                    CommandName="approve"
+                    CommandArgument='<%# DataBinder.Eval(Container.DataItem, "ContributionID") %>'
+                    Text="approve"
+                    Enabled='<%# (false == (Boolean)DataBinder.Eval(Container.DataItem, "Approved")) && ((string)DataBinder.Eval(Container.DataItem, "CreatedBy") != User.Identity.Name) %>' 
+                    CssClass="tiny button " />
 			</td>
 			<td><%# DataBinder.Eval(Container.DataItem, "ContributorName") %></td>
 			<td><%# DataBinder.Eval(Container.DataItem, "CandidateName") %></td>

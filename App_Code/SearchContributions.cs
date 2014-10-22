@@ -118,7 +118,12 @@ namespace OpenBookPgh
 			return sp;
 		}
 
-		public static DataTable GetContributions(SearchParamsContribution sp, int pageIndex, int maximumRows, string sortColumn, string sortDirection)
+        public static DataTable GetContributions(SearchParamsContribution sp, int pageIndex, int maximumRows, string sortColumn, string sortDirection)
+        {
+            return GetContributions(sp, pageIndex, maximumRows, sortColumn, sortDirection, true);
+        }
+
+		public static DataTable GetContributions(SearchParamsContribution sp, int pageIndex, int maximumRows, string sortColumn, string sortDirection, Boolean approved)
 		{
 			//Query Distance?
 			bool QueryDistance = false;
@@ -142,7 +147,9 @@ namespace OpenBookPgh
 					cmd.Parameters.Add("@contributorKeywords", SqlDbType.NVarChar, 100).Value = (sp.contributorKeywords == null) ? System.DBNull.Value : (object)sp.contributorKeywords;
 					cmd.Parameters.Add("@contributorSearchOptions", SqlDbType.Char, 2).Value = (sp.contributorSearchOptions == null) ? System.DBNull.Value : (object)sp.contributorSearchOptions;
 					cmd.Parameters.Add("@employerKeywords", SqlDbType.NVarChar, 100).Value = (sp.employerKeywords == null) ? System.DBNull.Value : (object)sp.employerKeywords;
-					if(QueryDistance)
+                    cmd.Parameters.Add("@approved", SqlDbType.Bit).Value = approved;
+
+                    if(QueryDistance)
 					{
 						// Calcualte Origin from zip
 						Coordinate originCoord = SearchContributions.CalculateZipCodeOrigin(sp.zip);
@@ -177,7 +184,12 @@ namespace OpenBookPgh
 			}
 		}
 
-		public static int GetContributionsCount(SearchParamsContribution sp)
+        public static int GetContributionsCount(SearchParamsContribution sp)
+        {
+            return GetContributionsCount(sp, true);
+        }
+
+		public static int GetContributionsCount(SearchParamsContribution sp, Boolean approved)
 		{
 			// Query Distance ?
 			bool QueryDistance = false;
@@ -196,7 +208,9 @@ namespace OpenBookPgh
 					cmd.Parameters.Add("@contributorKeywords", SqlDbType.NVarChar, 100).Value = (sp.contributorKeywords == null) ? System.DBNull.Value : (object)sp.contributorKeywords;
 					cmd.Parameters.Add("@contributorSearchOptions", SqlDbType.Char, 2).Value = (sp.contributorSearchOptions == null) ? System.DBNull.Value : (object)sp.contributorSearchOptions;
 					cmd.Parameters.Add("@employerKeywords", SqlDbType.NVarChar, 100).Value = (sp.employerKeywords == null) ? System.DBNull.Value : (object)sp.employerKeywords;
-					if (QueryDistance)
+                    cmd.Parameters.Add("@approved", SqlDbType.Bit).Value = approved;
+                    
+                    if (QueryDistance)
 					{
 						// Calcualte Origin from zip
 						Coordinate originCoord = SearchContributions.CalculateZipCodeOrigin(sp.zip);

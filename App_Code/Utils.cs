@@ -135,7 +135,21 @@ namespace OpenBookPgh
 			}
 			return value;
 		}
-		/// <summary>
+
+        public static Boolean GetBooleanFromQueryString(string str)
+        {
+            Boolean value = false;
+            // Remove leading and trailing spaces
+            str = (str ?? "").Trim();
+
+            if (str != "")
+            {
+                Boolean.TryParse(str, out value);
+            }
+            return value;
+        }
+        
+        /// <summary>
 		/// Verifies that the zip code is in correct format
 		/// </summary>
 		/// <param name="zip">zip</param>
