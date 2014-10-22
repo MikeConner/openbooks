@@ -154,7 +154,6 @@ public partial class Admin_Contributions : System.Web.UI.Page
 		string str = string.Empty;
 		string strOffice = (Request.QueryString["office"] ?? "").Trim();
 		string strCandidate = (Request.QueryString["candidate"] ?? "").Trim();
-        string strApproved = (Request.QueryString["approved"] ?? "").Trim();
 
 		// Office search or CandidateID search
 		if (!string.IsNullOrEmpty(strOffice) || !string.IsNullOrEmpty(strCandidate))

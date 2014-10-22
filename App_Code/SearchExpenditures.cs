@@ -88,7 +88,12 @@ namespace OpenBookPgh
 			return sp;
 		}
 
-		public static DataTable GetExpenditures(SearchParamsExpenditures sp, int pageIndex, int maximumRows, string sortColumn, string sortDirection)
+        public static DataTable GetExpenditures(SearchParamsExpenditures sp, int pageIndex, int maximumRows, string sortColumn, string sortDirection)
+        {
+            return GetExpenditures(sp, pageIndex, maximumRows, sortColumn, sortDirection, true);
+        }
+
+		public static DataTable GetExpenditures(SearchParamsExpenditures sp, int pageIndex, int maximumRows, string sortColumn, string sortDirection, Boolean approved)
 		{
 			DataTable results = new DataTable("Results");
 			using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
@@ -106,6 +111,7 @@ namespace OpenBookPgh
                     cmd.Parameters.Add("@vendorKeywords", SqlDbType.VarChar, 100).Value = (sp.vendorKeywords == null) ? System.DBNull.Value : (object)sp.vendorKeywords;
 					cmd.Parameters.Add("@vendorSearchOptions", SqlDbType.Char, 1).Value = (sp.vendorSearchOptions == null) ? System.DBNull.Value : (object)sp.vendorSearchOptions;
 					cmd.Parameters.Add("@keywords", SqlDbType.VarChar, 100).Value = (sp.keywords == null) ? System.DBNull.Value : (object)sp.keywords;
+                    cmd.Parameters.Add("@approved", SqlDbType.Bit).Value = approved;
 
 					conn.Open();
 					cmd.ExecuteNonQuery();
@@ -117,7 +123,12 @@ namespace OpenBookPgh
 			}
 		}
 
-		public static int GetExpendituresCount(SearchParamsExpenditures sp)
+        public static int GetExpendituresCount(SearchParamsExpenditures sp)
+        {
+            return GetExpendituresCount(sp, true);
+        }
+
+		public static int GetExpendituresCount(SearchParamsExpenditures sp, Boolean approved)
 		{
 			using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
 			{
@@ -130,6 +141,7 @@ namespace OpenBookPgh
                     cmd.Parameters.Add("@vendorKeywords", SqlDbType.VarChar, 100).Value = (sp.vendorKeywords == null) ? System.DBNull.Value : (object)sp.vendorKeywords;
 					cmd.Parameters.Add("@vendorSearchOptions", SqlDbType.Char, 1).Value = (sp.vendorSearchOptions == null) ? System.DBNull.Value : (object)sp.vendorSearchOptions;
 					cmd.Parameters.Add("@keywords", SqlDbType.VarChar, 100).Value = (sp.keywords == null) ? System.DBNull.Value : (object)sp.keywords;
+                    cmd.Parameters.Add("@approved", SqlDbType.Bit).Value = approved;
 
 					int rowCount = 0;
 					try

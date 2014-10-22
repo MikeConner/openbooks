@@ -1,12 +1,13 @@
 USE [CityController]
 GO
 
-/****** Object:  StoredProcedure [dbo].[SearchExpendituresCount]    Script Date: 10/21/2014 12:26:53 PM ******/
+/****** Object:  StoredProcedure [dbo].[SearchExpendituresCount]    Script Date: 10/22/2014 7:17:52 PM ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
+
 
 
 
@@ -25,6 +26,7 @@ ALTER PROCEDURE [dbo].[SearchExpendituresCount]
 	@vendorKeywords VARCHAR(100) = NULL,
 	@vendorSearchOptions CHAR(1) = NULL,
 	@keywords VARCHAR(100) = NULL,
+	@approved BIT = 1,
 	@debug	BIT = 0
 
 AS
@@ -47,7 +49,7 @@ FROM
 			tc.CandidateName 
 		FROM expenditures e 
 		JOIN tlk_candidate tc ON e.CandidateID = tc.ID 
-		WHERE e.Approved=1
+		WHERE e.Approved = @xapproved
 	) AS rows ';
 
 SELECT @sql = @sql + ' WHERE 1 = 1 ';
@@ -79,7 +81,7 @@ SELECT @sql = @sql + ' WHERE 1 = 1 ';
 SELECT @sql = @sql + ' ) AS results ';
 
 
-IF @debug = 0
+IF @debug = 1
    PRINT @sql
 
 SELECT @paramlist = '
@@ -88,15 +90,16 @@ SELECT @paramlist = '
 	@xdatePaid INT, 
 	@xvendorKeywords VARCHAR(100),
 	@xvendorSearchOptions CHAR(1),
-	@xkeywords VARCHAR(100)';
-
+	@xkeywords VARCHAR(100),
+	@xapproved BIT';
 
 EXEC sp_executesql @sql, @paramlist, 
-	@candidateID, @office, @datePaid, @vendorKeywords, @vendorSearchOptions, @keywords 
+	@candidateID, @office, @datePaid, @vendorKeywords, @vendorSearchOptions, @keywords, @approved
 
 
 
 END
+
 
 
 

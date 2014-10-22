@@ -53,7 +53,10 @@ public partial class Admin_Expenditures : System.Web.UI.Page
 		{
 			ddlCandidateName.SelectedValue = candidateID.ToString();
 		}
-	}
+
+        // Approved
+        cbApproved.Checked = Utils.GetBooleanFromQueryString(Request.QueryString["approved"]);
+    }
 	public void GetSearchResults()
 	{
 		// Get SearchParams Class from query string
@@ -66,7 +69,7 @@ public partial class Admin_Expenditures : System.Web.UI.Page
 		GetResultsCount(sp);
 
 		// Fill DataTable from Search Results
-		DataTable dt = SearchExpenditures.GetExpenditures(sp, PageIndex, PageSize, SortExpression, SortDirection);
+        DataTable dt = SearchExpenditures.GetExpenditures(sp, PageIndex, PageSize, SortExpression, SortDirection, cbApproved.Checked);
 
 		// Load repeater with data
 		rptExpenditures.DataSource = dt;
@@ -75,7 +78,7 @@ public partial class Admin_Expenditures : System.Web.UI.Page
 	public void GetResultsCount(SearchParamsExpenditures sp)
 	{
 		// Get total rows
-		int totalRows = SearchExpenditures.GetExpendituresCount(sp);
+        int totalRows = SearchExpenditures.GetExpendituresCount(sp, cbApproved.Checked);
 
 		// Update PageCount for pager, using adjustment if necessary
 		int addPage = 1;
@@ -146,7 +149,8 @@ public partial class Admin_Expenditures : System.Web.UI.Page
 		string str = string.Empty;
 		string strOffice = (Request.QueryString["office"] ?? "").Trim();
 		string strCandidate = (Request.QueryString["candidate"] ?? "").Trim();
-		// Office search or CandidateID search
+        
+        // Office search or CandidateID search
 		if (!string.IsNullOrEmpty(strOffice) || !string.IsNullOrEmpty(strCandidate))
 		{
 			if (!string.IsNullOrEmpty(strOffice))
@@ -192,9 +196,9 @@ public partial class Admin_Expenditures : System.Web.UI.Page
 		}
 		return str;
 	}
-	public string GenerateQueryString(int page, string category, string sort, int numResults)
+    public string GenerateQueryString(int page, string category, string sort, int numResults, Boolean approved)
 	{
-		return "Expenditures.aspx?" + QueryType + "&page=" + page + "&cat=" + category + "&sort=" + sort + "&num=" + numResults;
+        return "Expenditures.aspx?" + QueryType + "&page=" + page + "&cat=" + category + "&sort=" + sort + "&num=" + numResults + "&approved=" + approved;
 	}
 
 	// Pager Controls
@@ -202,67 +206,77 @@ public partial class Admin_Expenditures : System.Web.UI.Page
 	{
 		// Send the user to the first page 
 		int page = 0;
-		Response.Redirect(GenerateQueryString(page, SortExpression, SortDirection, PageSize));
+        Response.Redirect(GenerateQueryString(page, SortExpression, SortDirection, PageSize, cbApproved.Checked));
 	}
 	protected void PrevPage_Click(object sender, EventArgs e)
 	{
 		// Send the user to the previous page 
 		int page = PageIndex - 1;
-		Response.Redirect(GenerateQueryString(page, SortExpression, SortDirection, PageSize));
+        Response.Redirect(GenerateQueryString(page, SortExpression, SortDirection, PageSize, cbApproved.Checked));
 	}
 	protected void NextPage_Click(object sender, EventArgs e)
 	{
 		// Send the user to the next page 
 		int page = PageIndex + 1;
-		Response.Redirect(GenerateQueryString(page, SortExpression, SortDirection, PageSize));
+        Response.Redirect(GenerateQueryString(page, SortExpression, SortDirection, PageSize, cbApproved.Checked));
 	}
 	protected void LastPage_Click(object sender, EventArgs e)
 	{
 		// Send the user to the last page 
 		int page = PageCount - 1;
-		Response.Redirect(GenerateQueryString(page, SortExpression, SortDirection, PageSize));
+        Response.Redirect(GenerateQueryString(page, SortExpression, SortDirection, PageSize, cbApproved.Checked));
 	}
 	
 	// Sorting Controls
 	public void sortCompany(object sender, EventArgs e)
 	{
 		string sort = "ASC";
-		if (SortDirection == "ASC")
-			sort = "DESC";
+        if (SortDirection == "ASC")
+        {
+            sort = "DESC";
+        }
 
-		Response.Redirect(GenerateQueryString(PageIndex, "CompanyName", sort, PageSize));
+        Response.Redirect(GenerateQueryString(PageIndex, "CompanyName", sort, PageSize, cbApproved.Checked));
 	}
 	public void sortCandidate(object sender, EventArgs e)
 	{
 		string sort = "ASC";
-		if (SortDirection == "ASC")
-			sort = "DESC";
+        if (SortDirection == "ASC")
+        {
+            sort = "DESC";
+        }
 
-		Response.Redirect(GenerateQueryString(PageIndex, "CandidateID", sort, PageSize));
+        Response.Redirect(GenerateQueryString(PageIndex, "CandidateID", sort, PageSize, cbApproved.Checked));
 	}
 	public void sortOffice(object sender, EventArgs e)
 	{
 		string sort = "ASC";
-		if (SortDirection == "ASC")
-			sort = "DESC";
+        if (SortDirection == "ASC")
+        {
+            sort = "DESC";
+        }
 
-		Response.Redirect(GenerateQueryString(PageIndex, "Office", sort, PageSize));
+        Response.Redirect(GenerateQueryString(PageIndex, "Office", sort, PageSize, cbApproved.Checked));
 	}
 	public void sortAmount(object sender, EventArgs e)
 	{
 		string sort = "ASC";
-		if (SortDirection == "ASC")
-			sort = "DESC";
+        if (SortDirection == "ASC")
+        {
+            sort = "DESC";
+        }
 
-		Response.Redirect(GenerateQueryString(PageIndex, "Amount", sort, PageSize));
+        Response.Redirect(GenerateQueryString(PageIndex, "Amount", sort, PageSize, cbApproved.Checked));
 	}
 	public void sortDate(object sender, EventArgs e)
 	{
 		string sort = "ASC";
-		if (SortDirection == "ASC")
-			sort = "DESC";
+        if (SortDirection == "ASC")
+        {
+            sort = "DESC";
+        }
 
-		Response.Redirect(GenerateQueryString(PageIndex, "DatePaid", sort, PageSize));
+        Response.Redirect(GenerateQueryString(PageIndex, "DatePaid", sort, PageSize, cbApproved.Checked));
 	}
 
 	/* Page Actions */
@@ -271,17 +285,17 @@ public partial class Admin_Expenditures : System.Web.UI.Page
 		int page = 0; // reset page
 		int numResults = Convert.ToInt32(ddlPageSize.Text);
 
-		Response.Redirect(GenerateQueryString(page, SortExpression, SortDirection, numResults));
+        Response.Redirect(GenerateQueryString(page, SortExpression, SortDirection, numResults, cbApproved.Checked));
 	}
 	protected void ddlCandidateName_SelectedIndexChanged(object sender, EventArgs e)
 	{
 		int numResults = Convert.ToInt32(ddlPageSize.Text);
-		Response.Redirect("Expenditures.aspx?candidate=" + ddlCandidateName.SelectedValue.ToString() + "&page=0&cat=CandidateID&num=" + numResults);
+		Response.Redirect("Expenditures.aspx?candidate=" + ddlCandidateName.SelectedValue.ToString() + "&page=0&cat=CandidateID&num=" + numResults + "&approved=" + cbApproved.Checked.ToString());
 	}
 	protected void ddlOffice_SelectedIndexChanged(object sender, EventArgs e)
 	{
 		int numResults = Convert.ToInt32(ddlPageSize.Text);
-		Response.Redirect("Expenditures.aspx?office=" + ddlOffice.SelectedValue.ToString() + "&page=0&cat=Office&num=" + numResults);
+        Response.Redirect("Expenditures.aspx?office=" + ddlOffice.SelectedValue.ToString() + "&page=0&cat=Office&num=" + numResults + "&approved=" + cbApproved.Checked.ToString());
 	}
 	protected void rptContributions_ItemCommand(object source, RepeaterCommandEventArgs e)
 	{
@@ -289,8 +303,14 @@ public partial class Admin_Expenditures : System.Web.UI.Page
 		{
 			Response.Redirect("EditExpenditure.aspx?id=" + e.CommandArgument.ToString());
 		}
+        else if (e.CommandName == "approve")
+        {
+            Admin.ApproveExpenditure(Convert.ToInt32(e.CommandArgument), User.Identity.Name);
 
-		if (e.CommandName == "delete")
+            int numResults = Convert.ToInt32(ddlPageSize.Text);
+            Response.Redirect(GenerateQueryString(PageIndex, SortExpression, SortDirection, numResults, cbApproved.Checked));
+        }
+		else if (e.CommandName == "delete")
 		{
 			Admin.DeleteExpenditure(Convert.ToInt32(e.CommandArgument.ToString()));
 			if (Session["PreviousPage"] != null)
@@ -299,4 +319,11 @@ public partial class Admin_Expenditures : System.Web.UI.Page
 				Response.Redirect("~/Admin/Default.aspx");
 		}
 	}
+
+    protected void cbApproved_CheckedChanged(object sender, EventArgs e)
+    {
+        int numResults = Convert.ToInt32(ddlPageSize.Text);
+
+        Response.Redirect(GenerateQueryString(PageIndex, SortExpression, SortDirection, numResults, cbApproved.Checked));
+    }
 }

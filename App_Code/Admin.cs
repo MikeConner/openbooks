@@ -568,6 +568,20 @@ namespace OpenBookPgh
             }
         }
 
+        public static void ApproveExpenditure(int expenditureID, string username)
+        {
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("ApproveExpenditure", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@expenditureID", SqlDbType.Int).Value = expenditureID;
+                    cmd.Parameters.Add("@UserName", SqlDbType.NVarChar, 50).Value = username;
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
 		public static void DeleteContribution(int contributionID)
 		{
 			using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))

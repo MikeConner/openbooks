@@ -1,7 +1,7 @@
 USE [CityController]
 GO
 
-/****** Object:  StoredProcedure [dbo].[SearchExpendituresSQL]    Script Date: 9/18/2014 6:46:22 PM ******/
+/****** Object:  StoredProcedure [dbo].[SearchExpendituresSQL]    Script Date: 10/22/2014 7:30:03 PM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -12,12 +12,15 @@ GO
 
 
 
+
+
+
 -- =============================================
 -- Author:		Zeo
 -- Create date: 05/20/09
 -- Description:	Search Expenditures
 -- =============================================
-CREATE PROCEDURE [dbo].[SearchExpendituresSQL]
+ALTER PROCEDURE [dbo].[SearchExpendituresSQL]
 	@pageIndex INT, 
 	@maximumRows INT,
 	@sortColumn VARCHAR(25),
@@ -28,6 +31,7 @@ CREATE PROCEDURE [dbo].[SearchExpendituresSQL]
 	@vendorKeywords VARCHAR(100) = NULL,
 	@vendorSearchOptions CHAR(1) = NULL,
 	@keywords VARCHAR(100) = NULL,
+	@approved BIT = 1,
 	@debug	BIT = 0
 
 AS
@@ -42,22 +46,23 @@ DECLARE @sql NVARCHAR(4000), @paramlist NVARCHAR(4000);
 SELECT @sql = 'SELECT 
 		ExpenditureOrder, 
 		ExpenditureID, CandidateID, Office, CompanyName, 
-		Address1, City, State, Zip, Description, Amount, DatePaid, DateEntered, 
+		Address1, City, State, Zip, Description, Amount, DatePaid, DateEntered, CreatedBy, Approved,
 		CandidateName 
 FROM
 (
 	SELECT ';
 	SELECT @sql = @sql + 'ROW_NUMBER() OVER(ORDER BY ' + @sortColumn + ' ' + @sortDirection + ' ,DateEntered DESC) AS ExpenditureOrder, ';
 	SELECT @sql = @sql + ' ExpenditureID, CandidateID, Office, CompanyName, 
-							Address1, City, State, Zip, Description, Amount, DatePaid, DateEntered, 
+							Address1, City, State, Zip, Description, Amount, DatePaid, DateEntered, CreatedBy, Approved,
 							CandidateName 
  	FROM 
 	(
 		SELECT e.ExpenditureID, e.CandidateID, e.Office, e.CompanyName, 
-			e.Address1, e.City, e.State, e.Zip, e.Description, e.Amount, e.DatePaid, e.DateEntered, 
+			e.Address1, e.City, e.State, e.Zip, e.Description, e.Amount, e.DatePaid, e.DateEntered, e.CreatedBy, e.Approved,
 			tc.CandidateName 
 		FROM expenditures e 
 		JOIN tlk_candidate tc ON e.CandidateID = tc.ID 
+		WHERE e.Approved = @xapproved
 	) AS rows ';
 
 SELECT @sql = @sql + ' WHERE 1 = 1 ';
@@ -101,7 +106,7 @@ SELECT @sql = @sql + ' WHERE results.ExpenditureOrder > @xstartRowIndex AND resu
 /* ORDER BY */
 SELECT @sql = @sql + ' ORDER BY ExpenditureOrder ASC ';
 
-IF @debug = 0
+IF @debug = 1
    PRINT @sql
 
 SELECT @paramlist = '@xstartRowIndex INT, 
@@ -111,12 +116,16 @@ SELECT @paramlist = '@xstartRowIndex INT,
 	@xdatePaid INT,
 	@xvendorKeywords VARCHAR(100),
 	@xvendorSearchOptions CHAR(1),
-	@xkeywords VARCHAR(100)';
+	@xkeywords VARCHAR(100),
+	@xapproved BIT';
 
 EXEC sp_executesql @sql, @paramlist, 
 	@startRowIndex, @maximumRows, 
-	@candidateID, @office, @datePaid, @vendorKeywords, @vendorSearchOptions, @keywords 
+	@candidateID, @office, @datePaid, @vendorKeywords, @vendorSearchOptions, @keywords, @approved
 END
+
+
+
 
 
 GO
