@@ -53,6 +53,13 @@
     display: inline-block;
 }
 
+.search-page {
+    border-bottom: 3px solid #333;
+
+}
+.adminfoot {
+    background: #666;
+}
 @media only screen and (max-width: 40em) {
     .copyright .copy {
         margin-top: 2rem;

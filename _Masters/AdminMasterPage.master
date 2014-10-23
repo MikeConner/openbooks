@@ -4,6 +4,7 @@
 <html lang='en'>
 <head runat="server">
     <title>Welcome to Open Book Pittsburgh</title>
+        <link rel="stylesheet" type="text/css" href="~/css/overrides.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="~/css/main.css" media="screen" />
 </head>
 
@@ -96,11 +97,13 @@
             </div>
         </div>
 
-        <footer class='row'>
+
+        <footer class='row adminfoot'>
             <div class='large-8 columns'>
                 <h3>Office of Controller Michael Lamb</h3>
             </div>
         </footer>
+
         <div class='copyright'>
             <div class='row'>
                 <div class='large-12 columns'>

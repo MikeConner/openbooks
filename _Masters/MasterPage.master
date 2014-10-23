@@ -57,7 +57,7 @@
 		<asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
 		</asp:ContentPlaceHolder>
 	</div>
-</div>
+
 
 
 <%if (true) //(Page.ToString() != "ASP.default_aspx")
@@ -73,6 +73,7 @@
 </ul>
 </div>
 </footer>
+    </div>
         <% } %>
 <div class='copyright'>
 <div class='row'>
