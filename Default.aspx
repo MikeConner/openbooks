@@ -4,7 +4,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <div class="homepage-hero">
         <div class="row">
-            <div class="large-10 columns">
+            <div class="large-12 columns">
                 <h1>A searchable database of City of Pittsburgh government contracts, campaign finance reports, and lobbyists.</h1>
                 <p>Search Open Book Pittsburgh for City contracts, campaign donations and expenditures of candidates for a City office, and lobbyists that do business with the City of Pittsburgh.    </p>
             </div>
@@ -29,15 +29,5 @@
             </div>
         </div>
     </div>
-    <div class="finance">
-        <div class="row">
 
-            <div class="large-12 columns">
-                <h3>Office of Controller Michael Lamb</h3>
-                <p>The City Controller is one of two, independently elected, citywide offices in the City of Pittsburgh, the other being the Mayor. The term of office for the City Controller is four years, and is not term limited.</p>
-<a href='http://pittsburghpa.gov/controller/' class="button" target='_blank'>Office of the City Controller →</a> 
-
-            </div>
-        </div>
-    </div>
 </asp:Content>

@@ -60,6 +60,16 @@
 .adminfoot {
     background: #666;
 }
+.admin-nav {
+    background: #333;
+    
+    
+}
+.admin-nav li a:not(.button) {
+    padding: 1rem 1rem;
+    background:#444;
+    color:white !important;
+}
 @media only screen and (max-width: 40em) {
     .copyright .copy {
         margin-top: 2rem;

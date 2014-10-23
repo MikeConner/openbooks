@@ -6,6 +6,7 @@
     <title>Welcome to Open Book Pittsburgh</title>
     <link rel="stylesheet" type="text/css" href="~/css/main.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="~/css/overrides.css" media="screen" />
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <meta charset="utf-8" />
     <meta content= "width=device-width initial-scale=1.0" name="viewport" />
 </head>

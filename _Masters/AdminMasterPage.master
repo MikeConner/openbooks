@@ -57,9 +57,9 @@
                 </div>
             </section>
         </div>
-        <div class="large-2 medium-3 columns">
+        <div class="large-2 medium-3 columns admin-nav">
             <ul class="side-nav icon-bar vertical" >
-                <li><b>Administrator</b></li>
+                <li><h4>Administrator</h4></li>
                 <asp:Panel ID="panelViewAdminFunction" runat="server" Visible ="false">
                     <li><asp:HyperLink ID="HyperLink1" Text="View Contracts" NavigateUrl="~/Admin/Contracts.aspx" runat="server" /></li>
                     <li><asp:HyperLink ID="HyperLink2" Text="View Contributions" NavigateUrl="~/Admin/Contributions.aspx" runat="server" /></li>
