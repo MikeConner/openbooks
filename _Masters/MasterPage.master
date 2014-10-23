@@ -60,7 +60,7 @@
 </div>
 
 
-<%if (Page.ToString() != "ASP.default_aspx")
+<%if (true) //(Page.ToString() != "ASP.default_aspx")
   {  %>
     <footer class='row'>
 <div class='large-8 columns'>
