@@ -2,6 +2,10 @@
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Net;
+using System.ComponentModel;
+using System.Data;
+using System.IO;
 
 namespace OpenBookPgh
 {
@@ -10,6 +14,64 @@ namespace OpenBookPgh
 	/// </summary>
 	public class Admin
 	{
+        public static string ONBASE_CONTRACT_PDF_PATH = "http://onbaseapp.city.pittsburgh.pa.us/PublicAccess/openbook/contracts.csv";
+        
+        public static void DownloadContractIDs()
+        {
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
+            {
+                conn.Open();
+
+                // This stored procedure takes a table-valued parameter containing the list of ContractsIDs (i.e., a 1-column table with a row for each Contract)
+                using (SqlCommand cmd = new SqlCommand("InsertContractIDs", conn))
+                {
+                    // Create the 1-column table with string type. Previously it was "float" type, which removed all the contracts with dashes and letters
+                    //   These alphanumeric contract numbers work when sent to OnBase though, so we shouldn't be deleting them!
+                    //   Change everything to a string to handle it. 
+                    DataTable table = new DataTable();
+                    table.Columns.Add("ContractID", typeof(string));
+                    // There are duplicates in the source data. The table has a unique index; remove them here, before trying to write
+                    table.Columns["ContractID"].Unique = true;
+
+                    MemoryStream stream = new MemoryStream(new WebClient().DownloadData(new Uri(ONBASE_CONTRACT_PDF_PATH)));
+                    using (StreamReader reader = new StreamReader(stream))
+                    {
+                        string line;
+
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            try
+                            {
+                                // The source data also contains entries with spaces, like "48324 (#2)", which don't work. Just ignore these
+                                string contractID = line.Trim();
+
+                                if (!contractID.Contains(" "))
+                                {
+                                    table.Rows.Add(contractID);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                // Ignore duplicates
+                            }
+                        }
+                    }
+
+                    if (table.Rows.Count > 0)
+                    {
+                        SqlParameter pList = new SqlParameter("oid", SqlDbType.Structured);
+                        pList.TypeName = "dbo.OnbaseIDTableType";
+                        pList.Value = table;
+
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(pList);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+        }
+
 		public static int GetNextContractID()
 		{
 			int Result = 0;
@@ -27,7 +89,7 @@ namespace OpenBookPgh
 			return Result;
 		}
 
-		public static int AddContract(int contractNo, string vendorNo, int departmentID, int supplementalNo, string resolutionNo, int service,
+		public static int AddContract(string contractNo, string vendorNo, int departmentID, int supplementalNo, string resolutionNo, int service,
 										decimal amount, decimal originalAmount,	string description,
 										DateTime? dateDuration, DateTime? dateApproval, DateTime? dateEntered)
 		{
@@ -37,7 +99,7 @@ namespace OpenBookPgh
 				{
 					cmd.CommandType = CommandType.StoredProcedure;
 					cmd.Parameters.Add("@RETURN_VALUE", SqlDbType.Int).Direction = ParameterDirection.ReturnValue;
-					cmd.Parameters.Add("@ContractNo", SqlDbType.Int).Value = contractNo;
+					cmd.Parameters.Add("@ContractNo", SqlDbType.NVarChar, 50).Value = contractNo;
 					cmd.Parameters.Add("@VendorNo", SqlDbType.NVarChar, 10).Value = vendorNo;
 					cmd.Parameters.Add("@DepartmentID", SqlDbType.Int).Value = departmentID;
 					cmd.Parameters.Add("@SupplementalNo", SqlDbType.Int).Value = supplementalNo;
@@ -214,7 +276,7 @@ namespace OpenBookPgh
 		}
 
 
-		public static int UpdateContract(int contractID, string vendorNo, int departmentID, int supplementalNo, int newSupplementalNo, string resolutionNo, int service,
+		public static int UpdateContract(string contractID, string vendorNo, int departmentID, int supplementalNo, int newSupplementalNo, string resolutionNo, int service,
 								decimal amount, decimal originalAmount, string description,
 								DateTime? dateDuration, DateTime? dateApproval)
 		{
@@ -224,7 +286,7 @@ namespace OpenBookPgh
 				{
 					cmd.CommandType = CommandType.StoredProcedure;
 					cmd.Parameters.Add("@RETURN_VALUE", SqlDbType.Int).Direction = ParameterDirection.ReturnValue;
-					cmd.Parameters.Add("@ContractID", SqlDbType.Int).Value = contractID;
+					cmd.Parameters.Add("@ContractID", SqlDbType.NVarChar, 50).Value = contractID;
 					cmd.Parameters.Add("@VendorNo", SqlDbType.NVarChar, 10).Value = vendorNo;
 					cmd.Parameters.Add("@DepartmentID", SqlDbType.Int).Value = departmentID;
 					cmd.Parameters.Add("@SupplementalNo", SqlDbType.Int).Value = supplementalNo;
@@ -396,7 +458,7 @@ namespace OpenBookPgh
 			return results;
 		}
 
-		public static DataTable GetContract(int contractID, int supplementalNo)
+		public static DataTable GetContract(string contractID, int supplementalNo)
 		{
 			DataTable results = new DataTable("Results");
 			using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
@@ -404,7 +466,7 @@ namespace OpenBookPgh
 				using (SqlCommand cmd = new SqlCommand("GetContract", conn))
 				{
 					cmd.CommandType = CommandType.StoredProcedure;
-					cmd.Parameters.Add("@ContractID", SqlDbType.Int).Value = contractID;
+					cmd.Parameters.Add("@ContractID", SqlDbType.NVarChar, 50).Value = contractID;
 					cmd.Parameters.Add("@SupplementalNo", SqlDbType.Int).Value = supplementalNo;
 					conn.Open();
 					cmd.ExecuteNonQuery();
@@ -416,7 +478,7 @@ namespace OpenBookPgh
 			}
 		}
 
-		public static DataTable GetContractByContractID(int contractID, int supplementalNo)
+		public static DataTable GetContractByContractID(string contractID, int supplementalNo)
 		{
 			DataTable contracts = new DataTable("contracts");
 
@@ -425,7 +487,7 @@ namespace OpenBookPgh
 				using (SqlCommand cmd = new SqlCommand("GetContractByContractID", conn))
 				{
 					cmd.CommandType = CommandType.StoredProcedure;
-					cmd.Parameters.Add("@ContractID", SqlDbType.Int).Value = contractID;
+					cmd.Parameters.Add("@ContractID", SqlDbType.NVarChar, 50).Value = contractID;
 					cmd.Parameters.Add("@SupplementalNo", SqlDbType.Int).Value = supplementalNo;
 					conn.Open();
 					using (SqlDataReader reader = cmd.ExecuteReader())
@@ -537,14 +599,14 @@ namespace OpenBookPgh
 
 
 
-		public static void DeleteContract(int contractID, int supplementalNo)
+		public static void DeleteContract(string contractID, int supplementalNo)
 		{
 			using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
 			{
 				using (SqlCommand cmd = new SqlCommand("DeleteContract", conn))
 				{
 					cmd.CommandType = CommandType.StoredProcedure;
-					cmd.Parameters.Add("@ContractID", SqlDbType.Int).Value = contractID;
+					cmd.Parameters.Add("@ContractID", SqlDbType.NVarChar, 50).Value = contractID;
 					cmd.Parameters.Add("@SupplementalNo", SqlDbType.Int).Value = supplementalNo;
 
 					conn.Open();

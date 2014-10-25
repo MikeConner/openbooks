@@ -180,7 +180,8 @@ public partial class SearchContractsPage : System.Web.UI.Page
         int addPage = 1;
         if ((totalRows % PageSize) == 0)
         {
-            addPage = 0;
+            // Whatever this is supposed to do it doesn't work
+            // addPage = 0;
         }
         PageCount = (totalRows / PageSize) + addPage;
 

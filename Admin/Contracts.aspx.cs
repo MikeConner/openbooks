@@ -336,7 +336,7 @@ public partial class Admin_Contracts_new : System.Web.UI.Page
 
 		if (e.CommandName == "delete")
 		{
-			Admin.DeleteContract(Convert.ToInt32(contractID), Convert.ToInt32(supplementalNo));
+			Admin.DeleteContract(contractID, Convert.ToInt32(supplementalNo));
 			if (Session["PreviousPage"] != null)
 				Response.Redirect((string)Session["PreviousPage"]);
 			else

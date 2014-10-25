@@ -31,7 +31,7 @@
         <div class="row">
             <div class="medium-4 large-3 columns">
                 <div class="search-field">
-                    <h2>Department Name</h2>
+                    <h2>Department</h2>
                     <asp:DropDownList ID="CityDepartment" runat="server" AppendDataBoundItems="true"></asp:DropDownList>
                 </div>
                 <div class="search-field">
@@ -106,7 +106,7 @@
                         OnSelectedIndexChanged="ddlSortContracts_SelectedIndexChanged"
                         AutoPostBack="true">
                         <asp:ListItem Text="Contract Amount" Value="amount" />
-                        <asp:ListItem Text="Department Name" Value="DepartmentID" />
+                        <asp:ListItem Text="Department" Value="DepartmentID" />
                         <asp:ListItem Text="Contract Type" Value="Service" />
                         <asp:ListItem Text="Vendor Name" Value="VendorName" />
                         <asp:ListItem Text="Approval Date" Value="DateCountersigned" />
@@ -129,7 +129,7 @@
                                         <div class="title"><%# Eval("ServiceName") %></div>
                                     </div>
                                     <div class="label-item">
-                                        <div class="type">Department Name</div>
+                                        <div class="type">Department</div>
                                         <div class="title"><%# Eval("DepartmentName") %></div>
                                     </div>
                                 </div>

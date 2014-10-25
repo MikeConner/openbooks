@@ -171,8 +171,8 @@ namespace OpenBookPgh
                 sp.vendorID = vendorNo;
             }
             // ContractID Only Search in Admin
-            int contractNo = Utils.GetIntFromQueryString(Request.QueryString["contractNo"]);
-            if (contractNo != 0)
+            string contractNo = Utils.GetStringFromQueryString(Request.QueryString["contractNo"], true);
+            if (!string.IsNullOrEmpty(contractNo))
             {
                 sp.contractID = contractNo;
             }
@@ -243,8 +243,9 @@ namespace OpenBookPgh
 				sp.vendorID = vendorNo;
 			}
 			// ContractID Only Search in Admin
-			int contractNo = Utils.GetIntFromQueryString(Request.QueryString["contractNo"]);
-			if (contractNo != 0)
+            
+			string contractNo = Utils.GetStringFromQueryString(Request.QueryString["contractNo"], true);
+			if (! string.IsNullOrEmpty(contractNo))
 			{
 				sp.contractID = contractNo;
 			}
@@ -360,7 +361,7 @@ namespace OpenBookPgh
                     cmd.Parameters.Add("@maximumRows", SqlDbType.Int).Value = maximumRows;
                     cmd.Parameters.Add("@sortColumn", SqlDbType.VarChar, 25).Value = sortColumn;
                     cmd.Parameters.Add("@sortDirection", SqlDbType.Char, 4).Value = sortDirection;
-                    cmd.Parameters.Add("@contractID", SqlDbType.Int).Value = (sp.contractID == 0) ? System.DBNull.Value : (object)sp.contractID;
+                    cmd.Parameters.Add("@contractID", SqlDbType.NVarChar, 50).Value = string.IsNullOrEmpty(sp.contractID) ? System.DBNull.Value : (object)sp.contractID;
                     cmd.Parameters.Add("@vendorID", SqlDbType.Int).Value = (sp.vendorID == 0) ? System.DBNull.Value : (object)sp.vendorID;
                     cmd.Parameters.Add("@vendorKeywords", SqlDbType.VarChar, 100).Value = (sp.vendorKeywords == null) ? System.DBNull.Value : (object)sp.vendorKeywords;
                     cmd.Parameters.Add("@vendorSearchOptions", SqlDbType.Char, 1).Value = (sp.vendorSearchOptions == null) ? System.DBNull.Value : (object)sp.vendorSearchOptions;
@@ -395,7 +396,7 @@ namespace OpenBookPgh
 					cmd.Parameters.Add("@maximumRows", SqlDbType.Int).Value = maximumRows;
 					cmd.Parameters.Add("@sortColumn", SqlDbType.VarChar, 25).Value = sortColumn;
 					cmd.Parameters.Add("@sortDirection", SqlDbType.Char, 4).Value = sortDirection;
-					cmd.Parameters.Add("@contractID", SqlDbType.Int).Value = (sp.contractID == 0) ? System.DBNull.Value : (object)sp.contractID;
+					cmd.Parameters.Add("@contractID", SqlDbType.NVarChar, 50).Value = string.IsNullOrEmpty(sp.contractID) ? System.DBNull.Value : (object)sp.contractID;
 					cmd.Parameters.Add("@vendorID", SqlDbType.Int).Value = (sp.vendorID == 0) ? System.DBNull.Value : (object)sp.vendorID;	
 					cmd.Parameters.Add("@vendorKeywords", SqlDbType.VarChar, 100).Value = (sp.vendorKeywords == null) ? System.DBNull.Value : (object)sp.vendorKeywords;
 					cmd.Parameters.Add("@vendorSearchOptions", SqlDbType.Char, 1).Value = (sp.vendorSearchOptions == null) ? System.DBNull.Value : (object)sp.vendorSearchOptions;
@@ -424,7 +425,7 @@ namespace OpenBookPgh
                 using (SqlCommand cmd = new SqlCommand("SearchRangeContractsCount", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@contractID", SqlDbType.Int).Value = (sp.contractID == 0) ? System.DBNull.Value : (object)sp.contractID;
+                    cmd.Parameters.Add("@contractID", SqlDbType.NVarChar, 50).Value = string.IsNullOrEmpty(sp.contractID) ? System.DBNull.Value : (object)sp.contractID;
                     cmd.Parameters.Add("@vendorID", SqlDbType.Int).Value = (sp.vendorID == 0) ? System.DBNull.Value : (object)sp.vendorID;
                     cmd.Parameters.Add("@vendorKeywords", SqlDbType.VarChar, 100).Value = (sp.vendorKeywords == null) ? System.DBNull.Value : (object)sp.vendorKeywords;
                     cmd.Parameters.Add("@vendorSearchOptions", SqlDbType.Char, 1).Value = (sp.vendorSearchOptions == null) ? System.DBNull.Value : (object)sp.vendorSearchOptions;
@@ -459,7 +460,7 @@ namespace OpenBookPgh
 				using (SqlCommand cmd = new SqlCommand("SearchContractsCount", conn))
 				{
 					cmd.CommandType = CommandType.StoredProcedure;
-					cmd.Parameters.Add("@contractID", SqlDbType.Int).Value = (sp.contractID == 0) ? System.DBNull.Value : (object)sp.contractID;
+					cmd.Parameters.Add("@contractID", SqlDbType.NVarChar, 50).Value = string.IsNullOrEmpty(sp.contractID) ? System.DBNull.Value : (object)sp.contractID;
 					cmd.Parameters.Add("@vendorID", SqlDbType.Int).Value = (sp.vendorID == 0) ? System.DBNull.Value : (object)sp.vendorID;		
 					cmd.Parameters.Add("@vendorKeywords", SqlDbType.VarChar, 100).Value = (sp.vendorKeywords == null) ? System.DBNull.Value : (object)sp.vendorKeywords;
 					cmd.Parameters.Add("@vendorSearchOptions", SqlDbType.Char, 1).Value = (sp.vendorSearchOptions == null) ? System.DBNull.Value : (object)sp.vendorSearchOptions;

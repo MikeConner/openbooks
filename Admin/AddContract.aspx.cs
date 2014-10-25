@@ -16,7 +16,9 @@ public partial class AddContract : System.Web.UI.Page
             if (!IsPostBack)
             {
                 if (Request.UrlReferrer != null)
+                {
                     Session.Add("PreviousPage", Request.UrlReferrer.AbsoluteUri);
+                }
 
                 LoadDefaults();
             }
@@ -30,11 +32,11 @@ public partial class AddContract : System.Web.UI.Page
             Response.Redirect("Default.aspx");
         }
 	}
-	private int _ContractID
+	private string _ContractID
 	{
 		get
 		{
-			int var = Utils.IntFromQueryString("ID", 0);
+			string var = Utils.StringFromQueryString("ID", null, null, true);
 			return var;
 		}
 	}
@@ -51,19 +53,16 @@ public partial class AddContract : System.Web.UI.Page
 
 	protected void LoadDefaults()
     {
-        String un = User.Identity.Name;
-//        User.IsInRole("admin");
-
-        int contractNo = 0;
-		if (_ContractID != 0)
+        string contractNo = null;
+		if (string.IsNullOrEmpty(_ContractID))
 		{
-			contractNo = _ContractID;
-		}
+            contractNo = _NextContractID.ToString();
+        }
 		else
 		{
-			contractNo = _NextContractID;
-		}
-		txtContractNo.Text = contractNo.ToString();
+            contractNo = _ContractID;
+        }
+		txtContractNo.Text = contractNo;
 
 		//txtDateDuration.Text = DateTime.Now.ToShortDateString();
 		//txtDateApproval.Text = DateTime.Now.ToShortDateString();
@@ -127,9 +126,6 @@ public partial class AddContract : System.Web.UI.Page
 
 	private int AddContractHelper()
 	{
-		int result = 0;
-		bool sendRequest = false;
-
 		string resolutionNo = txtResolutionNo.Text;
 		string vendorNo = ddlVendors.SelectedValue;
 		string description = txtDescription.Text;
@@ -160,34 +156,7 @@ public partial class AddContract : System.Web.UI.Page
 			dateEntered = Convert.ToDateTime(txtDateEntered.Text);
 		}
 
-		int contractNo = Convert.ToInt32(txtContractNo.Text);
-		if (contractNo == _NextContractID)
-		{
-			// standard - let DB auto assign and increment
-			contractNo = 0;
-			sendRequest = true;
-		}
-		else if (contractNo > _NextContractID)
-		{
-			// return error - can not go past current contract
-			sendRequest = false;
-			result = -2;
-		}
-		else
-		{
-			// check if contract #/sup# in use - SP does the work for now
-			sendRequest = true;
-		}
-
-		if (sendRequest)
-		{
-			result = Admin.AddContract(contractNo, vendorNo, departmentID, supplementalNo, resolutionNo, service,
-				amount, originalAmount, description, dateDuration, dateApproval, dateEntered);
-            String un = User.Identity.Name;
-
-		}
-		return result;
-
+		return Admin.AddContract(txtContractNo.Text, vendorNo, departmentID, supplementalNo, resolutionNo, service,
+			amount, originalAmount, description, dateDuration, dateApproval, dateEntered);
 	}
-
 }

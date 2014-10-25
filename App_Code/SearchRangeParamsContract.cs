@@ -12,7 +12,7 @@ namespace OpenBookPgh
 
         public SearchRangeParamsContract() { }
 
-        private SearchRangeParamsContract(int vendorID, int contractID, string vendorKeywords, string vendorSearchOptions, int cityDept, int contractType,
+        private SearchRangeParamsContract(int vendorID, string contractID, string vendorKeywords, string vendorSearchOptions, int cityDept, int contractType,
         string keywords, DateTime beginDate, DateTime endDate, int minContractAmt, int maxContractAmt)
         {
             this.vendorID = vendorID;
@@ -40,8 +40,8 @@ namespace OpenBookPgh
             get { return _vendorID; }
             set { _vendorID = value; }
         }
-        private int _contractID = 0;
-        public int contractID
+        private string _contractID = null;
+        public string contractID
         {
             get { return _contractID; }
             set { _contractID = value; }

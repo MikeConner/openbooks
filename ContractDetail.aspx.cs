@@ -22,10 +22,10 @@ public partial class ContractDetail : System.Web.UI.Page
 	}
 	private void LoadPage()
 	{
-		int contractID = Utils.IntFromQueryString("ID", 0);
+		string contractID = Utils.StringFromQueryString("ID", null, null, true);
 		int supplementalNo = Utils.IntFromQueryString("sup", 0); // zero is standard for single contracts
 
-		if (contractID != 0)
+		if (!string.IsNullOrEmpty(contractID))
 		{
 			rptContractDetails.DataSource = Admin.GetContractByContractID(contractID, supplementalNo);
 			rptContractDetails.DataBind();

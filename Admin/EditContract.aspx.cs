@@ -22,10 +22,10 @@ public partial class Admin_EditContract : System.Web.UI.Page
 	}
 	private void LoadPage()
 	{
-		int contractID = Utils.IntFromQueryString("ID", 0);
+		string contractID = Utils.StringFromQueryString("ID", null, null, true);
 		int supplementalNo = Utils.IntFromQueryString("sup", 0);
 
-		if (contractID != 0)
+		if (!string.IsNullOrEmpty(contractID))
 		{
 			frmContract.DataSource = Admin.GetContract(contractID, supplementalNo);
 			frmContract.DataBind();
@@ -47,7 +47,7 @@ public partial class Admin_EditContract : System.Web.UI.Page
 		TextBox OriginalAmount = (TextBox)frmContract.FindControl("txtOriginalAmount");
 		TextBox Description = (TextBox)frmContract.FindControl("txtDescription");
 
-		int contractID = Utils.IntFromQueryString("ID", 0);
+		string contractID = Utils.StringFromQueryString("ID", null, null, true);
 		string vendorNo = Vendor.SelectedValue;
 		string resolutionNo = ResolutionNo.Text;
 

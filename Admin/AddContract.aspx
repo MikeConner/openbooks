@@ -12,14 +12,16 @@
 	<tr>
 		<td><label>Contract No.</label></td>
 		<td><asp:TextBox ID="txtContractNo" runat="server" Width="100" /> 
-			
+            <!-- Allow empty; this will cause DB to use the NextContractNo (and increment it).
 			<asp:RequiredFieldValidator ID="reqContractNo" runat="server" 
-				ControlToValidate="txtContractNo" ErrorMessage="Please enter a Contract No." Display="None"   />
+				ControlToValidate="txtContractNo" ErrorMessage="Please enter a Contract No." Display="None"   /> -->
 			
+			<!-- Accept non-numeric contract numbers
 			<asp:RangeValidator ID="valContractNo" runat="server" 
 				ControlToValidate="txtContractNo" Type="Integer"
 				MinimumValue="0" MaximumValue="99999999"
 				ErrorMessage="Contract No. does not appear valid." Display="None" />
+                -->
 		</td>
 	</tr>
 	<tr>
