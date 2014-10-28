@@ -73,6 +73,19 @@
 </li>
 </ul>
 </div>
+        <div>
+            <ul>
+                <li class=" side-nav">
+                    <h2> Report Fraud </h2>
+                </li>
+                <li>
+                    Search Tips
+                </li>
+                <li>
+                    Contact Us
+                </li>
+            </ul>
+        </div>
 </footer>
     </div>
         <% } %>

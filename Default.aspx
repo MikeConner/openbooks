@@ -5,7 +5,7 @@
     <div class="homepage-hero">
         <div class="row">
             <div class="large-12 columns">
-                <h1>A searchable database of City of Pittsburgh government contracts, campaign finance reports, and lobbyists.</h1>
+                <h1>City of Pittsburgh government contracts, campaign finance reports, and lobbyists.</h1>
                 <p>Search Open Book Pittsburgh for City contracts, campaign donations and expenditures of candidates for a City office, and lobbyists that do business with the City of Pittsburgh.    </p>
             </div>
         </div>

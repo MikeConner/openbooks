@@ -27,10 +27,10 @@
                             </div>
                             <div class="row">
                                 <div class="large-12 columns">
-                                    <blockquote>
+                                  <p>
                                         In addition to auditing city departments, the City Controller reviews and approves city contracts and is also charged with reporting to the citizens of Pittsburgh, the Mayor and City Council the state of the city’s fiscal condition. Every year, the City Controller issues the Comprehensive Annual Financial Report (CAFR). The CAFR provides detailed information on Pittsburgh’s short-term and long-term financial outlook.
-                                        <cite>Open Book</cite>
-                                    </blockquote>
+                                        
+                                    </p>
                                     <p>Lastly, the City Controller sits on the boards of the city’s Municipal Pension Fund and the Comprehensive Municipal Fund.</p>
 
                                     <ul class="about-links">

@@ -119,8 +119,8 @@
                             <div class="item">
                                 <h2><a href="VendorDetail.aspx?ID=<%# Eval("VendorNo") %>"><%# Eval("VendorName") %>  </a></h2>
                                 <div class="price-group">
-                                    <span class="original">Contract Amount: <%# Eval("Amount", "{0:C}")%></span>
-                                    <span class="current"><%# Eval("OriginalAmount", "{0:C}")%> Original Contract </span>
+                                    <span class="original">Currrent Contract Amount: <%# Eval("Amount", "{0:C}")%></span>
+                                    <span class="current"><%# Eval("OriginalAmount", "{0:C}")%> Original Contract Amount</span>
 
                                 </div>
                                 <div class="label-group">
