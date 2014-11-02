@@ -6,6 +6,7 @@ using System.Net;
 using System.ComponentModel;
 using System.Data;
 using System.IO;
+using System.Collections.Generic;
 
 namespace OpenBookPgh
 {
@@ -15,7 +16,69 @@ namespace OpenBookPgh
 	public class Admin
 	{
         public static string ONBASE_CONTRACT_PDF_PATH = "http://onbaseapp.city.pittsburgh.pa.us/PublicAccess/openbook/contracts.csv";
-        
+
+        public static List<string> UploadContributions(string filename, string username)
+        {
+            List<string> errors = new List<string>();
+
+            string[] lines = System.IO.File.ReadAllLines(filename);
+            for (int idx = 1; idx < lines.Length; idx++)
+            {
+                // There are validation rules we don't want to duplicate, so call existing Admin function to add the contribution, as if they're being entered one by one
+                // Need to convert Candidate and Contribution Type to integers, amount to a decimal, and date to a datetime
+                string[] fields = lines[idx].Split(',');
+                if (14 == fields.Length)
+                {
+                    // Conversions
+                    int candidateID, contributionTypeID;
+                    decimal amount;
+                    DateTime contributionDate;
+
+                    if (mCandidateMap.TryGetValue(fields[1], out candidateID))
+                    {
+                        if (mContributionType.TryGetValue(fields[5], out contributionTypeID))
+                        {
+                            if (Decimal.TryParse(fields[11], out amount))
+                            {
+                                if (DateTime.TryParse(fields[12], out contributionDate))
+                                {
+                                    int result = AddContribution(candidateID, fields[2], fields[3], fields[4], contributionTypeID, fields[13], fields[6], fields[7], fields[8],
+                                                                 fields[9], fields[10], amount, username, contributionDate);
+
+                                    if (result != 0)
+                                    {
+                                        errors.Add("There were problems adding contribution " + fields[0] + ". Error Code: [" + result + "]");
+                                    }
+                                }
+                                else
+                                {
+                                    errors.Add(fields[0] + ": " + fields[12] + " is not a valid date.");
+                                }
+                            }
+                            else
+                            {
+                                errors.Add(fields[0] + ": " + fields[11] + " is not a valid contribution amount.");
+                            }
+                        }
+                        else
+                        {
+                            errors.Add(fields[0] + ": " + fields[5] + " is not a recognized contribution type.");
+                        }
+                    }
+                    else
+                    {
+                        errors.Add(fields[0] + ": " + fields[1] + " is not a recognized candidate.");
+                    }
+                }
+                else
+                {
+                    errors.Add(fields[0] + " malformed");
+                }
+            }
+
+            return errors;
+        }
+
         public static void DownloadContractIDs()
         {
             using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
@@ -596,9 +659,6 @@ namespace OpenBookPgh
 			}
 		}
 
-
-
-
 		public static void DeleteContract(string contractID, int supplementalNo)
 		{
 			using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
@@ -771,5 +831,48 @@ namespace OpenBookPgh
 				}
 			}
 		}
-	}
+
+        static Admin()
+        {
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = new SqlCommand("SELECT * FROM tlk_candidate", conn))
+                {
+                    DataTable candidates = new DataTable("candidates");
+
+                    cmd.CommandType = CommandType.Text;
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        candidates.Load(reader);
+
+                        foreach (DataRow row in candidates.Rows)
+                        {
+                            mCandidateMap.Add(row["CandidateName"].ToString(), Int32.Parse(row["ID"].ToString()));
+                        }
+                    }
+                }
+
+                using (SqlCommand cmd = new SqlCommand("SELECT * FROM tlk_contributionType", conn))
+                {
+                    DataTable contributionTypes = new DataTable("contributionTypes");
+
+                    cmd.CommandType = CommandType.Text;
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        contributionTypes.Load(reader);
+
+                        foreach (DataRow row in contributionTypes.Rows)
+                        {
+                            mContributionType.Add(row["ContributionType"].ToString(), Int32.Parse(row["ID"].ToString()));
+                        }
+                    }
+                }
+            }
+        }
+
+        private static SortedDictionary<string, int> mCandidateMap = new SortedDictionary<string, int>();
+        private static SortedDictionary<string, int> mContributionType = new SortedDictionary<string, int>();
+    }
 }
