@@ -376,3 +376,6 @@ SELECT [LobbyistID]
       ,[DateEntered]
   FROM [CityControllerBackup].[dbo].[xref_lobbyist_company]
 
+  /****** Script for SelectTopNRows command from SSMS  ******/
+update  [CityController].[dbo].[users]
+set PermissionGroup = 'admin'
