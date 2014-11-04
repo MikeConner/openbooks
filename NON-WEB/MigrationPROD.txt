@@ -1,0 +1,378 @@
+﻿Save Backup - Restore to newDB
+ - restore: drop city contorller
+ - restore new db
+ - new filenames
+ - rename new db - backup
+ - attach citycontroller again
+
+
+ /* contracts **************************************************************************************************************/
+
+delete from contracts
+SET IDENTITY_INSERT dbo.contracts ON
+select * from contracts
+
+ 
+    
+
+INSERT INTO [dbo].[contracts]
+           ([ID]
+		   ,[ContractID]
+           ,[VendorNo]
+           ,[VendorName]
+           ,[DepartmentID]
+           ,[IndexCode]
+           ,[SupplementalNo]
+           ,[ResolutionNo]
+           ,[Service]
+           ,[Amount]
+           ,[OriginalAmount]
+           ,[Description]
+           ,[Notes]
+           ,[Comments]
+           ,[DateSolicitor]
+           ,[DateDuration]
+           ,[DateCountersigned]
+           ,[DateEntered])
+SELECT [ID]
+      ,[ContractID]
+      ,[VendorNo]
+      ,[VendorName]
+      ,[DepartmentID]
+      ,[IndexCode]
+      ,[SupplementalNo]
+      ,[ResolutionNo]
+      ,[Service]
+      ,[Amount]
+      ,[OriginalAmount]
+      ,[Description]
+      ,[Notes]
+      ,[Comments]
+      ,[DateSolicitor]
+      ,[DateDuration]
+      ,[DateCountersigned]
+      ,[DateEntered] from [CityControllerBACKUP].dbo.contracts
+
+SET IDENTITY_INSERT dbo.contracts OFF
+
+
+
+/* Contributions **************************************************************************************************************/
+USE [CityController]
+GO
+
+SET IDENTITY_INSERT dbo.contributions ON
+Delete from dbo.contributions
+
+INSERT INTO [dbo].[contributions]
+           ([ContributionID]
+		   ,[CandidateID]
+           ,[Office]
+           ,[ContributorType]
+           ,[ContributionType]
+           ,[ContributorName]
+           ,[City]
+           ,[State]
+           ,[Zip]
+           ,[Employer]
+           ,[Occupation]
+           ,[Amount]
+           ,[DateContribution]
+           ,[DateEntered]
+           ,[Description]
+           ,[CreatedBy]
+           ,[ApprovedBy]
+           ,[Approved]
+           ,[DateApproved])
+     select [ContributionID]
+      ,[CandidateID]
+      ,[Office]
+      ,[ContributorType]
+      ,[ContributionType]
+      ,[ContributorName]
+      ,[City]
+      ,[State]
+      ,[Zip]
+      ,[Employer]
+      ,[Occupation]
+      ,[Amount]
+      ,[DateContribution]
+      ,[DateEntered]
+      ,[Description]
+	  ,'system'
+	  ,'system'
+	  ,1
+	  ,'2014-10-23'
+	  
+	  
+	   from [CityControllerBACKUP].dbo.contributions
+GO
+
+SET IDENTITY_INSERT dbo.contributions OFF
+
+
+
+
+/* Expenditures **************************************************************************************************************/
+
+USE [CityController]
+GO
+
+
+SET IDENTITY_INSERT dbo.expenditures ON
+
+delete from dbo.expenditures
+
+INSERT INTO [dbo].[expenditures]
+           ([ExpenditureID]
+		   ,[CandidateID]
+           ,[Office]
+           ,[CompanyName]
+           ,[Address1]
+           ,[City]
+           ,[State]
+           ,[Zip]
+           ,[Description]
+           ,[Amount]
+           ,[DatePaid]
+           ,[DateEntered]
+           ,[CreatedBy]
+           ,[ApprovedBy]
+           ,[Approved]
+           ,[DateApproved])
+     select [ExpenditureID]
+      ,[CandidateID]
+      ,[Office]
+      ,[CompanyName]
+      ,[Address1]
+      ,[City]
+      ,[State]
+      ,[Zip]
+      ,[Description]
+      ,[Amount]
+      ,[DatePaid]
+      ,[DateEntered]
+	  ,'system'
+	  ,'system'
+	  ,1
+	  ,'2014-10-23' from CityControllerBACKUP.dbo.expenditures
+GO
+
+
+
+
+SET IDENTITY_INSERT dbo.expenditures OFF
+
+
+
+/* [lobbyistCompanies] **************************************************************************************************************/
+USE [CityController]
+GO
+
+
+
+SET IDENTITY_INSERT dbo.lobbyistCompanies ON
+
+delete from dbo.lobbyistCompanies
+
+INSERT INTO [dbo].[lobbyistCompanies]
+           ([ID]
+		   ,[FullName]
+           ,[Address]
+           ,[City]
+           ,[State]
+           ,[Zip]
+           ,[DateEntered])
+    SELECT  [ID]
+      ,[FullName]
+      ,[Address]
+      ,[City]
+      ,[State]
+      ,[Zip]
+      ,[DateEntered]
+  FROM [CityControllerBACKUP].[dbo].[lobbyistCompanies]
+GO
+
+
+SET IDENTITY_INSERT dbo.expenditures OFF
+
+
+
+/* [lobbyist] **************************************************************************************************************/
+
+USE [CityController]
+GO
+
+
+SET IDENTITY_INSERT dbo.[lobbyists] ON
+
+delete from dbo.lobbyists
+
+INSERT INTO [dbo].[lobbyists]
+           ([ID]
+		   ,[FullName]
+           ,[Position]
+           ,[Employer]
+           ,[DateEntered]
+           ,[LobbyistStatus])
+SELECT [ID]
+      ,[FullName]
+      ,[Position]
+      ,[Employer]
+      ,[DateEntered]
+      ,[LobbyistStatus]
+  FROM [CityControllerBACKUP].[dbo].[lobbyists]
+GO
+
+
+SET IDENTITY_INSERT dbo.[lobbyists] OFF
+
+
+  
+/* [tblOnbaseContracts] **************************************************************************************************************/
+
+
+Delete from CityController.dbo.tblOnbaseContracts
+
+insert into CityController.dbo.tblOnbaseContracts
+SELECT [ContractID]
+      ,[itemnum]
+      ,[itemname]
+      ,[batchnum]
+      ,[status]
+      ,[itemtypegroupnum]
+      ,[itemtypenum]
+      ,[itrevnum]
+      ,[itemdate]
+      ,[datestored]
+      ,[usernum]
+      ,[deleteusernum]
+      ,[securityvalue]
+      ,[doctracenumber]
+      ,[institution]
+      ,[maxdocrev]
+  FROM [CityControllerBackup].[dbo].[tblOnbaseContracts]
+
+
+  /* [tlk_candidate] **************************************************************************************************************/
+
+
+SET IDENTITY_INSERT dbo.[tlk_candidate] ON
+delete from dbo.[tlk_candidate]
+
+insert into dbo.[tlk_candidate] ([ID],[CandidateName])
+SELECT  [ID]
+      ,[CandidateName]
+  FROM [CityControllerBackup].[dbo].[tlk_candidate]
+  
+
+SET IDENTITY_INSERT dbo.[tlk_candidate] OFF
+
+
+/* [tlk_next_co_num] **************************************************************************************************************/
+
+
+  Update CityController.dbo.tlk_NextContractNo set NextContractNo = (SELECT [NextContractNo]
+  FROM [CityControllerBackup].[dbo].[tlk_NextContractNo])
+
+
+  
+/* [Vendors] **************************************************************************************************************/
+
+
+
+  
+USE [CityController]
+GO
+
+SET IDENTITY_INSERT dbo.[tlk_vendors] ON
+
+delete from [dbo].[tlk_vendors]
+
+INSERT INTO [dbo].[tlk_vendors]
+           ([ID],[VendorNo]
+           ,[VendorName])
+
+
+SELECT  [ID]
+      ,[VendorNo]
+      ,[VendorName]
+  FROM [CityControllerBackup].[dbo].[tlk_vendors]
+
+  
+SET IDENTITY_INSERT dbo.[tlk_vendors] OFF
+
+/*Users *********************************************************************************************/
+USE [CityController]
+GO
+
+
+
+SET IDENTITY_INSERT dbo.[users] ON
+delete from dbo.users
+
+INSERT INTO [dbo].[users]
+           ([UserID],[FirstName]
+           ,[LastName]
+           ,[Email]
+           ,[Initials]
+           ,[PermissionGroup]
+           ,[UserName]
+           ,[PasswordHash]
+           ,[Salt]
+           ,[CandidateID])
+    SELECT TOP 1000 [UserID]
+      ,[FirstName]
+      ,[LastName]
+      ,[Email]
+      ,[Initials]
+      ,[PermissionGroup]
+      ,[UserName]
+      ,[PasswordHash]
+      ,[Salt],
+	  Null
+  FROM [CityControllerBACKUP].[dbo].[users]
+GO
+
+
+
+SET IDENTITY_INSERT dbo.[users] OFF
+
+/*VENDORS ***********************/
+/****** Script for SelectTopNRows command from SSMS  ******/
+delete from CityController.dbo.vendors
+
+
+insert into CityController.dbo.vendors
+
+SELECT [VendorNo]
+      ,[VendorName]
+      ,[Address1]
+      ,[Address2]
+      ,[Address3]
+      ,[Address4]
+      ,[City]
+      ,[State]
+      ,[Zip]
+      ,[BuildingName]
+      ,[POBoxApt]
+      ,[StreetNo]
+      ,[Entrance]
+      ,[PreDirect]
+      ,[StreetName]
+      ,[Type]
+      ,[PostDirect]
+  FROM [CityControllerbackup].[dbo].[vendors]
+  
+
+/* [xref_lobbyist] **************************************************************************************************************/
+
+
+delete from [xref_lobbyist_company]
+
+Insert into CityController.dbo.xref_lobbyist_company 
+SELECT [LobbyistID]
+      ,[CompanyID]
+      ,[DateEntered]
+  FROM [CityControllerBackup].[dbo].[xref_lobbyist_company]
+
