@@ -50,13 +50,3 @@
 function formatNumber(num) {
     return undefined == num ? "" : num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 }
-
-// Disable individual field validation when uploading Contributions
-function validateContributionUpload() {
-    var element = document.getElementById('<%= txtAmount.ClientID %>');
-    element.enabled = false;
-    element = document.getElementById('<%= txtContributor.ClientID %>');
-    element.enabled = false;
-
-    return true;
-}

@@ -38,7 +38,7 @@
     padding: 0;
 }
 .search-by input[type="checkbox"] + label, input[type="radio"] + label {
-    color: white;
+    /*color: white;*/
     margin: 0 0.5rem;
 }
 .pagination select {

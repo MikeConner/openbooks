@@ -47,8 +47,6 @@ public partial class Admin_AddContributionPage : System.Web.UI.Page
 		rblContributor.SelectedValue = "in";
 		ddlState.SelectedValue = "PA";
 		txtDate.Text = DateTime.Now.ToShortDateString();
-        UploadErrors.Rows = 4;
-        UploadErrors.Visible = false;
     }
 	protected void Button1_Click(object sender, EventArgs e)
 	{
@@ -142,48 +140,4 @@ public partial class Admin_AddContributionPage : System.Web.UI.Page
 			txtContributor.Focus();
 		}
 	}
-    protected void UploadButton_Click(object sender, EventArgs e)
-    {
-        // Specify the path on the server to
-        // save the uploaded file to, if we can do that. Otherwise, just use temp file (try that first)
-        // String savePath = ConfigurationManager.AppSettings["fileUploadPath"];
-
-        // Before attempting to perform operations
-        // on the the file, verify that the FileUpload 
-        // control contains a file.
-        if (FileUpload1.HasFile)
-        {
-            // Append the name of the file to upload to the path.
-            //savePath += FileUpload1.FileName;
-
-            // Server.MapPath(savePath)
-            string fullPath = Path.GetTempFileName().Replace(".tmp", ".csv");
-            FileUpload1.PostedFile.SaveAs(fullPath);
-            //FileUpload1.SaveAs(savePath);
-
-            // Notify the user that the file was uploaded successfully.
-            UploadStatusLabel.Text = "Your file was uploaded successfully. Processing...";
-
-            UploadErrors.Items.Clear();
-            UploadErrors.Visible = false;
-            List<string> errors = Admin.UploadContributions(fullPath, User.Identity.Name);
-
-            if (0 == errors.Count) {
-                UploadStatusLabel.Text = "Success!";
-            }
-            else {
-                UploadStatusLabel.Text = "There were errors during the upload.";
-                UploadErrors.Visible = true;
-                foreach (string error in errors)
-                {
-                    UploadErrors.Items.Add(error);
-                }
-            }
-        }
-        else
-        {
-            // Notify the user that a file was not uploaded.
-            UploadStatusLabel.Text = "You did not specify a file to upload.";
-        }
-    }
 }
