@@ -70,6 +70,12 @@
     background:#444;
     color:white !important;
 }
+.footer-links li a {
+    background: #666;
+}
+.footer-links li i {
+    margin-left: 10px;
+}
 @media only screen and (max-width: 40em) {
     .copyright .copy {
         margin-top: 2rem;

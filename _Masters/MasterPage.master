@@ -74,13 +74,13 @@
     </ul>
 </div>
 <div class="large-4 columns">
-    <ul class="test">
+    <ul class="footer-links">
         <li>
-            <asp:HyperLink NavigateUrl="~/SearchTips.aspx" CssClass="button expand" runat="server" ID="SearchTips">Search Tips</asp:HyperLink></li>
+            <asp:HyperLink NavigateUrl="~/SearchTips.aspx" CssClass="button expand" runat="server" ID="SearchTips">Search Tips<i class="fa fa-search"></i></asp:HyperLink></li>
         <li>
-            <asp:HyperLink NavigateUrl="~/ReportFraud.aspx" CssClass="button expand" runat="server" ID="HyperLink10">Report Fraud</asp:HyperLink></li>
+            <asp:HyperLink NavigateUrl="~/ReportFraud.aspx" CssClass="button expand" runat="server" ID="HyperLink10">Report Fraud<i class="fa fa-bolt"></i></asp:HyperLink></li>
         <li>
-            <asp:HyperLink NavigateUrl="~/Contact.aspx" CssClass="button expand" runat="server" ID="Contact">Contact</asp:HyperLink></li>
+            <asp:HyperLink NavigateUrl="~/Contact.aspx" CssClass="button expand" runat="server" ID="Contact">Contact Us<i class="fa fa-send"></i></asp:HyperLink></li>
     </ul>
 </div>
 </footer>
