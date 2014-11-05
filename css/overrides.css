@@ -79,6 +79,9 @@
 .footer-links li i {
     margin-left: 10px;
 }
+footer {
+    padding: 3rem 0 2rem;
+}
 @media only screen and (max-width: 40em) {
     .copyright .copy {
         margin-top: 2rem;
