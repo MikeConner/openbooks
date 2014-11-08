@@ -371,13 +371,22 @@ public partial class SearchContractsPage : System.Web.UI.Page
 
     protected void rptContracts_ItemCommand(object source, RepeaterCommandEventArgs e)
     {
+        int contractID = Convert.ToInt32(e.CommandArgument.ToString());
+
         if (e.CommandName == "ViewPDF")
         {
-            int contractID = Convert.ToInt32(e.CommandArgument.ToString());
             OpenNewWindow("http://onbaseapp.city.pittsburgh.pa.us/PublicAccess/Contracts.aspx?OBKey__138_1=" + contractID);
-            //Response.Redirect("http://onbaseapp.city.pittsburgh.pa.us/PublicAccess/Contracts.aspx?OBKey__138_1=" + contractID);
+        }
+        else if (e.CommandName == "ViewCheck")
+        {
+            OpenNewWindow("http://onbaseapp.city.pittsburgh.pa.us/PublicAccess/Checks.aspx?OBKey__138_1=" + contractID);
+        }
+        else if (e.CommandName == "ViewInvoice")
+        {
+            OpenNewWindow("http://onbaseapp.city.pittsburgh.pa.us/PublicAccess/Invoices.aspx?OBKey__138_1=" + contractID);
         }
     }
+
     public void OpenNewWindow(string url)
     {
         ClientScript.RegisterStartupScript(this.GetType(), "newWindow", String.Format("<script>window.open('{0}');</script>", url));

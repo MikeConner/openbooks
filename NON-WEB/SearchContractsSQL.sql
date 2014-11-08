@@ -1,12 +1,13 @@
 USE [CityController]
 GO
 
-/****** Object:  StoredProcedure [dbo].[SearchContractsSQL]    Script Date: 10/24/2014 2:13:15 PM ******/
+/****** Object:  StoredProcedure [dbo].[SearchContractsSQL]    Script Date: 11/7/2014 11:35:35 PM ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
+
 
 
 
@@ -61,7 +62,15 @@ FROM
 			CASE
 				WHEN oc.ContractID IS NULL THEN ''False''
 				ELSE ''True''
-			END AS ''HasPdf'' 
+			END AS ''HasPdf'',
+			CASE
+				WHEN c.HasCheckPDF IS NULL THEN ''False''
+				ELSE ''True''
+			END AS ''HasCheck'',
+			CASE
+				WHEN c.HasInvoicePDF IS NULL THEN ''False''
+				ELSE ''True''
+			END AS ''HasInvoice'' 			 
 		FROM contracts c 
 		LEFT OUTER JOIN vendors v ON c.VendorNo = v.VendorNo 
 		JOIN tlk_service s ON c.Service = s.ID 
@@ -154,6 +163,7 @@ EXEC sp_executesql @sql, @paramlist,
 
 
 END
+
 
 GO
 

@@ -145,14 +145,30 @@
                                     <p><%# Eval("Description") %></p>
                                 </div>
                                 <span class="current">
-                                    <asp:Panel ID="pnlContractPDF" runat="server" Visible='<%# Eval("HasPDF").ToString() == "True" %>'>
+                                    <asp:Panel class="PDFPanel" ID="pnlContractPDF" runat="server" Visible='<%# Eval("HasPDF").ToString() == "True" %>'>
+                                        <label>Contract</label>
                                         <asp:ImageButton ID="ibtnContractPDF" runat="server"
                                             ImageUrl="~/img/pdficon.gif"
                                             CommandName="ViewPDF"
                                             CommandArgument='<%# Eval("ContractID") %>' />
                                     </asp:Panel>
-                                </span>
 
+                                    <asp:Panel class="PDFPanel" ID="pnlCheckPDF" runat="server" Visible='<%# Eval("HasCheck").ToString() == "True" %>'>
+                                        <label>Check</label>
+                                        <asp:ImageButton ID="ibtnCheckPDF" runat="server"
+                                            ImageUrl="~/img/pdficon.gif"
+                                            CommandName="ViewCheck"
+                                            CommandArgument='<%# Eval("ContractID") %>' />
+                                    </asp:Panel>
+
+                                    <asp:Panel class="PDFPanel" ID="pnlInvoicePDF" runat="server" Visible='<%# Eval("HasInvoice").ToString() == "True" %>'>
+                                        <label>Invoice</label>
+                                        <asp:ImageButton ID="ibtnInvoicePDF" runat="server"
+                                            ImageUrl="~/img/pdficon.gif"
+                                            CommandName="ViewInvoice"
+                                            CommandArgument='<%# Eval("ContractID") %>' />
+                                    </asp:Panel>
+                                </span>
                             </div>
                         </ItemTemplate>
                     </asp:Repeater>

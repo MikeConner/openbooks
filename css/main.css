@@ -6962,3 +6962,7 @@ button, .button, a, input {
   /* line 30, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/application.css.scss */
   button:focus, .button:focus, a:focus, input:focus {
     outline: none; }
+.PDFPanel {
+    display:inline-block;
+    padding: 0px 5px 0px 5px;
+}
