@@ -173,6 +173,27 @@ namespace OpenBookPgh
             return null;
         }
 
+        public static string GetUserEmail(string username)
+        {
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand com = new SqlCommand("SELECT email FROM users WHERE UserName=@name", con))
+                {
+                    com.Parameters.AddWithValue("@name", username);
+                    using (SqlDataReader reader = com.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return ((string)reader["email"]).ToString();
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
         public static Boolean ValidateUserRoles(string roles)
         {
             return (ADMIN_USER_ROLE == roles) || (CANDIDATE_USER_ROLE == roles) || (string.Empty == roles);

@@ -5,7 +5,6 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
-using System.Net.Mail; 
 using OpenBookPgh;
 using System.ComponentModel;
 using System.Drawing;
@@ -31,23 +30,13 @@ public partial class _Contact : System.Web.UI.Page
 		} 
 		else 
 		{ 
-			MailMessage mail = new MailMessage();
-			mail.From = new MailAddress("webcontact@openbookpittsburgh.com");
-			mail.To.Add("douglas.anderson@pittsburghpa.gov");
-			mail.Subject = "Contact Form From OpenBook Pittsburgh";
-			mail.IsBodyHtml = true;
-			mail.Body = "First Name: " + FNameTB.Text + "<br />";
-			mail.Body += "Last Name: " + LNameTB.Text + "<br />";
-			mail.Body += "Email: " + EmailTB.Text + "<br />";
-			mail.Body += "Comments: " + CommentsTB.Text + "<br />"; 
+			string body = "First Name: " + FNameTB.Text + "<br />" +
+			              "Last Name: " + LNameTB.Text + "<br />" +
+			              "Email: " + EmailTB.Text + "<br />" +
+			              "Comments: " + CommentsTB.Text + "<br />";
 
-			SmtpClient smtp = new SmtpClient();
-			smtp.Host = "smtp-apps.apps.pittsburghpa.gov";
-			smtp.Credentials = new System.Net.NetworkCredential("zeoapp", "Zeoapp-SMTP-Relay");
-			//smtp.Host = "72.18.138.246";
-			//smtp.Credentials = new System.Net.NetworkCredential("webcontact@openbookpittsburgh.com", "Co5V63PSKndeMUq2fw84");
-			smtp.Send(mail);
-            
+            Admin.SendMail("douglas.anderson@pittsburghpa.gov", null, "Contact Form From OpenBook Pittsburgh", body);
+           
 			formPH.Visible = false;
 			sucessPH.Visible = true;
 

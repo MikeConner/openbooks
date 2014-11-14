@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.IO;
 using OpenBookPgh;
 
 public partial class Admin_AddUser : System.Web.UI.Page
@@ -23,6 +24,7 @@ public partial class Admin_AddUser : System.Web.UI.Page
             Response.Redirect("Default.aspx");
         }
     }
+
 	protected void btnSubmit_Click(object sender, EventArgs e)
 	{
 		string salt = Auth.CreateSalt(5);
@@ -32,15 +34,26 @@ public partial class Admin_AddUser : System.Web.UI.Page
 			Auth.AddUser(first_name.Text, last_name.Text, initials.Text, email.Text, user_name.Text, passwordHash, salt);
             Auth.SetUserRoles(user_name.Text, Auth.CANDIDATE_USER_ROLE);
             Auth.SetUserCandidateID(user_name.Text, Convert.ToInt32(ddlCandidateName.SelectedValue));
+
+            string[] cc = new string[2] { Auth.GetUserEmail(User.Identity.Name), "douglas.anderson@pittsburghpa.gov" };
+
+            string body = File.ReadAllText(Path.Combine(Server.MapPath("~"), @"documents\CandidateUserWelcome.html"))
+                              .Replace("%CANDIDATE%", ddlCandidateName.SelectedItem.Text.ToString()).Replace("%NAME%", first_name.Text + " " + last_name.Text)
+                              .Replace("%USERNAME%", user_name.Text).Replace("%PASSWORD%", passwd.Text);
+
+            Admin.SendMail(email.Text, cc, "Welcome to OpenBook Pittsburgh", body);
 		}
 		catch (Exception ex)
 		{
 			lblMessage.Text = ex.Message;
 		}
 
-		if (Session["PreviousPage"] != null)
-			Response.Redirect((string)Session["PreviousPage"]);
-		else
-			Response.Redirect("~/Admin/Default.aspx");	
+		if (Session["PreviousPage"] != null) {
+            Response.Redirect((string)Session["PreviousPage"]);
+        }
+        else
+        {
+            Response.Redirect("~/Admin/Default.aspx");	
+        }
 	}
 }

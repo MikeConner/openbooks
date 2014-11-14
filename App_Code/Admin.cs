@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Data;
 using System.IO;
 using System.Collections.Generic;
+using System.Net.Mail;
 
 namespace OpenBookPgh
 {
@@ -872,6 +873,29 @@ namespace OpenBookPgh
                     }
                 }
             }
+        }
+
+        public static void SendMail(string to, string[] cc, string subject, string body)
+        {
+            MailMessage mail = new MailMessage();
+            mail.From = new MailAddress("webcontact@openbookpittsburgh.com");
+            mail.To.Add(to);
+            if (null != cc)
+            {
+                foreach (string carbon in cc)
+                {
+                    mail.CC.Add(carbon);
+                }
+
+            }
+            mail.Subject = subject;
+            mail.IsBodyHtml = true;
+            mail.Body = body;
+
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp-apps.apps.pittsburghpa.gov";
+            smtp.Credentials = new System.Net.NetworkCredential("zeoapp", "Zeoapp-SMTP-Relay");
+            smtp.Send(mail);
         }
 
         static Admin()
