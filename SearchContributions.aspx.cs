@@ -179,6 +179,11 @@ public void GetResultsCount(SearchParamsContribution sp)
        
     // Calculate Results & Update Pager
     int startResults = (PageIndex * PageSize) + addPage;
+    // If the count is evenly divisible and we're on the first page, make sure we start at 1!
+    if ((0 == startResults) && (totalRows > 0))
+    {
+        startResults = 1;
+    }
     int endResults = (PageIndex * PageSize) + PageSize;
 
     if (endResults > totalRows)

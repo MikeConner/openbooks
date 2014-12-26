@@ -13,7 +13,7 @@
 		<div class="resultsleft">
 			<asp:Label ID="lblPageSize" runat="server" Text="View:" />
 			<asp:DropDownList ID="ddlPageSize" runat="server"  
-				OnSelectedIndexChanged="ddlPageSize_SelectedIndexChanged"
+				OnSelectedIndexChanged="ddlSelection_Changed"
 				AutoPostBack="true">
 					<asp:ListItem Text="10 per page" Value="10" />
 					<asp:ListItem Text="25 per page" Value="25" />
@@ -28,7 +28,7 @@
 	<div class="dropboxadmin">
 		<asp:DropDownList ID="ddlOffice" runat="server"
 			AutoPostBack="true"
-			OnSelectedIndexChanged="ddlOffice_SelectedIndexChanged">
+			OnSelectedIndexChanged="ddlSelection_Changed">
 				<asp:ListItem Text="-- office --" Value="0" />
 				<asp:ListItem Text="Mayor" Value="mayor" />
 				<asp:ListItem Text="City Council" Value="council" />
@@ -41,7 +41,7 @@
 			DataValueField="ID" 
 			AutoPostBack="true"
 			AppendDataBoundItems="true"
-			OnSelectedIndexChanged="ddlCandidateName_SelectedIndexChanged">
+			OnSelectedIndexChanged="ddlSelection_Changed">
 				<asp:ListItem Text="-- candidate --" Value="0" />
 		</asp:DropDownList>
 

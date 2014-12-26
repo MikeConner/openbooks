@@ -18,7 +18,9 @@ public partial class Admin_Expenditures : System.Web.UI.Page
             if (!IsPostBack)
             {
                 if (Request.UrlReferrer != null)
+                {
                     Session.Add("PreviousPage", Request.UrlReferrer.AbsoluteUri);
+                }
 
                 GetSearchResults();
             }
@@ -96,7 +98,12 @@ public partial class Admin_Expenditures : System.Web.UI.Page
 
 		// Calculate Results & Update Pager
 		int startResults = (PageIndex * PageSize) + addPage;
-		int endResults = (PageIndex * PageSize) + PageSize;
+        // If the count is evenly divisible and we're on the first page, make sure we start at 1!
+        if ((0 == startResults) && (totalRows > 0))
+        {
+            startResults = 1;
+        }
+        int endResults = (PageIndex * PageSize) + PageSize;
 
 		if (endResults > totalRows)
 		{
@@ -123,7 +130,8 @@ public partial class Admin_Expenditures : System.Web.UI.Page
 			{
 				numResults = 10;
 			}
-			return numResults;
+            ddlPageSize.Text = numResults.ToString(); // update page dropdown
+            return numResults;
 		}
 	}
 	public int PageCount
@@ -147,17 +155,28 @@ public partial class Admin_Expenditures : System.Web.UI.Page
 	public string GetQueryType()
 	{
 		string str = string.Empty;
-		string strOffice = (Request.QueryString["office"] ?? "").Trim();
-		string strCandidate = (Request.QueryString["candidate"] ?? "").Trim();
+        string strOffice = (ddlOffice.SelectedValue.ToString() ?? Request.QueryString["office"]).Trim();
+        string strCandidate = (ddlCandidateName.SelectedValue.ToString() ?? Request.QueryString["candidate"]).Trim();
         
         // Office search or CandidateID search
 		if (!string.IsNullOrEmpty(strOffice) || !string.IsNullOrEmpty(strCandidate))
 		{
-			if (!string.IsNullOrEmpty(strOffice))
-				str = "office=" + strOffice;
-			if (!string.IsNullOrEmpty(strCandidate))
-				str = "candidate=" + strCandidate;
-		}
+            if (!string.IsNullOrEmpty(strOffice))
+            {
+                str = "office=" + strOffice;
+            }
+            if (!string.IsNullOrEmpty(strCandidate))
+            {
+                if (string.IsNullOrEmpty(str))
+                {
+                    str = "candidate=" + strCandidate;
+                }
+                else
+                {
+                    str += "&candidate=" + strCandidate;
+                }
+            }
+        }
 		// Standard Paging - no search
 		else
 		{
@@ -280,23 +299,13 @@ public partial class Admin_Expenditures : System.Web.UI.Page
 	}
 
 	/* Page Actions */
-	protected void ddlPageSize_SelectedIndexChanged(object sender, EventArgs e)
-	{
-		int page = 0; // reset page
-		int numResults = Convert.ToInt32(ddlPageSize.Text);
+    protected void ddlSelection_Changed(object sender, EventArgs e)
+    {
+        int page = 0; // reset page
+        int numResults = Convert.ToInt32(ddlPageSize.Text);
 
         Response.Redirect(GenerateQueryString(page, SortExpression, SortDirection, numResults, cbApproved.Checked));
-	}
-	protected void ddlCandidateName_SelectedIndexChanged(object sender, EventArgs e)
-	{
-		int numResults = Convert.ToInt32(ddlPageSize.Text);
-		Response.Redirect("Expenditures.aspx?candidate=" + ddlCandidateName.SelectedValue.ToString() + "&page=0&cat=CandidateID&num=" + numResults + "&approved=" + cbApproved.Checked.ToString());
-	}
-	protected void ddlOffice_SelectedIndexChanged(object sender, EventArgs e)
-	{
-		int numResults = Convert.ToInt32(ddlPageSize.Text);
-        Response.Redirect("Expenditures.aspx?office=" + ddlOffice.SelectedValue.ToString() + "&page=0&cat=Office&num=" + numResults + "&approved=" + cbApproved.Checked.ToString());
-	}
+    }
 	protected void rptContributions_ItemCommand(object source, RepeaterCommandEventArgs e)
 	{
 		if (e.CommandName == "edit")
