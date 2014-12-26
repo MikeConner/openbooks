@@ -13,6 +13,25 @@ namespace OpenBookPgh
 	/// </summary>
 	public class SearchLobbyists
 	{
+        public static string GenerateAdminQueryString(int lobbyistID, string companyKeywords)
+        {
+            string queryString = "Lobbyists.aspx?";
+
+            // LobbyistID Only Search in Admin
+            if (lobbyistID != 0)
+            {
+                queryString += "id=" + lobbyistID;
+            }
+
+            // Company Keywords
+            if (!string.IsNullOrEmpty(companyKeywords))
+            {
+                queryString += "&company=" + System.Web.HttpUtility.UrlEncode(companyKeywords);
+            }
+
+            return queryString + "&page=0&cat=LobbyistID";
+        }
+
 		public static string GenerateQueryString(int lobbyistID, string lobbyistKeywords, string companyKeywords)
 		{
 			string queryString = "SearchLobbyists.aspx?";

@@ -41,6 +41,9 @@ public partial class Admin_Lobbyists : System.Web.UI.Page
 	{
 		// Get SearchParams Class from query string
 		SearchParamsLobbyists sp = SearchLobbyists.GetQueryStringValues(HttpContext.Current.Request);
+
+        // Update Dropdowns to show # per page, & office or candidate filtered on
+        LoadDropDowns();
 		
 		// Update Pager Results
 		GetResultsCount(sp);
@@ -63,6 +66,30 @@ public partial class Admin_Lobbyists : System.Web.UI.Page
 		rptLobbyists.DataSource = ds.Tables["Lobbyists"];
 		rptLobbyists.DataBind();
 	}
+
+    // Page Load
+    public void LoadDropDowns()
+    {
+        // Page Size
+        int numResults = Utils.GetIntFromQueryString(Request.QueryString["num"]);
+        if (numResults != 0)
+        {
+            ddlPageSize.SelectedValue = numResults.ToString();
+        }
+        // Lobbyist
+        int lobbyistID = Utils.GetIntFromQueryString(Request.QueryString["id"]);
+        if (lobbyistID != 0)
+        {
+            ddlLobbyists.SelectedValue = lobbyistID.ToString();
+        }
+
+        // Company
+        string company = Utils.GetStringFromQueryString(Request.QueryString["company"], true);
+        if (!String.IsNullOrEmpty(company))
+        {
+            txtCompanySearch.Text = company;
+        }
+    }	
 
 	public void GetResultsCount(SearchParamsLobbyists sp)
 	{
@@ -182,13 +209,13 @@ public partial class Admin_Lobbyists : System.Web.UI.Page
 			{
 				queryString = "id=" + sp.lobbyistID;
 			}
-			else if(!string.IsNullOrEmpty(sp.lobbyistKeywords))
+			if(!string.IsNullOrEmpty(sp.lobbyistKeywords))
 			{
-				queryString = "lobbyist=" + System.Web.HttpUtility.UrlEncode(sp.lobbyistKeywords);
+				queryString += "&lobbyist=" + System.Web.HttpUtility.UrlEncode(sp.lobbyistKeywords);
 			}
 			else if (!string.IsNullOrEmpty(sp.companyKeywords))
 			{
-				queryString = "company=" + System.Web.HttpUtility.UrlEncode(sp.companyKeywords);
+				queryString += "&company=" + System.Web.HttpUtility.UrlEncode(sp.companyKeywords);
 			}
 			else
 			{
@@ -283,20 +310,15 @@ public partial class Admin_Lobbyists : System.Web.UI.Page
 
 		Response.Redirect(GenerateQueryString(page, SortExpression, SortDirection, numResults));
 	}
-
+    /*
 	protected void ddlLobbyists_SelectedIndexChanged(object sender, EventArgs e)
 	{
 		Response.Redirect("Lobbyists.aspx?id=" + ddlLobbyists.SelectedValue.ToString() + "&page=0&cat=LobbyistID");
 	}
-
+    */
 	protected void btnSearch_Click(object sender, EventArgs e)
 	{
-		// Keywords for Company Search
-		string keywords = txtCompanySearch.Text;
-		string url = SearchLobbyists.GenerateQueryString(0, null, keywords);
-		Response.Redirect(url);
-
-		
+        Response.Redirect(SearchLobbyists.GenerateAdminQueryString(Convert.ToInt32(ddlLobbyists.SelectedValue.ToString()), txtCompanySearch.Text));
 	}
 }
 

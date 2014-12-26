@@ -31,9 +31,9 @@ Inherits="Admin_Lobbyists" %>
 			DataSourceID="dsLobbyists"
 			DataTextField="FullName"
 			DataValueField="ID" 
-			AutoPostBack="true"
+			AutoPostBack="false"
 			AppendDataBoundItems="true"
-			OnSelectedIndexChanged="ddlLobbyists_SelectedIndexChanged">
+			OnSelectedIndexChanged="btnSearch_Click">
 				<asp:ListItem Text="-- candidate --" Value="0" />
 		</asp:DropDownList>			
 
