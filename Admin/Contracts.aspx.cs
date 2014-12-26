@@ -342,10 +342,13 @@ public partial class Admin_Contracts_new : System.Web.UI.Page
 		if (e.CommandName == "delete")
 		{
 			Admin.DeleteContract(contractID, Convert.ToInt32(supplementalNo));
-			if (Session["PreviousPage"] != null)
-				Response.Redirect((string)Session["PreviousPage"]);
-			else
-				Response.Redirect("~/Admin/Default.aspx");
+			if (Session["PreviousPage"] != null) {
+                Response.Redirect((string)Session["PreviousPage"]);
+            }
+            else
+            {
+                Response.Redirect("~/Admin/Contracts.aspx");
+            }
 		}
 		if (e.CommandName == "view")
 		{

@@ -340,7 +340,7 @@ public partial class Admin_Contributions : System.Web.UI.Page
             }
             else
             {
-                Response.Redirect("~/Admin/Default.aspx");
+                Response.Redirect("~/Admin/Contributions.aspx");
             }
 		}
 	}

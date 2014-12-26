@@ -61,10 +61,13 @@ public partial class Admin_Users : System.Web.UI.Page
 		if (e.CommandName == "delete")
 		{
 			Admin.DeleteUser(Convert.ToInt32(e.CommandArgument.ToString()));
-			if (Session["PreviousPage"] != null)
-				Response.Redirect((string)Session["PreviousPage"]);
-			else
-				Response.Redirect("~/Admin/Default.aspx");
+			if (Session["PreviousPage"] != null) {
+                Response.Redirect((string)Session["PreviousPage"]);
+            }
+            else
+            {
+                Response.Redirect("~/Admin/Users.aspx");
+            }
 		}
 
 	}

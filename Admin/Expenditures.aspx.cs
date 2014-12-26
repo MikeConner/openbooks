@@ -322,10 +322,13 @@ public partial class Admin_Expenditures : System.Web.UI.Page
 		else if (e.CommandName == "delete")
 		{
 			Admin.DeleteExpenditure(Convert.ToInt32(e.CommandArgument.ToString()));
-			if (Session["PreviousPage"] != null)
-				Response.Redirect((string)Session["PreviousPage"]);
-			else
-				Response.Redirect("~/Admin/Default.aspx");
+			if (Session["PreviousPage"] != null) {
+                Response.Redirect((string)Session["PreviousPage"]);
+            }
+            else
+            {
+                Response.Redirect("~/Admin/Expenditures.aspx");
+            }
 		}
 	}
 
