@@ -7,7 +7,7 @@ using OpenBookPgh;
 using System.Data;
 using System.Data.SqlClient;
 
-public partial class _SearchContributionsPageClass: System.Web.UI.Page
+public partial class _SearchContributionsPageClass : System.Web.UI.Page
 {
     public SearchParamsContribution sp;
 
@@ -19,10 +19,10 @@ public partial class _SearchContributionsPageClass: System.Web.UI.Page
             initializeSorting();
 
             // Search
-            GetSearchResults();
+            GetSearchResults("1" == Request.QueryString["click"]);
             LoadCandidates();
             if (sp.office != null)
-            { 
+            {
                 ddlOffice.Items.FindByValue(sp.office.ToString()).Selected = true;
             }
             if (sp.contributorSearchOptions != null)
@@ -99,212 +99,222 @@ public partial class _SearchContributionsPageClass: System.Web.UI.Page
         ddldateContribution.Items.FindByValue(sp.dateContribution.ToString()).Selected = true;
         ddlDistance.Items.FindByValue(sp.radius.ToString()).Selected = true;
     }
-	protected void Button1_Click(object sender, EventArgs e)
-	{
-		// Distance calc
-		double distance = Convert.ToDouble(ddlDistance.SelectedValue);
-		string zip = txtZip.Text;
-		
-		int candidateID = Convert.ToInt32(ddlCandidateName.SelectedValue);
-		string office = ddlOffice.SelectedValue;
-		int year1 = 0;
-		Int32.TryParse(ddldateContribution.SelectedValue, out year1);
-		string contributorSearchOptions = rblContributorSearch.SelectedValue;
-		string contributorKeywords = txtContributor.Text;
-		string employerKeywords = txtEmployer.Text;
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        // Distance calc
+        double distance = Convert.ToDouble(ddlDistance.SelectedValue);
+        string zip = txtZip.Text;
 
-		string queryString = SearchContributions.GenerateQueryString(candidateID, office, year1, 
-		contributorKeywords, contributorSearchOptions, employerKeywords, zip, distance);
-		
-		Response.Redirect(queryString);	
-	}
+        int candidateID = Convert.ToInt32(ddlCandidateName.SelectedValue);
+        string office = ddlOffice.SelectedValue;
+        int year1 = 0;
+        Int32.TryParse(ddldateContribution.SelectedValue, out year1);
+        string contributorSearchOptions = rblContributorSearch.SelectedValue;
+        string contributorKeywords = txtContributor.Text;
+        string employerKeywords = txtEmployer.Text;
+
+        string queryString = SearchContributions.GenerateQueryString(candidateID, office, year1,
+        contributorKeywords, contributorSearchOptions, employerKeywords, zip, distance);
+
+        Response.Redirect(queryString + "&click=1");
+    }
+
     public void GetSearchResults()
-{
-    // Get SearchParams Class from query string
-    sp = SearchContributions.GetQueryStringValues(HttpContext.Current.Request);
-    if (sp.office != null){
-    ddlOffice.Items.FindByValue(sp.office).Selected = true;
-    }
-    //Determine the Results Per Page from user
-    SetPageSize();
-
-    // Update Pager Results
-    GetResultsCount(sp);
-
-    // Fill DataTable from Search Results
-    DataTable dt = SearchContributions.GetContributions(sp, PageIndex, PageSize, SortExpression, SortDirection);
-
-    // Load repeater with data
-    rptContributions.DataSource = dt;
-    rptContributions.DataBind();
-}
-
-public void SetPageSize()
-{
-    int numResults = Convert.ToInt32(ddlPageSize.Text);
-    if (numResults == 10 || numResults == 25 || numResults == 50 || numResults == 100)
     {
-        PageSize = numResults;
-    }
-}
-public void GetResultsCount(SearchParamsContribution sp)
-{
-    // Get total rows
-    int totalRows = SearchContributions.GetContributionsCount(sp);
-
-    // Update PageCount for pager, using adjustment if necessary
-    int addPage = 1;
-    if ((totalRows % PageSize) == 0)
-    {
-        addPage = 0;
-    }
-    PageCount = (totalRows / PageSize) + addPage;
-
-    // Disable buttons if necessary
-    if ((PageIndex == 0))
-    {
-        ibtnFirstPageTop.Enabled = !(PageIndex == 0);
-        ibtnFirstPageTop.CssClass = "button prev";
-        ibtnPrevPageTop.Enabled = !(PageIndex == 0);
-        ibtnPrevPageTop.CssClass = "button prev";
+        GetSearchResults(true);
     }
 
-    if ((PageIndex >= PageCount - 1))
+    public void GetSearchResults(bool executeSearch)
     {
-        ibtnNextPageTop.Enabled = !(PageIndex >= PageCount - 1);
-        ibtnNextPageTop.CssClass = "button prev";
-        ibtnLastPageTop.Enabled = !(PageIndex >= PageCount - 1);
-        ibtnLastPageTop.CssClass = "button prev";
-    }
-       
-    // Calculate Results & Update Pager
-    int startResults = (PageIndex * PageSize) + addPage;
-    // If the count is evenly divisible and we're on the first page, make sure we start at 1!
-    if ((0 == startResults) && (totalRows > 0))
-    {
-        startResults = 1;
-    }
-    int endResults = (PageIndex * PageSize) + PageSize;
+        // Get SearchParams Class from query string
+        sp = SearchContributions.GetQueryStringValues(HttpContext.Current.Request);
+        if (sp.office != null)
+        {
+            ddlOffice.Items.FindByValue(sp.office).Selected = true;
+        }
+        //Determine the Results Per Page from user
+        SetPageSize();
 
-    if (endResults > totalRows)
-    {
-        endResults = totalRows;
-    }
-    if (startResults != 0)
-    {
-        lblCurrentPage.Text = "Results: " + startResults.ToString() + " - " + endResults.ToString() + " of " + totalRows.ToString();
-    }
-    else
-    {
-        lblCurrentPage.Text = "We couldn't find any contributions that matched your criteria.";
-    }
-}
+        // Update Pager Results
+        GetResultsCount(sp);
 
-//Pager Constants
-public int PageIndex
-{
-    get
+        if (executeSearch)
+        {
+            // Fill DataTable from Search Results
+            DataTable dt = SearchContributions.GetContributions(sp, PageIndex, PageSize, SortExpression, SortDirection);
+
+            // Load repeater with data
+            rptContributions.DataSource = dt;
+            rptContributions.DataBind();
+        }
+    }
+
+    public void SetPageSize()
     {
-        object o = ViewState["_PageIndex"];
-        if (o == null)
-            return 0; // default page index of 0
+        int numResults = Convert.ToInt32(ddlPageSize.Text);
+        if (numResults == 10 || numResults == 25 || numResults == 50 || numResults == 100)
+        {
+            PageSize = numResults;
+        }
+    }
+    public void GetResultsCount(SearchParamsContribution sp)
+    {
+        // Get total rows
+        int totalRows = SearchContributions.GetContributionsCount(sp);
+
+        // Update PageCount for pager, using adjustment if necessary
+        int addPage = 1;
+        if ((totalRows % PageSize) == 0)
+        {
+            addPage = 0;
+        }
+        PageCount = (totalRows / PageSize) + addPage;
+
+        // Disable buttons if necessary
+        if ((PageIndex == 0))
+        {
+            ibtnFirstPageTop.Enabled = !(PageIndex == 0);
+            ibtnFirstPageTop.CssClass = "button prev";
+            ibtnPrevPageTop.Enabled = !(PageIndex == 0);
+            ibtnPrevPageTop.CssClass = "button prev";
+        }
+
+        if ((PageIndex >= PageCount - 1))
+        {
+            ibtnNextPageTop.Enabled = !(PageIndex >= PageCount - 1);
+            ibtnNextPageTop.CssClass = "button prev";
+            ibtnLastPageTop.Enabled = !(PageIndex >= PageCount - 1);
+            ibtnLastPageTop.CssClass = "button prev";
+        }
+
+        // Calculate Results & Update Pager
+        int startResults = (PageIndex * PageSize) + addPage;
+        // If the count is evenly divisible and we're on the first page, make sure we start at 1!
+        if ((0 == startResults) && (totalRows > 0))
+        {
+            startResults = 1;
+        }
+        int endResults = (PageIndex * PageSize) + PageSize;
+
+        if (endResults > totalRows)
+        {
+            endResults = totalRows;
+        }
+        if (startResults != 0)
+        {
+            lblCurrentPage.Text = "Results: " + startResults.ToString() + " - " + endResults.ToString() + " of " + totalRows.ToString();
+        }
         else
-            return (int)o;
+        {
+            lblCurrentPage.Text = "We couldn't find any contributions that matched your criteria.";
+        }
     }
-    set
-    {
-        ViewState["_PageIndex"] = value;
-    }
-}
 
-public int PageSize
-{
-    get
+    //Pager Constants
+    public int PageIndex
     {
-        object o = ViewState["_PageSize"];
-        if (o == null)
-            return 10; // default 10 rows
-        else
-            return (int)o;
+        get
+        {
+            object o = ViewState["_PageIndex"];
+            if (o == null)
+                return 0; // default page index of 0
+            else
+                return (int)o;
+        }
+        set
+        {
+            ViewState["_PageIndex"] = value;
+        }
     }
-    set
-    {
-        ViewState["_PageSize"] = value;
-    }
-}
-public int PageCount
-{
-    get
-    {
-        object o = ViewState["_PageCount"];
-        if (o == null)
-            return 0; // default no pages found
-        else
-            return (int)o;
-    }
-    set
-    {
-        ViewState["_PageCount"] = value;
-    }
-}
 
-// Pager Controls
-protected void FirstPage_Click(object sender, EventArgs e)
-{
-    // Send the user to the first page 
-    PageIndex = 0;
-    GetSearchResults();
-}
-protected void PrevPage_Click(object sender, EventArgs e)
-{
-    // Send the user to the previous page 
-    PageIndex -= 1;
-    GetSearchResults();
-}
-protected void NextPage_Click(object sender, EventArgs e)
-{
-    // Send the user to the next page 
-    PageIndex += 1;
-    GetSearchResults();
-}
-protected void LastPage_Click(object sender, EventArgs e)
-{
-    // Send the user to the last page 
-    PageIndex = PageCount - 1;
-    GetSearchResults();
-}
+    public int PageSize
+    {
+        get
+        {
+            object o = ViewState["_PageSize"];
+            if (o == null)
+                return 10; // default 10 rows
+            else
+                return (int)o;
+        }
+        set
+        {
+            ViewState["_PageSize"] = value;
+        }
+    }
+    public int PageCount
+    {
+        get
+        {
+            object o = ViewState["_PageCount"];
+            if (o == null)
+                return 0; // default no pages found
+            else
+                return (int)o;
+        }
+        set
+        {
+            ViewState["_PageCount"] = value;
+        }
+    }
 
-// Sorting Constants
-public string SortExpression
-{
-    get
+    // Pager Controls
+    protected void FirstPage_Click(object sender, EventArgs e)
     {
-        object o = ViewState["_SortExpression"];
-        if (o == null)
-            return DEFAULTCOL; // default sort by Relevance Score
-        else
-            return (string)o;
+        // Send the user to the first page 
+        PageIndex = 0;
+        GetSearchResults();
     }
-    set { ViewState["_SortExpression"] = value; }
-}
-public string SortDirection
-{
-    get
+    protected void PrevPage_Click(object sender, EventArgs e)
     {
-        object o = ViewState["_SortDirection"];
-        if (o == null)
-            return ASCENDING;
-        else
-            return (string)o;
+        // Send the user to the previous page 
+        PageIndex -= 1;
+        GetSearchResults();
     }
-    set { ViewState["_SortDirection"] = value; }
-}
-private const string DEFAULTCOL = "ContributionID";
-private const string ASCENDING = "ASC";
-private const string DESCENDING = "DESC";
-private const string IMGDESC = "~/img/downarrow.gif";
-private const string IMGASC = "~/img/uparrow.gif";
-private const string IMGNOSORT = "~/img/placeholder.gif";
+    protected void NextPage_Click(object sender, EventArgs e)
+    {
+        // Send the user to the next page 
+        PageIndex += 1;
+        GetSearchResults();
+    }
+    protected void LastPage_Click(object sender, EventArgs e)
+    {
+        // Send the user to the last page 
+        PageIndex = PageCount - 1;
+        GetSearchResults();
+    }
+
+    // Sorting Constants
+    public string SortExpression
+    {
+        get
+        {
+            object o = ViewState["_SortExpression"];
+            if (o == null)
+                return DEFAULTCOL; // default sort by Relevance Score
+            else
+                return (string)o;
+        }
+        set { ViewState["_SortExpression"] = value; }
+    }
+    public string SortDirection
+    {
+        get
+        {
+            object o = ViewState["_SortDirection"];
+            if (o == null)
+                return ASCENDING;
+            else
+                return (string)o;
+        }
+        set { ViewState["_SortDirection"] = value; }
+    }
+    private const string DEFAULTCOL = "ContributionID";
+    private const string ASCENDING = "ASC";
+    private const string DESCENDING = "DESC";
+    private const string IMGDESC = "~/img/downarrow.gif";
+    private const string IMGASC = "~/img/uparrow.gif";
+    private const string IMGNOSORT = "~/img/placeholder.gif";
 
     // Sorting Controls
     public void initializeSorting()
@@ -331,7 +341,7 @@ private const string IMGNOSORT = "~/img/placeholder.gif";
         GetSearchResults();
     }
 
-/* Page Actions */
+    /* Page Actions */
     protected void ddlPageSize_SelectedIndexChanged(object sender, EventArgs e)
     {
         // Reset Page Index

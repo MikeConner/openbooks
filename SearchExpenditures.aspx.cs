@@ -11,7 +11,7 @@ public partial class SearchExpendituresPage : System.Web.UI.Page
 {
     public SearchParamsExpenditures sp;
 
-	protected void Button1_Click(object sender, EventArgs e)
+    protected void btnSearch_Click(object sender, EventArgs e)
 	{
 		int candidateID = Convert.ToInt32(ddlCandidateName.SelectedValue);
         string office = ddlOffice.SelectedValue;
@@ -22,7 +22,7 @@ public partial class SearchExpendituresPage : System.Web.UI.Page
         Int32.TryParse(ddldatePaid.SelectedValue, out year1);
 
 		string queryString = SearchExpenditures.GenerateQueryString(candidateID, office, year1, vendor, vendorSearchOptions, keywords);
-		Response.Redirect(queryString);
+		Response.Redirect(queryString + "&click=1");
 	}
 
     protected void Page_Load(object sender, EventArgs e)
@@ -33,7 +33,7 @@ public partial class SearchExpendituresPage : System.Web.UI.Page
             initializeSorting();
 
             // Search
-            GetSearchResults();
+            GetSearchResults("1" == Request.QueryString["click"]);
             LoadCandidates();
             LoadYears();
 
@@ -106,6 +106,11 @@ public partial class SearchExpendituresPage : System.Web.UI.Page
 
     public void GetSearchResults()
     {
+        GetSearchResults(true);
+    }
+
+    public void GetSearchResults(bool executeSearch)
+    {
         // Get SearchParams Class from query string
         sp = SearchExpenditures.GetQueryStringValues(HttpContext.Current.Request);
 
@@ -120,12 +125,15 @@ public partial class SearchExpendituresPage : System.Web.UI.Page
         // Update Pager Results
         GetResultsCount(sp);
 
-        // Fill DataTable from Search Results
-        DataTable dt = SearchExpenditures.GetExpenditures(sp, PageIndex, PageSize, SortExpression, SortDirection);
+        if (executeSearch)
+        {
+            // Fill DataTable from Search Results
+            DataTable dt = SearchExpenditures.GetExpenditures(sp, PageIndex, PageSize, SortExpression, SortDirection);
 
-        // Load repeater with data
-        rptExpenditures.DataSource = dt;
-        rptExpenditures.DataBind();
+            // Load repeater with data
+            rptExpenditures.DataSource = dt;
+            rptExpenditures.DataBind();
+        }
     }
 
     public void SetPageSize()

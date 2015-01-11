@@ -132,6 +132,9 @@ textarea {
 select {
   width: 100%; }
 
+.search-row {
+    max-width: 72.5rem!important;
+}
 /* line 203, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_grid.scss */
 .row {
   width: 100%;

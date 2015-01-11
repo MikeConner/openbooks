@@ -31,8 +31,7 @@ public partial class SearchLobbyistsPage : System.Web.UI.Page
 
 
         string url = SearchLobbyists.GenerateQueryString(0, lobbyistKeywords, employerKeywords);
-        Response.Redirect(url);
-
+        Response.Redirect(url + "&click=1");
     }
 
     protected void Page_Load(object sender, EventArgs e)
@@ -41,13 +40,18 @@ public partial class SearchLobbyistsPage : System.Web.UI.Page
         {
             initializeSorting();
 
-            GetSearchResults();
+            GetSearchResults("1" == Request.QueryString["click"]);
             txtLobbyist.Text = sp.lobbyistKeywords;
             txtEmployer.Text = sp.companyKeywords;
         }
     }
     // Page Load
     public void GetSearchResults()
+    {
+        GetSearchResults(true);
+    }
+
+    public void GetSearchResults(bool executeSearch)
     {
         // Get SearchParams Class from query string
          sp = SearchLobbyists.GetQueryStringValues(HttpContext.Current.Request);
@@ -63,16 +67,18 @@ public partial class SearchLobbyistsPage : System.Web.UI.Page
         //DAS DataTable companiesDT = SearchLobbyists.GetLobbyistsCompanies(xmlString);
         DataTable companiesDT = SearchLobbyists.GetLobbyistsCompanies(searchDT);
 
+        if (executeSearch)
+        {
+            // Create DataSet, Add DataTables, Relate Tables
+            DataSet ds = new DataSet("LobbyistsDS");
+            ds.Tables.Add(searchDT);
+            ds.Tables.Add(companiesDT);
+            ds.Relations.Add(new DataRelation("LobbyistID", ds.Tables["Lobbyists"].Columns["LobbyistID"], ds.Tables["Companies"].Columns["LobbyistID"]));
 
-        // Create DataSet, Add DataTables, Relate Tables
-        DataSet ds = new DataSet("LobbyistsDS");
-        ds.Tables.Add(searchDT);
-        ds.Tables.Add(companiesDT);
-        ds.Relations.Add(new DataRelation("LobbyistID", ds.Tables["Lobbyists"].Columns["LobbyistID"], ds.Tables["Companies"].Columns["LobbyistID"]));
-
-        // Load repeater with data
-        rptLobbyists.DataSource = ds.Tables["Lobbyists"];
-        rptLobbyists.DataBind();
+            // Load repeater with data
+            rptLobbyists.DataSource = ds.Tables["Lobbyists"];
+            rptLobbyists.DataBind();
+        }
     }
 
     public void GetResultsCount(SearchParamsLobbyists sp)

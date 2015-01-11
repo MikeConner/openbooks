@@ -27,7 +27,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row search-row">
             <div class="medium-4 large-3 columns">
                 <div class="search-field">
                     <h2>Candidate</h2>
@@ -77,10 +77,10 @@
                     <asp:TextBox ID="txtZip" MaxLength="5" runat="server" placeholder="ZipCode..." />
                 </div>
                 <div class="search-field">
-                    <asp:Button ID="Button1" runat="server" Text="Search" OnClick="Button1_Click" CssClass="submit button" />
+                    <asp:Button ID="Button1" runat="server" Text="Search" OnClick="btnSearch_Click" CssClass="submit button" />
                 </div>
             </div>
-            <div class="medium-8 large-9 columns">
+            <div class="medium-8 large-6 columns">
                 <div class="search-field">
                     <h2>Sort Results by:</h2>
                     <asp:DropDownList ID="ddlSortContributions" CssClass="sort-dropdown" runat="server"
@@ -172,6 +172,13 @@
                     </div>
                 </div>
             </div>
+            <div class="medium-4 large-3 columns">
+                <h3>Instructions</h3>
+                <div class="items-container">
+                <p>Search here for campaign contributions. You can filter by candidate, office, or date. You can also search using specific contributors or employers. Finally, you can limit the search to a geographic area centered on a zipcode.</p>
+                <p>Since the number of results might be quite large, contributions are presented one page at a time. You can set the page size from 10-100, and also sort by most of these criteria. (Click on the arrow to the right to change the sort direction.)</p>
+                </div>
+            </div>         
         </div>
     </div>
 </asp:Content>

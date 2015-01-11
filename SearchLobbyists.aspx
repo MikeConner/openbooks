@@ -28,7 +28,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row search-row">
             <div class="medium-4 large-3 columns">
                 <div class="search-field">
                     <h2>Name Search</h2>
@@ -56,7 +56,7 @@
                     </p>
                 </div>
             </div>
-            <div class="medium-8 large-9 columns">
+            <div class="medium-8 large-6 columns">
                 <div class="search-field">
                     <h2>Sort Results by:</h2>
                     <asp:DropDownList ID="ddlSortLobbyists" CssClass="sort-dropdown" runat="server"
@@ -124,6 +124,13 @@
                     </div>
                 </div>
             </div>
+            <div class="medium-4 large-3 columns">
+                <h3>Instructions</h3>
+                <div class="items-container">
+                <p>Search here for lobbyists. You can filter by name or employer.</p>
+                <p>Since the number of results might be quite large, expenditures are presented one page at a time. You can set the page size from 10-100, and also sort by lobbyist, employer or date. (Click on the arrow to the right to change the sort direction.)</p>
+                </div>
+            </div>         
         </div>
     </div>
 </asp:Content>

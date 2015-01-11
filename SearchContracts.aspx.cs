@@ -25,11 +25,11 @@ public partial class SearchContractsPage : System.Web.UI.Page
         {
             // Set Initial sort image state
             initializeSorting();
-            
+
             ((Label)Master.FindControl("FlashErrorMessage")).Text = "";
 
-            // Search
-            GetSearchResults();
+            // Search -- only load results if they've clicked on the search button
+            GetSearchResults("1" == Request.QueryString["click"]);
             LoadDepartments();
             LoadContractTypes();
             Vendor.Text = sp.vendorKeywords;
@@ -101,13 +101,13 @@ public partial class SearchContractsPage : System.Web.UI.Page
         }
     }
 
-	protected void btnSearch_Click(object sender, EventArgs e)
-	{
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
         int minContractAmount = 0;
         int maxContractAmount = 0;
         // Pretty much can't fail, since it's a slider, so don't worry about exceptions
         // Remove commas, though
-        Int32.TryParse(Request.Form["dblMinContract"].Replace(",",""), out minContractAmount);
+        Int32.TryParse(Request.Form["dblMinContract"].Replace(",", ""), out minContractAmount);
         Int32.TryParse(Request.Form["dblMaxContract"].Replace(",", ""), out maxContractAmount);
 
         if (minContractAmount > maxContractAmount)
@@ -136,12 +136,16 @@ public partial class SearchContractsPage : System.Web.UI.Page
         string keywordOptions = rbVendor.SelectedValue;
 
         string queryString = SearchContracts.GenerateRangeQueryString(0, 0, vendorKeywords, keywordOptions, cityDept, contractType, searchKeywords, startDate, endDate, minContractAmount, maxContractAmount);
-		Response.Redirect(queryString);		
-		//Response.Write(queryString);
+        Response.Redirect(queryString + "&click=1");
     }
 
     // Page Load
     public void GetSearchResults()
+    {
+        GetSearchResults(true);
+    }
+
+    public void GetSearchResults(bool executeSearch)
     {
         // Get SearchParams Class from query string
         //SearchParamsContract sp = SearchContracts.GetQueryStringValues(HttpContext.Current.Request);
@@ -153,12 +157,15 @@ public partial class SearchContractsPage : System.Web.UI.Page
         // Update Pager Results
         GetResultsCount(sp);
 
-        // Fill DataTable from Search Results
-        DataTable dt = SearchContracts.GetContracts(sp, PageIndex, PageSize, SortExpression, SortDirection);
+        if (executeSearch)
+        {
+            // Fill DataTable from Search Results
+            DataTable dt = SearchContracts.GetContracts(sp, PageIndex, PageSize, SortExpression, SortDirection);
 
-        // Load repeater with data
-        rptContracts.DataSource = dt;
-        rptContracts.DataBind();
+            // Load repeater with data
+            rptContracts.DataSource = dt;
+            rptContracts.DataBind();
+        }
     }
     public void SetPageSize()
     {
@@ -201,7 +208,7 @@ public partial class SearchContractsPage : System.Web.UI.Page
             ibtnLastPageTop.Enabled = !(PageIndex >= PageCount - 1);
             ibtnLastPageTop.CssClass = "button prev";
         }
-       
+
 
         // Calculate Results & Update Pager
         int startResults = (PageIndex * PageSize) + addPage;
@@ -365,7 +372,7 @@ public partial class SearchContractsPage : System.Web.UI.Page
         // Reload Search
         GetSearchResults();
     }
- 
+
     protected void ddlSortContracts_SelectedIndexChanged(object sender, EventArgs e)
     {
         SortExpression = ddlSortContracts.SelectedValue;
