@@ -2623,6 +2623,9 @@ label {
   label small {
     text-transform: capitalize;
     color: #676767; }
+  .search-by label {
+      color:white !important;
+  }
 
 /* line 325, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_forms.scss */
 select {
@@ -2894,7 +2897,8 @@ input[type="file"],
 input[type="checkbox"],
 input[type="radio"],
 select {
-  margin: 0 0 1rem 0; }
+  margin: 0 0 1rem 0;
+}
 
 /* line 415, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_forms.scss */
 input[type="checkbox"] + label,
