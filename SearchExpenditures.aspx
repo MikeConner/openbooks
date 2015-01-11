@@ -64,7 +64,38 @@
                     <asp:Button ID="ImageButton1" runat="server" Text="Search" AlternateText="Search" OnClick="btnSearch_Click" CssClass="submit button" />
                 </div>
             </div>
-            <div class="medium-8 large-6 columns">
+            <div class="medium-8 large-9 columns">
+
+                 <%if ("1" != Request.QueryString["click"]) { %> 
+                <div id="instructions">
+                    <h3>Instructions</h3>
+                    <div class="items-container instructions-content">
+
+
+                   <h4>Searching</h4>
+                     <p>Search here for campaign expenditures.</p>
+                        <h4>Search Criteria</h4>
+                        <p>
+                            You can filter by candidate, office, or date.</p>
+                        <p>You can also search using specific contributors or employers.</p>
+                        
+                        <p> Finally, you can limit the search to a geographic area centered on a zipcode.
+                        </p>
+                        <h4>Search Results</h4>
+
+                        <p>Since the number of results might be quite large, expenditures are presented one page at a time. You can set the page size from 10-100.</p>
+                        
+                        <p> You can also sort by most of these criteria. (Click on the arrow to the right to change the sort direction)</p>
+
+
+
+
+
+                       
+                        
+                    </div>
+                </div> 
+                <% } else { %>    
                 <div class="search-field">
                     <h2>Sort Results by:</h2>
                     <asp:DropDownList ID="ddlSortExpenditures" CssClass="sort-dropdown" runat="server"
@@ -131,14 +162,9 @@
                         <asp:Button ID="ibtnLastPageTop" runat="server" OnClick="LastPage_Click" Text="Last" class="button prev" />
                     </div>
                 </div>
+                <%} %>
             </div>
-            <div class="medium-4 large-3 columns">
-                <h3>Instructions</h3>
-                <div class="items-container">
-                <p>Search here for campaign expenditures. You can filter by candidate, office, or date. You can also search using specific contributors or employers. Finally, you can limit the search to a geographic area centered on a zipcode.</p>
-                <p>Since the number of results might be quite large, expenditures are presented one page at a time. You can set the page size from 10-100, and also sort by most of these criteria. (Click on the arrow to the right to change the sort direction.)</p>
-                </div>
-            </div>         
+    
         </div>
     </div>
 </asp:Content>

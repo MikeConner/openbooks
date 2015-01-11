@@ -6678,6 +6678,8 @@ footer {
     .search-field:last-child button {
       background-color: #ffb745; }
 
+
+    .instructions-content {padding: 30px;}
 /* line 71, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/search.css.scss */
 .items-container {
   background: white; }

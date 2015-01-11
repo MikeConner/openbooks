@@ -99,7 +99,25 @@
                     <asp:Button ID="ImageButton1" runat="server" Text="Search" OnClick="btnSearch_Click" CssClass="button" />
                 </div>
             </div>
-            <div class="medium-8 large-6 columns">
+            <div class="medium-8 large-9 columns">
+                <%if ("1" != Request.QueryString["click"]) { %> 
+                <div id ="instructions" >
+                    <h3>Instructions</h3>
+                    <div class="items-container instructions-content">
+                        <h4>Searching</h4>
+                    <p>Search here for city contracts. You can filter by <b>department</b>, <b>contract type</b>, <b>approval date</b>, or restrict to a contract dollar amount range. You can also search by specific <b>vendor names</b> or <b>keywords</b>.</p>
+                        <h4>Search Criteria</h4>
+                        <p>
+                            <b>Contract Amount</b> can be selected based on a range from the minimum to maximum.  Use the sliders to select the maximum or minimum amounts.
+                        </p>
+                        <p> <b>Contract Approval Date</b> can be selected based on a range using the two date widgets to the left.  </p>
+                        <h4>Search Results</h4>
+                    <p>Since the number of results might be quite large, contracts are presented one page at a time. </p>
+                        <p>You can set the page size from 10-100, and also sort by most of these criteria (click on the arrow to the right to change the sort direction).</p>
+                        <br />
+                </div>
+            </div> 
+                <% } else { %>
                 <div class="search-field">
                     <h2>Sort Results by:</h2>
                     <asp:DropDownList ID="ddlSortContracts" CssClass="sort-dropdown" runat="server"
@@ -191,14 +209,9 @@
                         </div>
                     </div>
                 </div>
+                <% }%>
             </div>
-            <div class="medium-4 large-3 columns">
-                <h3>Instructions</h3>
-                <div class="items-container">
-                <p>Search here for city contracts. You can filter by department, contract type, approval date, or restrict to a price range. You can also search by specific vendor names or keywords.</p>
-                <p>Since the number of results might be quite large, contracts are presented one page at a time. You can set the page size from 10-100, and also sort by most of these criteria (click on the arrow to the right to change the sort direction).</p>
-                </div>
-            </div>         
+        
         </div>
     </div>
 </asp:Content>
