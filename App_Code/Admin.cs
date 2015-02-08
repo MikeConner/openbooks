@@ -17,6 +17,8 @@ namespace OpenBookPgh
     public class Admin
     {
         public static string ONBASE_CONTRACT_PDF_PATH = "http://onbaseapp.city.pittsburgh.pa.us/PublicAccess/openbook/contracts.csv";
+        public static string ONBASE_CHECK_PDF_PATH = "http://onbaseapp.city.pittsburgh.pa.us/PublicAccess/openbook/checks.csv";
+        public static string ONBASE_INVOICE_PDF_PATH = "http://onbaseapp.city.pittsburgh.pa.us/PublicAccess/openbook/invoices.csv";
 
         public static List<string> UploadContributions(string filename, string username, int candidateID, string office)
         {
@@ -122,6 +124,118 @@ namespace OpenBookPgh
 
 
             return errors;
+        }
+
+        public static void DownloadChecks()
+        {
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
+            {
+                conn.Open();
+
+                // This stored procedure takes a table-valued parameter containing the list of ContractsIDs (i.e., a 1-column table with a row for each Contract)
+                using (SqlCommand cmd = new SqlCommand("SetCheckFlags", conn))
+                {
+                    // Create the 1-column table with string type. Previously it was "float" type, which removed all the contracts with dashes and letters
+                    //   These alphanumeric contract numbers work when sent to OnBase though, so we shouldn't be deleting them!
+                    //   Change everything to a string to handle it. 
+                    DataTable table = new DataTable();
+                    table.Columns.Add("ContractID", typeof(string));
+                    // There are duplicates in the source data. The table has a unique index; remove them here, before trying to write
+                    table.Columns["ContractID"].Unique = true;
+
+                    MemoryStream stream = new MemoryStream(new WebClient().DownloadData(new Uri(ONBASE_CHECK_PDF_PATH)));
+                    using (StreamReader reader = new StreamReader(stream))
+                    {
+                        string line;
+
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            try
+                            {
+                                // The source data also contains entries with spaces, like "48324 (#2)", which don't work. Just ignore these
+                                string contractID = line.Trim();
+
+                                if (!contractID.Contains(" "))
+                                {
+                                    table.Rows.Add(contractID);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                // Ignore duplicates
+                            }
+                        }
+                    }
+
+                    if (table.Rows.Count > 0)
+                    {
+                        SqlParameter pList = new SqlParameter("oid", SqlDbType.Structured);
+                        pList.TypeName = "dbo.OnbaseIDTableType";
+                        pList.Value = table;
+
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(pList);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+        }
+
+        public static void DownloadInvoices()
+        {
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
+            {
+                conn.Open();
+
+                // This stored procedure takes a table-valued parameter containing the list of ContractsIDs (i.e., a 1-column table with a row for each Contract)
+                using (SqlCommand cmd = new SqlCommand("SetInvoiceFlags", conn))
+                {
+                    // Create the 1-column table with string type. Previously it was "float" type, which removed all the contracts with dashes and letters
+                    //   These alphanumeric contract numbers work when sent to OnBase though, so we shouldn't be deleting them!
+                    //   Change everything to a string to handle it. 
+                    DataTable table = new DataTable();
+                    table.Columns.Add("ContractID", typeof(string));
+                    // There are duplicates in the source data. The table has a unique index; remove them here, before trying to write
+                    table.Columns["ContractID"].Unique = true;
+
+                    MemoryStream stream = new MemoryStream(new WebClient().DownloadData(new Uri(ONBASE_INVOICE_PDF_PATH)));
+                    using (StreamReader reader = new StreamReader(stream))
+                    {
+                        string line;
+
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            try
+                            {
+                                // The source data also contains entries with spaces, like "48324 (#2)", which don't work. Just ignore these
+                                string contractID = line.Trim();
+
+                                if (!contractID.Contains(" "))
+                                {
+                                    table.Rows.Add(contractID);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                // Ignore duplicates
+                            }
+                        }
+                    }
+
+                    if (table.Rows.Count > 0)
+                    {
+                        SqlParameter pList = new SqlParameter("oid", SqlDbType.Structured);
+                        pList.TypeName = "dbo.OnbaseIDTableType";
+                        pList.Value = table;
+
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(pList);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
         }
 
         public static void DownloadContractIDs()
