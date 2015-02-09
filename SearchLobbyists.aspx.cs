@@ -352,7 +352,7 @@ public partial class SearchLobbyistsPage : System.Web.UI.Page
         int page = 0; // reset page
         int numResults = Convert.ToInt32(ddlPageSize.Text);
 
-        Response.Redirect(GenerateQueryString(page, SortExpression, SortDirection, numResults));
+        Response.Redirect(GenerateQueryString(page, SortExpression, SortDirection, numResults) + "&click=1");
     }
     protected void ddlSortLobbyists_SelectedIndexChanged(object sender, EventArgs e)
     {
