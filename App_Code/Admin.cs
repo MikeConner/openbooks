@@ -16,9 +16,9 @@ namespace OpenBookPgh
     /// </summary>
     public class Admin
     {
-        public static string ONBASE_CONTRACT_PDF_PATH = "http://onbaseapp.city.pittsburgh.pa.us/PublicAccess/openbook/contracts.csv";
-        public static string ONBASE_CHECK_PDF_PATH = "http://onbaseapp.city.pittsburgh.pa.us/PublicAccess/openbook/checks.csv";
-        public static string ONBASE_INVOICE_PDF_PATH = "http://onbaseapp.city.pittsburgh.pa.us/PublicAccess/openbook/invoices.csv";
+        public static string ONBASE_CONTRACT_PDF_PATH = "http://onbaseapp.city.pittsburgh.pa.us/OpenBookPublicData/contracts.csv";
+        public static string ONBASE_CHECK_PDF_PATH = "http://onbaseapp.city.pittsburgh.pa.us/OpenBookPublicData/checks.csv";
+        public static string ONBASE_INVOICE_PDF_PATH = "http://onbaseapp.city.pittsburgh.pa.us/OpenBookPublicData/invoices.csv";
 
         public static List<string> UploadContributions(string filename, string username, int candidateID, string office)
         {
