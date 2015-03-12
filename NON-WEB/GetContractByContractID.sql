@@ -1,12 +1,13 @@
 USE [CityController]
 GO
 
-/****** Object:  StoredProcedure [dbo].[GetContractByContractID]    Script Date: 10/24/2014 2:10:43 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetContractByContractID]    Script Date: 3/11/2015 1:21:06 AM ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
+
 
 
 
@@ -29,6 +30,8 @@ BEGIN
 	SELECT c.ContractID,
 		c.VendorNo,
 		vendors.VendorName,
+	    sv.VendorNo AS SecondVendorNo,
+		sv.VendorName AS SecondVendorName,
 		c.DepartmentID,
 		c.IndexCode,
 		c.SupplementalNo,
@@ -52,11 +55,13 @@ BEGIN
 	FROM contracts c  
 	JOIN tlk_service ON c.Service = tlk_service.ID 
 	INNER JOIN vendors ON c.VendorNo = vendors.VendorNo 
+    LEFT OUTER JOIN vendors sv ON c.SecondVendorNo = sv.VendorNo 
 	LEFT OUTER JOIN tlk_department ON c.DepartmentID = tlk_department.DeptCode 
 	LEFT OUTER JOIN tblOnbaseContracts oc ON c.ContractID = oc.ContractID 
 	WHERE c.ContractID= @ContractID AND c.SupplementalNo = @SupplementalNo
 
 END
+
 
 
 GO

@@ -1,7 +1,7 @@
 USE [CityController]
 GO
 
-/****** Object:  StoredProcedure [dbo].[SearchContractsRange]    Script Date: 3/11/2015 1:46:32 AM ******/
+/****** Object:  StoredProcedure [dbo].[SearchRangeContractsCount]    Script Date: 3/11/2015 1:51:57 AM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -14,18 +14,13 @@ GO
 
 
 
+
 -- =============================================
 -- Author:		Zeo
 -- Create date: 05/20/09
 -- Description:	Search Contracts
 -- =============================================
-ALTER PROCEDURE [dbo].[SearchContractsRange]
-	@pageIndex INT, 
-	@maximumRows INT,
-	@sortColumn VARCHAR(25) = 'contractID',
-	@sortDirection CHAR(4) = 'DESC',
-	--@sortColumn VARCHAR(25),
-	--@sortDirection CHAR(4),
+ALTER PROCEDURE [dbo].[SearchRangeContractsCount]
 	@contractID NVARCHAR(50) = NULL,
 	@vendorID INT = NULL,
 	@vendorKeywords VARCHAR(100) = NULL,
@@ -43,45 +38,30 @@ AS
 
 BEGIN
 
-DECLARE @startRowIndex INT;
-SET @startRowIndex = (@pageIndex * @maximumRows);
-
 DECLARE @sql NVARCHAR(4000), @paramlist NVARCHAR(4000);
 
-SELECT @sql = 'SELECT * 
+SELECT @sql = 'SELECT COUNT(ContractOrder) 
 FROM
 (
-	SELECT ';
-	SELECT @sql = @sql + 'ROW_NUMBER() OVER(ORDER BY ' + @sortColumn + ' ' + @sortDirection + ' ,DateEntered DESC) AS ContractOrder, ';
-	SELECT @sql = @sql + ' * 
+	SELECT ROW_NUMBER() OVER(ORDER BY ContractID ASC, DateEntered DESC) AS ContractOrder, 
+		ContractID, VendorNo, DepartmentID, Amount, OriginalAmount, 
+		Description, DateSolicitor, DateDuration, DateCountersigned, DateEntered, 
+		VendorName,
+		ServiceName,
+		DepartmentName
  	FROM 
 	(
-		SELECT c.ContractID, c.SupplementalNo, c.VendorNo, c.DepartmentID, 
+		SELECT c.ContractID, c.VendorNo, c.DepartmentID, 
 			c.Service, c.Amount, c.OriginalAmount, c.Description, 
 			c.DateSolicitor, c.DateDuration, 
 			c.DateCountersigned, c.DateEntered,
 			v.VendorName, 
-			sv.VendorName AS SecondVendorName,
 			s.ServiceName, 
-			d.DeptName AS DepartmentName,
-			CASE
-				WHEN oc.ContractID IS NULL THEN ''False''
-				ELSE ''True''
-			END AS ''HasPdf'',
-			CASE
-				WHEN c.HasCheckPDF IS NULL THEN ''False''
-				ELSE ''True''
-			END AS ''HasCheck'',
-			CASE
-				WHEN c.HasInvoicePDF IS NULL THEN ''False''
-				ELSE ''True''
-			END AS ''HasInvoice'' 			 
+			d.DeptName AS DepartmentName 
 		FROM contracts c 
 		LEFT OUTER JOIN vendors v ON c.VendorNo = v.VendorNo 
-		LEFT OUTER JOIN vendors sv ON c.SecondVendorNo = sv.VendorNo 
 		JOIN tlk_service s ON c.Service = s.ID 
 		LEFT OUTER JOIN tlk_department d ON c.DepartmentID = d.DeptCode
-		LEFT OUTER JOIN tblOnbaseContracts oc ON c.ContractID = oc.ContractID
 	) AS rows ';
 
 SELECT @sql = @sql + ' WHERE 1 = 1 ';
@@ -98,11 +78,11 @@ SELECT @sql = @sql + ' WHERE 1 = 1 ';
 		IF @vendorKeywords IS NOT NULL AND @vendorSearchOptions IS NOT NULL
 		BEGIN
 			IF @vendorSearchOptions = 'B'
-				SELECT @sql = @sql + ' AND ((VendorName LIKE @xvendorKeywords + ''%'') OR (SecondVendorName LIKE @xvendorKeywords + ''%'')) ';
+				SELECT @sql = @sql + ' AND VendorName LIKE @xvendorKeywords + ''%'' ';
 			IF @vendorSearchOptions = 'E'
-				SELECT @sql = @sql + ' AND ((VendorName = @xvendorKeywords) OR (SecondVendorName = @xvendorKeywords)) ';	
+				SELECT @sql = @sql + ' AND VendorName = @xvendorKeywords ';	
 			IF @vendorSearchOptions = 'C'
-				SELECT @sql = @sql + ' AND ((VendorName LIKE ''%'' + @xvendorKeywords + ''%'') OR (SecondVendorName LIKE ''%'' + @xvendorKeywords + ''%'')) ';
+				SELECT @sql = @sql + ' AND VendorName LIKE ''%'' + @xvendorKeywords + ''%'' ';
 		END
 
 		/* Dept */
@@ -123,22 +103,16 @@ SELECT @sql = @sql + ' WHERE 1 = 1 ';
 
 		/* Amount */
 		IF @minContractAmt IS NOT NULL AND @maxContractAmt IS NOT NULL
-		    SELECT @sql = @sql + ' AND Amount >= @xminContractAmt AND Amount <= @xmaxContractAmt ';
+		    SELECT @sql = @sql + ' AND Amount >= @xminContractAmt AND AMOUNT <= @xmaxContractAmt ';
 
 SELECT @sql = @sql + ' ) AS results ';
 
-/* Paging Filter */
-SELECT @sql = @sql + ' WHERE results.ContractOrder > @xstartRowIndex AND results.ContractOrder <= (@xstartRowIndex + @xmaximumRows)';
-
-/* ORDER BY */
-SELECT @sql = @sql + ' ORDER BY ContractOrder ASC ';
 
 IF @debug = 0
    PRINT @sql
 
-SELECT @paramlist = '@xstartRowIndex INT, 
-	@xmaximumRows INT,
-	@xcityDept INT, 
+SELECT @paramlist = '
+	@xcityDept INT,
 	@xcontractID NVARCHAR(50),
 	@xvendorID INT,
 	@xvendorKeywords VARCHAR(100),
@@ -151,13 +125,9 @@ SELECT @paramlist = '@xstartRowIndex INT,
 
 
 EXEC sp_executesql @sql, @paramlist, 
-	@startRowIndex, @maximumRows, 
 	@cityDept, @contractID, @vendorID, @vendorKeywords, @contractType, @keywords, @beginDate, @endDate, @minContractAmt, @maxContractAmt
 
 END
-
-
-
 
 
 

@@ -88,7 +88,11 @@
 		</tr>
 		<tr valign="top">
 			<td><label>Expenditure Date</label></td>
-			<td><asp:TextBox ID="txtDate" runat="server"></asp:TextBox>
+			<td>
+                <asp:TextBox ID="txtDate" runat="server"></asp:TextBox>
+                <asp:CompareValidator ID="CompareValidator1" runat="server" 
+                    ControlToValidate="txtDate" ErrorMessage="[error] Invalid expenditure date" Operator="DataTypeCheck" Type="Date">
+                </asp:CompareValidator>
 			</td>
 		</tr>
 	</table>

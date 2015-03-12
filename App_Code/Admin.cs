@@ -311,9 +311,10 @@ namespace OpenBookPgh
             return Result;
         }
 
-        public static int AddContract(string contractNo, string vendorNo, int departmentID, int supplementalNo, string resolutionNo, int service,
-                                        decimal amount, decimal originalAmount, string description,
-                                        DateTime? dateDuration, DateTime? dateApproval, DateTime? dateEntered)
+        public static int AddContract(string contractNo, string vendorNo, string vendorName, string secondVendorNo, string secondVendorName,
+                                      int departmentID, int supplementalNo, string resolutionNo, int service,
+                                      decimal amount, decimal originalAmount, string description,
+                                      DateTime? dateDuration, DateTime? dateApproval, DateTime? dateEntered)
         {
             using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
             {
@@ -323,6 +324,9 @@ namespace OpenBookPgh
                     cmd.Parameters.Add("@RETURN_VALUE", SqlDbType.Int).Direction = ParameterDirection.ReturnValue;
                     cmd.Parameters.Add("@ContractNo", SqlDbType.NVarChar, 50).Value = contractNo;
                     cmd.Parameters.Add("@VendorNo", SqlDbType.NVarChar, 10).Value = vendorNo;
+                    cmd.Parameters.Add("@VendorName", SqlDbType.NVarChar, 50).Value = vendorName;
+                    cmd.Parameters.Add("@SecondVendorNo", SqlDbType.NVarChar, 10).Value = secondVendorNo;
+                    cmd.Parameters.Add("@SecondVendorName", SqlDbType.NVarChar, 50).Value = secondVendorName;
                     cmd.Parameters.Add("@DepartmentID", SqlDbType.Int).Value = departmentID;
                     cmd.Parameters.Add("@SupplementalNo", SqlDbType.Int).Value = supplementalNo;
                     cmd.Parameters.Add("@ResolutionNo", SqlDbType.NVarChar, 40).Value = resolutionNo;
@@ -496,7 +500,8 @@ namespace OpenBookPgh
         }
 
 
-        public static int UpdateContract(string contractID, string vendorNo, int departmentID, int supplementalNo, int newSupplementalNo, string resolutionNo, int service,
+        public static int UpdateContract(string contractID, string vendorNo, string vendorName, string secondVendorNo, string secondVendorName, int departmentID, int supplementalNo, 
+                                int newSupplementalNo, string resolutionNo, int service,
                                 decimal amount, decimal originalAmount, string description,
                                 DateTime? dateDuration, DateTime? dateApproval)
         {
@@ -508,6 +513,9 @@ namespace OpenBookPgh
                     cmd.Parameters.Add("@RETURN_VALUE", SqlDbType.Int).Direction = ParameterDirection.ReturnValue;
                     cmd.Parameters.Add("@ContractID", SqlDbType.NVarChar, 50).Value = contractID;
                     cmd.Parameters.Add("@VendorNo", SqlDbType.NVarChar, 10).Value = vendorNo;
+                    cmd.Parameters.Add("@VendorName", SqlDbType.NVarChar, 50).Value = vendorName;
+                    cmd.Parameters.Add("@SecondVendorNo", SqlDbType.NVarChar, 10).Value = secondVendorNo;
+                    cmd.Parameters.Add("@SecondVendorName", SqlDbType.NVarChar, 50).Value = secondVendorName;
                     cmd.Parameters.Add("@DepartmentID", SqlDbType.Int).Value = departmentID;
                     cmd.Parameters.Add("@SupplementalNo", SqlDbType.Int).Value = supplementalNo;
                     cmd.Parameters.Add("@NewSupplementalNo", SqlDbType.Int).Value = newSupplementalNo;

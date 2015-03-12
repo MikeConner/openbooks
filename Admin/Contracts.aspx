@@ -47,6 +47,7 @@ Inherits="Admin_Contracts_new" %>
 			<tr>
 				<th></th>
 				<th><asp:LinkButton ID="LinkButton1" Text="Vendor&nbsp;Name" OnClick="sortVendor" runat="server" /></th>
+				<th><asp:LinkButton ID="LinkButton7" Text="Second Vendor&nbsp;Name" runat="server" /></th>
 				<th><asp:LinkButton ID="LinkButton2" Text="Agency&nbsp;Name" OnClick="sortAgency" runat="server" /></th>
 				<th><asp:LinkButton ID="LinkButton3" Text="Contract&nbsp;#" OnClick="sortContractID" runat="server" /></th>
 				<th><asp:LinkButton ID="LinkButton4" Text="Amount" OnClick="sortAmount" runat="server" /></th>
@@ -81,6 +82,7 @@ Inherits="Admin_Contracts_new" %>
 				
 			</td>
 			<td class="vendor"><%# DataBinder.Eval(Container.DataItem, "VendorName") %></td>
+			<td class="vendor"><%# DataBinder.Eval(Container.DataItem, "SecondVendorName") %></td>
 			<td class="agency"><%# DataBinder.Eval(Container.DataItem, "DepartmentName") %></td>
 			<td class="contract">
 				<%# Eval("SupplementalNo").ToString() == "0" ? Eval("ContractID") : Eval("ContractID") + "." + Eval("SupplementalNo")%>

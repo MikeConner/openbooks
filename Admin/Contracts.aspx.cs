@@ -246,7 +246,7 @@ public partial class Admin_Contracts_new : System.Web.UI.Page
 		Response.Redirect(GenerateQueryString(PageIndex, "VendorName", sort, PageSize));
 		
 	}
-	public void sortAgency(object sender, EventArgs e)
+    public void sortAgency(object sender, EventArgs e)
 	{
 		string sort = "ASC";
 		if (SortDirection == "ASC")

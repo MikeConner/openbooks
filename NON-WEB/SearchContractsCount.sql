@@ -1,12 +1,14 @@
 USE [CityController]
 GO
 
-/****** Object:  StoredProcedure [dbo].[SearchContractsCount]    Script Date: 10/24/2014 2:11:42 PM ******/
+/****** Object:  StoredProcedure [dbo].[SearchContractsCount]    Script Date: 3/10/2015 11:54:40 PM ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
+
+
 
 
 
@@ -50,10 +52,12 @@ FROM
 			c.DateSolicitor, c.DateDuration, 
 			c.DateCountersigned, c.DateEntered,
 			v.VendorName, 
+			sv.VendorName AS SecondVendorName,
 			s.ServiceName, 
 			d.DeptName AS DepartmentName 
 		FROM contracts c 
 		LEFT OUTER JOIN vendors v ON c.VendorNo = v.VendorNo 
+		LEFT OUTER JOIN vendors sv ON c.SecondVendorNo = sv.VendorNo 
 		JOIN tlk_service s ON c.Service = s.ID 
 		LEFT OUTER JOIN tlk_department d ON c.DepartmentID = d.DeptCode
 	) AS rows ';
@@ -72,11 +76,11 @@ SELECT @sql = @sql + ' WHERE 1 = 1 ';
 		IF @vendorKeywords IS NOT NULL AND @vendorSearchOptions IS NOT NULL
 		BEGIN
 			IF @vendorSearchOptions = 'B'
-				SELECT @sql = @sql + ' AND VendorName LIKE @xvendorKeywords + ''%'' ';
+				SELECT @sql = @sql + ' AND ((VendorName LIKE @xvendorKeywords + ''%'') OR (SecondVendorName LIKE @xvendorKeywords + ''%'')) ';
 			IF @vendorSearchOptions = 'E'
-				SELECT @sql = @sql + ' AND VendorName = @xvendorKeywords ';	
+				SELECT @sql = @sql + ' AND ((VendorName = @xvendorKeywords) OR (SecondVendorName = @xvendorKeywords)) ';	
 			IF @vendorSearchOptions = 'C'
-				SELECT @sql = @sql + ' AND VendorName LIKE ''%'' + @xvendorKeywords + ''%'' ';
+				SELECT @sql = @sql + ' AND ((VendorName LIKE ''%'' + @xvendorKeywords + ''%'') OR (SecondVendorName LIKE ''%'' + @xvendorKeywords + ''%'')) ';
 		END
 
 		/* Dept */
@@ -133,6 +137,8 @@ EXEC sp_executesql @sql, @paramlist,
 
 
 END
+
+
 
 GO
 

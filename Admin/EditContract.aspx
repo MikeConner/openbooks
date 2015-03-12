@@ -51,6 +51,21 @@ Inherits="Admin_EditContract" %>
 				SelectCommand="SELECT [ID], [VendorNo], [VendorName] FROM [tlk_vendors] ORDER BY VendorName" /> <a href="AddVendor.aspx">[+] Vendor</a></td>
 		</tr>
 		<tr>
+			<td><label>Additional Vendor</label></td>
+			<td><asp:DropDownList ID="ddlSecondVendors" runat="server" 
+				DataSourceID="SqlDataSource3" 
+				DataTextField="VendorName" 
+				DataValueField="VendorNo" 
+                AppendDataBoundItems="True"
+				SelectedValue='<%# Bind("SecondVendorNo") %>'>
+                <asp:ListItem Text="" Value=""></asp:ListItem>
+			    </asp:DropDownList>
+				
+			<asp:SqlDataSource ID="SqlDataSource3" runat="server" 
+				ConnectionString="<%$ ConnectionStrings:CityControllerConnectionString %>" 
+				SelectCommand="SELECT [ID], [VendorNo], [VendorName] FROM [tlk_vendors] ORDER BY VendorName" /> </td>
+		</tr>
+		<tr>
 			<td><label>Contract Type</label></td>
 			<td><asp:DropDownList ID="ddlServices" runat="server" 
 					DataSourceID="SqlDataSource1" 

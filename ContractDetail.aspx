@@ -39,7 +39,15 @@
                                         <td>
                                             <label>Vendor Name: </label>
                                         </td>
-                                        <td><a href="VendorDetail.aspx?ID=<%# DataBinder.Eval(Container.DataItem, "VendorNo") %>"><%# DataBinder.Eval(Container.DataItem, "VendorName") %></a></td>
+                                        <td><a href="VendorDetail.aspx?ID=<%# DataBinder.Eval(Container.DataItem, "VendorNo") %>">
+                                            <%# DataBinder.Eval(Container.DataItem, "VendorName") %></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Second Vendor Name: </label>
+                                        </td>
+                                        <td><a href="VendorDetail.aspx?ID=<%# DataBinder.Eval(Container.DataItem, "SecondVendorNo") %>">
+                                            <%# DataBinder.Eval(Container.DataItem, "SecondVendorName") %></a></td>
                                     </tr>
                                     <tr>
                                         <td>

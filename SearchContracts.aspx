@@ -52,6 +52,10 @@
                     <asp:TextBox ID="Keywords" runat="server" placeholder="Keywords..." />
                 </div>
                 <div class="search-field">
+                    <h2>Contract ID</h2>
+                    <asp:TextBox ID="ContractID" runat="server" placeholder="Contract ID..." />
+                </div>
+                <div class="search-field">
                     <h2>Contract Approval Date</h2>
                     <div class="row date-select">
                         <div class="large-12 columns">

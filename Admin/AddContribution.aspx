@@ -136,6 +136,9 @@
                     <label>Contribution Date</label></td>
                 <td>
                     <asp:TextBox ID="txtDate" runat="server"></asp:TextBox>
+                    <asp:CompareValidator ID="CompareValidator1" runat="server" 
+                        ControlToValidate="txtDate" ErrorMessage="[error] Invalid contribution date" Operator="DataTypeCheck" Type="Date">
+                    </asp:CompareValidator>
                 </td>
             </tr>
         </table>

@@ -69,12 +69,18 @@ public partial class AddContract : System.Web.UI.Page
 		txtDateEntered.Text = DateTime.Now.ToShortDateString();
 		//ddlServices.SelectedItem.Value = "82";
 		ddlServices.SelectedValue = "79";
-	}
+    }
 
 	protected void ddlVendor_SelectedIndexChanged(object sender, EventArgs e)
 	{
 		rptVendor.DataSource = Admin.GetVendorAddress(ddlVendors.SelectedValue);
 		rptVendor.DataBind();
+	}
+
+    protected void ddlSecondVendor_SelectedIndexChanged(object sender, EventArgs e)
+	{
+        rptSecondVendor.DataSource = Admin.GetVendorAddress(ddlSecondVendors.SelectedValue);
+		rptSecondVendor.DataBind();
 	}
 
 	protected void Button1_Click(object sender, EventArgs e)
@@ -128,6 +134,10 @@ public partial class AddContract : System.Web.UI.Page
 	{
 		string resolutionNo = txtResolutionNo.Text;
 		string vendorNo = ddlVendors.SelectedValue;
+        string vendorName = ddlVendors.SelectedItem.Text;
+        string secondVendorNo = ddlSecondVendors.SelectedValue;
+        string secondVendorName = ddlSecondVendors.SelectedItem.Text;
+
 		string description = txtDescription.Text;
 		int departmentID = Convert.ToInt32(ddlDepartment.SelectedValue);
 		int service = Convert.ToInt32(ddlServices.SelectedValue);
@@ -156,7 +166,7 @@ public partial class AddContract : System.Web.UI.Page
 			dateEntered = Convert.ToDateTime(txtDateEntered.Text);
 		}
 
-		return Admin.AddContract(txtContractNo.Text, vendorNo, departmentID, supplementalNo, resolutionNo, service,
+		return Admin.AddContract(txtContractNo.Text, vendorNo, vendorName, secondVendorNo, secondVendorName, departmentID, supplementalNo, resolutionNo, service,
 			amount, originalAmount, description, dateDuration, dateApproval, dateEntered);
 	}
 }

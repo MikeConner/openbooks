@@ -134,8 +134,9 @@ public partial class SearchContractsPage : System.Web.UI.Page
         string vendorKeywords = Vendor.Text;
         string searchKeywords = Keywords.Text;
         string keywordOptions = rbVendor.SelectedValue;
+        string contractID = string.IsNullOrEmpty(ContractID.Text) ? null : ContractID.Text;
 
-        string queryString = SearchContracts.GenerateRangeQueryString(0, 0, vendorKeywords, keywordOptions, cityDept, contractType, searchKeywords, startDate, endDate, minContractAmount, maxContractAmount);
+        string queryString = SearchContracts.GenerateRangeQueryString(0, contractID, vendorKeywords, keywordOptions, cityDept, contractType, searchKeywords, startDate, endDate, minContractAmount, maxContractAmount);
         Response.Redirect(queryString + "&click=1");
     }
 

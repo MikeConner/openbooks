@@ -1,12 +1,15 @@
 USE [CityController]
 GO
 
-/****** Object:  StoredProcedure [dbo].[UpdateContract]    Script Date: 10/24/2014 2:13:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateContract]    Script Date: 3/10/2015 1:44:17 PM ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
+
+
+
 
 
 -- =============================================
@@ -18,6 +21,9 @@ GO
 ALTER PROCEDURE [dbo].[UpdateContract]
 	@ContractID NVARCHAR(50),
 	@VendorNo NVARCHAR(10),
+	@VendorName NVARCHAR(50),
+	@SecondVendorNo NVARCHAR(10),
+	@SecondVendorName NVARCHAR(50),
 	@DepartmentID INT,
 	@SupplementalNo INT,
 	@NewSupplementalNo INT,
@@ -28,11 +34,9 @@ ALTER PROCEDURE [dbo].[UpdateContract]
 	@Description NVARCHAR(100),
 	@DateDuration DATETIME = NULL,
 	@DateCountersigned DATETIME = NULL
- 
 AS 
 
 BEGIN
-
 	-- Check if supplemental no will be changed
 	IF @SupplementalNo <> @NewSupplementalNo
 	BEGIN
@@ -45,7 +49,10 @@ BEGIN
 			BEGIN
 			-- update with new supplemental no
 				UPDATE contracts SET 
-					VendorNo = @VendorNo, DepartmentID = @DepartmentID,	SupplementalNo = @NewSupplementalNo,
+					VendorNo = @VendorNo, VendorName = @VendorName, 
+					SecondVendorNo = (CASE @SecondVendorNo WHEN '' THEN NULL ELSE @SecondVendorNo END), 
+					SecondVendorName = (CASE @SecondVendorName WHEN '' THEN NULL ELSE @SecondVendorName END), 
+					DepartmentID = @DepartmentID,	SupplementalNo = @NewSupplementalNo,
 					ResolutionNo = @ResolutionNo, [Service] = @Service, Amount = @Amount, OriginalAmount = @OriginalAmount,
 					[Description] = @Description, DateDuration = @DateDuration, DateCountersigned = @DateCountersigned
 				WHERE ContractID = @ContractID AND SupplementalNo = @SupplementalNo
@@ -54,13 +61,17 @@ BEGIN
 	ELSE
 		-- update with current supplemental no
 		UPDATE contracts SET 
-			VendorNo = @VendorNo, DepartmentID = @DepartmentID,	SupplementalNo = @SupplementalNo,
+			VendorNo = @VendorNo, VendorName = @VendorName,
+			SecondVendorNo = (CASE @SecondVendorNo WHEN '' THEN NULL ELSE @SecondVendorNo END), 
+			SecondVendorName = (CASE @SecondVendorName WHEN '' THEN NULL ELSE @SecondVendorName END), 
+			DepartmentID = @DepartmentID,	SupplementalNo = @SupplementalNo,
 			ResolutionNo = @ResolutionNo, [Service] = @Service, Amount = @Amount, OriginalAmount = @OriginalAmount,
 			[Description] = @Description, DateDuration = @DateDuration, DateCountersigned = @DateCountersigned
 		WHERE ContractID = @ContractID AND SupplementalNo = @SupplementalNo	
 
 
 END
+
 
 
 GO

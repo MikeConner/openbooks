@@ -1,12 +1,13 @@
 USE [CityController]
 GO
 
-/****** Object:  StoredProcedure [dbo].[AddContract]    Script Date: 10/25/2014 12:48:15 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddContract]    Script Date: 3/10/2015 2:24:08 PM ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
+
 
 
 
@@ -22,6 +23,9 @@ GO
 ALTER PROCEDURE [dbo].[AddContract]
 	@ContractNo NVARCHAR(50) = NULL,
 	@VendorNo NVARCHAR(10),
+	@VendorName NVARCHAR(50),
+	@SecondVendorNo NVARCHAR(10),
+	@SecondVendorName NVARCHAR(50),
 	@DepartmentID INT,
 	@SupplementalNo INT,
 	@ResolutionNo NVARCHAR(40),
@@ -47,12 +51,15 @@ BEGIN
 			-- standard insert
 			INSERT INTO contracts
 			(
-				ContractID, VendorNo, DepartmentID, SupplementalNo, ResolutionNo, [Service], Amount, OriginalAmount, Description,
+				ContractID, VendorNo, VendorName, SecondVendorNo, SecondVendorName, DepartmentID, SupplementalNo, ResolutionNo, [Service], Amount, OriginalAmount, Description,
 				DateDuration, DateCountersigned, DateEntered
 			)
 			VALUES 
 			(
-				@NextContractID, @VendorNo, @DepartmentID, @SupplementalNo, @ResolutionNo, @Service, @Amount, @OriginalAmount, @Description,
+				@NextContractID, @VendorNo, @VendorName, 
+				(CASE @SecondVendorNo WHEN '' THEN NULL ELSE @SecondVendorNo END),
+				(CASE @SecondVendorName WHEN '' THEN NULL ELSE @SecondVendorName END),
+				@DepartmentID, @SupplementalNo, @ResolutionNo, @Service, @Amount, @OriginalAmount, @Description,
 				@DateDuration, @DateCountersigned, @DateEntered
 			)
 			-- update counter
@@ -71,12 +78,15 @@ BEGIN
 				BEGIN
 				INSERT INTO contracts
 				(
-					ContractID, VendorNo, DepartmentID, SupplementalNo, ResolutionNo, [Service], Amount, OriginalAmount, Description,
+					ContractID, VendorNo, VendorName, SecondVendorNo, SecondVendorName, DepartmentID, SupplementalNo, ResolutionNo, [Service], Amount, OriginalAmount, Description,
 					DateDuration, DateCountersigned, DateEntered
 				)
 				VALUES 
 				(
-					@ContractNo, @VendorNo, @DepartmentID, @SupplementalNo, @ResolutionNo, @Service, @Amount, @OriginalAmount, @Description,
+					@ContractNo, @VendorNo, @VendorName, 
+				    (CASE @SecondVendorNo WHEN '' THEN NULL ELSE @SecondVendorNo END),
+				    (CASE @SecondVendorName WHEN '' THEN NULL ELSE @SecondVendorName END),
+					@DepartmentID, @SupplementalNo, @ResolutionNo, @Service, @Amount, @OriginalAmount, @Description,
 					@DateDuration, @DateCountersigned, @DateEntered
 				)
 				-- update counter
@@ -85,8 +95,6 @@ BEGIN
 			END
 		END
 END
-
-
 
 
 GO

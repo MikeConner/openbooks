@@ -39,13 +39,13 @@ namespace OpenBookPgh
         }
 
         // Replacement for GenerateQueryString
-        public static string GenerateRangeQueryString(int vendorID, int contractID, string vendorKeywords, string vendorSearchOptions, int cityDept, int contractType, string keywords,
+        public static string GenerateRangeQueryString(int vendorID, string contractID, string vendorKeywords, string vendorSearchOptions, int cityDept, int contractType, string keywords,
                                                       string startDate, string endDate, int minAmount, int maxAmount)
         {
             string queryString = "~/SearchContracts.aspx?";
 
             // Vendor/ContractID Only Search in Admin
-            if (vendorID != 0 || contractID != 0)
+            if (vendorID != 0 || contractID != null)
             {
                 if (vendorID != 0)
                 {
@@ -53,7 +53,7 @@ namespace OpenBookPgh
                 }
                 else
                 {
-                    queryString += "contractNo=" + vendorID;
+                    queryString += "contractNo=" + contractID;
                 }
             }
             // Regular Query Searches
@@ -101,13 +101,13 @@ namespace OpenBookPgh
         }
 
         // Replaced by GenerateRangeQueryString
-        public static string GenerateQueryString(int vendorID, int contractID, string vendorKeywords, string vendorSearchOptions, int cityDept, int contractType, string keywords,
+        public static string GenerateQueryString(int vendorID, string contractID, string vendorKeywords, string vendorSearchOptions, int cityDept, int contractType, string keywords,
 													string month1, int year1, string month2, int year2, int contractAmt)
 		{
 			string queryString = "~/Contracts.aspx?";
 
 			// Vendor/ContractID Only Search in Admin
-			if(vendorID != 0 || contractID != 0)
+			if(vendorID != 0 || contractID != null)
 			{
 				if(vendorID !=0)
 				{
@@ -115,7 +115,7 @@ namespace OpenBookPgh
 				}
 				else
 				{
-					queryString += "contractNo=" + vendorID;
+					queryString += "contractNo=" + contractID;
 				}
 			
 				

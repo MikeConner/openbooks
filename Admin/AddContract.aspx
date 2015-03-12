@@ -84,6 +84,36 @@
 			</td>
 		</tr>
 		<tr>
+			<td><label>Additional Vendor</label></td>
+			<td><asp:DropDownList ID="ddlSecondVendors" runat="server" 
+				Width="450"
+				DataSourceID="SqlDataSource3" 
+				DataTextField="VendorName" 
+				DataValueField="VendorNo" 
+                AppendDataBoundItems="True"
+                AutoPostBack="true"
+                OnSelectedIndexChanged="ddlSecondVendor_SelectedIndexChanged">
+                <asp:ListItem Text="" Value=""></asp:ListItem>
+                </asp:DropDownList>
+			<asp:SqlDataSource ID="SqlDataSource3" runat="server" 
+				ConnectionString="<%$ ConnectionStrings:CityControllerConnectionString %>" 
+				SelectCommand="SELECT [ID], [VendorNo], [VendorName] FROM [tlk_vendors] ORDER BY VendorName" /> 
+				
+				<br />
+			<asp:Panel ID="pnlSecondVendor" runat="server">
+				<asp:Repeater ID="rptSecondVendor" runat="server">
+					<ItemTemplate>
+						<%# DataBinder.Eval(Container.DataItem, "VendorName")%><br />
+						<%# DataBinder.Eval(Container.DataItem, "Address1")%><br />
+						<%# DataBinder.Eval(Container.DataItem, "Address2")%><br />
+						<%# DataBinder.Eval(Container.DataItem, "City")%>, 
+						<%# DataBinder.Eval(Container.DataItem, "State")%> 
+						<%# DataBinder.Eval(Container.DataItem, "Zip")%>
+					</ItemTemplate>
+				</asp:Repeater>
+			</asp:Panel>
+		</tr>
+		<tr>
 			<td><label>Contract Type</label></td>
 			<td><asp:DropDownList ID="ddlServices" runat="server" 
 					DataSourceID="SqlDataSource1" 
@@ -96,15 +126,30 @@
 		</tr>
 		<tr>
 			<td><label>Date Entered</label></td>
-			<td><asp:TextBox ID="txtDateEntered" runat="server" Width="100" /></td>
+			<td>
+                <asp:TextBox ID="txtDateEntered" runat="server" Width="100" />
+                <asp:CompareValidator ID="CompareValidator1" runat="server" 
+                    ControlToValidate="txtDateEntered" ErrorMessage="[error] Invalid contract date" Operator="DataTypeCheck" Type="Date">
+                </asp:CompareValidator>
+			</td>
 		</tr>
 		<tr>
 			<td><label>Contract End Date</label></td>
-			<td><asp:TextBox ID="txtDateDuration" runat="server" Width="100" /></td>
+			<td>
+                <asp:TextBox ID="txtDateDuration" runat="server" Width="100" />
+                <asp:CompareValidator ID="CompareValidator3" runat="server" 
+                    ControlToValidate="txtDateDuration" ErrorMessage="[error] Invalid contract end date" Operator="DataTypeCheck" Type="Date">
+                </asp:CompareValidator>
+			</td>
 		</tr>
 		<tr>
 			<td><label>Contract Approval Date</label></td>
-			<td><asp:TextBox ID="txtDateApproval" runat="server" Width="100" /></td>
+			<td>
+                <asp:TextBox ID="txtDateApproval" runat="server" Width="100" />
+                <asp:CompareValidator ID="CompareValidator4" runat="server" 
+                    ControlToValidate="txtDateApproval" ErrorMessage="[error] Invalid contract approval date" Operator="DataTypeCheck" Type="Date">
+                </asp:CompareValidator>
+			</td>
 		</tr>
 		
 		<tr>

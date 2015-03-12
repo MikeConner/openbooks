@@ -14,12 +14,15 @@ public partial class Admin_EditContract : System.Web.UI.Page
 	{
 		if (!IsPostBack)
         {
-			if (Request.UrlReferrer != null)
-				Session.Add("PreviousPage", Request.UrlReferrer.AbsoluteUri);
-			
+            if (Request.UrlReferrer != null)
+            {
+                Session.Add("PreviousPage", Request.UrlReferrer.AbsoluteUri);
+            }
+
 			LoadPage();
 		}
 	}
+
 	private void LoadPage()
 	{
 		string contractID = Utils.StringFromQueryString("ID", null, null, true);
@@ -28,15 +31,23 @@ public partial class Admin_EditContract : System.Web.UI.Page
 		if (!string.IsNullOrEmpty(contractID))
 		{
 			frmContract.DataSource = Admin.GetContract(contractID, supplementalNo);
-			frmContract.DataBind();
-		}
+            frmContract.DataBind();
+
+            // Add blank item
+            DropDownList secondVendors = (DropDownList)frmContract.FindControl("ddlSecondVendors");
+            if (null == secondVendors.Items.FindByText(""))
+            {
+                secondVendors.Items.Insert(0, new ListItem(null, null));
+            }
+        }
 	}
 
 	protected void Button1_Click(object sender, EventArgs e)
 	{
 		DropDownList Department = (DropDownList)frmContract.FindControl("ddlDepartment");
 		DropDownList Vendor = (DropDownList)frmContract.FindControl("ddlVendors");
-		DropDownList Service = (DropDownList)frmContract.FindControl("ddlServices");
+        DropDownList SecondVendor = (DropDownList)frmContract.FindControl("ddlSecondVendors");
+        DropDownList Service = (DropDownList)frmContract.FindControl("ddlServices");
 
 		TextBox SupplementalNo = (TextBox)frmContract.FindControl("txtSupplementalNo");
 		TextBox ResolutionNo = (TextBox)frmContract.FindControl("txtResolutionNo");
@@ -49,6 +60,10 @@ public partial class Admin_EditContract : System.Web.UI.Page
 
 		string contractID = Utils.StringFromQueryString("ID", null, null, true);
 		string vendorNo = Vendor.SelectedValue;
+        string vendorName = Vendor.SelectedItem.Text;
+        string secondVendorNo = SecondVendor.SelectedValue;
+        string secondVendorName = SecondVendor.SelectedItem.Text;
+
 		string resolutionNo = ResolutionNo.Text;
 
 		//int departmentID = Convert.ToInt32(Department.SelectedValue);		
@@ -84,7 +99,7 @@ public partial class Admin_EditContract : System.Web.UI.Page
 		int supplementalNo = Utils.IntFromQueryString("sup", 0);
 
 
-		int result = Admin.UpdateContract(contractID, vendorNo, departmentID, supplementalNo, newSupplementalNo, 
+        int result = Admin.UpdateContract(contractID, vendorNo, vendorName, secondVendorNo, secondVendorName, departmentID, supplementalNo, newSupplementalNo, 
 		resolutionNo, service, amount, originalAmount, Description.Text, dateDuration, dateApproval);
 
 		Label error = (Label)frmContract.FindControl("lblMessage");
