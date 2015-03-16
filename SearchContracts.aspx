@@ -49,11 +49,11 @@
                 </div>
                 <div class="search-field">
                     <h2>Keyword</h2>
-                    <asp:TextBox ID="Keywords" runat="server" placeholder="Keywords..." />
+                    <asp:TextBox ID="Keywords" runat="server" placeholder="Keyword..." />
                 </div>
                 <div class="search-field">
-                    <h2>Contract ID</h2>
-                    <asp:TextBox ID="ContractID" runat="server" placeholder="Contract ID..." />
+                    <h2>Contract Number</h2>
+                    <asp:TextBox ID="ContractID" runat="server" placeholder="Contract Number..." />
                 </div>
                 <div class="search-field">
                     <h2>Contract Approval Date</h2>
