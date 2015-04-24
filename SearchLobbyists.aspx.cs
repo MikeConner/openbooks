@@ -13,9 +13,15 @@ using System.Data.SqlClient;
 using System.Configuration;
 
 
-public partial class SearchLobbyistsPage : System.Web.UI.Page
+public partial class SearchLobbyistsPage : PaginatedPage
 {
     public SearchParamsLobbyists sp;
+
+    public SearchLobbyistsPage()
+    {
+        mPageController = new PagingControls(this);
+    }
+
     protected void btnSearch_Click(object sender, EventArgs e)
     {
         // Keywords
@@ -86,53 +92,15 @@ public partial class SearchLobbyistsPage : System.Web.UI.Page
         // Get total rows
         int totalRows = SearchLobbyists.GetLobbyistsCount(sp);
 
-        // Update PageCount for pager, using adjustment if necessary
-        int addPage = 1;
-        if ((totalRows % PageSize) == 0)
-        {
-            addPage = 0;
-        }
-        PageCount = (totalRows / PageSize) + addPage;
+        mPageController.setPageCount(totalRows);
+
+        lblCurrentPage.Text = mPageController.getPagingBanner();
 
         // Disable buttons if necessary
-        if ((PageIndex == 0))
-        {
-            ibtnFirstPageTop.Enabled = !(PageIndex == 0);
-            ibtnFirstPageTop.CssClass = "button prev";
-            ibtnPrevPageTop.Enabled = !(PageIndex == 0);
-            ibtnPrevPageTop.CssClass = "button prev";
-        }
-
-        if ((PageIndex >= PageCount - 1))
-        {
-            ibtnNextPageTop.Enabled = !(PageIndex >= PageCount - 1);
-            ibtnNextPageTop.CssClass = "button prev";
-            ibtnLastPageTop.Enabled = !(PageIndex >= PageCount - 1);
-            ibtnLastPageTop.CssClass = "button prev";
-        }
-       
-        // Calculate Results & Update Pager
-        int startResults = (PageIndex * PageSize) + addPage;
-        // If the count is evenly divisible and we're on the first page, make sure we start at 1!
-        if ((0 == startResults) && (totalRows > 0))
-        {
-            startResults = 1;
-        }
-        int endResults = (PageIndex * PageSize) + PageSize;
-
-        if (endResults > totalRows)
-        {
-            endResults = totalRows;
-        }
-        if (startResults != 0)
-        {
-            lblCurrentPage.Text = "Results: " + startResults.ToString() + " - " + endResults.ToString() + " of " + totalRows.ToString();
-        }
-        else
-        {
-            lblCurrentPage.Text = "We couldn't find any lobbyists that matched your criteria.";
-        }
+        ibtnFirstPageTop.Enabled = ibtnPrevPageTop.Enabled = PageIndex > 0;
+        ibtnNextPageTop.Enabled = ibtnLastPageTop.Enabled = PageIndex < PageCount - 1;
     }
+
     protected void rptLobbyists_ItemDataBound(object sender, RepeaterItemEventArgs e)
     {
         if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
@@ -144,65 +112,6 @@ public partial class SearchLobbyistsPage : System.Web.UI.Page
         }
     }
 
-    //Pager Constants
-    public int PageIndex { get { return Utils.GetIntFromQueryString(Request.QueryString["page"]); } }
-    public int PageSize
-    {
-        get
-        {
-            int numResults = Utils.GetIntFromQueryString(Request.QueryString["num"]);
-            if (numResults == 0)
-            {
-                numResults = 10;
-            }
-            ddlPageSize.Text = numResults.ToString(); // update page dropdown
-            return numResults;
-        }
-    }
-    public int PageCount
-    {
-        get
-        {
-            object o = ViewState["_PageCount"];
-            if (o == null)
-                return 0; // default no pages found
-            else
-                return (int)o;
-        }
-        set
-        {
-            ViewState["_PageCount"] = value;
-        }
-    }
-
-    // Sort Constants
-    /*
-    public string SortExpression
-    {
-        get
-        {
-            string validList = "LobbyistID LobbyistName EmployerName DateEntered";
-            string sortCategory = Utils.GetStringFromQueryString(Request.QueryString["cat"], validList);
-            if (string.IsNullOrEmpty(sortCategory))
-            {
-                sortCategory = "LobbyistID";
-            }
-            return sortCategory;
-        }
-    }
-    public string SortDirection
-    {
-        get
-        {
-            string validList = "ASC DESC";
-            string sortDirection = Utils.GetStringFromQueryString(Request.QueryString["sort"], validList);
-            if (string.IsNullOrEmpty(sortDirection))
-            {
-                sortDirection = "DESC";
-            }
-            return sortDirection;
-        }
-    }*/
     public string SortExpression
     {
         get
@@ -266,53 +175,26 @@ public partial class SearchLobbyistsPage : System.Web.UI.Page
     {
         // Send the user to the first page 
         int page = 0;
-        Response.Redirect(GenerateQueryString(page, SortExpression, SortDirection, PageSize));
+        Response.Redirect(GenerateQueryString(page, SortExpression, SortDirection, PageSize) + "&click=1");
     }
     protected void PrevPage_Click(object sender, EventArgs e)
     {
         // Send the user to the previous page 
         int page = PageIndex - 1;
-        Response.Redirect(GenerateQueryString(page, SortExpression, SortDirection, PageSize));
+        Response.Redirect(GenerateQueryString(page, SortExpression, SortDirection, PageSize) + "&click=1");
     }
     protected void NextPage_Click(object sender, EventArgs e)
     {
         // Send the user to the next page 
         int page = PageIndex + 1;
-        Response.Redirect(GenerateQueryString(page, SortExpression, SortDirection, PageSize));
+        Response.Redirect(GenerateQueryString(page, SortExpression, SortDirection, PageSize) + "&click=1");
     }
     protected void LastPage_Click(object sender, EventArgs e)
     {
         // Send the user to the last page 
         int page = PageCount - 1;
-        Response.Redirect(GenerateQueryString(page, SortExpression, SortDirection, PageSize));
+        Response.Redirect(GenerateQueryString(page, SortExpression, SortDirection, PageSize) + "&click=1");
     }
-
-    // Sorting Controls
-    /*
-    public void sortLobbyist(object sender, EventArgs e)
-    {
-        string var = "ASC";
-        if (SortDirection == "ASC")
-            var = "DESC";
-
-        Response.Redirect(GenerateQueryString(PageIndex, "LobbyistName", var, PageSize));
-    }
-    public void sortEmployer(object sender, EventArgs e)
-    {
-        string var = "ASC";
-        if (SortDirection == "ASC")
-            var = "DESC";
-
-        Response.Redirect(GenerateQueryString(PageIndex, "EmployerName", var, PageSize));
-    }
-    public void sortDate(object sender, EventArgs e)
-    {
-        string var = "ASC";
-        if (SortDirection == "ASC")
-            var = "DESC";
-
-        Response.Redirect(GenerateQueryString(PageIndex, "DateEntered", var, PageSize));
-    }*/
 
     private const string DEFAULTCOL = "LobbyistName";
     private const string ASCENDING = "ASC";
@@ -360,4 +242,21 @@ public partial class SearchLobbyistsPage : System.Web.UI.Page
 
         GetSearchResults();
     }
+
+    protected override void updatePageSize(int numResults)
+    {
+        ddlPageSize.Text = numResults.ToString(); // update page dropdown
+    }
+
+    protected override int getPageIndex()
+    {
+        return Utils.GetIntFromQueryString(Request.QueryString["page"]);
+    }
+
+    protected override string getPageCategory()
+    {
+        return "Lobbyists";
+    }
+
+    private PagingControls mPageController = null;
 }

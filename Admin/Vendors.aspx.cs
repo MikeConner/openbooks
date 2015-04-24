@@ -10,7 +10,7 @@ using System.Configuration;
 using System.Net;
 using OpenBookPgh;
 
-public partial class Admin_Vendors : System.Web.UI.Page
+public partial class Admin_Vendors : PaginatedPage
 {
 	protected void Page_Load(object sender, EventArgs e)
 	{
@@ -22,6 +22,7 @@ public partial class Admin_Vendors : System.Web.UI.Page
                 {
                     Session.Add("PreviousPage", Request.UrlReferrer.AbsoluteUri);
                 }
+                mPageController = new PagingControls(this);
 
                 GetSearchResults();
                 LoadPage();
@@ -78,59 +79,19 @@ public partial class Admin_Vendors : System.Web.UI.Page
 		// Get total rows
 		int totalRows = SearchVendors.GetVendorsCount(sp);
 
-		// Update PageCount for pager, using adjustment if necessary
-		int addPage = 1;
-		if ((totalRows % PageSize) == 0)
-		{
-			addPage = 0;
-		}
-		PageCount = (totalRows / PageSize) + addPage;
+        mPageController.setPageCount(totalRows);
 
-		// Disable buttons if necessary
-		ibtnFirstPageTop.Enabled = !(PageIndex == 0);
-		ibtnPrevPageTop.Enabled = !(PageIndex == 0);
-		ibtnNextPageTop.Enabled = !(PageIndex >= PageCount - 1);
-		ibtnLastPageTop.Enabled = !(PageIndex >= PageCount - 1);
+        lblCurrentPage.Text = mPageController.getPagingBanner();
 
-		// Calculate Results & Update Pager
-		int startResults = (PageIndex * PageSize) + 1;
-        // If the count is evenly divisible and we're on the first page, make sure we start at 1!
-        if ((0 == startResults) && (totalRows > 0))
-        {
-            startResults = 1;
-        }
-        int endResults = (PageIndex * PageSize) + PageSize;
-
-		if (endResults > totalRows)
-		{
-			endResults = totalRows;
-		}
-		lblCurrentPage.Text = "Results: " + startResults.ToString() + " - " + endResults.ToString() + " of " + totalRows.ToString();
+        // Disable buttons if necessary
+        ibtnFirstPageTop.Enabled = ibtnPrevPageTop.Enabled = PageIndex > 0;
+        ibtnNextPageTop.Enabled = ibtnLastPageTop.Enabled = PageIndex < PageCount - 1;
 	}
 
 
-	//Pager Constants
-	public int PageIndex { get { return Utils.GetIntFromQueryString(Request.QueryString["page"]); } }
-	public int PageSize { get { return 10; } }
-	public int PageCount
-	{
-		get
-		{
-			object o = ViewState["_PageCount"];
-			if (o == null)
-				return 0; // default no pages found
-			else
-				return (int)o;
-		}
-		set
-		{
-			ViewState["_PageCount"] = value;
-		}
-	}
 	// Sorting Constants
 	public string SortExpression { get { return GetSortExpression(Request.QueryString["cat"]); } }
 	public string SortDirection { get { return GetSortDirection(Request.QueryString["sort"]); } }
-
 
 	public string GetSortExpression(string str)
 	{
@@ -160,53 +121,83 @@ public partial class Admin_Vendors : System.Web.UI.Page
 	}
 
 
-	public string GenerateQueryString(int page, string category, string sort)
+	public string GenerateQueryString(int page, int size, string category, string sort)
 	{
-		return "Vendors.aspx?page=" + page + "&cat=" + category + "&sort=" + sort;
+		return "Vendors.aspx?page=" + page + "&cat=" + category + "&num=" + size + "&sort=" + sort;
 	}
 	// Pager Controls
 	protected void FirstPage_Click(object sender, EventArgs e)
 	{
 		// Send the user to the first page 
 		int page = 0;
-		Response.Redirect(GenerateQueryString(page, SortExpression, SortDirection));
+        Response.Redirect(GenerateQueryString(page, PageSize, SortExpression, SortDirection));
 	}
 	protected void PrevPage_Click(object sender, EventArgs e)
 	{
 		// Send the user to the previous page 
 		int page = PageIndex - 1;
-		Response.Redirect(GenerateQueryString(page, SortExpression, SortDirection));
+        Response.Redirect(GenerateQueryString(page, PageSize, SortExpression, SortDirection));
 	}
 	protected void NextPage_Click(object sender, EventArgs e)
 	{
 		// Send the user to the next page 
 		int page = PageIndex + 1;
-		Response.Redirect(GenerateQueryString(page, SortExpression, SortDirection));
+        Response.Redirect(GenerateQueryString(page, PageSize, SortExpression, SortDirection));
 	}
 	protected void LastPage_Click(object sender, EventArgs e)
 	{
 		// Send the user to the last page 
 		int page = PageCount - 1;
-		Response.Redirect(GenerateQueryString(page, SortExpression, SortDirection));
+		Response.Redirect(GenerateQueryString(page, PageSize, SortExpression, SortDirection));
 	}
 
 	// Sorting Controls
 	public void sortVendorName(object sender, EventArgs e)
 	{
-		string sort = "ASC";
-		if (SortDirection == "ASC")
-			sort = "DESC";
+		string sort = (SortDirection == "ASC") ? "ASC" : "DESC";
 
-		Response.Redirect(GenerateQueryString(PageIndex, "VendorName", sort));
+		Response.Redirect(GenerateQueryString(PageIndex, PageSize, "VendorName", sort));
 	}
 	public void sortVendorNo(object sender, EventArgs e)
 	{
-		string sort = "ASC";
-		if (SortDirection == "ASC")
-			sort = "DESC";
+        string sort = (SortDirection == "ASC") ? "ASC" : "DESC";
 
-		Response.Redirect(GenerateQueryString(PageIndex, "VendorNo", sort));
+		Response.Redirect(GenerateQueryString(PageIndex, PageSize, "VendorNo", sort));
 	}
 
+    protected void ddlSelection_Changed(object sender, EventArgs e)
+    {
+        int page = 0; // reset page
+        int newPageSize = Convert.ToInt32(ddlPageSize.Text);
+        string sort = (SortDirection == "ASC") ? "ASC" : "DESC";
 
+        Response.Redirect(GenerateQueryString(page, newPageSize, "VendorName", sort));
+    }
+
+    protected override void updatePageSize(int numResults)
+    {
+        ddlPageSize.Text = numResults.ToString(); // update page dropdown
+    }
+
+    protected override void setPageIndex(int pageIndex)
+    {
+        // Don't allow setting for admin pages (arbitrary; just how the code was written)
+    }
+
+    protected override void setPageSize(int pageSize)
+    {
+        // Don't allow setting for admin pages (arbitrary; just how the code was written)
+    }
+
+    protected override int getPageIndex()
+    {
+        return Utils.GetIntFromQueryString(Request.QueryString["page"]);
+    }
+
+    protected override string getPageCategory()
+    {
+        return "Vendors";
+    }
+
+    private PagingControls mPageController = null;
 }

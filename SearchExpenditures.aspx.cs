@@ -7,9 +7,14 @@ using OpenBookPgh;
 using System.Data;
 using System.Data.SqlClient;
 
-public partial class SearchExpendituresPage : System.Web.UI.Page
+public partial class SearchExpendituresPage : PaginatedPage
 {
     public SearchParamsExpenditures sp;
+
+    public SearchExpendituresPage()
+    {
+        mPageController = new PagingControls(this);
+    }
 
     protected void btnSearch_Click(object sender, EventArgs e)
 	{
@@ -120,7 +125,7 @@ public partial class SearchExpendituresPage : System.Web.UI.Page
         }
 
         //Determine the Results Per Page from user
-        SetPageSize();
+        SetResultsPerPage();
 
         // Update Pager Results
         GetResultsCount(sp);
@@ -136,7 +141,7 @@ public partial class SearchExpendituresPage : System.Web.UI.Page
         }
     }
 
-    public void SetPageSize()
+    public void SetResultsPerPage()
     {
         int numResults = Convert.ToInt32(ddlPageSize.Text);
         if (numResults == 10 || numResults == 25 || numResults == 50 || numResults == 100)
@@ -150,99 +155,13 @@ public partial class SearchExpendituresPage : System.Web.UI.Page
         // Get total rows
         int totalRows = SearchExpenditures.GetExpendituresCount(sp);
 
-        // Update PageCount for pager, using adjustment if necessary
-        int addPage = 1;
-        if ((totalRows % PageSize) == 0)
-        {
-            addPage = 0;
-        }
-        PageCount = (totalRows / PageSize) + addPage;
+        mPageController.setPageCount(totalRows);
+
+        lblCurrentPage.Text = mPageController.getPagingBanner();
+
         // Disable buttons if necessary
-        if ((PageIndex == 0))
-        {
-            ibtnFirstPageTop.Enabled = !(PageIndex == 0);
-            ibtnFirstPageTop.CssClass = "button prev";
-            ibtnPrevPageTop.Enabled = !(PageIndex == 0);
-            ibtnPrevPageTop.CssClass = "button prev";
-        }
-
-        if ((PageIndex >= PageCount - 1))
-        {
-            ibtnNextPageTop.Enabled = !(PageIndex >= PageCount - 1);
-            ibtnNextPageTop.CssClass = "button prev";
-            ibtnLastPageTop.Enabled = !(PageIndex >= PageCount - 1);
-            ibtnLastPageTop.CssClass = "button prev";
-        }
-       
-
-        // Calculate Results & Update Pager
-        int startResults = (PageIndex * PageSize) + addPage;
-        // If the count is evenly divisible and we're on the first page, make sure we start at 1!
-        if ((0 == startResults) && (totalRows > 0))
-        {
-            startResults = 1;
-        }
-        int endResults = (PageIndex * PageSize) + PageSize;
-
-        if (endResults > totalRows)
-        {
-            endResults = totalRows;
-        }
-        if (startResults != 0)
-        {
-            lblCurrentPage.Text = "Results: " + startResults.ToString() + " - " + endResults.ToString() + " of " + totalRows.ToString();
-        }
-        else
-        {
-            lblCurrentPage.Text = "We couldn't find any expenditures that matched your criteria.";
-        }
-    }
-
-    //Pager Constants
-    public int PageIndex
-    {
-        get
-        {
-            object o = ViewState["_PageIndex"];
-            if (o == null)
-                return 0; // default page index of 0
-            else
-                return (int)o;
-        }
-        set
-        {
-            ViewState["_PageIndex"] = value;
-        }
-    }
-    public int PageSize
-    {
-        get
-        {
-            object o = ViewState["_PageSize"];
-            if (o == null)
-                return 10; // default 10 rows
-            else
-                return (int)o;
-        }
-        set
-        {
-            ViewState["_PageSize"] = value;
-        }
-    }
-    public int PageCount
-    {
-        get
-        {
-            object o = ViewState["_PageCount"];
-            if (o == null)
-                return 0; // default no pages found
-            else
-                return (int)o;
-        }
-        set
-        {
-            ViewState["_PageCount"] = value;
-        }
+        ibtnFirstPageTop.Enabled = ibtnPrevPageTop.Enabled = PageIndex > 0;
+        ibtnNextPageTop.Enabled = ibtnLastPageTop.Enabled = PageIndex < PageCount - 1;
     }
 
     // Pager Controls
@@ -343,4 +262,16 @@ public partial class SearchExpendituresPage : System.Web.UI.Page
 
         GetSearchResults();
     }
+
+    protected override void updatePageSize(int numResults)
+    {
+        ddlPageSize.Text = numResults.ToString(); // update page dropdown
+    }
+
+    protected override string getPageCategory()
+    {
+        return "Expenditures";
+    }
+
+    private PagingControls mPageController = null;
 }

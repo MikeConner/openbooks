@@ -9,7 +9,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 using OpenBookPgh;
 
-public partial class Admin_Contributions : System.Web.UI.Page
+public partial class Admin_Contributions : PaginatedPage
 {
 	protected void Page_Load(object sender, EventArgs e)
 	{
@@ -21,6 +21,7 @@ public partial class Admin_Contributions : System.Web.UI.Page
                 {
                     Session.Add("PreviousPage", Request.UrlReferrer.AbsoluteUri);
                 }
+                mPageController = new PagingControls(this);
 
                 GetSearchResults();
             }
@@ -83,72 +84,13 @@ public partial class Admin_Contributions : System.Web.UI.Page
 		// Get total rows
         int totalRows = SearchContributions.GetContributionsCount(sp, cbApproved.Checked);
 
-		// Update PageCount for pager, using adjustment if necessary
-		int addPage = 1;
-		if ((totalRows % PageSize) == 0)
-		{
-			addPage = 0;
-		}
-		PageCount = (totalRows / PageSize) + addPage;
+        mPageController.setPageCount(totalRows);
+
+        lblCurrentPage.Text = mPageController.getPagingBanner();
 
 		// Disable buttons if necessary
-		ibtnFirstPageTop.Enabled = !(PageIndex == 0);
-		ibtnPrevPageTop.Enabled = !(PageIndex == 0);
-		ibtnNextPageTop.Enabled = !(PageIndex >= PageCount - 1);
-		ibtnLastPageTop.Enabled = !(PageIndex >= PageCount - 1);
-
-		// Calculate Results & Update Pager
-		int startResults = (PageIndex * PageSize) + addPage;
-        // If the count is evenly divisible and we're on the first page, make sure we start at 1!
-        if ((0 == startResults) && (totalRows > 0))
-        {
-            startResults = 1;
-        }
-		int endResults = (PageIndex * PageSize) + PageSize;
-
-		if (endResults > totalRows)
-		{
-			endResults = totalRows;
-		}
-		if (startResults != 0)
-		{
-			lblCurrentPage.Text = "Results: " + startResults.ToString() + " - " + endResults.ToString() + " of " + totalRows.ToString();
-		}
-		else
-		{
-			lblCurrentPage.Text = "We couldn't find any contributions that matched your criteria.";
-		}
-	}
-
- 	//Pager Constants
-	public int PageIndex { get { return Utils.GetIntFromQueryString(Request.QueryString["page"]); } }
-	public int PageSize
-	{
-		get
-		{
-			int numResults = Utils.GetIntFromQueryString(Request.QueryString["num"]);
-			if (numResults == 0)
-			{
-				numResults = 10;
-			}
-            ddlPageSize.Text = numResults.ToString(); // update page dropdown
-            return numResults;
-		}
-	}
-	public int PageCount
-	{
-		get
-		{
-			object o = ViewState["_PageCount"];
-			if (o == null)
-				return 0; // default no pages found
-			else
-				return (int)o;
-		}
-		set
-		{
-			ViewState["_PageCount"] = value;
-		}
+		ibtnFirstPageTop.Enabled = ibtnPrevPageTop.Enabled = PageIndex > 0;
+		ibtnNextPageTop.Enabled = ibtnLastPageTop.Enabled = PageIndex < PageCount - 1;
 	}
 
 	// Query determination
@@ -350,4 +292,31 @@ public partial class Admin_Contributions : System.Web.UI.Page
 
         Response.Redirect(GenerateQueryString(PageIndex, SortExpression, SortDirection, numResults, cbApproved.Checked));
     }
+
+    protected override void updatePageSize(int numResults)
+    {
+        ddlPageSize.Text = numResults.ToString(); // update page dropdown
+    }
+
+    protected override void setPageIndex(int pageIndex)
+    {
+        // Don't allow setting for admin pages (arbitrary; just how the code was written)
+    }
+
+    protected override void setPageSize(int pageSize)
+    {
+        // Don't allow setting for admin pages (arbitrary; just how the code was written)
+    }
+
+    protected override int getPageIndex()
+    {
+        return Utils.GetIntFromQueryString(Request.QueryString["page"]);
+    }
+
+    protected override string getPageCategory()
+    {
+        return "Contributions";
+    }
+
+    private PagingControls mPageController = null;
 }

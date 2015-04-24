@@ -12,7 +12,20 @@
 </div>
 </div>
 <div class="results">
-<asp:Label ID="lblCurrentPage" runat="server" Text="Label" />
+		<div class="resultsleft">
+			<asp:Label ID="lblPageSize" runat="server" Text="View:" />
+			<asp:DropDownList ID="ddlPageSize" runat="server"  
+				OnSelectedIndexChanged="ddlSelection_Changed"
+				AutoPostBack="true">
+					<asp:ListItem Text="10 per page" Value="10" />
+					<asp:ListItem Text="25 per page" Value="25" />
+					<asp:ListItem Text="50 per page" Value="50"  />
+					<asp:ListItem Text="100 per page" Value="100" />
+			</asp:DropDownList>
+		</div>
+		<div class="resultsright">
+			<asp:Label ID="lblCurrentPage" runat="server" />
+		</div>
 </div>
 <div class="dropboxadmin">
 	<asp:DropDownList ID="ddlVendors" runat="server" 
