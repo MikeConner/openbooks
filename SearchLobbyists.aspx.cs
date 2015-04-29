@@ -240,6 +240,9 @@ public partial class SearchLobbyistsPage : PaginatedPage
     {
         SortExpression = ddlSortLobbyists.SelectedValue;
 
+        SortDirection = ("DateEntered" == SortExpression) ? DESCENDING : ASCENDING;
+        imgSortDirection.ImageUrl = (DESCENDING == SortDirection) ? IMGDESC : IMGASC;
+
         GetSearchResults();
     }
 

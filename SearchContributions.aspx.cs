@@ -273,6 +273,9 @@ public partial class SearchContributionsPage : PaginatedPage
     {
         SortExpression = ddlSortContributions.SelectedValue;
 
+        SortDirection = (("Amount" == SortExpression) || ("DateContribution" == SortExpression)) ? DESCENDING : ASCENDING;
+        imgSortDirection.ImageUrl = (DESCENDING == SortDirection) ? IMGDESC : IMGASC;
+
         GetSearchResults();
     }
 

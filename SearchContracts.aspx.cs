@@ -293,6 +293,9 @@ public partial class SearchContractsPage : PaginatedPage
     {
         SortExpression = ddlSortContracts.SelectedValue;
 
+        SortDirection = (("amount" == SortExpression) || ("DateCountersigned" == SortExpression)) ? DESCENDING : ASCENDING;
+        imgSortDirection.ImageUrl = (DESCENDING == SortDirection) ? IMGDESC : IMGASC;
+
         // Reload Search
         GetSearchResults();
     }

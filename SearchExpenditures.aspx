@@ -101,7 +101,7 @@
                     <asp:DropDownList ID="ddlSortExpenditures" CssClass="sort-dropdown" runat="server"
                         OnSelectedIndexChanged="ddlSortExpenditures_SelectedIndexChanged"
                         AutoPostBack="true">
-                        <asp:ListItem Text="Candidate" Value="CandidateID" />
+                        <asp:ListItem Text="Candidate" Value="CandidateName" />
                         <asp:ListItem Text="Office" Value="Office" />
                         <asp:ListItem Text="Company/Individual" Value="CompanyName" />
                         <asp:ListItem Text="Amount" Value="Amount" />

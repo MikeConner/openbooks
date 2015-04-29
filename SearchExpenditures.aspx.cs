@@ -260,6 +260,9 @@ public partial class SearchExpendituresPage : PaginatedPage
     {
         SortExpression = ddlSortExpenditures.SelectedValue;
 
+        SortDirection = (("Amount" == SortExpression) || ("DatePaid" == SortExpression)) ? DESCENDING : ASCENDING;
+        imgSortDirection.ImageUrl = (DESCENDING == SortDirection) ? IMGDESC : IMGASC;
+
         GetSearchResults();
     }
 
