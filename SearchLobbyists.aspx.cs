@@ -35,9 +35,8 @@ public partial class SearchLobbyistsPage : PaginatedPage
         }
         // If both are empty, do nothing
 
-
         string url = SearchLobbyists.GenerateQueryString(0, lobbyistKeywords, employerKeywords);
-        Response.Redirect(url + "&click=1");
+        Response.Redirect(url + "&page=0&cat=LobbyistName&sort=ASC&num=10&click=1");
     }
 
     protected void Page_Load(object sender, EventArgs e)
@@ -49,6 +48,7 @@ public partial class SearchLobbyistsPage : PaginatedPage
             GetSearchResults("1" == Request.QueryString["click"]);
             txtLobbyist.Text = sp.lobbyistKeywords;
             txtEmployer.Text = sp.companyKeywords;
+            ddlSortLobbyists.SelectedValue = Request.QueryString["cat"];
         }
     }
     // Page Load
@@ -202,12 +202,14 @@ public partial class SearchLobbyistsPage : PaginatedPage
     private const string IMGDESC = "~/img/downarrow.gif";
     private const string IMGASC = "~/img/uparrow.gif";
     private const string IMGNOSORT = "~/img/placeholder.gif";
+
     // Sorting Controls
     public void initializeSorting()
     {
-        imgSortDirection.ImageUrl = IMGASC;
-        SortDirection = ASCENDING;
-        SortExpression = ddlSortLobbyists.SelectedValue;
+        SortExpression = Request.QueryString["cat"];
+        SortDirection = Request.QueryString["sort"];
+
+        imgSortDirection.ImageUrl = (ASCENDING == SortDirection) ? IMGASC : IMGDESC;
     }
 
     public void toggleSortDirection(object sender, ImageClickEventArgs e)
@@ -224,7 +226,7 @@ public partial class SearchLobbyistsPage : PaginatedPage
         }
 
         // Reload Search
-        GetSearchResults();
+        Response.Redirect(GenerateQueryString(0, SortExpression, SortDirection, PageSize) + "&click=1");
     }
 
 
@@ -236,14 +238,13 @@ public partial class SearchLobbyistsPage : PaginatedPage
 
         Response.Redirect(GenerateQueryString(page, SortExpression, SortDirection, numResults) + "&click=1");
     }
+
     protected void ddlSortLobbyists_SelectedIndexChanged(object sender, EventArgs e)
     {
         SortExpression = ddlSortLobbyists.SelectedValue;
-
         SortDirection = ("DateEntered" == SortExpression) ? DESCENDING : ASCENDING;
-        imgSortDirection.ImageUrl = (DESCENDING == SortDirection) ? IMGDESC : IMGASC;
 
-        GetSearchResults();
+        Response.Redirect(GenerateQueryString(0, SortExpression, SortDirection, PageSize) + "&click=1");
     }
 
     protected override void updatePageSize(int numResults)

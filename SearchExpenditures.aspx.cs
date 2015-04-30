@@ -243,6 +243,8 @@ public partial class SearchExpendituresPage : PaginatedPage
             imgSortDirection.ImageUrl = IMGASC;
         }
 
+        PageIndex = 0;
+
         // Reload Search
         GetSearchResults();
     }
@@ -262,6 +264,8 @@ public partial class SearchExpendituresPage : PaginatedPage
 
         SortDirection = (("Amount" == SortExpression) || ("DatePaid" == SortExpression)) ? DESCENDING : ASCENDING;
         imgSortDirection.ImageUrl = (DESCENDING == SortDirection) ? IMGDESC : IMGASC;
+
+        PageIndex = 0;
 
         GetSearchResults();
     }

@@ -255,6 +255,8 @@ public partial class SearchContributionsPage : PaginatedPage
             imgSortDirection.ImageUrl = IMGASC;
         }
 
+        PageIndex = 0;
+
         // Reload Search
         GetSearchResults();
     }
@@ -275,6 +277,8 @@ public partial class SearchContributionsPage : PaginatedPage
 
         SortDirection = (("Amount" == SortExpression) || ("DateContribution" == SortExpression)) ? DESCENDING : ASCENDING;
         imgSortDirection.ImageUrl = (DESCENDING == SortDirection) ? IMGDESC : IMGASC;
+
+        PageIndex = 0;
 
         GetSearchResults();
     }
