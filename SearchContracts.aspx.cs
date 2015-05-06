@@ -314,11 +314,11 @@ public partial class SearchContractsPage : PaginatedPage
         }
         else if (e.CommandName == "ViewCheck")
         {
-            OpenNewWindow("http://onbaseapp.city.pittsburgh.pa.us/c_PublicAccess/Checks.aspx?OBKey__138_1=" + contractID);
+            OpenNewWindow("http://onbaseapp.city.pittsburgh.pa.us/PublicAccess/Checks.aspx?OBKey__138_1=" + contractID);
         }
         else if (e.CommandName == "ViewInvoice")
         {
-            OpenNewWindow("http://onbaseapp.city.pittsburgh.pa.us/i_PublicAccess/Invoices.aspx?OBKey__138_1=" + contractID);
+            OpenNewWindow("http://onbaseapp.city.pittsburgh.pa.us/PublicAccess/Invoices.aspx?OBKey__138_1=" + contractID);
         }
     }
 

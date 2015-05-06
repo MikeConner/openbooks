@@ -10,7 +10,7 @@
                     <div class="large-12 columns">
                         <div class="openbook">
                             <h3>About Open Book Pittsburgh</h3>
-                            <p>Open Book Pittsburgh, is a searchable database of Pittsburgh city government contracts, administered by Pittsburgh’s Office of the City Controller. Open Book Pittsburgh gives Pittsburgh taxpayers access as to how City leaders are spending your tax dollars.</p>
+                            <p>Open Book Pittsburgh, is a searchable database of Pittsburgh city government contracts, administered by Pittsburgh’s Office of the City Controller. Open Book Pittsburgh gives Pittsburgh taxpayers access as to how City leaders are spending your tax dollars. OpenBook is in real-time and updated daily.</p>
                             <p>In addition to city government contracts, Open Book Pittsburgh also gives taxpayers a look as to where elected officials and candidates for elected offices in the City of Pittsburgh receive campaign contributions, and how candidates spend those funds.</p>
                         </div>
                         <hr>
