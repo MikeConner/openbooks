@@ -11,6 +11,19 @@ using System.Data.SqlClient;
 //We should also ask about diffs vs. doing the full set.  Ideal is full set and we get everything to a temp table and they deal with deltas.
 //What to do about removed documents (if we do all set, we don't have to worry about it here) (same w/ modified)
 
+    //Oracle -> version 9-12
+    //user for this process -> 
+    //columns? 
+
+    //oracle to oracle (westmoreland)
+    //washington
+    //allegeheny - own it
+    //carbon does not
+    //doc IDs unique - no grouping!!!! WOOOOO!!
+    //link to physical document
+    //link to each document/
+    //doc pop documentation!!
+
 // Also ask about PDf viewer as default
 // also ask if we are providing link (Url ) field  - that will be a parameter
 // ask about column headings
@@ -136,8 +149,7 @@ namespace OnBasePMS
                 " where " + ConfigurationManager.AppSettings.Get("ONBitemnumField") + " = i." +
                 ConfigurationManager.AppSettings.Get("ONBitemnumField") + ") as date_filed" +
 
-                ", i." + ConfigurationManager.AppSettings.Get("ONBitemnumField") + " as docid," +
-                " i.* ";
+                ", i." + ConfigurationManager.AppSettings.Get("ONBitemnumField") + " as docid, ";
 
             SQLFrom =  " FROM " + ConfigurationManager.AppSettings.Get("ONBhsiItemDataTable")   + "  i " + 
                 "LEFT JOIN " + ConfigurationManager.AppSettings.Get("ONBDocketNumberTable") + " " +
