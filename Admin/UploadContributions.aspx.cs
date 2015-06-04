@@ -59,13 +59,8 @@ public partial class Admin_UploadContributionsPage : System.Web.UI.Page
         // control contains a file.
         if (FileUpload1.HasFile)
         {
-            // Append the name of the file to upload to the path.
-            //savePath += FileUpload1.FileName;
-
-            // Server.MapPath(savePath)
             string fullPath = Path.GetTempFileName().Replace(".tmp", ".csv");
             FileUpload1.PostedFile.SaveAs(fullPath);
-            //FileUpload1.SaveAs(savePath);
 
             // Notify the user that the file was uploaded successfully.
             UploadStatusLabel.Text = "Your file was uploaded successfully. Processing...";

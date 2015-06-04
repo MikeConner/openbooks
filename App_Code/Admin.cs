@@ -4,10 +4,10 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Net;
 using System.ComponentModel;
-using System.Data;
 using System.IO;
 using System.Collections.Generic;
 using System.Net.Mail;
+using System.Globalization;
 
 namespace OpenBookPgh
 {
@@ -23,56 +23,56 @@ namespace OpenBookPgh
         public static List<string> UploadContributions(string filename, string username, int candidateID, string office)
         {
             List<string> errors = new List<string>();
-            string[] lines = System.IO.File.ReadAllLines(filename);
-            for (int idx = 1; idx < lines.Length; idx++)
-            {
-                int row = idx + 1;
 
+            DataTable table = CSVParser.ParseCSV(filename);
+            int idx = -1;
+
+            foreach (DataRow row in table.Rows)
+            {
+                if (-1 == idx)
+                {
+                    // Skip header
+                    idx++;
+                    continue;
+                }
+                idx++;
                 // There are validation rules we don't want to duplicate, so call existing Admin function to add the contribution, as if they're being entered one by one
                 // Need to convert Candidate and Contribution Type to integers, amount to a decimal, and date to a datetime
-                string[] fields = lines[idx].Split(',');
-                if (11 == fields.Length)
+                // Conversions
+                int contributionTypeID;
+                decimal amount;
+                DateTime contributionDate;
+
+                if (mContributionType.TryGetValue(row[2].ToString(), out contributionTypeID))
                 {
-                    // Conversions
-                    int contributionTypeID;
-                    decimal amount;
-                    DateTime contributionDate;
-
-                    if (mContributionType.TryGetValue(fields[2], out contributionTypeID))
+                    if (Decimal.TryParse(row[8].ToString(), NumberStyles.Currency, CultureInfo.CurrentCulture, out amount))
                     {
-                        if (Decimal.TryParse(fields[8], out amount))
+                        if (DateTime.TryParse(row[9].ToString(), out contributionDate))
                         {
-                            if (DateTime.TryParse(fields[9], out contributionDate))
-                            {
-                                int result = AddContribution(candidateID, office, fields[0], fields[1], contributionTypeID, fields[10], fields[3], fields[4], fields[5],
-                                                             fields[6], fields[7], amount, username, contributionDate);
+                            int result = AddContribution(candidateID, office, row[0].ToString(), row[1].ToString(), contributionTypeID, 
+                                                         row[10].ToString(), row[3].ToString(), row[4].ToString(), row[5].ToString(),
+                                                         row[6].ToString(), row[7].ToString(), amount, username, contributionDate);
 
-                                if (result != 0)
-                                {
-                                    errors.Add("Error in row " + row + ". Error Code: [" + result + "] " + lines[idx]);
-                                }
-                            }
-                            else
+                            if (result != 0)
                             {
-                                errors.Add(row + ": " + fields[9] + " is not a valid date.");
+                                errors.Add("Error in row " + idx + ". Error Code: [" + result + "]");
                             }
                         }
                         else
                         {
-                            errors.Add(row + ": " + fields[8] + " is not a valid dollar amount.");
+                            errors.Add(row + ": " + row[9].ToString() + " is not a valid date.");
                         }
                     }
                     else
                     {
-                        errors.Add(row + ": " + fields[2] + " is not a recognized contribution type.");
+                        errors.Add(row + ": " + row[8].ToString() + " is not a valid dollar amount.");
                     }
                 }
                 else
                 {
-                    errors.Add(row + " malformed");
+                    errors.Add(row + ": " + row[2].ToString() + " is not a recognized contribution type.");
                 }
             }
-
 
             return errors;
         }
@@ -80,45 +80,42 @@ namespace OpenBookPgh
         public static List<string> UploadExpenditures(string filename, string username, int candidateID, string office)
         {
             List<string> errors = new List<string>();
-            string[] lines = System.IO.File.ReadAllLines(filename);
-            for (int idx = 1; idx < lines.Length; idx++)
+            DataTable table = CSVParser.ParseCSV(filename);
+            int idx = -1;
+
+            foreach (DataRow row in table.Rows)
             {
-                int row = idx + 1;
-
-                // There are validation rules we don't want to duplicate, so call existing Admin function to add the contribution, as if they're being entered one by one
-                // Need to convert Candidate and Contribution Type to integers, amount to a decimal, and date to a datetime
-                string[] fields = lines[idx].Split(',');
-                if (8 == fields.Length)
+                if (-1 == idx)
                 {
-                    // Conversions
-                    decimal amount;
-                    DateTime expenditureDate;
+                    // Skip header
+                    idx++;
+                    continue;
+                }
+                idx++;
+                // Conversions
+                decimal amount;
+                DateTime expenditureDate;
 
-                    if (Decimal.TryParse(fields[5], out amount))
+                if (Decimal.TryParse(row[6].ToString(), NumberStyles.Currency, CultureInfo.CurrentCulture, out amount))
+                {
+                    if (DateTime.TryParse(row[7].ToString(), out expenditureDate))
                     {
-                        if (DateTime.TryParse(fields[6], out expenditureDate))
-                        {
-                            int result = AddExpenditure(candidateID, office, fields[0], fields[1], fields[2], fields[3], fields[4], fields[7],
-                                                        amount, username, expenditureDate);
+                        int result = AddExpenditure(candidateID, office, row[0].ToString(), row[1].ToString(), row[2].ToString(), row[3].ToString(), row[4].ToString(), row[5].ToString(), row[8].ToString(),
+                                                    amount, username, expenditureDate);
 
-                            if (result != 0)
-                            {
-                                errors.Add("Error in row " + row + ". Error Code: [" + result + "] " + lines[idx]);
-                            }
-                        }
-                        else
+                        if (result != 0)
                         {
-                            errors.Add(row + ": " + fields[6] + " is not a valid date.");
+                            errors.Add("Error in row " + idx + ". Error Code: [" + result + "] ");
                         }
                     }
                     else
                     {
-                        errors.Add(row + ": " + fields[5] + " is not a valid dollar amount.");
+                        errors.Add(row + ": " + row[6].ToString() + " is not a valid date.");
                     }
                 }
                 else
                 {
-                    errors.Add(row + " malformed");
+                    errors.Add(row + ": " + row[5].ToString() + " is not a valid dollar amount.");
                 }
             }
 
@@ -163,6 +160,7 @@ namespace OpenBookPgh
                             catch (Exception ex)
                             {
                                 // Ignore duplicates
+                                Console.WriteLine(ex.Message);
                             }
                         }
                     }
@@ -219,6 +217,7 @@ namespace OpenBookPgh
                             catch (Exception ex)
                             {
                                 // Ignore duplicates
+                                Console.WriteLine(ex.Message);
                             }
                         }
                     }
@@ -275,6 +274,7 @@ namespace OpenBookPgh
                             catch (Exception ex)
                             {
                                 // Ignore duplicates
+                                Console.WriteLine(ex.Message);
                             }
                         }
                     }
@@ -380,7 +380,7 @@ namespace OpenBookPgh
         }
 
         public static int AddExpenditure(int candidateID, string office, string company,
-                                string address, string city, string state, string zip, string description,
+                                string address, string address2, string city, string state, string zip, string description,
                                 decimal amount, string createdBy, DateTime? dateExpenditure)
         {
             using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
@@ -393,6 +393,7 @@ namespace OpenBookPgh
                     cmd.Parameters.Add("@Office", SqlDbType.NVarChar, 50).Value = office;
                     cmd.Parameters.Add("@CompanyName", SqlDbType.NVarChar, 100).Value = company;
                     cmd.Parameters.Add("@Address", SqlDbType.NVarChar, 100).Value = address;
+                    cmd.Parameters.Add("@Address2", SqlDbType.NVarChar, 100).Value = address2;
                     cmd.Parameters.Add("@City", SqlDbType.NVarChar, 50).Value = city;
                     cmd.Parameters.Add("@State", SqlDbType.NVarChar, 4).Value = state;
                     cmd.Parameters.Add("@Zip", SqlDbType.NVarChar, 15).Value = zip;

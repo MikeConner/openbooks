@@ -1,12 +1,13 @@
 USE [CityController]
 GO
 
-/****** Object:  StoredProcedure [dbo].[AddExpenditure]    Script Date: 10/21/2014 12:26:08 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddExpenditure]    Script Date: 6/3/2015 10:10:23 PM ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
+
 
 
 
@@ -23,6 +24,7 @@ ALTER PROCEDURE [dbo].[AddExpenditure]
 	@Office NVARCHAR(50), 
 	@CompanyName NVARCHAR(100),
 	@Address NVARCHAR(100), 
+	@Address2 NVARCHAR(100),
 	@City NVARCHAR(50), 
 	@State NVARCHAR(4), 
 	@Zip NVARCHAR(15), 
@@ -47,14 +49,15 @@ BEGIN
 	ELSE
 		INSERT INTO expenditures
 		(
-			CandidateID, Office, CompanyName, Address1, City, State, Zip, Description, Amount, DatePaid, DateEntered, CreatedBy	
+			CandidateID, Office, CompanyName, Address1, Address2, City, State, Zip, Description, Amount, DatePaid, DateEntered, CreatedBy	
 		)
 		VALUES 
 		(
-			@CandidateID, @Office, @CompanyName, @Address, @City, @State, @Zip, @Description, @Amount, @DatePaid, getdate(), @CreatedBy
+			@CandidateID, @Office, @CompanyName, @Address, @Address2, @City, @State, @Zip, @Description, @Amount, @DatePaid, getdate(), @CreatedBy
 		)
 
 END
+
 
 GO
 

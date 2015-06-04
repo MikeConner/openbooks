@@ -52,6 +52,7 @@ public partial class Admin_AddExpenditure : System.Web.UI.Page
 		string office = ddlOffice.SelectedValue;
 		string company = txtCompany.Text;
 		string address = txtAddress1.Text;
+        string address2 = txtAddress2.Text;
 		string city = txtCity.Text;
 		string state = ddlState.SelectedValue;
 		string zip = txtZip.Text;
@@ -69,7 +70,7 @@ public partial class Admin_AddExpenditure : System.Web.UI.Page
 		}
 
 
-        int result = Admin.AddExpenditure(candidateID, office, company, address, city, state, zip, description, amount, User.Identity.Name, dateExpenditure);
+        int result = Admin.AddExpenditure(candidateID, office, company, address, address2, city, state, zip, description, amount, User.Identity.Name, dateExpenditure);
 		if (result != 0)
 		{
 			lblMessage.Text = "There were problems adding this expenditure. Error Code: [" + result + "]";
@@ -88,6 +89,7 @@ public partial class Admin_AddExpenditure : System.Web.UI.Page
 		string office = ddlOffice.SelectedValue;
 		string company = txtCompany.Text;
 		string address = txtAddress1.Text;
+        string address2 = txtAddress2.Text;
 		string city = txtCity.Text;
 		string state = ddlState.SelectedValue;
 		string zip = txtZip.Text;
@@ -105,7 +107,7 @@ public partial class Admin_AddExpenditure : System.Web.UI.Page
 		}
 
 		//int result = 0;
-        int result = Admin.AddExpenditure(candidateID, office, company, address, city, state, zip, description, amount, User.Identity.Name, dateExpenditure);
+        int result = Admin.AddExpenditure(candidateID, office, company, address, address2, city, state, zip, description, amount, User.Identity.Name, dateExpenditure);
 		if (result != 0)
 		{
 			lblMessage.Text = "There were problems adding this expenditure. Error Code: [" + result + "]";

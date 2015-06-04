@@ -1,1 +1,2 @@
-Name,Address,City,State,Zip Code,Amount,Date,Description
+Name,Address,Address2,City,State,Zip Code,Amount,Date,Description
+John Doe,136 Maple St.,Apt. 3,Pittsburgh,PA,15212,$60,10/20/2013,Sample description

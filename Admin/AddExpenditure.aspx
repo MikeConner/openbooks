@@ -40,8 +40,12 @@
 			</td>
 		</tr>
 				<tr>
-			<td><label>Address</label></td>
+			<td><label>Street Address</label></td>
 			<td><asp:TextBox ID="txtAddress1" runat="server" Width="200" /></td>
+		</tr>		
+				<tr>
+			<td><label>Apt / Suite</label></td>
+			<td><asp:TextBox ID="txtAddress2" runat="server" Width="100" /></td>
 		</tr>		
 		<tr>
 			<td><label>City</label></td>
