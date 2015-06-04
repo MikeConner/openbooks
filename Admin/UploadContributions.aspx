@@ -73,7 +73,8 @@
             <li>Open in Excel and enter one contribution per row</li>
             <li>Choose values for fields that apply to the entire set of contributions (Candidate Name, Office)</li>
             <li>Enter values for all other fields, per the template. See below for valid column values</li>
-            <li>Use the file chooser and upload button above to upload your file to the server</li>
+            <li><strong>You must re-upload as a .csv file, not a native Excel file.</strong> In Excel, "Save As" and choose the "CSV (comma delimited)" format</li>
+            <li>Use the file chooser and upload button above to upload your .csv file to the server</li>
         </ul>
 
         <br />
