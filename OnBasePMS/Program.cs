@@ -1,10 +1,10 @@
 ﻿using System.Configuration;
 using System;
-using System.Data.SqlClient;
 using System.Collections.Specialized;
 using System.IO;
 using System.Data;
 using System.Globalization;
+using Oracle.ManagedDataAccess.Client;
 
 /// <summary>
 /// Periodically transfer data from an OnBase installation to a PMS installation (attorney general database).
@@ -47,7 +47,7 @@ namespace OnBasePMS
 
     class Program
     {
-        // if args are empty, try to do both sides of the ETL
+        // if args are empty, try to do both sides of the ETLprovider
         // if args has value 'OnbaseOnly' - only perform onbase portion
         // if args has value 'PMSonly' - only do the data insert
         // if args has value 'help' - show the previous options
@@ -91,19 +91,29 @@ namespace OnBasePMS
                 {
                     try
                     {
+                        Logger.Instance.SetLogFile(mSettings.Get("LogFile"));
+
                         if (readFromOnbase)
                         {
-                            DatabaseEnum dbType = (DatabaseEnum)Enum.Parse(typeof(DatabaseEnum), mSettings.Get("PMSDBtype"), true);
-                            OnBaseReader reader = new OnBaseReader(dbType);
+                            // Default to SQLServer (in case missing); parse and override if given
+                            DatabaseEnum readDBType = DatabaseEnum.SQLServer;
+                            DatabaseEnum writeDBType = DatabaseEnum.SQLServer;
+
+                            Enum.TryParse<DatabaseEnum>(mSettings.Get("OnBaseDBtype"), true, out readDBType);
+                            Enum.TryParse<DatabaseEnum>(mSettings.Get("PMSDBtype"), true, out writeDBType);
+
+                            OnBaseReader reader = new OnBaseReader(readDBType, writeDBType);
 
                             reader.DownloadTo(SQLFilename);
                         }
 
                         if (writeToPMS)
                         {
+                            DatabaseEnum dbType = DatabaseEnum.SQLServer;
+                            Enum.TryParse<DatabaseEnum>(mSettings.Get("PMSDBtype"), true, out dbType);
                             string batchSize = mSettings.Get("PMSBatchSize");
 
-                            PMSWriter writer = null == batchSize ? new PMSWriter(DEFAULT_BATCH_SIZE) : new PMSWriter(Int32.Parse(batchSize));
+                            PMSWriter writer = null == batchSize ? new PMSWriter(dbType, DEFAULT_BATCH_SIZE) : new PMSWriter(dbType, Int32.Parse(batchSize));
 
                             writer.UploadFrom(SQLFilename);
                         }
@@ -111,6 +121,7 @@ namespace OnBasePMS
                     catch (Exception ex)
                     {
                         Console.WriteLine(ex.ToString());
+                        Logger.Instance.LogToFile(ex.ToString());
                     }
                 }
             }
@@ -122,206 +133,225 @@ namespace OnBasePMS
 
         class OnBaseReader
         {
-            public OnBaseReader(DatabaseEnum dbType)
+            public OnBaseReader(DatabaseEnum dbReadType, DatabaseEnum dbWriteType)
             {
-                mDbType = dbType;
-            }
-
-            public string OnBaseConnectionString
-            {
-                get
-                {
-                    return "User ID=" + mSettings.Get("onbaseDBuser") + ";Password=" + mSettings.Get("onbaseDBpassword") + ";Initial Catalog=" + mSettings.Get("onbaseDBname") + ";Data Source=" + mSettings.Get("onbaseDBserver");
-                }
-            }
-
-            public string OnBaseFetch
-            {
-                get
-                {
-                    string SQLselect = "";
-                    string SQLFrom = "";
-                    string SQLWhere = "";
-
-                    SQLselect = "SELECT " + mSettings.Get("ONBdocketNumberOwner") + "." +
-                        mSettings.Get("ONBdocketNumberField")
-                        + " AS 'docketNum', " +
-
-                        "(select " + mSettings.Get("ONBitemtypenameField") +
-                        " from " + mSettings.Get("ONBitemTypeTable") + "  where " +
-                        mSettings.Get("ONBitemtypenumField") + " = i." +
-                        mSettings.Get("ONBitemtypenumField") + ") as doc_type, " +
-
-                        "(select " + mSettings.Get("ONBkeyvaluedateField") +
-                        " from " + mSettings.Get("ONBkeyValueDatefieldTable") +
-                        " where " + mSettings.Get("ONBitemnumField") + " = i." +
-                        mSettings.Get("ONBitemnumField") + ") as date_filed" +
-
-                        ", i." + mSettings.Get("ONBitemnumField") + " as docid ";
-
-                    SQLFrom = " FROM " + mSettings.Get("ONBhsiItemDataTable") + "  i " +
-                        "LEFT JOIN " + mSettings.Get("ONBDocketNumberTable") + " " +
-                        mSettings.Get("ONBdocketNumberOwner") + " ON " +
-                        mSettings.Get("ONBdocketNumberOwner") +
-                        "." + mSettings.Get("ONBitemnumField") + " = i." +
-                        mSettings.Get("ONBitemnumField");
-
-
-                    SQLWhere = " WHERE " + mSettings.Get("ONBdocketNumberOwner") + "." +
-                        mSettings.Get("ONBitemnumField") + " IS NOT NULL ";
-
-                   return SQLselect + SQLFrom + SQLWhere;
-                }
+                mReadDBManager = DBManagerFactory.Instance.CreateDBManager(dbReadType);
+                mWriteDBManager = DBManagerFactory.Instance.CreateDBManager(dbWriteType);
             }
 
             // Write two files: a .sql file that can be run directly (e.g., from CLI), and a raw .txt file with just the values.
             // The raw file is basically a CSV, and can be read and used to update faster (e.g., batched), instead of one line at a time
             public void DownloadTo(string filename)
             {
+                Logger.Instance.LogToFile("Downloading to " + filename);
+
                 using (StreamWriter rawWriter = new StreamWriter(filename + RAW_FILE_EXTENSION), sqlWriter = new StreamWriter(filename + SQL_FILE_EXTENSION))
                 {
-                    using (SqlConnection conn = new SqlConnection(OnBaseConnectionString))
-                    {
-                        conn.Open();
+                    string strConn = mReadDBManager.GenerateConnectionString(mSettings.Get("onbaseDBuser"), mSettings.Get("onbaseDBpassword"), mSettings.Get("onbaseDBserver"), mSettings.Get("onbaseDBname"));
+                    Logger.Instance.LogToFile("Attempting connection to Onbase using: '" + strConn + "'");
 
-                        using (SqlCommand command = new SqlCommand(OnBaseFetch, conn))
+                    if (mReadDBManager.EstablishConnection(strConn))
+                    {
+                        try
                         {
-                            using (SqlDataReader reader = command.ExecuteReader())
+                            Logger.Instance.LogToFile("Opened database connection to OnBase");
+
+                            using (IDataReader reader = mReadDBManager.ExecuteQuery(mReadDBManager.OnBaseFetch(mSettings)))
                             {
+                                Logger.Instance.LogToFile("Fetched OnBase data; writing to file");
+                                int lines = 0;
                                 while (reader.Read())
-                                {   
-                                    // NOTE: The Nullables will return quotes around a valid string, or quoteless "null"                                
-                                    string values = reader.GetString(0).Trim() + "," +
-                                                    reader.GetStringOrNull(1) + "," +
-                                                    reader.GetShortDateOrNull(2) + "," +
-                                                    reader.GetInt32(3);
-                                    string sqlValues = "'" + reader.GetString(0).Trim() + "'," +
-                                                       reader.GetStringOrNull(1) + "," +
-                                                       reader.GetShortDateOrNull(2, mDbType) + "," +
-                                                       reader.GetInt32(3);
-                                    string stmt = "INSERT INTO " + mSettings.Get("PMSDestTable") + " (docket_num,doc_type,date_filed,docid)" +
-                                                  " VALUES (" + sqlValues + ");";
+                                {
+                                    string values = mWriteDBManager.GenerateRawInsertData(reader.GetString(0).Trim(), reader.GetStringOrNull(1), reader.GetShortDateOrNull(2), reader.GetInt32(3).ToString());
+                                    string stmt = mWriteDBManager.GenerateInsertStatement(mSettings.Get("PMSDestTable") , reader.GetString(0).Trim(), reader.GetStringOrNull(1), reader.GetShortDateOrNull(2, mWriteDBManager.GetDatabaseType()), reader.GetInt32(3).ToString());
 
                                     rawWriter.WriteLine(values);
                                     sqlWriter.WriteLine(stmt);
+                                    lines++;
                                 }
+
+                                Logger.Instance.LogToFile("Wrote " + lines + " lines to PMS upload files");
                             }
+                        }
+                        finally
+                        {
+                            mReadDBManager.CloseConnection();
                         }
                     }
                 }
             }
 
-            private DatabaseEnum mDbType = DatabaseEnum.SQLServer;
+            private DBManager mReadDBManager = null;
+            private DBManager mWriteDBManager = null;
         }
 
         class PMSWriter
         {
-            public PMSWriter(int batchSize = DEFAULT_BATCH_SIZE)
+            public PMSWriter(DatabaseEnum dbType, int batchSize = DEFAULT_BATCH_SIZE)
             {
+                mDbType = dbType;
                 mBatchSize = batchSize;
+                mDBManager = DBManagerFactory.Instance.CreateDBManager(dbType);
             }
 
             public virtual string PMSConnectionString
             {
                 get
                 {
-                    return "User ID=" + mSettings.Get("PMSDBuser") + ";Password=" + mSettings.Get("PMSDBpassword") + ";Initial Catalog=" + mSettings.Get("PMSDBname") + ";Data Source=" + mSettings.Get("PMSDBserver");
+                    string strConn = "User ID=" + mSettings.Get("PMSDBuser") + ";Password=" + mSettings.Get("PMSDBpassword") + ";Data Source=" + mSettings.Get("PMSDBserver");
+                    if (DatabaseEnum.SQLServer == mDbType)
+                    {
+                        strConn += ";Initial Catalog=" + mSettings.Get("PMSDBname");
+                    }
+
+                    return strConn;
                 }
             }
 
-            public virtual string PMSInsertCommand
-            {
-                get
-                {
-                    return "INSERT INTO " + mSettings.Get("PMSDestTable") + " VALUES(@docket_num,@doc_type,@date_filed,@docid)";
-                }
-            }
+            /* Prepared Statement (hard to make generic; defer until needd. Don't pre-optimize)
+
+                                    using (OracleCommand command = new OracleCommand(PMSInsertCommand, conn))
+                                    {
+                                        OracleParameter docketParam = new OracleParameter(":docket_num", OracleDbType.Varchar2, 30);  // VarChar OracleDbType / SqlDbType
+                                        OracleParameter doctypeParam = new OracleParameter(":doc_type", OracleDbType.Char, 66);
+                                        OracleParameter dateFiledParam = new OracleParameter(":date_filed", OracleDbType.TimeStamp, 8);// DateTime
+                                        OracleParameter docidParam = new OracleParameter(":docid", OracleDbType.Int32, 0);  // Int
+
+                                        command.Parameters.Add(docketParam);
+                                        command.Parameters.Add(doctypeParam);
+                                        command.Parameters.Add(dateFiledParam);
+                                        command.Parameters.Add(docidParam);
+
+                                        command.Prepare();
+
+                                        Logger.Instance.LogToFile("Preparations for batch insertion complete; batch size = " + mBatchSize);
+
+                                        using (StreamReader reader = new StreamReader(filename + RAW_FILE_EXTENSION))
+                                        {
+                                            string line;
+                                            //IDbTransaction dbtx = conn.BeginTransaction();
+
+                                            OracleTransaction tx = conn.BeginTransaction();
+
+                                            int cnt = mBatchSize;
+                                            command.Transaction = tx;
+
+                                            while ((line = reader.ReadLine()) != null)
+                                            {
+                                                string[] fields = line.Split(',');
+                                                if (4 == fields.Length)
+                                                {
+                                                    command.Parameters[0].Value = fields[0];
+                                                    command.Parameters[1].Value = "null" == fields[1] ? (object)DBNull.Value : fields[1];
+                                                    command.Parameters[2].Value = "null" == fields[2] ? (object)DBNull.Value : DateTime.ParseExact(fields[2].Replace("'", ""), "yyyyMMdd", CultureInfo.InvariantCulture);
+                                                    command.Parameters[3].Value = Int32.Parse(fields[3]);
+
+                                                    command.ExecuteNonQuery();
+                                                    cnt--;
+
+                                                    if (0 == cnt)
+                                                    {
+                                                        try
+                                                        {
+                                                            tx.Commit();
+                                                            Logger.Instance.LogToFile("Batch committed to PMS");
+                                                        }
+                                                        catch (Exception ex)
+                                                        {
+                                                            string message = "Write failed on index " + cnt + ". " + ex.ToString();
+
+                                                            Console.WriteLine(message);
+                                                            Logger.Instance.LogToFile(message);
+                                                            tx.Rollback();
+                                                        }
+
+                                                        tx = conn.BeginTransaction();
+                                                        command.Transaction = tx;
+                                                        cnt = mBatchSize;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    string message = "Invalid line: " + line;
+                                                    Console.WriteLine(message);
+                                                    Logger.Instance.LogToFile(message);
+                                                }
+                                            }
+
+                                            try
+                                            {
+                                                tx.Commit();
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                string message = "Write failed on final commit: " + ex.ToString();
+                                                Console.WriteLine(message);
+                                                Logger.Instance.LogToFile(message);
+                                                tx.Rollback();
+                                            }
+                                        }
+                                    }*/
 
             public virtual void UploadFrom(string filename)
             {
-                using (SqlConnection conn = new SqlConnection(PMSConnectionString))
+                Logger.Instance.LogToFile("Uploading from " + filename);
+
+                if (mDBManager.EstablishConnection(PMSConnectionString))
                 {
-                    conn.Open();
-
-                    // Blow away old temp table
-                    using (SqlCommand command = new SqlCommand("DELETE FROM " + mSettings.Get("PMSDestTable"), conn))
+                    try
                     {
-                        command.ExecuteNonQuery();
-                    }
+                        Logger.Instance.LogToFile("SQL connection to PMS established.");
 
-                    using (SqlCommand command = new SqlCommand(PMSInsertCommand, conn))
-                    {
-                        SqlParameter docketParam = new SqlParameter("@docket_num", SqlDbType.VarChar, 30);
-                        SqlParameter doctypeParam = new SqlParameter("@doc_type", SqlDbType.Char, 66);
-                        SqlParameter dateFiledParam = new SqlParameter("@date_filed", SqlDbType.DateTime, 8);
-                        SqlParameter docidParam = new SqlParameter("@docid", SqlDbType.Int, 0);
+                        mDBManager.ExecuteCommand("DELETE FROM " + mSettings.Get("PMSDestTable"));
 
-                        command.Parameters.Add(docketParam);
-                        command.Parameters.Add(doctypeParam);
-                        command.Parameters.Add(dateFiledParam);
-                        command.Parameters.Add(docidParam);
-
-                        command.Prepare();
+                        Logger.Instance.LogToFile("Deleted old table");
+                        int cnt = 0;
 
                         using (StreamReader reader = new StreamReader(filename + RAW_FILE_EXTENSION))
                         {
                             string line;
-                            SqlTransaction tx = conn.BeginTransaction();
-
-                            int cnt = mBatchSize;
-                            command.Transaction = tx;
 
                             while ((line = reader.ReadLine()) != null)
                             {
+                                cnt++;
+
                                 string[] fields = line.Split(',');
                                 if (4 == fields.Length)
                                 {
-                                    command.Parameters[0].Value = fields[0];
-                                    command.Parameters[1].Value = "null" == fields[1] ? (object)DBNull.Value : fields[1];
-                                    command.Parameters[2].Value = "null" == fields[2] ? (object)DBNull.Value : DateTime.ParseExact(fields[2].Replace("'", ""), "yyyyMMdd", CultureInfo.InvariantCulture);
-                                    command.Parameters[3].Value = Int32.Parse(fields[3]);
-
-                                    command.ExecuteNonQuery();
-                                    cnt--;
-
-                                    if (0 == cnt)
+                                    try
                                     {
-                                        try
-                                        {
-                                            tx.Commit();
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            Console.WriteLine("Write failed on index " + cnt + ". " + ex.ToString());
-                                            tx.Rollback();
-                                        }
+                                        string cmd = mDBManager.GenerateInsertStatement(mSettings.Get("PMSDestTable"), fields[0], fields[1], fields[2], fields[3]);
 
-                                        tx = conn.BeginTransaction();
-                                        command.Transaction = tx;
-                                        cnt = mBatchSize;
+                                        mDBManager.ExecuteCommand(cmd);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        string message = "Error on line " + cnt + ": " + ex.Message;
+
+                                        Console.WriteLine(message);
+                                        Logger.Instance.LogToFile(message);
                                     }
                                 }
                                 else
                                 {
-                                    Console.WriteLine("Invalid line: " + line);
+                                    string message = "Invalid line: " + line + " (" + cnt + ")";
+                                    Console.WriteLine(message);
+                                    Logger.Instance.LogToFile(message);
                                 }
                             }
-
-                            try
-                            {
-                                tx.Commit();
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine("Write failed on final commit: " + ex.ToString());
-                                tx.Rollback();
-                            }
                         }
+                    }
+                    finally
+                    {
+                        mDBManager.CloseConnection();
                     }
                 }
             }
 
-            private int mBatchSize;
+            private DBManager mDBManager = null;
+
+            private DatabaseEnum mDbType = DatabaseEnum.SQLServer;
+            private int mBatchSize = -1;
         }
 
         private const string RAW_FILE_EXTENSION = ".txt";
