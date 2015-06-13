@@ -39,20 +39,44 @@ public partial class AddVendor : System.Web.UI.Page
 		string address3 = txtAddress3.Text;
 		string city = txtCity.Text;
 		string state = ddlState.SelectedValue;
-		string zip = txtZip.Text;
 
-		string result = Admin.AddVendor(vendor, vendorNo, address1, address2, address3, city, state, zip);
+        string result = null;
+
+        // If it is foreign, we have country, city, province, zip
+        // If it is US, we have city, state, zip
+        if ("US" == Nationality.SelectedValue)
+        {
+            string zip = txtZip.Text;
+
+            result = Admin.AddVendor(vendor, vendorNo, address1, address2, address3, city, state, zip);
+        }
+        else
+        {
+            string country = Country.Text;
+            string province = Province.Text;
+            string zip = PostalCode.Text;
+
+            result = Admin.AddForeignVendor(vendor, vendorNo, address1, address2, address3, country, city, province, zip);
+        }
+
 		if(!String.IsNullOrEmpty(result))
 		{
 			lblMessage.Text = "There were problems adding this vendor." + result;
 		}
 		else
 		{
-			if (Session["PreviousPage"] != null)
-				Response.Redirect((string)Session["PreviousPage"]);
-			else
-				Response.Redirect("~/Admin/Default.aspx");
+			if (Session["PreviousPage"] != null) {
+                Response.Redirect((string)Session["PreviousPage"]);
+            }
+            else
+            {
+                Response.Redirect("~/Admin/Default.aspx");
+            }
 		}
 	}
-
+    protected void Nationality_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        ZipValidator.Enabled = ("US" == Nationality.SelectedValue);
+        CountryValidator.Enabled = ProvinceValidator.Enabled = PostalCodeValidator.Enabled = ("Foreign" == Nationality.SelectedValue);
+    }
 }

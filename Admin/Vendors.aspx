@@ -39,13 +39,14 @@
 </div>
 		<table class="ob-gridview" cellpadding="0" cellspacing="0">
 			<tr>
-				<th></th>
-				<th><asp:LinkButton ID="LinkButton1" Text="Vendor&nbsp;Name" OnClick="sortVendorName" runat="server" /></th>
-				<th><asp:LinkButton ID="LinkButton2" Text="Vendor&nbsp;#" OnClick="sortVendorNo" runat="server" /></th>
+                <th></th>
+				<th style="width:125px"><asp:LinkButton ID="LinkButton1" Text="Vendor&nbsp;Name" OnClick="sortVendorName" runat="server" /></th>
+				<th style="width:50px"><asp:LinkButton ID="LinkButton2" Text="Vendor&nbsp;#" OnClick="sortVendorNo" runat="server" /></th>
 				<th>Address</th>
+                <th>Country</th>
 				<th>City</th>
-				<th>State</th>
-				<th>Zip</th>
+				<th>State/Province</th>
+				<th>Postal Code</th>
 			</tr>
 
 <asp:Repeater ID="rptVendors" runat="server" 
@@ -61,9 +62,10 @@
 			</td>
 			<td><%# DataBinder.Eval(Container.DataItem, "VendorName") %></td>
 			<td><%# DataBinder.Eval(Container.DataItem, "VendorNo") %></td>
-			<td><%# DataBinder.Eval(Container.DataItem, "Address1") %><br /><%# DataBinder.Eval(Container.DataItem, "Address2") %></td>
+			<td><%# DataBinder.Eval(Container.DataItem, "Address1") %><br /><%# DataBinder.Eval(Container.DataItem, "Address2") %><br /><%# DataBinder.Eval(Container.DataItem, "Address3") %></td>
+			<td><%# DataBinder.Eval(Container.DataItem, "Country") %></td>
 			<td><%# DataBinder.Eval(Container.DataItem, "City") %></td>
-			<td><%# DataBinder.Eval(Container.DataItem, "State") %></td>
+			<td><%# DataBinder.Eval(Container.DataItem, "State") %><%# DataBinder.Eval(Container.DataItem, "Province") %></td>
 			<td><%# DataBinder.Eval(Container.DataItem, "Zip") %></td>
 		</tr>
 	</ItemTemplate>

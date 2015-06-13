@@ -449,9 +449,36 @@ namespace OpenBookPgh
 
                     conn.Open();
                     cmd.ExecuteNonQuery();
-                    //int result = (int)cmd.Parameters["@RETURN_VALUE"].Value;
-                    string result = cmd.Parameters["@message"].Value.ToString();
-                    return result;
+
+                    return cmd.Parameters["@message"].Value.ToString();
+                }
+            }
+        }
+
+        public static string AddForeignVendor(string vendor, string vendorNo, string address1, string address2, string address3, string country, string city, string province, string zip)
+        {
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("AddForeignVendor", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@message", SqlDbType.NVarChar, 35).Direction = ParameterDirection.Output;
+                    //cmd.Parameters.Add("@RETURN_VALUE", SqlDbType.Int).Direction = ParameterDirection.ReturnValue;
+
+                    cmd.Parameters.Add("@vendorName", SqlDbType.NVarChar, 100).Value = vendor;
+                    cmd.Parameters.Add("@vendorNo", SqlDbType.NVarChar, 10).Value = vendorNo;
+                    cmd.Parameters.Add("@address1", SqlDbType.NVarChar, 100).Value = address1;
+                    cmd.Parameters.Add("@address2", SqlDbType.NVarChar, 100).Value = address2;
+                    cmd.Parameters.Add("@address3", SqlDbType.NVarChar, 100).Value = address3;
+                    cmd.Parameters.Add("@country", SqlDbType.NVarChar, 50).Value = country;
+                    cmd.Parameters.Add("@city", SqlDbType.NVarChar, 50).Value = city;
+                    cmd.Parameters.Add("@province", SqlDbType.NVarChar, 50).Value = province;
+                    cmd.Parameters.Add("@zip", SqlDbType.NVarChar, 15).Value = zip;
+
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+
+                    return cmd.Parameters["@message"].Value.ToString();
                 }
             }
         }
