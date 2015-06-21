@@ -654,6 +654,34 @@ namespace OpenBookPgh
             }
         }
 
+        public static int UpdateForeignVendor(string querystringVendorNo, string vendorNo, string vendorName,
+                                              string address1, string address2, string address3, string country, string city, string province, string zip)
+        {
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("UpdateForeignVendor", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@RETURN_VALUE", SqlDbType.Int).Direction = ParameterDirection.ReturnValue;
+                    cmd.Parameters.Add("@QuerystringVendorNo", SqlDbType.NVarChar, 10).Value = (querystringVendorNo == null) ? System.DBNull.Value : (object)querystringVendorNo;
+                    cmd.Parameters.Add("@VendorNo", SqlDbType.NVarChar, 10).Value = (vendorNo == null) ? System.DBNull.Value : (object)vendorNo;
+                    cmd.Parameters.Add("@VendorName", SqlDbType.NVarChar, 100).Value = (vendorName == null) ? System.DBNull.Value : (object)vendorName;
+                    cmd.Parameters.Add("@Address1", SqlDbType.NVarChar, 100).Value = (address1 == null) ? System.DBNull.Value : (object)address1;
+                    cmd.Parameters.Add("@Address2", SqlDbType.NVarChar, 100).Value = (address2 == null) ? System.DBNull.Value : (object)address2;
+                    cmd.Parameters.Add("@Address3", SqlDbType.NVarChar, 100).Value = (address3 == null) ? System.DBNull.Value : (object)address3;
+                    cmd.Parameters.Add("@Country", SqlDbType.NVarChar, 50).Value = (country == null) ? System.DBNull.Value : (object)country;
+                    cmd.Parameters.Add("@City", SqlDbType.NVarChar, 50).Value = (city == null) ? System.DBNull.Value : (object)city;
+                    cmd.Parameters.Add("@Province", SqlDbType.NVarChar, 50).Value = (province == null) ? System.DBNull.Value : (object)province;
+                    cmd.Parameters.Add("@Zip", SqlDbType.NVarChar, 15).Value = (zip == null) ? System.DBNull.Value : (object)zip;
+
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    int result = (int)cmd.Parameters["@RETURN_VALUE"].Value;
+                    return result;
+                }
+            }
+        }
+
         public static void UpdateLobbyist(int lobbyistID, string lobbyist, string position, string employer, string address, string city, string state, string zip, string lobbyiststatus)
         {
             using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))

@@ -24,8 +24,10 @@
                                     <h6><%# DataBinder.Eval(Container.DataItem, "Address1") %>
                                         <%# DataBinder.Eval(Container.DataItem, "Address2") %>
                                         <%# DataBinder.Eval(Container.DataItem, "Address3") %>
+                                        <%# DataBinder.Eval(Container.DataItem, "Country") %>
                                         <%# DataBinder.Eval(Container.DataItem, "City") %>, 
 					                    <%# DataBinder.Eval(Container.DataItem, "State") %>
+					                    <%# DataBinder.Eval(Container.DataItem, "Province") %>
                                         <%# DataBinder.Eval(Container.DataItem, "Zip") %></h6>
                                 </span>
                             </div>

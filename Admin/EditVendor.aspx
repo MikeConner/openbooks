@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/_Masters/AdminMasterPage.master" AutoEventWireup="true" CodeFile="EditVendor.aspx.cs" Inherits="Admin_EditVendor" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/_Masters/AdminMasterPage.master" AutoEventWireup="true" CodeFile="EditVendor.aspx.cs" Inherits="EditVendor" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 <div class="about">
@@ -60,20 +60,30 @@
 					Display="Dynamic" />
 			</td>
 		</tr>			
-		<tr>
+        <tr>
+            <td>
+                <asp:RadioButtonList ID="rbNationality" runat="server" AutoPostBack="true" OnSelectedIndexChanged="Nationality_SelectedIndexChanged">
+                    <asp:ListItem Selected="True" Text="US Address" Value="US"></asp:ListItem>
+                    <asp:ListItem Text="Foreign Address" Value="Foreign"></asp:ListItem>
+                </asp:RadioButtonList>
+            </td>
+        </tr>
+        <% RadioButtonList Nationality = (RadioButtonList)frmVendor.FindControl("rbNationality");
+           if ("US" == Nationality.SelectedValue) { %>
+		<tr class="USBlock">
 			<td><label>State</label></td>
 			<td><asp:DropDownList ID="ddlState" runat="server" 
 					DataSourceID="SqlDataSource1" 
 					DataTextField="state_name" 
-					DataValueField="state_code" 
-					SelectedValue='<%# Bind("State") %>'
+					DataValueField="state_code"
 					/> 
+
 				<asp:SqlDataSource ID="SqlDataSource1" runat="server" 
 					ConnectionString="<%$ ConnectionStrings:CityControllerConnectionString %>" 
 					SelectCommand="SELECT * FROM [tlk_States] ORDER BY state_name ASC" />
 			</td>
 		</tr>
-		<tr>
+		<tr class="USBlock">
 			<td><label>Zip Code</label></td>
 			<td><asp:TextBox ID="txtZip" runat="server" Width="75" MaxLength="10" Text='<%# Bind("Zip") %>'/>
 				<asp:RequiredFieldValidator id="ZipValidator" runat="server" 
@@ -88,6 +98,35 @@
 					Display="Dynamic" />
 			</td>
 		</tr>	
+        <% } else { %>
+		<tr class="ForeignBlock">
+			<td><label>Country</label></td>
+			<td><asp:TextBox ID="Country" runat="server" Text='<%# Bind("Country") %>'/>
+				<asp:RequiredFieldValidator id="CountryValidator" runat="server" 
+					ControlToValidate="Country" 
+					ErrorMessage="[error] Required Field. " 
+					Display="Dynamic" />
+                </td>
+		</tr>
+		<tr class="ForeignBlock">
+			<td><label>Province</label></td>
+			<td><asp:TextBox ID="Province" runat="server" Text='<%# Bind("Province") %>'/>
+				<asp:RequiredFieldValidator id="ProvinceValidator" runat="server" 
+					ControlToValidate="Province" 
+					ErrorMessage="[error] Required Field. " 
+					Display="Dynamic" />
+                </td>
+		</tr>
+		<tr class="ForeignBlock">
+			<td><label>Postal Code</label></td>
+			<td><asp:TextBox ID="PostalCode" runat="server" Text='<%# Bind("Zip") %>'/>
+				<asp:RequiredFieldValidator id="PostalCodeValidator" runat="server" 
+					ControlToValidate="PostalCode" 
+					ErrorMessage="[error] Required Field. " 
+					Display="Dynamic" />
+                </td>
+		</tr>
+        <% } %>
 	</table>
 <asp:ImageButton ID="Button1" runat="server" OnClick="Button1_Click" ImageUrl="~/img/savebtn.gif" />
 <asp:Label ID="lblMessage" runat="server" />

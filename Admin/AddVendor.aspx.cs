@@ -74,6 +74,7 @@ public partial class AddVendor : System.Web.UI.Page
             }
 		}
 	}
+
     protected void Nationality_SelectedIndexChanged(object sender, EventArgs e)
     {
         ZipValidator.Enabled = ("US" == Nationality.SelectedValue);
