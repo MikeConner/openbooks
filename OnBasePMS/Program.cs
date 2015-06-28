@@ -304,7 +304,7 @@ namespace OnBasePMS
 
                         mDBManager.ExecuteCommand("DELETE FROM " + mSettings.Get("PMSDestTable"));
 
-                        Logger.Instance.LogToFile("Deleted old table");
+                        Logger.Instance.LogToFile("Cleared old table");
                         int cnt = 0;
 
                         using (StreamReader reader = new StreamReader(filename + RAW_FILE_EXTENSION))
