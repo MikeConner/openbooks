@@ -306,6 +306,8 @@ namespace OnBasePMS
 
                         Logger.Instance.LogToFile("Cleared old table");
                         int cnt = 0;
+                        int numWrote = 0;
+                        string message = null;
 
                         using (StreamReader reader = new StreamReader(filename + RAW_FILE_EXTENSION))
                         {
@@ -323,10 +325,11 @@ namespace OnBasePMS
                                         string cmd = mDBManager.GenerateInsertStatement(mSettings.Get("PMSDestTable"), fields[0], fields[1], fields[2], fields[3]);
 
                                         mDBManager.ExecuteCommand(cmd);
+                                        numWrote++;
                                     }
                                     catch (Exception ex)
                                     {
-                                        string message = "Error on line " + cnt + ": " + ex.Message;
+                                        message = "Error on line " + cnt + ": " + ex.Message;
 
                                         Console.WriteLine(message);
                                         Logger.Instance.LogToFile(message);
@@ -334,12 +337,17 @@ namespace OnBasePMS
                                 }
                                 else
                                 {
-                                    string message = "Invalid line: " + line + " (" + cnt + ")";
+                                    message = "Invalid line: " + line + " (" + cnt + ")";
                                     Console.WriteLine(message);
                                     Logger.Instance.LogToFile(message);
                                 }
                             }
                         }
+
+                        message = "Read " + cnt + " lines from OnBase; wrote " + numWrote + " lines to PMS.";
+
+                        Console.WriteLine(message);
+                        Logger.Instance.LogToFile(message);
                     }
                     finally
                     {
