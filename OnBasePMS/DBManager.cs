@@ -11,10 +11,11 @@ namespace OnBasePMS
         public abstract bool EstablishConnection(string strConnection);
         public abstract void CloseConnection();
         public abstract DatabaseEnum GetDatabaseType();
+        public abstract string GetIntegratedSecurityFlag(bool integratedSecurity);
 
-        public virtual string GenerateConnectionString(string user, string password, string server, string database)
+        public virtual string GenerateConnectionString(string user, string password, string server, string database, bool integratedSecurity)
         {
-            return "User ID=" + user + ";Password=" + password + ";Data Source=" + server;
+            return "User ID=" + user + ";Password=" + password + ";Data Source=" + server + GetIntegratedSecurityFlag(integratedSecurity);
         }
 
         public virtual string GenerateRawInsertData(string docket, string item_type, string date_filed, string document_id)
@@ -30,8 +31,10 @@ namespace OnBasePMS
             string SQLFrom = "";
             string SQLWhere = "";
 
-            SQLselect = "SELECT " + settings.Get("ONBdocketNumberOwner") + "." +
-                settings.Get("ONBdocketNumberField")
+            bool dualTable = Boolean.Parse(settings.Get("ONBDocketDualTable"));
+            string owner = dualTable ? "dualOwner" : "docketTableOwner";
+
+            SQLselect = "SELECT " + owner + "." + settings.Get("ONBdocketNumberField")
                 + " AS 'docketNum', " +
 
                 "(select " + settings.Get("ONBitemtypenameField") +
@@ -47,14 +50,17 @@ namespace OnBasePMS
                 ", i." + settings.Get("ONBitemnumField") + " as docid ";
 
             SQLFrom = " FROM " + settings.Get("ONBhsiItemDataTable") + "  i " +
-                "LEFT JOIN " + settings.Get("ONBDocketNumberTable") + " " +
-                settings.Get("ONBdocketNumberOwner") + " ON " +
-                settings.Get("ONBdocketNumberOwner") +
-                "." + settings.Get("ONBitemnumField") + " = i." +
+                "LEFT JOIN " + settings.Get("ONBDocketNumberTable") + " docketTableOwner " +
+                " ON docketTableOwner." +
+                settings.Get("ONBitemnumField") + " = i." +
                 settings.Get("ONBitemnumField");
 
+            if (dualTable)
+            {
+                SQLFrom += " LEFT JOIN " + settings.Get("ONBDocketDualTableName") + " dualOwner ON dualOwner.keywordnum = " + "docketTableOwner.keywordnum";
+            }
 
-            SQLWhere = " WHERE " + settings.Get("ONBdocketNumberOwner") + "." +
+            SQLWhere = " WHERE docketTableOwner." +
                 settings.Get("ONBitemnumField") + " IS NOT NULL ";
 
             return SQLselect + SQLFrom + SQLWhere;
@@ -69,6 +75,14 @@ namespace OnBasePMS
         public override DatabaseEnum GetDatabaseType()
         {
             return DatabaseEnum.SQLServer;
+        }
+
+        public override string GetIntegratedSecurityFlag(bool integratedSecurity)
+        {
+            string strFlag = ";Integrated Security=";
+            strFlag += integratedSecurity ? "true" : "false";
+
+            return strFlag;
         }
 
         public override bool EstablishConnection(string strConnection)
@@ -97,9 +111,9 @@ namespace OnBasePMS
             }
         }
 
-        public override string GenerateConnectionString(string user, string password, string server, string database)
+        public override string GenerateConnectionString(string user, string password, string server, string database, bool integratedSecurity)
         {
-            return base.GenerateConnectionString(user, password, server, database) + ";Initial Catalog=" + database;
+            return base.GenerateConnectionString(user, password, server, database, integratedSecurity) + ";Initial Catalog=" + database;
         }
 
         public override string GenerateInsertStatement(string table_name, string docket, string item_type, string date_filed, string document_id)
@@ -148,6 +162,14 @@ namespace OnBasePMS
         public override DatabaseEnum GetDatabaseType()
         {
             return DatabaseEnum.Oracle;
+        }
+
+        public override string GetIntegratedSecurityFlag(bool integratedSecurity)
+        {
+            string strFlag = ";Integrated Security=";
+            strFlag += integratedSecurity ? "yes" : "no";
+
+            return strFlag;
         }
 
         public override bool EstablishConnection(string strConnection)

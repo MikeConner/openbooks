@@ -3,8 +3,6 @@ using System;
 using System.Collections.Specialized;
 using System.IO;
 using System.Data;
-using System.Globalization;
-using Oracle.ManagedDataAccess.Client;
 
 /// <summary>
 /// Periodically transfer data from an OnBase installation to a PMS installation (attorney general database).
@@ -147,7 +145,9 @@ namespace OnBasePMS
 
                 using (StreamWriter rawWriter = new StreamWriter(filename + RAW_FILE_EXTENSION), sqlWriter = new StreamWriter(filename + SQL_FILE_EXTENSION))
                 {
-                    string strConn = mReadDBManager.GenerateConnectionString(mSettings.Get("onbaseDBuser"), mSettings.Get("onbaseDBpassword"), mSettings.Get("onbaseDBserver"), mSettings.Get("onbaseDBname"));
+                    string strConn = mReadDBManager.GenerateConnectionString(mSettings.Get("onbaseDBuser"), mSettings.Get("onbaseDBpassword"), 
+                                                                             mSettings.Get("onbaseDBserver"), mSettings.Get("onbaseDBname"), 
+                                                                             Boolean.Parse(mSettings.Get("ONBintegratedSecurity")));
                     Logger.Instance.LogToFile("Attempting connection to Onbase using: '" + strConn + "'");
 
                     if (mReadDBManager.EstablishConnection(strConn))
