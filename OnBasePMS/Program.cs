@@ -335,6 +335,11 @@ namespace OnBasePMS
 
                                         mDBManager.ExecuteCommand(cmd);
                                         numWrote++;
+
+                                        if (0 == (numWrote % 100))
+                                        {
+                                            Logger.Instance.LogToFile("Wrote " + numWrote + " records so far...");
+                                        }
                                     }
                                     catch (Exception ex)
                                     {
