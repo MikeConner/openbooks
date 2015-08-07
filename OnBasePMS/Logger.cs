@@ -14,7 +14,7 @@ namespace OnBasePMS
         {
             if (null != mLogFilename)
             {
-                File.AppendAllText(mLogFilename, message + Environment.NewLine);
+                File.AppendAllText(mLogFilename, DateTime.Now.ToString() + " " + message + Environment.NewLine);
             }
         }
 
@@ -35,13 +35,23 @@ namespace OnBasePMS
             }
         }
 
-        public void SetLogFile(string logFilename)
+        public void SetLogFile(string logFilename, bool append = true)
         {
             try
             {
-                using (FileStream fs = File.Create(logFilename, 1, FileOptions.DeleteOnClose))
+                if (append)
                 {
-                    mLogFilename = logFilename;
+                    using (FileStream fs = new FileStream(logFilename, FileMode.OpenOrCreate | FileMode.Append, FileAccess.Write)) // File.Create(logFilename))
+                    {
+                        mLogFilename = logFilename;
+                    }
+                }
+                else
+                {
+                    using (FileStream fs = File.Create(logFilename, 1, FileOptions.DeleteOnClose))
+                    {
+                        mLogFilename = logFilename;
+                    }
                 }
             }
             catch
