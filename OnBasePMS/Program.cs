@@ -156,6 +156,11 @@ namespace OnBasePMS
                         {
                             Logger.Instance.LogToFile("Opened database connection to OnBase");
 
+                            if ("true" == mSettings.Get("SQLDebug"))
+                            {
+                                Logger.Instance.LogToFile(mReadDBManager.OnBaseFetch(mSettings));
+                            }
+
                             using (IDataReader reader = mReadDBManager.ExecuteQuery(mReadDBManager.OnBaseFetch(mSettings)))
                             {
                                 Logger.Instance.LogToFile("Fetched OnBase data; writing to file");

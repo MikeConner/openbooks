@@ -42,12 +42,12 @@ namespace OnBasePMS
                 settings.Get("ONBitemtypenumField") + " = i." +
                 settings.Get("ONBitemtypenumField") + ") as doc_type, " +
 
-                "(select " + settings.Get("ONBkeyvaluedateField") +
+                "(select TOP 1 " + settings.Get("ONBkeyvaluedateField") +
                 " from " + settings.Get("ONBkeyValueDatefieldTable") +
                 " where " + settings.Get("ONBitemnumField") + " = i." +
                 settings.Get("ONBitemnumField") + ") as date_filed" +
 
-                ", i." + settings.Get("ONBitemnumField") + " as docid ";
+                ", i." + settings.Get("ONBitemnumField") + " as docid";
 
             SQLFrom = " FROM " + settings.Get("ONBhsiItemDataTable") + "  i " +
                 "LEFT JOIN " + settings.Get("ONBDocketNumberTable") + " docketTableOwner " +
