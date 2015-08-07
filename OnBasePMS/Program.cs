@@ -400,7 +400,7 @@ namespace OnBasePMS
         /// <returns>single-quoted string, or unquoted null</returns>
         public static string GetStringOrNull(this IDataReader reader, int ordinal)
         {
-            return reader.IsDBNull(ordinal) ? "null" : "'" + reader.GetString(ordinal).Trim().Replace("'", "'''") + "'";
+            return reader.IsDBNull(ordinal) ? "null" : "'" + reader.GetString(ordinal).Trim().Replace("'", "''") + "'";
         }
 
         /// <summary>
