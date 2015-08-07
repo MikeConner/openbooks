@@ -160,10 +160,14 @@ namespace OnBasePMS
                             {
                                 Logger.Instance.LogToFile("Fetched OnBase data; writing to file");
                                 int lines = 0;
+                                bool smallInt = "32" == mSettings.Get("OnbaseIntSize");
+
                                 while (reader.Read())
                                 {
-                                    string values = mWriteDBManager.GenerateRawInsertData(reader.GetString(0).Trim(), reader.GetStringOrNull(1), reader.GetShortDateOrNull(2), reader.GetInt32(3).ToString());
-                                    string stmt = mWriteDBManager.GenerateInsertStatement(mSettings.Get("PMSDestTable") , reader.GetString(0).Trim(), reader.GetStringOrNull(1), reader.GetShortDateOrNull(2, mWriteDBManager.GetDatabaseType()), reader.GetInt32(3).ToString());
+                                    string values = smallInt ? mWriteDBManager.GenerateRawInsertData(reader.GetString(0).Trim(), reader.GetStringOrNull(1), reader.GetShortDateOrNull(2), reader.GetInt32(3).ToString()) :
+                                                               mWriteDBManager.GenerateRawInsertData(reader.GetString(0).Trim(), reader.GetStringOrNull(1), reader.GetShortDateOrNull(2), reader.GetInt64(3).ToString());
+                                    string stmt = smallInt ? mWriteDBManager.GenerateInsertStatement(mSettings.Get("PMSDestTable") , reader.GetString(0).Trim(), reader.GetStringOrNull(1), reader.GetShortDateOrNull(2, mWriteDBManager.GetDatabaseType()), reader.GetInt32(3).ToString()) :
+                                                             mWriteDBManager.GenerateInsertStatement(mSettings.Get("PMSDestTable"), reader.GetString(0).Trim(), reader.GetStringOrNull(1), reader.GetShortDateOrNull(2, mWriteDBManager.GetDatabaseType()), reader.GetInt64(3).ToString());
 
                                     rawWriter.WriteLine(values);
                                     sqlWriter.WriteLine(stmt);
