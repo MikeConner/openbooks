@@ -1071,8 +1071,16 @@ namespace OpenBookPgh
             mail.Body = body;
 
             SmtpClient smtp = new SmtpClient();
-            smtp.Host = "smtp-apps.apps.pittsburghpa.gov";
-            smtp.Credentials = new System.Net.NetworkCredential("zeoapp", "Zeoapp-SMTP-Relay");
+            // smtp.Host = "smtp-apps.apps.pittsburghpa.gov";
+            // smtp.Credentials = new System.Net.NetworkCredential("zeoapp", "Zeoapp-SMTP-Relay");
+            smtp.Host = "smtp.gmail.com";
+            smtp.Port = 587;
+            smtp.EnableSsl = true;
+            smtp.Timeout = 10000;
+            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+
+            smtp.Credentials = new System.Net.NetworkCredential("openbookpgh@gmail.com", "\"7ca264b38bfa497cb1de\"");
+            
             smtp.Send(mail);
         }
 
