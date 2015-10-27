@@ -42,18 +42,7 @@ public partial class ReportFraud : System.Web.UI.Page
 			mail.Body += "Location of Fraude, Waste or Abuse: " + LocationF.Text + "<br />";
 			mail.Body += "Description of Fraudulent Act: " + CommentsTB.Text + "<br />";
 
-			SmtpClient smtp = new SmtpClient();
-            smtp.Host = "smtp.gmail.com";
-            smtp.Credentials = new System.Net.NetworkCredential("openbookpgh@gmail.com", "\"7ca264b38bfa497cb1de\"");
-            smtp.Port = 587;
-            smtp.EnableSsl = true;
-            smtp.Timeout = 10000;
-            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-			//smtp.Host = "smtp-apps.apps.pittsburghpa.gov";
-			//smtp.Credentials = new System.Net.NetworkCredential("zeoapp", "Zeoapp-SMTP-Relay");
-			//smtp.Host = "72.18.138.246";
-			//smtp.Credentials = new System.Net.NetworkCredential("webcontact@openbookpittsburgh.com", "Co5V63PSKndeMUq2fw84");
-			smtp.Send(mail);
+            Admin.GetGmailClient().Send(mail);
             
 			formPH.Visible = false;
 			sucessPH.Visible = true;

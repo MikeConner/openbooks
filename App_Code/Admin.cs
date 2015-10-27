@@ -1070,18 +1070,7 @@ namespace OpenBookPgh
             mail.IsBodyHtml = true;
             mail.Body = body;
 
-            SmtpClient smtp = new SmtpClient();
-            // smtp.Host = "smtp-apps.apps.pittsburghpa.gov";
-            // smtp.Credentials = new System.Net.NetworkCredential("zeoapp", "Zeoapp-SMTP-Relay");
-            smtp.Host = "smtp.gmail.com";
-            smtp.Port = 587;
-            smtp.EnableSsl = true;
-            smtp.Timeout = 10000;
-            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-
-            smtp.Credentials = new System.Net.NetworkCredential("openbookpgh@gmail.com", "\"7ca264b38bfa497cb1de\"");
-            
-            smtp.Send(mail);
+            GetGmailClient().Send(mail);
         }
 
         static Admin()
@@ -1122,6 +1111,20 @@ namespace OpenBookPgh
                     }
                 }
             }
+        }
+
+        public static SmtpClient GetGmailClient()
+        {
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com";
+            smtp.Port = 587;
+            smtp.EnableSsl = true;
+            smtp.Timeout = 10000;
+            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+
+            smtp.Credentials = new System.Net.NetworkCredential("openbookpgh@gmail.com", "\"7ca264b38bfa497cb1de\"");
+
+            return smtp;
         }
 
         private static SortedDictionary<string, int> mCandidateMap = new SortedDictionary<string, int>();
