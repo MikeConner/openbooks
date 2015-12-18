@@ -6,7 +6,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using System.Net;
 using System.Threading;
-using OpenBookPgh;
+using OpenBookAllegheny;
 
 public partial class Admin_SyncContracts : System.Web.UI.Page
 {

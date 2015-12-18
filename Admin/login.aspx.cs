@@ -2,7 +2,7 @@
 using System.Data;
 using System.Web;
 using System.Web.Security;
-using OpenBookPgh;
+using OpenBookAllegheny;
 
 public partial class Admin_login : System.Web.UI.Page
 {

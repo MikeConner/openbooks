@@ -6,7 +6,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Web;
 
-namespace OpenBookPgh
+namespace OpenBookAllegheny
 {
 	/// <summary>
 	/// Summary description for SearchLobbyists

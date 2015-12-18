@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.UI;
-using OpenBookPgh;
+using OpenBookAllegheny;
 
-namespace OpenBookPgh
+namespace OpenBookAllegheny
 {
     /// <summary>
     /// Base class for all pages in the OpenBook system that are paginated (e.g., 10, 25, 50, 100 per page)

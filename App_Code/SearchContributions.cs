@@ -3,9 +3,9 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Web;
-using OpenBookPgh.ZipCodeDownload.Wizards;
+using OpenBookAllegheny.ZipCodeDownload.Wizards;
 
-namespace OpenBookPgh
+namespace OpenBookAllegheny
 {
 	/// <summary>
 	/// Summary description for SearchContributions

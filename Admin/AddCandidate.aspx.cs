@@ -5,7 +5,7 @@ using System.Net;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using OpenBookPgh;
+using OpenBookAllegheny;
 
 public partial class Admin_AddCandidate : System.Web.UI.Page
 {

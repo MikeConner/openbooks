@@ -3,7 +3,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
-using OpenBookPgh;
+using OpenBookAllegheny;
 
 public partial class VendorDetail : System.Web.UI.Page
 {

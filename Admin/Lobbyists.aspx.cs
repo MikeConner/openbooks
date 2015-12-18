@@ -9,7 +9,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
-using OpenBookPgh;
+using OpenBookAllegheny;
 
 
 public partial class Admin_Lobbyists : PaginatedPage

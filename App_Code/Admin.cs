@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Net.Mail;
 using System.Globalization;
 
-namespace OpenBookPgh
+namespace OpenBookAllegheny
 {
     /// <summary>
     /// Summary description for Admin

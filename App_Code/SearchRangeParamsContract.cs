@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OpenBookPgh
+namespace OpenBookAllegheny
 {
     /// <summary>
     /// Class Object for search parameters used in search

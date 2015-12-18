@@ -8,7 +8,7 @@ using System.Text;
 using System.Data;
 using System.Data.OleDb;
 
-namespace OpenBookPgh
+namespace OpenBookAllegheny
 {
     class CSVParser
     {

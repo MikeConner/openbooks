@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OpenBookPgh
+namespace OpenBookAllegheny
 {
 	/// <summary>
 	/// Summary description for SearchParamsContribution

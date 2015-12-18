@@ -7,7 +7,7 @@ using System.Web.UI;
 using System.Web.Security;
 using System.Security.Cryptography;
 
-namespace OpenBookPgh
+namespace OpenBookAllegheny
 {
 	/// <summary>
 	/// Summary description for Auth

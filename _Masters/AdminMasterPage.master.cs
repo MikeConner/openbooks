@@ -6,7 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 
 using System.Web.Security;
-using OpenBookPgh;
+using OpenBookAllegheny;
 
 public partial class _Masters_AdminMasterPage : System.Web.UI.MasterPage
 {

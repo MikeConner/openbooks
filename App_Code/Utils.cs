@@ -4,7 +4,7 @@ using System.Web;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace OpenBookPgh
+namespace OpenBookAllegheny
 {
 	/// <summary>
 	/// Class Methods for checking valid data formats

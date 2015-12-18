@@ -3,7 +3,7 @@
 //     Copyright (c) ZIP Code Download, LLC. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace OpenBookPgh.ZipCodeDownload.Wizards
+namespace OpenBookAllegheny.ZipCodeDownload.Wizards
 {
     /// <summary>
     /// Holds four points which represent the northern, southern, eastern and western boundaries from a point of origin.

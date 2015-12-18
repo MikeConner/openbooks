@@ -6,7 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
 
-using OpenBookPgh;
+using OpenBookAllegheny;
 
 public partial class _About : System.Web.UI.Page
 {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Web;
 
-namespace OpenBookPgh
+namespace OpenBookAllegheny
 {
     /// <summary>
     /// Common code to keep track of first/last/prev/next for all pages

@@ -8,7 +8,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Net;
-using OpenBookPgh;
+using OpenBookAllegheny;
 
 public partial class Admin_Vendors : PaginatedPage
 {
