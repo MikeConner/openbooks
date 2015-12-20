@@ -32,20 +32,33 @@ namespace OnBasePMS
             string SQLWhere = "";
 
             bool dualTable = Boolean.Parse(settings.Get("ONBDocketDualTable"));
+            string dbType = settings.Get("OnBaseDBtype");
+            string strTop1 = "TOP 1 ";
+            string strLimit1 = " and rownum = 1 ";
+
+            if (dbType == "Oracle")
+            {
+                strTop1 = "";
+
+            }
+            else
+            {
+                strLimit1 = "";
+            }
             string owner = dualTable ? "dualOwner" : "docketTableOwner";
 
             SQLselect = "SELECT " + owner + "." + settings.Get("ONBdocketNumberField")
-                + " AS 'docketNum', " +
+                + " AS docketNum, " +
 
                 "(select " + settings.Get("ONBitemtypenameField") +
                 " from " + settings.Get("ONBitemTypeTable") + "  where " +
                 settings.Get("ONBitemtypenumField") + " = i." +
                 settings.Get("ONBitemtypenumField") + ") as doc_type, " +
 
-                "(select TOP 1 " + settings.Get("ONBkeyvaluedateField") +
+                "(select " + strTop1 + settings.Get("ONBkeyvaluedateField") +
                 " from " + settings.Get("ONBkeyValueDatefieldTable") +
                 " where " + settings.Get("ONBitemnumField") + " = i." +
-                settings.Get("ONBitemnumField") + ") as date_filed" +
+                settings.Get("ONBitemnumField") + strLimit1 +  ") as date_filed" +
 
                 ", i." + settings.Get("ONBitemnumField") + " as docid";
 
@@ -168,8 +181,8 @@ namespace OnBasePMS
         {
             string strFlag = ";Integrated Security=";
             strFlag += integratedSecurity ? "yes" : "no";
-
-            return strFlag;
+            return "";  //no int sec for oracle? errors 12/20
+            //return strFlag;
         }
 
         public override bool EstablishConnection(string strConnection)
