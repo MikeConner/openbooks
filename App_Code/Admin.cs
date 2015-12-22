@@ -20,6 +20,14 @@ namespace OpenBookAllegheny
         public static string ONBASE_CHECK_PDF_PATH = "http://onbaseapp.city.pittsburgh.pa.us/OpenBookPublicData/checks.csv";
         public static string ONBASE_INVOICE_PDF_PATH = "http://onbaseapp.city.pittsburgh.pa.us/OpenBookPublicData/invoices.csv";
 
+        public static void UploadAlleghenyContracts(string filename)
+        {
+            DataTable table = CSVParser.ParseCSV(System.AppDomain.CurrentDomain.BaseDirectory + "documents\\" + filename);
+            foreach (DataRow row in table.Rows)
+            {
+            }
+        }
+
         public static List<string> UploadContributions(string filename, string username, int candidateID, string office)
         {
             List<string> errors = new List<string>();

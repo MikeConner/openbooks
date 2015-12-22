@@ -15,6 +15,8 @@ public partial class SearchResults : System.Web.UI.Page
     {
 		if (!IsPostBack)
 		{
+            //Admin.UploadAlleghenyContracts(@"Contracts.csv");
+
 			// Set Initial sort image state
 			clearImages();
 			// Search
