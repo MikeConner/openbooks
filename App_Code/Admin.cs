@@ -8,6 +8,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Net.Mail;
 using System.Globalization;
+using DataStreams.ETL;
 
 namespace OpenBookAllegheny
 {
@@ -22,9 +23,271 @@ namespace OpenBookAllegheny
 
         public static void UploadAlleghenyContracts(string filename)
         {
+            DataTable depts = new DataTable();
+            DataTable types = new DataTable();
+            DataTable vendors = new DataTable();
+            DataTable accounts = new DataTable();
+            accounts.Clear();
+            accounts.Columns.Add("ContractID", typeof(int));
+            accounts.Columns.Add("AccountNo", typeof(string));
+            accounts.Columns.Add("Description", typeof(string));
+
+            // Would rather use a HashSet, but not in this version of .NET
+            Dictionary<int, int> contractIds = new Dictionary<int, int>();
+
+            DataTable contracts = new DataTable();
+            contracts.Clear();
+            contracts.Columns.Add("ContractID", typeof(int));
+            contracts.Columns.Add("ContractTypeID", typeof(int));
+            contracts.Columns.Add("VendorNo", typeof(int));
+            contracts.Columns.Add("VendorName", typeof(string));
+            contracts.Columns.Add("DepartmentID", typeof(int));
+            contracts.Columns.Add("Amount", typeof(decimal));
+            contracts.Columns.Add("OrderDate", typeof(DateTime));
+            contracts.Columns.Add("CancelDate", typeof(DateTime));
+            contracts.Columns.Add("AccountNo", typeof(string));
+            contracts.Columns.Add("ExecutiveAction", typeof(string));
+            contracts.Columns.Add("Comments", typeof(string));
+
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["AlleghenyCountyConnectionString"].ConnectionString))
+            {
+                try
+                {
+                    conn.Open();
+
+                    using (SqlDataAdapter a = new SqlDataAdapter("SELECT * FROM tlk_department", conn))
+                    {
+                        a.Fill(depts);
+                        depts.PrimaryKey = new DataColumn[] { depts.Columns["DeptCode"] };
+                    }
+
+                    using (SqlDataAdapter a = new SqlDataAdapter("SELECT * FROM order_types", conn))
+                    {
+                        a.Fill(types);
+                        types.PrimaryKey = new DataColumn[] { types.Columns["ID"] };
+                    }
+
+                    using (SqlDataAdapter a = new SqlDataAdapter("SELECT * FROM vendors", conn))
+                    {
+                        a.Fill(vendors);
+                        vendors.PrimaryKey = new DataColumn[] { vendors.Columns["VendorNo"] };
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            
             DataTable table = CSVParser.ParseCSV(System.AppDomain.CurrentDomain.BaseDirectory + "documents\\" + filename);
+            bool first = true;
             foreach (DataRow row in table.Rows)
             {
+                if (first)
+                {
+                    first = false;
+                    continue;
+                }
+
+                string rawOrderType = row[0].ToString();
+                int contractID = Int32.Parse(row[1].ToString());
+                double price = Double.Parse(row[2].ToString());
+                int vendorNo = Int32.Parse(row[3].ToString());
+                string vendorName = row[4].ToString();
+                DateTime start = DateTime.Parse(row[5].ToString());
+                DateTime end = DateTime.Parse(row[6].ToString());
+                string accountNo = row[7].ToString();
+                string execAction = row[8].ToString();
+                string desc1 = row[9].ToString();
+                string rawDeptName = row[10].ToString();
+                string desc2 = row[12].ToString();
+                int deptId = -1;
+                int typeId = -1;
+
+                string comments = desc2;
+                if (desc1 != desc2)
+                {
+                    comments += ";" + desc1;
+                }
+
+                DataRow[] r = depts.Select("DeptName = '" + rawDeptName + "'");
+                if (1 == r.Length)
+                {
+                    deptId = (int)((DataRow)r.GetValue(0)).ItemArray[0];
+                }
+                else if (0 == r.Length)
+                {
+                    using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["AlleghenyCountyConnectionString"].ConnectionString))
+                    {
+                        SqlCommand cmd = new SqlCommand();
+
+                        cmd.CommandText = "INSERT INTO tlk_department (DeptName) OUTPUT INSERTED.DeptCode VALUES (@name)";
+                        cmd.CommandType = CommandType.Text;
+                        cmd.Parameters.AddWithValue("@name", rawDeptName);
+                        cmd.Connection = conn;
+
+                        conn.Open();
+
+                        deptId = (int)cmd.ExecuteScalar();
+
+                        // Add so that select will find it
+                        DataRow workRow = depts.NewRow();
+                        workRow["DeptCode"] = deptId;
+                        workRow["DeptName"] = rawDeptName;
+                        depts.Rows.Add(workRow);
+                    }
+                }
+                else
+                {
+                    throw new Exception("Duplicate DeptName: " + rawDeptName);
+                }
+
+                r = types.Select("OrderType = '" + rawOrderType + "'");
+                if (1 == r.Length)
+                {
+                    typeId = (int)((DataRow)r.GetValue(0)).ItemArray[0];
+                }
+                else if (0 == r.Length)
+                {
+                    using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["AlleghenyCountyConnectionString"].ConnectionString))
+                    {
+                        SqlCommand cmd = new SqlCommand();
+
+                        cmd.CommandText = "INSERT INTO order_types (OrderType) OUTPUT INSERTED.ID VALUES (@type)";
+                        cmd.CommandType = CommandType.Text;
+                        cmd.Parameters.AddWithValue("@type", rawOrderType);
+                        cmd.Connection = conn;
+
+                        conn.Open();
+
+                        typeId = (int)cmd.ExecuteScalar();
+
+                        // Add so that select will find it
+                        DataRow workRow = types.NewRow();
+                        workRow["ID"] = typeId;
+                        workRow["OrderType"] = rawOrderType;
+                        types.Rows.Add(workRow);
+                    }
+                }
+                else
+                {
+                    throw new Exception("Duplicate OrderType: " + rawOrderType);
+                }
+
+                if (!vendors.Rows.Contains(vendorNo))
+                {
+                    using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["AlleghenyCountyConnectionString"].ConnectionString))
+                    {
+                        SqlCommand cmd = new SqlCommand();
+
+                        cmd.CommandText = "INSERT INTO vendors (VendorNo, VendorName) VALUES (@vendorNo, @vendorName)";
+                        cmd.CommandType = CommandType.Text;
+                        cmd.Parameters.AddWithValue("@vendorNo", vendorNo);
+                        cmd.Parameters.AddWithValue("@vendorName", vendorName);
+                        cmd.Connection = conn;
+
+                        conn.Open();
+
+                        cmd.ExecuteNonQuery();
+
+                        DataRow workRow = vendors.NewRow();
+                        workRow["VendorNo"] = vendorNo;
+                        workRow["VendorName"] = vendorName;
+                        vendors.Rows.Add(workRow);
+                    }
+                }
+
+                // Is this a new contract?
+                if (!contractIds.ContainsKey(contractID))
+                {
+                    // It's a new one
+                    DataRow contractRow = contracts.NewRow();
+
+                    contractRow["ContractID"] = contractID;
+                    contractRow["ContractTypeID"] = typeId;
+                    contractRow["VendorNo"] = vendorNo;
+                    contractRow["VendorName"] = vendorName;
+                    contractRow["DepartmentID"] = deptId;
+                    contractRow["Amount"] = price;
+                    contractRow["OrderDate"] = start;
+                    contractRow["CancelDate"] = end;
+                    contractRow["ExecutiveAction"] = execAction;
+
+                    contracts.Rows.Add(contractRow);
+
+                    contractIds.Add(contractID, 1);
+                }
+
+                DataRow accountRow = accounts.NewRow();
+
+                accountRow["ContractID"] = contractID;
+                accountRow["AccountNo"] = accountNo;
+                accountRow["Description"] = comments;
+
+                accounts.Rows.Add(accountRow);
+            }
+
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["AlleghenyCountyConnectionString"].ConnectionString))
+            {
+                conn.Open();
+
+                using (SqlBulkCopy bulkcopy = new SqlBulkCopy(conn))
+                {
+                    //Set destination table name
+                    //to table previously created.
+                    bulkcopy.DestinationTableName = "dbo.contracts";
+                    bulkcopy.ColumnMappings.Add("ContractID", "[ContractID]");
+                    bulkcopy.ColumnMappings.Add("ContractTypeID", "[ContractTypeID]");
+                    bulkcopy.ColumnMappings.Add("VendorNo", "[VendorNo]");
+                    bulkcopy.ColumnMappings.Add("VendorName", "[VendorName]");
+                    bulkcopy.ColumnMappings.Add("DepartmentID", "[DepartmentID]");
+                    bulkcopy.ColumnMappings.Add("Amount", "[Amount]");
+                    bulkcopy.ColumnMappings.Add("OrderDate", "[OrderDate]");
+                    bulkcopy.ColumnMappings.Add("CancelDate", "[CancelDate]");
+                    bulkcopy.ColumnMappings.Add("ExecutiveAction", "[ExecutiveAction]");
+                    /*
+                     * ValidatingDataReader will give details of any error - uncomment in case of exception
+                     * 
+                     * using (ValidatingDataReader validator = new ValidatingDataReader(contracts.CreateDataReader(), conn, bulkcopy))
+                    {
+                        bulkcopy.WriteToServer(validator);
+                    } */
+                    try
+                    {
+                        bulkcopy.WriteToServer(contracts);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }
+
+                using (SqlBulkCopy bulkcopy = new SqlBulkCopy(conn))
+                {
+                    //Set destination table name
+                    //to table previously created.
+                    bulkcopy.DestinationTableName = "dbo.accounts";
+                    bulkcopy.ColumnMappings.Add("ContractID", "[ContractID]");
+                    bulkcopy.ColumnMappings.Add("AccountNo", "[AccountNo]");
+                    bulkcopy.ColumnMappings.Add("Description", "[Description]");
+
+                    /*
+                     * ValidatingDataReader will give details of any error - uncomment in case of exception
+                     * 
+                    using (ValidatingDataReader validator = new ValidatingDataReader(accounts.CreateDataReader(), conn, bulkcopy))
+                    {
+                        bulkcopy.WriteToServer(validator);
+                    } */
+
+                    try
+                    {
+                        bulkcopy.WriteToServer(accounts);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }
             }
         }
 
@@ -1083,10 +1346,10 @@ namespace OpenBookAllegheny
 
         static Admin()
         {
-            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["AlleghenyCountyConnectionString"].ConnectionString))
             {
-                conn.Open();
-
+                /*conn.Open();
+                 
                 using (SqlCommand cmd = new SqlCommand("SELECT * FROM tlk_candidate", conn))
                 {
                     DataTable candidates = new DataTable("candidates");
@@ -1117,7 +1380,7 @@ namespace OpenBookAllegheny
                             mContributionType.Add(row["ContributionType"].ToString(), Int32.Parse(row["ID"].ToString()));
                         }
                     }
-                }
+                } */
             }
         }
 

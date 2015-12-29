@@ -142,55 +142,29 @@
                                 <h2><a href="VendorDetail.aspx?ID=<%# Eval("VendorNo") %>"><%# Eval("VendorName") %>  </a></h2>
                                 <div class="price-group">
                                     <span class="original">Currrent Contract Amount: <%# Eval("Amount", "{0:C}")%></span>
-                                    <span class="current"><%# Eval("OriginalAmount", "{0:C}")%> Original Contract Amount</span>
 
                                 </div>
                                 <div class="label-group">
                                     <div class="label-item">
                                         <div class="type">Type</div>
-                                        <div class="title"><%# Eval("ServiceName") %></div>
+                                        <div class="title"><%# Eval("OrderType") %></div>
                                     </div>
                                     <div class="label-item">
                                         <div class="type">Department</div>
-                                        <div class="title"><%# Eval("DepartmentName") %></div>
+                                        <div class="title"><%# Eval("DeptName") %></div>
                                     </div>
                                 </div>
                                 <div class="agenda">
                                     <span class="title">Contract 
-                        				     <i><b><a href="ContractDetail.aspx?ID=<%# Eval("ContractID") %>&sup=<%# Eval("SupplementalNo") %>">
-                                                 <%# Eval("SupplementalNo").ToString() == "0" ? Eval("ContractID") : Eval("ContractID") + "." + Eval("SupplementalNo")%>
+                        				     <i><b><a href="ContractDetail.aspx?ID=<%# Eval("ContractID") %>">
+                                                 <%# Eval("ContractID")%>
                                              </a></b></i>
                                         Term:</span>
-                                    <span><%# Eval("DateCountersigned", "{0:MM/dd/yyyy}")%> —<%# Eval("DateDuration", "{0:MM/dd/yyyy}")%></span>
+                                    <span><%# Eval("OrderDate", "{0:MM/dd/yyyy}")%> —<%# Eval("CancelDate", "{0:MM/dd/yyyy}")%></span>
                                 </div>
                                 <div class="description">
-                                    <p><%# Eval("Description") %></p>
+                                    <p><%# Eval("AggregateDescription") %></p>
                                 </div>
-                                <span class="current">
-                                    <asp:Panel class="PDFPanel" ID="pnlContractPDF" runat="server" Visible='<%# Eval("HasPDF").ToString() == "True" %>'>
-                                        <label>Contract</label>
-                                        <asp:ImageButton ID="ibtnContractPDF" runat="server"
-                                            ImageUrl="~/img/pdficon.gif"
-                                            CommandName="ViewPDF"
-                                            CommandArgument='<%# Eval("ContractID") %>' />
-                                    </asp:Panel>
-
-                                    <asp:Panel class="PDFPanel" ID="pnlCheckPDF" runat="server" Visible='<%# Eval("HasCheck").ToString() == "True" %>'>
-                                        <label>Check</label>
-                                        <asp:ImageButton ID="ibtnCheckPDF" runat="server"
-                                            ImageUrl="~/img/pdficon.gif"
-                                            CommandName="ViewCheck"
-                                            CommandArgument='<%# Eval("ContractID") %>' />
-                                    </asp:Panel>
-
-                                    <asp:Panel class="PDFPanel" ID="pnlInvoicePDF" runat="server" Visible='<%# Eval("HasInvoice").ToString() == "True" %>'>
-                                        <label>Invoice</label>
-                                        <asp:ImageButton ID="ibtnInvoicePDF" runat="server"
-                                            ImageUrl="~/img/pdficon.gif"
-                                            CommandName="ViewInvoice"
-                                            CommandArgument='<%# Eval("ContractID") %>' />
-                                    </asp:Panel>
-                                </span>
                             </div>
                         </ItemTemplate>
                     </asp:Repeater>

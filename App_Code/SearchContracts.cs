@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Web;
+using System.Collections;
 
 namespace OpenBookAllegheny
 {
@@ -17,7 +18,7 @@ namespace OpenBookAllegheny
         {
             int maxPrice = DEFAULT_MAX_PRICE;
 
-            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["AlleghenyCountyConnectionString"].ConnectionString))
             {
                 using (SqlCommand cmd = new SqlCommand("SELECT MAX(Amount) FROM contracts", conn))
                 {
@@ -352,7 +353,7 @@ namespace OpenBookAllegheny
         public static DataTable GetContracts(SearchRangeParamsContract sp, int pageIndex, int maximumRows, string sortColumn, string sortDirection)
         {
             DataTable results = new DataTable("Results");
-            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["AlleghenyCountyConnectionString"].ConnectionString))
             {
                 using (SqlCommand cmd = new SqlCommand("SearchContractsRange", conn))
                 {
@@ -377,6 +378,30 @@ namespace OpenBookAllegheny
                     cmd.ExecuteNonQuery();
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
                     da.Fill(results);
+
+                    SqlCommand updateCmd = new SqlCommand("UPDATE Results SET AggregateDescription = @aggregate WHERE contractID = @id", conn);
+
+                    // Post-process AggregateDescription to extract unique values
+                    char[] delimiters = new char[] { ',', ';', '/' };
+                    foreach (DataRow row in results.Rows)
+                    {
+                        string[] descFields = row["AggregateDescription"].ToString().Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+                        ArrayList fields = new ArrayList();
+                        foreach (string field in descFields)
+                        {
+                            if (!fields.Contains(field))
+                            {
+                                fields.Add(field);
+                            }
+                        }
+                        string aggregate = "";
+                        foreach (string field in fields)
+                        {
+                            aggregate += field + " ";
+                        }
+
+                        row["AggregateDescription"] = aggregate.Trim();
+                    }
 
                     return results;
                 }
@@ -420,7 +445,7 @@ namespace OpenBookAllegheny
         // Replaces version with SearchParamsContract
         public static int GetContractsCount(SearchRangeParamsContract sp)
         {
-            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["AlleghenyCountyConnectionString"].ConnectionString))
             {
                 using (SqlCommand cmd = new SqlCommand("SearchRangeContractsCount", conn))
                 {

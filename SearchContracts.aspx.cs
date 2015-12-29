@@ -48,7 +48,7 @@ public partial class SearchContractsPage : PaginatedPage
     {
         DataTable dt = new DataTable();
 
-        using (SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
+        using (SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["AlleghenyCountyConnectionString"].ConnectionString))
         {
             try
             {
@@ -74,15 +74,15 @@ public partial class SearchContractsPage : PaginatedPage
     {
         DataTable dt = new DataTable();
 
-        using (SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
+        using (SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["AlleghenyCountyConnectionString"].ConnectionString))
         {
             try
             {
-                SqlDataAdapter adapter = new SqlDataAdapter("SELECT [ID], [ServiceName] FROM [tlk_service] ORDER BY ServiceName", con);
+                SqlDataAdapter adapter = new SqlDataAdapter("SELECT [ID], [OrderType] FROM [order_types] ORDER BY OrderType", con);
                 adapter.Fill(dt);
 
                 ContractType.DataSource = dt;
-                ContractType.DataTextField = "ServiceName";
+                ContractType.DataTextField = "OrderType";
                 ContractType.DataValueField = "ID";
                 ContractType.DataBind();
             }
@@ -94,7 +94,7 @@ public partial class SearchContractsPage : PaginatedPage
 
         // Add the initial item - you can add this even if the options from the
         // db were not successfully loaded
-        ContractType.Items.Insert(0, new ListItem("All Services", "0"));
+        ContractType.Items.Insert(0, new ListItem("All Order Types", "0"));
     }
     protected void Page_LoadComplete(object sender, EventArgs e)
     {

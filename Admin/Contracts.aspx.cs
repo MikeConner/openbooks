@@ -213,14 +213,6 @@ public partial class Admin_Contracts_new : PaginatedPage
 
 		Response.Redirect(GenerateQueryString(PageIndex, "Amount", sort, PageSize));
 	}
-	public void sortOriginalAmount(object sender, EventArgs e)
-	{
-		string sort = "ASC";
-		if (SortDirection == "ASC")
-			sort = "DESC";
-
-		Response.Redirect(GenerateQueryString(PageIndex, "OriginalAmount", sort, PageSize));
-	}
 	public void sortDescription(object sender, EventArgs e)
 	{
 		string sort = "ASC";
@@ -235,7 +227,7 @@ public partial class Admin_Contracts_new : PaginatedPage
 		if (SortDirection == "ASC")
 			sort = "DESC";
 
-		Response.Redirect(GenerateQueryString(PageIndex, "DateDuration", sort, PageSize));
+		Response.Redirect(GenerateQueryString(PageIndex, "EndDate", sort, PageSize));
 	}
 	public void sortContractType(object sender, EventArgs e)
 	{
@@ -243,15 +235,15 @@ public partial class Admin_Contracts_new : PaginatedPage
 		if (SortDirection == "ASC")
 			sort = "DESC";
 
-		Response.Redirect(GenerateQueryString(PageIndex, "Service", sort, PageSize));
+		Response.Redirect(GenerateQueryString(PageIndex, "ContractType", sort, PageSize));
 	}
-	public void sortApprovalDate(object sender, EventArgs e)
+	public void sortStartDate(object sender, EventArgs e)
 	{
 		string sort = "ASC";
 		if (SortDirection == "ASC")
 			sort = "DESC";
 
-		Response.Redirect(GenerateQueryString(PageIndex, "DateCountersigned", sort, PageSize));
+		Response.Redirect(GenerateQueryString(PageIndex, "StartDate", sort, PageSize));
 	}
 	
 	/* Page Actions */

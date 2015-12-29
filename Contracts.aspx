@@ -32,13 +32,11 @@
                 <th>
                     <asp:LinkButton ID="LinkButton4" Text="Amount" OnClick="sortAmount" runat="server" /><asp:Image ID="imgSortAmount" runat="server" /></th>
                 <th>
-                    <asp:LinkButton ID="LinkButton5" Text="Original<br/>Amount" OnClick="sortOriginalAmount" runat="server" /><asp:Image ID="imgSortOriginalAmount" runat="server" /></th>
-                <th>
                     <asp:LinkButton ID="LinkButton6" Text="Contract&nbsp;Description" OnClick="sortDescription" runat="server" /><asp:Image ID="imgSortDescription" runat="server" /></th>
                 <th>
                     <asp:LinkButton ID="LinkButton9" Text="Contract&nbsp;Type" OnClick="sortContractType" runat="server" /><asp:Image ID="imgSortContractType" runat="server" /></th>
                 <th>
-                    <asp:LinkButton ID="LinkButton10" Text="Contract Approval Date" OnClick="sortApprovalDate" runat="server" /><asp:Image ID="imgSortApproval" runat="server" /></th>
+                    <asp:LinkButton ID="LinkButton10" Text="Contract Approval Date" OnClick="sortStartDate" runat="server" /><asp:Image ID="imgSortStartDate" runat="server" /></th>
                 <th>
                     <asp:LinkButton ID="LinkButton8" Text="Contract End Date" OnClick="sortEndDate" runat="server" /><asp:Image ID="imgSortEndDate" runat="server" /></th>
                 <th></th>

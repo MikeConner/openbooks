@@ -209,12 +209,10 @@ public partial class SearchResults : System.Web.UI.Page
 		imgSortAgency.ImageUrl = IMGNOSORT;
 		imgSortContractID.ImageUrl = IMGNOSORT;
 		imgSortAmount.ImageUrl = IMGNOSORT;
-		imgSortOriginalAmount.ImageUrl = IMGNOSORT;
 		imgSortDescription.ImageUrl = IMGNOSORT;
-		//imgSortStartDate.ImageUrl = IMGNOSORT;
+	    imgSortStartDate.ImageUrl = IMGNOSORT;
 		imgSortEndDate.ImageUrl = IMGNOSORT;
 		imgSortContractType.ImageUrl = IMGNOSORT;
-		imgSortApproval.ImageUrl = IMGNOSORT;
 	}
 	public void sortVendor(object sender, EventArgs e)
 	{
@@ -320,32 +318,6 @@ public partial class SearchResults : System.Web.UI.Page
 
 		GetSearchResults();
 	}
-	public void sortOriginalAmount(object sender, EventArgs e)
-	{
-		clearImages();
-
-		if (SortExpression == "OriginalAmount")
-		{
-			if (SortDirection == ASCENDING)
-			{
-				SortDirection = DESCENDING;
-				imgSortOriginalAmount.ImageUrl = IMGDESC;
-			}
-			else
-			{
-				SortDirection = ASCENDING;
-				imgSortOriginalAmount.ImageUrl = IMGASC;
-			}
-		}
-		else
-		{
-			SortExpression = "OriginalAmount";
-			SortDirection = DESCENDING;
-			imgSortOriginalAmount.ImageUrl = IMGDESC;
-		}
-
-		GetSearchResults();
-	}
 	public void sortDescription(object sender, EventArgs e)
 	{
 		clearImages();
@@ -376,7 +348,7 @@ public partial class SearchResults : System.Web.UI.Page
 	{
 		clearImages();
 
-		if (SortExpression == "DateDuration")
+		if (SortExpression == "EndDate")
 		{
 			if (SortDirection == ASCENDING)
 			{
@@ -391,7 +363,7 @@ public partial class SearchResults : System.Web.UI.Page
 		}
 		else
 		{
-			SortExpression = "DateDuration";
+            SortExpression = "EndDate";
 			SortDirection = DESCENDING;
 			imgSortEndDate.ImageUrl = IMGDESC;
 		}
@@ -402,7 +374,7 @@ public partial class SearchResults : System.Web.UI.Page
 	{
 		clearImages();
 
-		if (SortExpression == "Service")
+		if (SortExpression == "ContractType")
 		{
 			if (SortDirection == ASCENDING)
 			{
@@ -417,35 +389,35 @@ public partial class SearchResults : System.Web.UI.Page
 		}
 		else
 		{
-			SortExpression = "Service";
+            SortExpression = "ContractType";
 			SortDirection = DESCENDING;
 			imgSortContractType.ImageUrl = IMGDESC;
 		}
 
 		GetSearchResults();
 	}
-	public void sortApprovalDate(object sender, EventArgs e)
+	public void sortStartDate(object sender, EventArgs e)
 	{
 		clearImages();
 
-		if (SortExpression == "DateCountersigned")
+		if (SortExpression == "StartDate")
 		{
 			if (SortDirection == ASCENDING)
 			{
 				SortDirection = DESCENDING;
-				imgSortApproval.ImageUrl = IMGDESC;
+				imgSortStartDate.ImageUrl = IMGDESC;
 			}
 			else
 			{
 				SortDirection = ASCENDING;
-				imgSortApproval.ImageUrl = IMGASC;
+                imgSortStartDate.ImageUrl = IMGASC;
 			}
 		}
 		else
 		{
-			SortExpression = "DateCountersigned";
+            SortExpression = "StartDate";
 			SortDirection = DESCENDING;
-			imgSortApproval.ImageUrl = IMGDESC;
+            imgSortStartDate.ImageUrl = IMGDESC;
 		}
 
 		GetSearchResults();
