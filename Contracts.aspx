@@ -46,26 +46,18 @@
                 <ItemTemplate>
                     <tr class='<%# Container.ItemIndex % 2 == 0 ? "" : "even" %>' valign="top">
                         <td class="vendor"><a href="VendorDetail.aspx?ID=<%# Eval("VendorNo") %>"><%# Eval("VendorName") %></a></td>
-                        <td class="agency"><%# Eval("DepartmentName") %></td>
+                        <td class="agency"><%# Eval("DeptName") %></td>
                         <td class="contract">
-                            <a href="ContractDetail.aspx?ID=<%# Eval("ContractID") %>&sup=<%# Eval("SupplementalNo") %>">
-                                <%# Eval("SupplementalNo").ToString() == "0" ? Eval("ContractID") : Eval("ContractID") + "." + Eval("SupplementalNo")%>
+                            <a href="ContractDetail.aspx?ID=<%# Eval("ContractID") %>">
+                                <%# Eval("ContractID")%>
                             </a>
                         </td>
                         <td class="amount"><%# Eval("Amount", "{0:C}")%></td>
-                        <td class="oamount"><%# Eval("OriginalAmount", "{0:C}")%></td>
-                        <td class="description"><%# Eval("Description") %></td>
-                        <td class="contracttype"><%# Eval("ServiceName") %></td>
-                        <td class="approvaldate"><%# Eval("DateCountersigned", "{0:MM/dd/yyyy}")%></td>
-                        <td class="date"><%# Eval("DateDuration", "{0:MM/dd/yyyy}")%></td>
-                        <td valign="middle" style="padding-right: 5px;">
-                            <asp:Panel ID="pnlContractPDF" runat="server" Visible='<%# Eval("HasPDF").ToString() == "True" %>'>
-                                <asp:ImageButton ID="ibtnContractPDF" runat="server"
-                                    ImageUrl="~/img/pdficon.gif"
-                                    CommandName="ViewPDF"
-                                    CommandArgument='<%# Eval("ContractID") %>' />
-                            </asp:Panel>
-                        </td>
+                        <td class="description"><%# Eval("AggregateDescription") %></td>
+                        <td class="contracttype"><%# Eval("OrderType") %></td>
+                        <td class="approvaldate"><%# Eval("OrderDate", "{0:MM/dd/yyyy}")%></td>
+                        <td class="date"><%# Eval("CancelDate", "{0:MM/dd/yyyy}")%></td>
+
                     </tr>
                 </ItemTemplate>
             </asp:Repeater>
