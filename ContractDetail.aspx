@@ -16,17 +16,15 @@
                             <table class="ob-gridview" cellpadding="0" cellspacing="0">
                                 <tr>
                                     <th>Amount</th>
-                                    <th>Original Amount</th>
                                     <th>Contract Description</th>
                                     <th>Contract Approval Date</th>
                                     <th>Contract End Date</th>
                                 </tr>
                                 <tr>
                                     <td><%# DataBinder.Eval(Container.DataItem, "Amount", "{0:C}")%></td>
-                                    <td><%# DataBinder.Eval(Container.DataItem, "OriginalAmount", "{0:C}")%></td>
-                                    <td><%# DataBinder.Eval(Container.DataItem, "Description") %></td>
-                                    <td><%# DataBinder.Eval(Container.DataItem, "DateCountersigned", "{0:MM/dd/yyyy}")%></td>
-                                    <td><%# DataBinder.Eval(Container.DataItem, "DateDuration", "{0:MM/dd/yyyy}")%></td>
+                                    <td><%# DataBinder.Eval(Container.DataItem, "AggregateDescription") %></td>
+                                    <td><%# DataBinder.Eval(Container.DataItem, "OrderDate", "{0:MM/dd/yyyy}")%></td>
+                                    <td><%# DataBinder.Eval(Container.DataItem, "CancelDate", "{0:MM/dd/yyyy}")%></td>
                                 </tr>
                             </table>
                             <div class="bottomnav">
@@ -44,13 +42,6 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <label>Second Vendor Name: </label>
-                                        </td>
-                                        <td><a href="VendorDetail.aspx?ID=<%# DataBinder.Eval(Container.DataItem, "SecondVendorNo") %>">
-                                            <%# DataBinder.Eval(Container.DataItem, "SecondVendorName") %></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
                                             <label>City Department: </label>
                                         </td>
                                         <td><%# DataBinder.Eval(Container.DataItem, "DeptName") %></td>
@@ -63,38 +54,9 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <label>Supplement No.: </label>
-                                        </td>
-                                        <td><%# DataBinder.Eval(Container.DataItem, "SupplementalNo") %></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label>Resolution No.: </label>
-                                        </td>
-                                        <td><%# DataBinder.Eval(Container.DataItem, "ResolutionNo") %></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label>Comments: </label>
-                                        </td>
-                                        <td><%# DataBinder.Eval(Container.DataItem, "Comments") %></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
                                             <label>Contract Type: </label>
                                         </td>
-                                        <td><%# DataBinder.Eval(Container.DataItem, "ServiceName") %></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <asp:Panel ID="pnlContractPDF" runat="server" Visible='<%# Eval("HasPDF").ToString() == "True" %>'>
-                                                <asp:Button ID="ibtnContractPDF" runat="server"
-                                                    class="button submit"
-                                                    Text="View Contract"
-                                                    CommandName="ViewPDF"
-                                                    CommandArgument='<%# Eval("ContractID") %>' />
-                                            </asp:Panel>
-                                        </td>
+                                        <td><%# DataBinder.Eval(Container.DataItem, "OrderType") %></td>
                                     </tr>
                                 </table>
                             </div>

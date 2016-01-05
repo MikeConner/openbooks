@@ -22,11 +22,6 @@ public partial class VendorDetail : System.Web.UI.Page
 		{
 			rptVendorDetails.DataSource = Admin.GetContractsByVendorID(vendorID);
 			rptVendorDetails.DataBind();
-
-			rptCompanyInfo.DataSource = Admin.GetCompanyByVendorID(vendorID);
-			rptCompanyInfo.DataBind();	
 		}
 	}
-
-
 }

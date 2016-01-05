@@ -12,31 +12,7 @@
                         <div class="gridboxright"></div>
                     </div>
 
-                    <asp:Repeater ID="rptCompanyInfo" runat="server">
-                        <HeaderTemplate>
-                            <div class="companyinfo">
-                        </HeaderTemplate>
-                        <ItemTemplate>
-                            <h3><%# DataBinder.Eval(Container.DataItem, "VendorName") %></h3>
-
-                            <div class="large-12 column">
-                                <span>
-                                    <h6><%# DataBinder.Eval(Container.DataItem, "Address1") %>
-                                        <%# DataBinder.Eval(Container.DataItem, "Address2") %>
-                                        <%# DataBinder.Eval(Container.DataItem, "Address3") %>
-                                        <%# DataBinder.Eval(Container.DataItem, "Country") %>
-                                        <%# DataBinder.Eval(Container.DataItem, "City") %>, 
-					                    <%# DataBinder.Eval(Container.DataItem, "State") %>
-					                    <%# DataBinder.Eval(Container.DataItem, "Province") %>
-                                        <%# DataBinder.Eval(Container.DataItem, "Zip") %></h6>
-                                </span>
-                            </div>
-                            <hr />
-                        </ItemTemplate>
-                        <FooterTemplate>
-                        </FooterTemplate>
-                    </asp:Repeater>
-                </div>
+              </div>
                 <br />
                 <br />
                 <div class="gridboxhead">
@@ -51,7 +27,6 @@
                             <tr>
                                 <th>Contract #</th>
                                 <th>Amount</th>
-                                <th>Original Amount</th>
                                 <th>Contract Description</th>
                                 <th>Contract Approval Date</th>
                                 <th>Contract End Date</th>
@@ -60,15 +35,14 @@
                     <ItemTemplate>
                         <tr class='<%# Container.ItemIndex % 2 == 0 ? "" : "even" %>' valign="top">
                             <td>
-                                <a href="ContractDetail.aspx?ID=<%# Eval("ContractID") %>&sup=<%# Eval("SupplementalNo") %>">
-                                    <%# Eval("SupplementalNo").ToString() == "0" ? Eval("ContractID") : Eval("ContractID") + "." + Eval("SupplementalNo")%>
+                                <a href="ContractDetail.aspx?ID=<%# Eval("ContractID") %>">
+                                    <%# Eval("ContractID")%>
                                 </a>
                             </td>
                             <td><%# DataBinder.Eval(Container.DataItem, "Amount", "{0:C}") %></td>
-                            <td><%# DataBinder.Eval(Container.DataItem, "OriginalAmount", "{0:C}") %></td>
-                            <td><%# DataBinder.Eval(Container.DataItem, "Description") %></td>
-                            <td><%# DataBinder.Eval(Container.DataItem, "DateCountersigned", "{0:MM/dd/yyyy}")%></td>
-                            <td><%# DataBinder.Eval(Container.DataItem, "DateDuration", "{0:MM/dd/yyyy}")%></td>
+                            <td><%# DataBinder.Eval(Container.DataItem, "AggregateDescription") %></td>
+                            <td><%# DataBinder.Eval(Container.DataItem, "OrderDate", "{0:MM/dd/yyyy}")%></td>
+                            <td><%# DataBinder.Eval(Container.DataItem, "CancelDate", "{0:MM/dd/yyyy}")%></td>
                         </tr>
 
                     </ItemTemplate>

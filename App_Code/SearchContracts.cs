@@ -379,29 +379,7 @@ namespace OpenBookAllegheny
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
                     da.Fill(results);
 
-                    SqlCommand updateCmd = new SqlCommand("UPDATE Results SET AggregateDescription = @aggregate WHERE contractID = @id", conn);
-
-                    // Post-process AggregateDescription to extract unique values
-                    char[] delimiters = new char[] { ',', ';', '/' };
-                    foreach (DataRow row in results.Rows)
-                    {
-                        string[] descFields = row["AggregateDescription"].ToString().Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
-                        ArrayList fields = new ArrayList();
-                        foreach (string field in descFields)
-                        {
-                            if (!fields.Contains(field))
-                            {
-                                fields.Add(field);
-                            }
-                        }
-                        string aggregate = "";
-                        foreach (string field in fields)
-                        {
-                            aggregate += field + " ";
-                        }
-
-                        row["AggregateDescription"] = aggregate.Trim();
-                    }
+                    Admin.FilterAggregateDescription(results, conn);
 
                     return results;
                 }
