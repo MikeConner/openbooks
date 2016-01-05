@@ -128,10 +128,10 @@
                         OnSelectedIndexChanged="ddlSortContracts_SelectedIndexChanged"
                         AutoPostBack="true">
                         <asp:ListItem Text="Contract Amount" Value="amount" />
-                        <asp:ListItem Text="Department" Value="DepartmentID" />
-                        <asp:ListItem Text="Contract Type" Value="Service" />
+                        <asp:ListItem Text="Department" Value="DeptName" />
+                        <asp:ListItem Text="Contract Type" Value="OrderType" />
                         <asp:ListItem Text="Vendor Name" Value="VendorName" />
-                        <asp:ListItem Text="Approval Date" Value="DateCountersigned" />
+                        <asp:ListItem Text="Start Date" Value="OrderDate" />
                     </asp:DropDownList>
                     <asp:ImageButton ID="imgSortDirection" OnClick="toggleSortDirection" runat="server" />
                 </div>

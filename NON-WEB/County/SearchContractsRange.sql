@@ -1,13 +1,4 @@
-USE [AlleghenyCounty]
-GO
-
-/****** Object:  StoredProcedure [dbo].[SearchContractsRange]    Script Date: 12/29/2015 3:36:21 PM ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
+﻿
 
 
 
@@ -23,7 +14,7 @@ GO
 -- Create date: 05/20/09
 -- Description:	Search Contracts
 -- =============================================
-ALTER PROCEDURE [dbo].[SearchContractsRange]
+CREATE PROCEDURE [dbo].[SearchContractsRange]
 	@pageIndex INT, 
 	@maximumRows INT,
 	@sortColumn VARCHAR(25) = 'contractID',
@@ -58,12 +49,12 @@ FROM
 (
 	SELECT ';
 	SELECT @sql = @sql + 'ROW_NUMBER() OVER(ORDER BY ' + @sortColumn + ' ' + @sortDirection + ' ,OrderDate DESC) AS ContractOrder, ';
-    SELECT @sql = @sql + 'contractID, VendorNo, VendorName, DeptName, DeptCode, Amount, OrderDate, CancelDate, OrderType,
+    SELECT @sql = @sql + 'contractID, VendorNo, VendorName, DeptName, DeptCode, Amount, OrderDate, CancelDate, OrderType, OrderTypeID,
        AggregateDescription
 FROM
 (
 SELECT 
-   DISTINCT c.contractID, c.VendorNo, d.DeptCode, d.DeptName, c.Amount, c.OrderDate, c.CancelDate, c.VendorName, ot.OrderType,
+   DISTINCT c.contractID, c.VendorNo, d.DeptCode, d.DeptName, c.Amount, c.OrderDate, c.CancelDate, c.VendorName, ot.OrderType, ot.ID AS OrderTypeID,
             STUFF( (SELECT '','' + acc.Description
                              FROM accounts acc
 			     WHERE acc.ContractID = c.contractID
@@ -102,7 +93,7 @@ SELECT @sql = @sql + ' WHERE 1 = 1 ';
 
 		/* Contract Type */
 		IF @contractType IS NOT NULL
-			SELECT @sql = @sql + ' AND OrderType = @xcontractType ';
+			SELECT @sql = @sql + ' AND OrderTypeID = @xcontractType ';
 
 		/* Keywords Search */
 		IF @keywords IS NOT NULL
@@ -146,17 +137,3 @@ EXEC sp_executesql @sql, @paramlist,
 	@cityDept, @contractID, @vendorID, @vendorKeywords, @contractType, @keywords, @beginDate, @endDate, @minContractAmt, @maxContractAmt
 
 END
-
-
-
-
-
-
-
-
-
-
-
-GO
-
-
