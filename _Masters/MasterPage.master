@@ -17,7 +17,7 @@
 <nav class='top-bar' data-topbar=''>
 <ul class='title-area'>
 <li class='name'>
-<h1><a href="/"><img alt="Logo" src="../img/logo.png" /></a></h1>
+<h1><a href="/"><img alt="Logo" class="logo" src="../img/logo.png" /></a></h1>
 </li>
 <li class='toggle-topbar menu-icon'>
 <a href='#'>
@@ -32,14 +32,18 @@
 <li class='search-toggle'><a href="#">Search</a></li>
 <li><a href="../About.aspx">About</a></li>
 <li><a href="../Contact.aspx">Contact</a></li>
-<li class='controller'><img alt="Controller logo" class="controller-logo" src="../img/controller-logo.png" /></li>
+<li class='controller'><img alt="Controller logo" class="controller-logo" src="../img/county-logo.jpg" /></li>
 </ul>
 </section>
 </nav>
 <section class='search-menu'>
 <div class='row'>
+<div class="large-4 columns">&nbsp;</div>
 <div class='large-4 columns'>
-<div class='button'><a href="../SearchContracts.aspx">City Contracts</a></div>
+<div class='button'><a href="../SearchContracts.aspx">County Contracts</a></div>
+</div>
+<div class="large-4 columns">&nbsp;</div>
+<!--
 </div>
 <div class='large-4 columns'>
 <div class='button'><a href="../SearchContributions.aspx">Campaign Finance</a></div>
@@ -47,6 +51,7 @@
 <div class='large-4 columns'>
 <div class='button'><a href="../SearchLobbyists.aspx">Lobbyists</a></div>
 </div>
+ -->
 </div>
 </section>
 </div>
@@ -64,12 +69,11 @@
 <%if (true) //(Page.ToString() != "ASP.default_aspx")
   {  %>
     <footer class='row'>
-<div class='large-8 columns'>
-    <h3>Office of Controller Michael Lamb</h3>
-    <p>The City Controller is one of two, independently elected, citywide offices in the City of Pittsburgh, the other being the Mayor. The term of office for the City Controller is four years, and is not term limited.</p>
+<div class='large-8 columns controller-footer'>
+    <h3>Allegheny County Controller Chelsea Wagner</h3>
     <ul>
         <li>
-            <a href='http://pittsburghpa.gov/controller/' target='_blank'>Office of the City Controller →</a>
+            <a href='http://alleghenycontroller.com/' class="controller-footer" target='_blank'>Office of the County Controller →</a>
         </li>
     </ul>
 </div>
@@ -89,11 +93,11 @@
 <div class='copyright'>
 <div class='row'>
 <div class='large-12 columns'>
-<span><img alt="Footer logo" src="../img/footer-logo.png" /></span>
+<span><img alt="Footer logo" class="footer-logo" src="../img/footer-logo.png" /></span>
 <span class='copy'>
 
 
-    Copyright <asp:Literal ID="CopyYear" runat="server" />, Pittsburgh City Controller
+    Copyright <asp:Literal ID="CopyYear" runat="server" />, Allegheny County
 </span>
 </div>
 </div>

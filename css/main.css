@@ -1267,7 +1267,7 @@ select {
   position: relative;
   padding: 0.875rem 1.5rem 0.875rem 0.875rem;
   font-size: 0.8125rem;
-  background-color: #ffb745;
+  background-color: #2a3644;
   border-color: #ffa518;
   color: white; }
   /* line 105, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_alert-boxes.scss */
@@ -1760,7 +1760,7 @@ select {
     .breadcrumbs > * a,
     .breadcrumbs > * span {
       text-transform: uppercase;
-      color: #ffb745; }
+      color: #2a3644; }
     /* line 71, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_breadcrumbs.scss */
     .breadcrumbs > *.current {
       cursor: default;
@@ -1815,7 +1815,7 @@ button, .button {
   padding-left: 2rem;
   font-size: 1rem;
   /*     @else                            { font-size: $padding - rem-calc(2); } */
-  background-color: #ffb745;
+  background-color: #2a3644;
   border-color: #ff9e04;
   color: white;
   -webkit-transition: background-color 300ms ease-out;
@@ -1912,7 +1912,7 @@ button, .button {
     border-radius: 1000px; }
   /* line 222, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_buttons.scss */
   button.disabled, button[disabled], .button.disabled, .button[disabled] {
-    background-color: #ffb745;
+    background-color:#2a3644;
     border-color: #ff9e04;
     color: white;
     cursor: default;
@@ -1927,7 +1927,7 @@ button, .button {
       color: white; }
     /* line 168, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_buttons.scss */
     button.disabled:hover, button.disabled:focus, button[disabled]:hover, button[disabled]:focus, .button.disabled:hover, .button.disabled:focus, .button[disabled]:hover, .button[disabled]:focus {
-      background-color: #ffb745; }
+      background-color: #2a3644; }
     /* line 223, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_buttons.scss */
     button.disabled.secondary, button[disabled].secondary, .button.disabled.secondary, .button[disabled].secondary {
       background-color: #444444;
@@ -3229,7 +3229,7 @@ kbd {
   margin-bottom: inherit;
   padding: 0.25rem 0.5rem 0.375rem;
   font-size: 0.6875rem;
-  background-color: #ffb745;
+  background-color: #2a3644;
   color: white; }
   /* line 92, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_labels.scss */
   .label.radius {
@@ -3594,13 +3594,13 @@ ul.pagination {
       background: transparent; }
     /* line 60, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_pagination.scss */
     ul.pagination li.current a {
-      background: #ffb745;
+      background: #2a3644;
       color: white;
       font-weight: bold;
       cursor: default; }
       /* line 67, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_pagination.scss */
       ul.pagination li.current a:hover, ul.pagination li.current a:focus {
-        background: #ffb745; }
+        background: #2a3644; }
   /* line 119, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_pagination.scss */
   ul.pagination li {
     float: left;
@@ -3666,7 +3666,7 @@ ul.pagination {
         line-height: 1.4; }
     /* line 74, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_panels.scss */
     .panel.callout a {
-      color: #ffb745; }
+      color: #2a3644; }
   /* line 79, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_panels.scss */
   .panel.radius {
     -webkit-border-radius: 3px;
@@ -3735,7 +3735,7 @@ ul.pagination {
   margin-bottom: 0.625rem; }
   /* line 57, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_progress-bars.scss */
   .progress .meter {
-    background: #ffb745;
+    background: #2a3644;
     height: 100%;
     display: block; }
   /* line 60, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_progress-bars.scss */
@@ -3869,7 +3869,7 @@ dialog[open] {
     /* line 61, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_side-nav.scss */
     .side-nav li a:not(.button) {
       display: block;
-      color: #ffb745; }
+      color: #2a3644; }
       /* line 65, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_side-nav.scss */
       .side-nav li a:not(.button):hover, .side-nav li a:not(.button):focus {
         color: #ffcd7d; }
@@ -4040,7 +4040,7 @@ dialog[open] {
       -webkit-border-radius: 3px;
       border-radius: 3px;
       font-weight: normal;
-      background: #ffb745;
+      background: #2a3644;
       padding: 0.1875rem 1rem;
       cursor: default;
       color: white; }
@@ -4413,7 +4413,7 @@ table {
   /* line 40, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_tooltips.scss */
   .has-tip:hover, .has-tip:focus {
     border-bottom: dotted 1px #925900;
-    color: #ffb745; }
+    color: #2a3644; }
   /* line 46, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_tooltips.scss */
   .has-tip.tip-left, .has-tip.tip-right {
     float: none !important; }
@@ -4455,7 +4455,7 @@ table {
       left: 2rem; }
   /* line 84, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_tooltips.scss */
   .tooltip.opened {
-    color: #ffb745 !important;
+    color: #2a3644 !important;
     border-bottom: dotted 1px #925900 !important; }
 
 /* line 90, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_tooltips.scss */
@@ -4501,7 +4501,7 @@ meta.foundation-mq-topbar {
 /* line 88, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_top-bar.scss */
 .contain-to-grid {
   width: 100%;
-  background: #ffb745; }
+  background: #2a3644; }
   /* line 92, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_top-bar.scss */
   .contain-to-grid .top-bar {
     margin-bottom: 0; }
@@ -4535,7 +4535,7 @@ meta.foundation-mq-topbar {
   height: 80px;
   line-height: 80px;
   position: relative;
-  background: #ffb745;
+  background: #2a3644;
   margin-bottom: 0; }
   /* line 131, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_top-bar.scss */
   .top-bar ul {
@@ -4628,7 +4628,7 @@ meta.foundation-mq-topbar {
     background: transparent; }
     /* line 241, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_top-bar.scss */
     .top-bar.expanded .title-area {
-      background: #ffb745; }
+      background: #2a3644; }
     /* line 244, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_top-bar.scss */
     .top-bar.expanded .toggle-topbar a {
       color: none; }
@@ -4637,6 +4637,18 @@ meta.foundation-mq-topbar {
         -webkit-box-shadow: 0 10px 0 1px none, 0 16px 0 1px none, 0 22px 0 1px none;
         box-shadow: 0 10px 0 1px none, 0 16px 0 1px none, 0 22px 0 1px none; }
 
+.top-bar-section li > a {
+    background-color:#374452!important; 
+    color:#fff!important; 
+    font-size:12px;
+}
+.top-bar-section ul .right li {
+    border-left-color: #6a727c;
+    border-right-color: #6a727c;
+}
+li .search-toggle {
+    border-right-color: #6a727c;
+}
 /* line 265, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_top-bar.scss */
 .top-bar-section {
   left: 0;
@@ -4673,7 +4685,7 @@ meta.foundation-mq-topbar {
     background: white; }
     /* line 300, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_top-bar.scss */
     .top-bar-section ul li > a.button {
-      background: #ffb745;
+      background: #2a3644;
       font-size: 0.625rem;
       padding-right: 26.66667px;
       padding-left: 26.66667px; }
@@ -4704,7 +4716,7 @@ meta.foundation-mq-topbar {
     color: white; }
   /* line 338, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_top-bar.scss */
   .top-bar-section ul li.active > a {
-    background: #ffb745;
+    background: #2a3644;
     color: white; }
     /* line 341, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_top-bar.scss */
     .top-bar-section ul li.active > a:hover {
@@ -4784,7 +4796,7 @@ meta.foundation-mq-topbar {
 @media only screen and (min-width: 840px) {
   /* line 422, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_top-bar.scss */
   .top-bar {
-    background: #ffb745;
+    background: #2a3644;
     *zoom: 1;
     overflow: visible; }
     /* line 130, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_global.scss */
@@ -4811,7 +4823,7 @@ meta.foundation-mq-topbar {
       top: 7px; }
     /* line 439, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_top-bar.scss */
     .top-bar.expanded {
-      background: #ffb745; }
+      background: #2a3644; }
 
   /* line 442, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_top-bar.scss */
   .contain-to-grid .top-bar {
@@ -4844,7 +4856,7 @@ meta.foundation-mq-topbar {
     .top-bar-section li:not(.has-form) a:not(.button) {
       padding: 0 26.66667px;
       line-height: 80px;
-      background: #ffb745; }
+      background: #2a3644; }
       /* line 475, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_top-bar.scss */
       .top-bar-section li:not(.has-form) a:not(.button):hover {
         background: #333333; }
@@ -4853,7 +4865,7 @@ meta.foundation-mq-topbar {
       padding: 0 26.66667px;
       line-height: 80px;
       color: white;
-      background: #ffb745; }
+      background: #2a3644; }
       /* line 484, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_top-bar.scss */
       .top-bar-section li.active:not(.has-form) a:not(.button):hover {
         background: #ffa518; }
@@ -4919,7 +4931,7 @@ meta.foundation-mq-topbar {
       width: 0; }
     /* line 567, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_top-bar.scss */
     .top-bar-section .has-form {
-      background: #ffb745;
+      background: #2a3644;
       padding: 0 26.66667px;
       height: 80px; }
     /* line 575, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_top-bar.scss */
@@ -4943,7 +4955,7 @@ meta.foundation-mq-topbar {
     color: white; }
   /* line 603, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_top-bar.scss */
   .no-js .top-bar-section ul li:active > a {
-    background: #ffb745;
+    background: #2a3644;
     color: white; }
   /* line 611, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_top-bar.scss */
   .no-js .top-bar-section .has-dropdown:hover > .dropdown {
@@ -5151,7 +5163,7 @@ td {
 /* Default Link Styles */
 /* line 230, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_type.scss */
 a {
-  color: #ffb745;
+  color: #2a3644;
   text-decoration: none;
   line-height: inherit; }
   /* line 236, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_type.scss */
@@ -6465,7 +6477,9 @@ footer {
   /* line 9, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/footer.css.scss */
   footer p {
     color: #999999; }
-
+  footer row {
+      border-bottom: 0px;
+  }
 /* line 13, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/footer.css.scss */
 .copyright {
   background-color: white;
@@ -6484,7 +6498,7 @@ footer {
 
 /* line 1, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/header.css.scss */
 .header-container {
-  border-bottom: 10px solid #333333; }
+  border-bottom: 0px solid #333333; }
   /* line 3, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/header.css.scss */
   .header-container .top-bar-section li:not(.has-form).controller a:not(.button):hover {
     background: white; }
@@ -6496,7 +6510,7 @@ footer {
       background: #333333; }
   /* line 12, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/header.css.scss */
   .header-container .name {
-    background: #ffb745; }
+    background: #2a3644; }
     /* line 14, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/header.css.scss */
     .header-container .name a img {
       width: 145px; }
@@ -6510,22 +6524,22 @@ footer {
 
 /* line 29, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/header.css.scss */
 .search-menu {
-  background: #333333;
+  background: #edd17b;
   display: none;
-  padding: 1rem 0.5rem 0.25rem; }
+  padding: 1rem 0.5rem 1rem; }
   /* line 33, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/header.css.scss */
   .search-menu .columns {
     padding: 0 0.5rem; }
   /* line 36, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/header.css.scss */
   .search-menu .button {
-    background: white;
+    background: #2a3644;
     border-bottom: 1px solid lightgray;
     display: block;
     margin: 0;
     padding: 0; }
     /* line 42, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/header.css.scss */
     .search-menu .button a {
-      color: #333333;
+      color: #fff;
       display: block;
       padding: 1rem; }
 
@@ -6568,7 +6582,7 @@ footer {
 
 /* line 38, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/home.css.scss */
 .finance {
-  background-color: #ffb745;
+  background-color: #2a3644;
   background-image: url("/img/finance-background.png");
   background-size: cover;
   padding: 4rem 0; }
@@ -6624,7 +6638,7 @@ footer {
     width: 100%; }
   /* line 12, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/search.css.scss */
   .search-page button {
-    background: #ffb745; }
+    background: #2a3644; }
   @media only screen and (max-width: 40em) {
     /* line 16, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/search.css.scss */
     .search-page .filter-controls {
@@ -6676,7 +6690,7 @@ footer {
     margin-top: 1rem; }
     /* line 66, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/search.css.scss */
     .search-field:last-child button {
-      background-color: #ffb745; }
+      background-color: #2a3644; }
 
 
     .instructions-content {padding: 30px;}
@@ -6737,7 +6751,7 @@ footer {
       font-weight: bold; }
       /* line 124, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/search.css.scss */
       .items-container .item .price-group .current {
-        color: #ffb745; }
+        color: #2a3644; }
       /* line 127, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/search.css.scss */
       .items-container .item .price-group .original {
         color: #999999; }
@@ -6762,7 +6776,7 @@ footer {
       margin: 0; }
     /* line 151, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/search.css.scss */
     .items-container .item .information {
-      color: #ffb745;
+      color: #2a3644;
       font-size: 0.875rem;
       font-weight: bold;
       margin-top: 0.5rem; }
@@ -6803,7 +6817,7 @@ footer {
 /* line 200, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/search.css.scss */
 .date-select label.date {
   font-size: 0.75rem;
-  color: #ffb745;
+  color: #2a3644;
   text-transform: uppercase;
   background-color: #333333;
   padding: 0.5rem; }
@@ -6862,12 +6876,12 @@ footer {
       padding: 1rem; }
       /* line 260, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/search.css.scss */
       .campaign-nav nav ul li a.active {
-        color: #ffb745; }
+        color: #2a3644; }
 
 /* line 269, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/search.css.scss */
 .range-slider label {
   font-size: 0.625rem;
-  color: #ffb745;
+  color: #2a3644;
   text-transform: uppercase; }
 /* line 275, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/search.css.scss */
 .range-slider .input-range {
@@ -6890,7 +6904,7 @@ footer {
     transition: background .15s ease-in-out; }
     /* line 294, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/search.css.scss */
     .range-slider .input-range::-webkit-slider-thumb:hover {
-      background: #ffb745; }
+      background: #2a3644; }
   /* line 299, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/search.css.scss */
   .range-slider .input-range:active::-webkit-slider-thumb {
     background: #e06161; }
@@ -6954,7 +6968,7 @@ body {
 
 /* line 19, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/application.css.scss */
 h1, h2, h3, h4, h5, h6 {
-  color: #ffb745;
+  color: #2a3644;
   line-height: 1.1;
   margin-bottom: 0.75rem;
   margin-top: 1rem; }

@@ -1,5 +1,40 @@
 ﻿.controller-logo {
-    margin: 0.75rem 1rem;
+    height: 70px;
+    width: 150px;
+}
+.controller-footer h3 {
+    font-weight: bold;
+    color: #fff;
+}
+
+.controller-footer p {
+    color: #fff;
+}
+
+.controller-footer a {
+    color: #edd17b; 
+    text-transform:uppercase;
+}
+
+.footer-links li a {
+    background-color: #3d4b5b; 
+    color:#fff;
+}
+.footer-links li a:hover {
+    background-color: #edd17b; 
+    color: #2a3644;
+}
+
+.footer-logo {
+    padding-top:5px; 
+    width:129px; 
+    height:26px;
+}
+
+.logo {
+    width: 200px!important;
+    height: 40px;
+    padding: 0 0 0 0;
 }
 .controls .pagination span {
     display: inline-block;
@@ -84,6 +119,8 @@ footer {
 }
 @media only screen and (max-width: 40em) {
     .copyright .copy {
+        color#fff; 
+        padding-top: 10px;
         margin-top: 2rem;
     }
 }    
