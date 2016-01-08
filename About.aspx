@@ -9,31 +9,18 @@
                 <div class="row">
                     <div class="large-12 columns">
                         <div class="openbook">
-                            <h3>About Open Book Pittsburgh</h3>
-                            <p>Open Book Pittsburgh, is a searchable database of Pittsburgh city government contracts, administered by Pittsburgh’s Office of the City Controller. Open Book Pittsburgh gives Pittsburgh taxpayers access as to how City leaders are spending your tax dollars. OpenBook is in real-time and updated daily.</p>
-                            <p>In addition to city government contracts, Open Book Pittsburgh also gives taxpayers a look as to where elected officials and candidates for elected offices in the City of Pittsburgh receive campaign contributions, and how candidates spend those funds.</p>
+                            <h3>About Open Book Allegheny</h3>
+                            <p>Open Book Allegheny is a searchable database of Allegheny county government contracts, administered by Allegheny County’s Office of the Controller. Open Book Allegheny gives county taxpayers information about how county leaders are spending your tax dollars. OpenBook is real-time, updated daily.</p>
                         </div>
                         <hr>
                         <div class="controller">
-                            <h3>About Pittsburgh's City Controller</h3>
+                            <h3>About the Allegheny County Controller</h3>
                             <div class="row">
                                 <div class="large-8 columns">
-                                    <p>The City Controller is one of two, independently elected, citywide offices in the City of Pittsburgh, the other being the Mayor. The term of office for the City Controller is four years, and is not term limited.</p>
-                                    <p>The City Controller is the fiscal watchdog for the citizens of the City of Pittsburgh. It is the job of the Controller to protect city tax dollars from waste, fraud and abuse. The Controller does this by conducting audits of all city departments and city authorities such as the Urban Redevelopment Authority (URA), Pittsburgh Parking Authority, Pittsburgh Water and Sewer Authority and the Pittsburgh Housing Authority. Through audits of city departments and authorities, the Controller makes recommendations on how to make those departments more effective, efficient and how to better spend city tax dollars.</p>
+                                    <p>As the County’s top fiscal officer, Controller Chelsa Wagner leads the fight against inefficient and inequitable spending, working to root out fraud, waste and abuse in County government. Chelsa brings a fresh, outside perspective focused on making County government more transparent and accountable to taxpayers. Chelsa ensures the Controller’s office is a direct, effective advocate for Allegheny County, this region, and most importantly, the taxpayers.</p>
                                 </div>
                                 <div class="large-4 columns">
-                                    <img alt="Lamb" src="img/lamb.jpg">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="large-12 columns">
-                                  <p>
-                                        In addition to auditing city departments, the City Controller reviews and approves city contracts and is also charged with reporting to the citizens of Pittsburgh, the Mayor and City Council the state of the city’s fiscal condition. Every year, the City Controller issues the Comprehensive Annual Financial Report (CAFR). The CAFR provides detailed information on Pittsburgh’s short-term and long-term financial outlook.
-                                        
-                                    </p>
-                                    <p>Lastly, the City Controller sits on the boards of the city’s Municipal Pension Fund and the Comprehensive Municipal Fund.</p>
-
-                                    
+                                    <img alt="Chelsea Wagner" src="img/wagner.jpg">
                                 </div>
                             </div>
                         </div>
