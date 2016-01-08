@@ -5,12 +5,13 @@
     <div class="contact">
         <div class="row">
             <div class="large-12 columns">
-                <h3>Open Book Contact Information</h3>
+                <h3 class="detail-header">Open Book Contact Information</h3>
                 <div class="address">
                     <h6>Controller's Office</h6>
-                    <span>414 Grant Street</span>
+                    <span>104 Courthouse</span>
+                    <span>436 Grant Street</span>
                     <span>Pittsburgh, PA 15219</span>
-                    <span>Phone: (412) 255-2054</span>
+                    <span>Phone: (412) 350-4660</span>
                 </div>
                 <hr>
             </div>

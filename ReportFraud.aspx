@@ -5,16 +5,16 @@
         <asp:PlaceHolder ID="formPH" runat="server" Visible="true">
             <div class="row">
                 <div class="large-12 columns">
-                    <h3>Report Fraud or Waste</h3>
-                    <p>Report waste, fraud, mismanagement of your city tax dollars. Use the below form to report allegations of: </p>
+                    <h3 class="detail-header">Report Fraud or Waste</h3>
+                    <p>Report waste, fraud, mismanagement of your county tax dollars. Use the below form to report allegations of: </p>
                     <ul>
                         <li>Inefficiency</li>
                         <li>Waste</li>
                         <li>Corruption</li>
                         <li>Mismanagement</li>
-                        <li>Abuse of city tax dollars</li>
+                        <li>Abuse of county tax dollars</li>
                     </ul>
-                    <p>Complete the form below with as much information as possible. Be assured that your information will be held in the strictest of confidence. When you complete the form, click submit to send the information. If you have problems completing the form, or wish to speak with someone in person, please call at 412-255-4777.</p>
+                    <p>Complete the form below with as much information as possible. Be assured that your information will be held in the strictest of confidence. When you complete the form, click submit to send the information. If you have problems completing the form, or wish to speak with someone in person, please call (412) 350-4660.</p>
                     <p>This hotline works for you!</p>
                     <br />
                     <hr>
@@ -71,14 +71,14 @@
                     <br />
                     <p>
                         <b>To mail your complaint:</b><br />
-                        City Controller's Office<br />
-                        414 Grant St.<br />
+                        County Controller's Office<br />
+                        436 Grant St.<br />
                         Pittsburgh, PA 15219<br />
                         <br />
-                        Face to face meetings are also available; please call 412-255-4777 to schedule an appointment.
+                        Face to face meetings are also available; please call (412) 350-4660 to schedule an appointment.
                     </p>
                     <p><b>Investigation</b></p>
-                    <p>The City Controller’s Office will fully investigate any suspected acts of fraud, abuse, or illegal acts.  An objective and impartial investigation will be conducted regardless of the position, title, or relationship with the City of any party who might be involved. </p>
+                    <p>The County Controller’s Office will fully investigate any suspected acts of fraud, abuse, or illegal acts.  An objective and impartial investigation will be conducted regardless of the position, title, or relationship with the County of any party who might be involved. </p>
                     <p>The Controller’s Office will maintain the confidentiality of any person who in good faith reports a suspected act of fraud.  The person’s identity will not be divulged without permission, unless required by law. </p>
                     <p>
                         It is not required that you identify yourself.  However, without a means to contact you with follow-up questions, the investigation could come to a dead end.
@@ -89,7 +89,7 @@
         <asp:PlaceHolder ID="sucessPH" runat="server" Visible="false">
             <div class="row">
                 <div class="large-12 columns">
-                    <p>Thank you for contacting Open Book Pittsburgh.</p>
+                    <p>Thank you for contacting Open Book Allegheny.</p>
                     <img src="/img/tankyou-cards.jpg" />
                 </div>
             </div>

@@ -32,7 +32,7 @@
 <li class='search-toggle'><a href="#">Search</a></li>
 <li><a href="../About.aspx">About</a></li>
 <li><a href="../Contact.aspx">Contact</a></li>
-<li class='controller'><img alt="Controller logo" class="controller-logo" src="../img/county-logo.jpg" /></li>
+<li class='controller'><img alt="Controller logo" class="controller-logo" src="../img/county-logo.png" /></li>
 </ul>
 </section>
 </nav>

@@ -36,6 +36,83 @@
     height: 40px;
     padding: 0 0 0 0;
 }
+
+div .about {
+    padding-top:45px;
+    padding-bottom:65px;
+}
+
+div .contact {
+    padding-top:45px;
+    padding-bottom:65px;
+}
+
+div .search-page {
+    padding-top:45px; 
+    padding-bottom:65px;
+    background-color:#fff;
+}
+
+.about .row .panel {
+    color:#2a3644;
+}
+
+.about .row .panel h2 {
+    color:#2a3644; 
+    ob-gridview th color:#2a3644
+}
+.ob-gridview th {
+    color:#2a3644;
+}
+.detail-header {
+    color: #374452;
+}
+
+#instructions h3 {
+    color:#2a3644;
+}
+
+#instructions h4 {
+    color: #dfc470;
+}
+
+#instructions p {
+    color #fff;
+}
+
+.items-container .instructions-content {
+    background-color: #2a3644;
+}
+
+/*Row control ul li a button background-color: #2a3644; */
+    
+.pagination .right span {
+    color: #2a3644;
+}
+
+.search-field h2 {
+    color: #2a3644;
+}
+
+label .date {
+    background-color: #2a3644;
+    color: #fff;
+}
+
+.range-slider {
+    color: #2a3644;
+    background-color: #2a3644;
+} 
+
+.search-field .button a {
+    background-color: #2a3644;
+}
+
+.search-field .button a:hover {
+    background-color: #edd17b; 
+    color: #2a3644;
+}
+
 .controls .pagination span {
     display: inline-block;
     margin: 0 0  1rem;
