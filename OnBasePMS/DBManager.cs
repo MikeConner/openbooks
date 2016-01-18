@@ -20,7 +20,8 @@ namespace OnBasePMS
 
         public virtual string GenerateRawInsertData(string docket, string item_type, string date_filed, string document_id)
         {
-            return docket + "," + item_type + "," + date_filed + "," + document_id;
+            // item_type might contain commas, so quote it
+            return docket + ",\"" + item_type + "\"," + date_filed + "," + document_id;
         }
 
         public abstract string GenerateInsertStatement(string table_name, string docket, string item_type, string date_filed, string document_id);
@@ -137,7 +138,8 @@ namespace OnBasePMS
             if (null != item_type)
             {
                 cmd += ",item_type";
-                values += "," + item_type;
+                // item_type might contain commas, so delimit it in SQL Server (this,is,one,field)
+                values += ",(" + item_type + ")";
             }
             if (null != date_filed)
             {
@@ -235,7 +237,8 @@ namespace OnBasePMS
             if ("null" != item_type)
             {
                 cmd += ",item_type";
-                values += "," + item_type;
+                // item_type might contain commas, so delimit it in Oracle q'#This,is,a,single,field#'
+                values += ",q'#" + item_type + "#'";
             }
             if ("null" != date_filed)
             {
