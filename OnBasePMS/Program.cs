@@ -3,6 +3,7 @@ using System;
 using System.Collections.Specialized;
 using System.IO;
 using System.Data;
+using Microsoft.VisualBasic.FileIO;
 
 /// <summary>
 /// Periodically transfer data from an OnBase installation to a PMS installation (attorney general database).
@@ -320,40 +321,44 @@ namespace OnBasePMS
 
                         using (StreamReader reader = new StreamReader(filename + RAW_FILE_EXTENSION))
                         {
-                            string line;
-
-                            while ((line = reader.ReadLine()) != null)
+                            using (TextFieldParser parser = new TextFieldParser(reader))
                             {
-                                cnt++;
+                                parser.HasFieldsEnclosedInQuotes = true;
+                                parser.Delimiters = new string[] { "," };
 
-                                string[] fields = line.Split(',');
-                                if (4 == fields.Length)
+                                string[] fields;
+                                while ((fields = parser.ReadFields()) != null)
                                 {
-                                    try
+                                    cnt++;
+
+                                    if (4 == fields.Length)
                                     {
-                                        string cmd = mDBManager.GenerateInsertStatement(mSettings.Get("PMSDestTable"), fields[0], fields[1], fields[2], fields[3]);
-
-                                        mDBManager.ExecuteCommand(cmd);
-                                        numWrote++;
-
-                                        if (0 == (numWrote % 100))
+                                        try
                                         {
-                                            Logger.Instance.LogToFile("Wrote " + numWrote + " records so far...");
+                                            string cmd = mDBManager.GenerateInsertStatement(mSettings.Get("PMSDestTable"), fields[0], fields[1], fields[2], fields[3]);
+
+                                            mDBManager.ExecuteCommand(cmd);
+                                            numWrote++;
+
+                                            if (0 == (numWrote % 100))
+                                            {
+                                                Logger.Instance.LogToFile("Wrote " + numWrote + " records so far...");
+                                            }
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            message = "Error on line " + cnt + ": " + ex.Message;
+
+                                            Console.WriteLine(message);
+                                            Logger.Instance.LogToFile(message);
                                         }
                                     }
-                                    catch (Exception ex)
+                                    else
                                     {
-                                        message = "Error on line " + cnt + ": " + ex.Message;
-
+                                        message = "Invalid line: " + fields.ToString() + " (" + cnt + ")";
                                         Console.WriteLine(message);
                                         Logger.Instance.LogToFile(message);
                                     }
-                                }
-                                else
-                                {
-                                    message = "Invalid line: " + line + " (" + cnt + ")";
-                                    Console.WriteLine(message);
-                                    Logger.Instance.LogToFile(message);
                                 }
                             }
                         }
