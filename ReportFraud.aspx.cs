@@ -31,10 +31,9 @@ public partial class ReportFraud : System.Web.UI.Page
 		else
 		{
 			MailMessage mail = new MailMessage();
-			mail.From = new MailAddress("webcontact@openbookpittsburgh.com");
-			mail.To.Add("ryan.herbinko@pittsburghpa.gov");
-			mail.CC.Add("FraudHotline@pittsburghpa.gov");
-			mail.Subject = "Fraud or Waste Reported via OpenBook.com";
+			mail.From = new MailAddress("webcontact@openbookallegheny.com");
+			mail.To.Add("arash@tapnology.co");
+			mail.Subject = "Fraud or Waste Reported via OpenBookAllegheny.com";
 			mail.IsBodyHtml = true;
 			mail.Body = "First Name: " + FNameTB.Text + "<br />";
 			mail.Body += "Last Name: " + LNameTB.Text + "<br />";

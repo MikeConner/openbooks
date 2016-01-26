@@ -58,7 +58,7 @@
                 </div>
             </asp:PlaceHolder>
             <asp:PlaceHolder ID="sucessPH" runat="server" Visible="false">
-                <p>Thank you for contacting Open Book Pittsburgh.</p>
+                <p>Thank you for contacting Open Book Allegheny.</p>
                 <img src="/img/tankyou-cards.jpg" />
             </asp:PlaceHolder>
         </div>

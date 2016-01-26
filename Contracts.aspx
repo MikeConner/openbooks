@@ -41,8 +41,7 @@
                     <asp:LinkButton ID="LinkButton8" Text="Contract End Date" OnClick="sortEndDate" runat="server" /><asp:Image ID="imgSortEndDate" runat="server" /></th>
                 <th></th>
             </tr>
-            <asp:Repeater ID="rptContracts" runat="server"
-                OnItemCommand="rptContracts_ItemCommand">
+            <asp:Repeater ID="rptContracts" runat="server">
                 <ItemTemplate>
                     <tr class='<%# Container.ItemIndex % 2 == 0 ? "" : "even" %>' valign="top">
                         <td class="vendor"><a href="VendorDetail.aspx?ID=<%# Eval("VendorNo") %>"><%# Eval("VendorName") %></a></td>

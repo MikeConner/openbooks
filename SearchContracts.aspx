@@ -137,7 +137,7 @@
                     <asp:ImageButton ID="imgSortDirection" OnClick="toggleSortDirection" runat="server" />
                 </div>
                 <div class="items-container">
-                    <asp:Repeater ID="rptContracts" runat="server" OnItemCommand="rptContracts_ItemCommand">
+                    <asp:Repeater ID="rptContracts" runat="server">
                         <ItemTemplate>
                             <div class="item">
                                 <h2><a href="VendorDetail.aspx?ID=<%# Eval("VendorNo") %>"><%# Eval("VendorName") %>  </a></h2>

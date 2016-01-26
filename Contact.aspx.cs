@@ -35,7 +35,7 @@ public partial class _Contact : System.Web.UI.Page
 			              "Email: " + EmailTB.Text + "<br />" +
 			              "Comments: " + CommentsTB.Text + "<br />";
 
-            Admin.SendMail("douglas.anderson@pittsburghpa.gov", null, "Contact Form From OpenBook Pittsburgh", body);
+            Admin.SendMail("arash@tapnology.co", null, "Contact Form From OpenBook Allegheny", body);
            
 			formPH.Visible = false;
 			sucessPH.Visible = true;

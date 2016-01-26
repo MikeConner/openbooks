@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Open Book Pittsburgh" Language="C#" MasterPageFile="~/_Masters/MasterPage.master" AutoEventWireup="true" CodeFile="Default.aspx.cs" 
+﻿<%@ Page Title="Open Book Allegheny" Language="C#" MasterPageFile="~/_Masters/MasterPage.master" AutoEventWireup="true" CodeFile="Default.aspx.cs" 
     Inherits="_Default" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -25,19 +25,7 @@
                 </div>
             </div>
             <div class="large-2 columns pane">&nbsp;</div>
-        <!--
-            <div class="large-4 columns pane">
-                <h2><a href="SearchContributions.aspx">Campaign Finance</a></h2>
-                <p>Search for campaign contributions and campaign expenditures of candidates for Mayor, Controller and City Council. </p>
-                <a href="SearchContributions.aspx">Search Campaign Finances →</a>
-            </div>
-            <div class="large-4 columns pane">
-                <h2><a href="SearchLobbyists.aspx">Lobbyists</a></h2>
-                <p>See those who are registered as lobbyists with the City of Pittsburgh. </p>
-                <a href="SearchLobbyists.aspx">Find Lobbyists →</a>
-            </div>
-        -->
-        </div>
+         </div>
     </div>
 
 </asp:Content>
