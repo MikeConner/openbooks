@@ -21,6 +21,8 @@ namespace OpenBookAllegheny
         public static string ONBASE_CONTRACT_PDF_PATH = "http://onbaseapp.city.pittsburgh.pa.us/OpenBookPublicData/contracts.csv";
         public static string ONBASE_CHECK_PDF_PATH = "http://onbaseapp.city.pittsburgh.pa.us/OpenBookPublicData/checks.csv";
         public static string ONBASE_INVOICE_PDF_PATH = "http://onbaseapp.city.pittsburgh.pa.us/OpenBookPublicData/invoices.csv";
+        public static double FEE_BASED_CONTRACT_AMOUNT = 999999.99;
+        public static string FEE_BASED_AMOUNT_STRING = "$999,999.99";
 
         public static void UploadAlleghenyContracts(string filename)
         {
@@ -1141,8 +1143,6 @@ namespace OpenBookAllegheny
 
         public static void FilterAggregateDescription(DataTable results, SqlConnection conn)
         {
-            SqlCommand updateCmd = new SqlCommand("UPDATE Results SET AggregateDescription = @aggregate WHERE contractID = @id", conn);
-
             // Post-process AggregateDescription to extract unique values
             char[] delimiters = new char[] { ',', ';', '/' };
             foreach (DataRow row in results.Rows)

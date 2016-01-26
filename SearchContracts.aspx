@@ -85,12 +85,13 @@
                 </div>
                 <div class="search-field">
                     <h2>Contract Amount</h2>
-                    <div class="range-slider">
+                    <asp:CheckBox ID="FeeBasedCheckbox" AutoPostBack="True" runat="server" Text="Fee-based" OnCheckedChanged="FeeBasedCheckbox_CheckedChanged"/>
+                    <div runat="server" id="MinAmount" class="range-slider">
                         <label>Minimum Amount</label>
                         <input class="input-range" max="10000" min="1" type="range" value="250" id="dblMinContract" name="dblMinContract">
                         <span id="minContract" class="range-value">1</span>
                     </div>
-                    <div class="range-slider">
+                    <div runat="server" id="MaxAmount" class="range-slider">
                         <input type="hidden" id="MaxContractField" value="<%= maxContractAmount %>" />
                         <input type="hidden" id="StickyMinContract" value="<%= stickyMinContract %>" />
                         <input type="hidden" id="StickyMaxContract" value="<%= stickyMaxContract %>" />
@@ -141,8 +142,7 @@
                             <div class="item">
                                 <h2><a href="VendorDetail.aspx?ID=<%# Eval("VendorNo") %>"><%# Eval("VendorName") %>  </a></h2>
                                 <div class="price-group">
-                                    <span class="original">Currrent Contract Amount: <%# Eval("Amount", "{0:C}")%></span>
-
+                                    <span class="current">Current Contract Amount: <%# DisplayAmount(Eval("Amount", "{0:C}")) %></span>
                                 </div>
                                 <div class="label-group">
                                     <div class="label-item">

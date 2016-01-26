@@ -23,6 +23,11 @@ public partial class SearchContractsPage : PaginatedPage
         mPageController = new PagingControls(this);
     }
 
+    public static string DisplayAmount(string src)
+    {
+        return Admin.FEE_BASED_AMOUNT_STRING  == src ? "Fee-Based Contract" : src;
+    }
+
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -38,10 +43,17 @@ public partial class SearchContractsPage : PaginatedPage
             LoadContractTypes();
             Vendor.Text = sp.vendorKeywords;
             Keywords.Text = sp.keywords;
-            stickyMinContract = sp.minContractAmt;
-            stickyMaxContract = sp.maxContractAmt;
+            FeeBasedCheckbox.Checked = ((int)Math.Floor(Admin.FEE_BASED_CONTRACT_AMOUNT) == sp.minContractAmt);
+            MinAmount.Visible = MaxAmount.Visible = !FeeBasedCheckbox.Checked;
+
+            if (!FeeBasedCheckbox.Checked)
+            {
+                stickyMinContract = sp.minContractAmt;
+                stickyMaxContract = sp.maxContractAmt;
+            }
         }
 
+        FeeBasedCheckbox.CheckedChanged += new EventHandler(this.FeeBasedCheckbox_CheckedChanged); 
         maxContractAmount = SearchContracts.GetMaxContractPrice();
     }
     private void LoadDepartments()
@@ -109,10 +121,6 @@ public partial class SearchContractsPage : PaginatedPage
     {
         int minContractAmount = 0;
         int maxContractAmount = 0;
-        // Pretty much can't fail, since it's a slider, so don't worry about exceptions
-        // Remove commas, though
-        Int32.TryParse(Request.Form["dblMinContract"].Replace(",", ""), out minContractAmount);
-        Int32.TryParse(Request.Form["dblMaxContract"].Replace(",", ""), out maxContractAmount);
 
         if (minContractAmount > maxContractAmount)
         {
@@ -139,6 +147,20 @@ public partial class SearchContractsPage : PaginatedPage
         string searchKeywords = Keywords.Text;
         string keywordOptions = rbVendor.SelectedValue;
         string contractID = string.IsNullOrEmpty(ContractID.Text) ? null : ContractID.Text;
+        bool feeBased = FeeBasedCheckbox.Checked;
+
+        if (feeBased)
+        {
+            minContractAmount = (int)Math.Floor(Admin.FEE_BASED_CONTRACT_AMOUNT);
+            maxContractAmount = minContractAmount + 1;
+        }
+        else
+        {
+            // Pretty much can't fail, since it's a slider, so don't worry about exceptions
+            // Remove commas, though
+            Int32.TryParse(Request.Form["dblMinContract"].Replace(",", ""), out minContractAmount);
+            Int32.TryParse(Request.Form["dblMaxContract"].Replace(",", ""), out maxContractAmount);
+        }
 
         string queryString = SearchContracts.GenerateRangeQueryString(0, contractID, vendorKeywords, keywordOptions, cityDept, contractType, searchKeywords, startDate, endDate, minContractAmount, maxContractAmount);
         Response.Redirect(queryString + "&click=1");
@@ -336,6 +358,11 @@ public partial class SearchContractsPage : PaginatedPage
     protected override string getPageCategory()
     {
         return "Contracts";
+    }
+
+    protected void FeeBasedCheckbox_CheckedChanged(object sender, EventArgs e)
+    {
+        MinAmount.Visible = MaxAmount.Visible = !FeeBasedCheckbox.Checked;
     }
 
     private PagingControls mPageController = null;
