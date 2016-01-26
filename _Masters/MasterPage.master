@@ -29,7 +29,10 @@
 <!-- Right Nav Section -->
 <ul class='right'>
 <li><a href="/">Home</a></li>
+<!-- Opens a menu. Remove for now because the menu only has one element
 <li class='search-toggle'><a href="#">Search</a></li>
+-->
+<li><a href="../SearchContracts.aspx">Search</a></li>
 <li><a href="../About.aspx">About</a></li>
 <li><a href="../Contact.aspx">Contact</a></li>
 <li class='controller'><img alt="Controller logo" class="controller-logo" src="../img/county-logo.png" /></li>
