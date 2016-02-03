@@ -44,7 +44,8 @@ public partial class ContractDetail : System.Web.UI.Page
 		if (e.CommandName == "ViewPDF")
 		{
 			int contractID = Convert.ToInt32(e.CommandArgument.ToString());
-			OpenNewWindow("http://onbaseapp.city.pittsburgh.pa.us/PublicAccess/Contracts.aspx?OBKey__138_1=" + contractID);
+            OpenNewWindow(" http://documents.alleghenycounty.us/publicaccess/DatasourceTemplate.aspx?OBKey__138_1=" + contractID);
+           
 		}
 	}
 	public void OpenNewWindow(string url)
