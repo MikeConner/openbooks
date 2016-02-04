@@ -9,7 +9,7 @@
             <div class="medium-4 large-6 columns campaign-nav">
                 <nav>
                     <ul>
-                        <li><a href="#">City Contracts</a></li>
+                        <li><a href="#">County Contracts</a></li>
                     </ul>
                 </nav>
             </div>
@@ -110,7 +110,7 @@
                     <h3>Instructions</h3>
                     <div class="items-container instructions-content">
                         <h4>Searching</h4>
-                    <p>Search here for city contracts. You can filter by <b>department</b>, <b>contract type</b>, <b>approval date</b>, or restrict to a contract dollar amount range. You can also search by specific <b>vendor names</b> or <b>keywords</b>.</p>
+                    <p>Search here for county contracts. You can filter by <b>department</b>, <b>contract type</b>, <b>approval date</b>, or restrict to a contract dollar amount range. You can also search by specific <b>vendor names</b> or <b>keywords</b>.</p>
                         <h4>Search Criteria</h4>
                         <p>
                             <b>Contract Amount</b> can be selected based on a range from the minimum to maximum.  Use the sliders to select the maximum or minimum amounts.
