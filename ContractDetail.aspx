@@ -57,6 +57,14 @@
                                             <label>Contract Type: </label>
                                         </td>
                                         <td><%# DataBinder.Eval(Container.DataItem, "OrderType") %></td>
+                                        <td>
+				<asp:Panel ID="pnlContractPDF" runat="server" Visible='True'>
+					<asp:ImageButton ID="ibtnContractPDF" runat="server" 
+						ImageUrl="~/img/viewcontract-btn.gif"
+						CommandName="ViewPDF" 
+						CommandArgument='<%# Eval("ContractID") %>' />
+				</asp:Panel>
+				</td>
                                     </tr>
                                 </table>
                             </div>
