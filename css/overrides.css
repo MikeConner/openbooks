@@ -1,6 +1,7 @@
 ﻿.controller-logo {
     height: 70px;
-    width: 150px;
+    width: 70px;
+    padding-top: 10px;
 }
 .controller-footer h3 {
     font-weight: bold;
@@ -16,6 +17,9 @@
     text-transform:uppercase;
 }
 
+footer {
+    background-color: #164783!important;
+}
 .footer-links li a {
     background-color: #3d4b5b; 
     color:#fff;

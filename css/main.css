@@ -4535,7 +4535,7 @@ meta.foundation-mq-topbar {
   height: 80px;
   line-height: 80px;
   position: relative;
-  background: #2a3644;
+  background: #24201F!important;
   margin-bottom: 0; }
   /* line 131, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_top-bar.scss */
   .top-bar ul {
@@ -4638,7 +4638,7 @@ meta.foundation-mq-topbar {
         box-shadow: 0 10px 0 1px none, 0 16px 0 1px none, 0 22px 0 1px none; }
 
 .top-bar-section li > a {
-    background-color:#374452!important; 
+    background-color:#24201F!important; 
     color:#fff!important; 
     font-size:12px;
 }
@@ -4803,6 +4803,9 @@ li .search-toggle {
     .top-bar:before, .top-bar:after {
       content: " ";
       display: table; }
+    li.name {
+       background-color: #FFC600!important;
+    }
     /* line 131, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_global.scss */
     .top-bar:after {
       clear: both; }
@@ -6545,7 +6548,7 @@ footer {
 
 /* line 1, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/home.css.scss */
 .homepage-hero {
-  background: url("/img/city-background.png") no-repeat center center fixed;
+  background: url("/img/county-background.png") no-repeat center center fixed;
   background-size: cover;
   padding: 4rem 0; }
   /* line 5, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/home.css.scss */

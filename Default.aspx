@@ -6,7 +6,7 @@
         <div class="row">
             <div class="large-12 columns">
                 <h1>County of Allegheny government contracts.</h1>
-                <p>Search Open Book Allegheny for contracts associated with an Allegheny County office.</p>
+                <p>Allegheny County contracts online. Search Open Book Allegheny for County government contracts.</p>
             </div>
         </div>
     </div>
@@ -16,11 +16,10 @@
             <div class="large-8 columns pane">
                 <div class="large-9 columns">
                     <h3>County Transparency</h3>
-                    <p>Search contracts for all Allegheny County departments.</p>
+                    <p> “Sunlight is said to be the best of disinfectants.”<br />
+                     – Justice Louis D. Brandeis</p>
                 </div>
                 <div class="large-3 columns">
-                    <br />
-                    <br />
                     <a href="SearchContracts.aspx">Find County Contracts →</a>
                 </div>
             </div>
