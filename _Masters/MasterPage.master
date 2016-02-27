@@ -34,7 +34,7 @@
 -->
 <li><a href="../SearchContracts.aspx">Search</a></li>
 <li><a href="../About.aspx">About</a></li>
-<li><a href="../Contact.aspx">Contact</a></li>
+<li><a href="http://www.alleghenycontroller.com/contact.php?fn_name=contact" target="_blank">Contact</a></li>
 <li class='controller'><img alt="Controller logo" class="controller-logo" src="../img/county-logo.png" /></li>
 </ul>
 </section>
@@ -73,7 +73,7 @@
   {  %>
     <footer class='row'>
 <div class='large-8 columns controller-footer'>
-    <h3>Allegheny County Controller Chelsea Wagner</h3>
+    <h3>Allegheny County Controller Chelsa Wagner</h3>
     <ul>
         <li>
              <p>I am pleased to be able to provide Allegheny County residents with the ability to monitor the expenditure of their tax dollars through this online resource. Transparency and accountability are the hallmarks of good government, and public access to this information marks a leap forward in my efforts toward achieving these ideals for Allegheny County. When it comes to County contracts, the public indeed has the right—and now the ability—to know. I hope users will share their thoughts on this platform with my office in order to assist in our efforts to provide useful information to our citizens. Thank you for your interest in your government, and for using this site.</p>

@@ -83,9 +83,10 @@
                         </div>
                     </div>
                 </div>
+                <asp:CheckBox ID="FeeBasedCheckbox" AutoPostBack="True" runat="server" Text="Fee-based" OnCheckedChanged="FeeBasedCheckbox_CheckedChanged"/>
+                <!-- Disable searching by contract amount
                 <div class="search-field">
                     <h2>Contract Amount</h2>
-                    <asp:CheckBox ID="FeeBasedCheckbox" AutoPostBack="True" runat="server" Text="Fee-based" OnCheckedChanged="FeeBasedCheckbox_CheckedChanged"/>
                     <div runat="server" id="MinAmount" class="range-slider">
                         <label>Minimum Amount</label>
                         <input class="input-range" max="10000" min="1" type="range" value="250" id="dblMinContract" name="dblMinContract">
@@ -100,6 +101,7 @@
                         <span id="maxContract" class="range-value">36000000</span>
                     </div>
                 </div>
+                -->
                 <div class="search-field">
                     <asp:Button ID="ImageButton1" runat="server" Text="Search" OnClick="btnSearch_Click" CssClass="button" />
                 </div>

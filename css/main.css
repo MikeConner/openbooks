@@ -1795,7 +1795,9 @@ select {
     .breadcrumbs > *:first-child:before {
       content: " ";
       margin: 0; }
+.normal-button {
 
+}
 /* line 199, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_buttons.scss */
 button, .button {
   border-style: solid;
@@ -4535,7 +4537,7 @@ meta.foundation-mq-topbar {
   height: 80px;
   line-height: 80px;
   position: relative;
-  background: #24201F!important;
+  background: #ffc600!important;
   margin-bottom: 0; }
   /* line 131, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_top-bar.scss */
   .top-bar ul {
@@ -4827,7 +4829,6 @@ li .search-toggle {
     /* line 439, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_top-bar.scss */
     .top-bar.expanded {
       background: #2a3644; }
-
   /* line 442, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_top-bar.scss */
   .contain-to-grid .top-bar {
     max-width: 62.5rem;
@@ -6574,7 +6575,7 @@ footer {
     text-transform: uppercase; }
   /* line 26, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/home.css.scss */
   .information p {
-    color: #999999; }
+    color: black; }
   /* line 29, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/home.css.scss */
   .information .pane {
     padding: 1rem 2rem 2rem; }

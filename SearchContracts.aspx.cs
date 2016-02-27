@@ -44,6 +44,7 @@ public partial class SearchContractsPage : PaginatedPage
             Vendor.Text = sp.vendorKeywords;
             Keywords.Text = sp.keywords;
             FeeBasedCheckbox.Checked = ((int)Math.Floor(Admin.FEE_BASED_CONTRACT_AMOUNT) == sp.minContractAmt);
+            
             MinAmount.Visible = MaxAmount.Visible = !FeeBasedCheckbox.Checked;
 
             if (!FeeBasedCheckbox.Checked)
@@ -158,8 +159,9 @@ public partial class SearchContractsPage : PaginatedPage
         {
             // Pretty much can't fail, since it's a slider, so don't worry about exceptions
             // Remove commas, though
-            Int32.TryParse(Request.Form["dblMinContract"].Replace(",", ""), out minContractAmount);
-            Int32.TryParse(Request.Form["dblMaxContract"].Replace(",", ""), out maxContractAmount);
+            // Comment out when not doing search by amount
+            //Int32.TryParse(Request.Form["dblMinContract"].Replace(",", ""), out minContractAmount);
+            //Int32.TryParse(Request.Form["dblMaxContract"].Replace(",", ""), out maxContractAmount);
         }
 
         string queryString = SearchContracts.GenerateRangeQueryString(0, contractID, vendorKeywords, keywordOptions, cityDept, contractType, searchKeywords, startDate, endDate, minContractAmount, maxContractAmount);

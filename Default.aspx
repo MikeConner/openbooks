@@ -6,7 +6,7 @@
         <div class="row">
             <div class="large-12 columns">
                 <h1>County of Allegheny government contracts.</h1>
-                <p>Allegheny County contracts online. Search Open Book Allegheny for County government contracts.</p>
+                <p>Search online for County government contracts with Open Book Allegheny.</p>
             </div>
         </div>
     </div>
@@ -20,7 +20,7 @@
                      – Justice Louis D. Brandeis</p>
                 </div>
                 <div class="large-3 columns">
-                    <a href="SearchContracts.aspx">Find County Contracts →</a>
+                    <a href="SearchContracts.aspx" class="button">Find County Contracts →</a>
                 </div>
             </div>
             <div class="large-2 columns pane">&nbsp;</div>

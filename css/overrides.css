@@ -63,7 +63,6 @@ div .search-page {
 
 .about .row .panel h2 {
     color:#2a3644; 
-    ob-gridview th color:#2a3644
 }
 .ob-gridview th {
     color:#2a3644;
@@ -81,7 +80,7 @@ div .search-page {
 }
 
 #instructions p {
-    color #fff;
+    color: #fff;
 }
 
 .items-container .instructions-content {
@@ -200,7 +199,7 @@ footer {
 }
 @media only screen and (max-width: 40em) {
     .copyright .copy {
-        color#fff; 
+        color: #fff; 
         padding-top: 10px;
         margin-top: 2rem;
     }
