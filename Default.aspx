@@ -14,14 +14,13 @@
         <div class="row">
             <div class="large-2 columns pane">&nbsp;</div>
             <div class="large-8 columns pane">
-                <div class="large-9 columns">
+                <div class="large-12 columns center">
                     <h3>County Transparency</h3>
                     <p> “Sunlight is said to be the best of disinfectants.”<br />
                      – Justice Louis D. Brandeis</p>
-                </div>
-                <div class="large-3 columns">
                     <a href="SearchContracts.aspx" class="button">Find County Contracts →</a>
                 </div>
+            
             </div>
             <div class="large-2 columns pane">&nbsp;</div>
          </div>
