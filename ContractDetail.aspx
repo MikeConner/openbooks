@@ -73,6 +73,7 @@
                     <br />
                     <br />
                 </div>
+                <asp:LinkButton ID="ReturnToSearch" class="obvious-button" onclick="BackButton_Click" runat="server">Back to Search Results</asp:LinkButton>
             </div>
         </div>
     </div>

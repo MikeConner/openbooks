@@ -158,9 +158,9 @@
                                 </div>
                                 <div class="agenda">
                                     <span class="title">Contract 
-                        				     <i><b><a href="ContractDetail.aspx?ID=<%# Eval("ContractID") %>">
+                        				     <a class="obvious-button" href="ContractDetail.aspx?ID=<%# Eval("ContractID") %>">
                                                  <%# Eval("ContractID")%>
-                                             </a></b></i>
+                                             </a>
                                         Term:</span>
                                     <span><%# Eval("OrderDate", "{0:MM/dd/yyyy}")%> —<%# Eval("CancelDate", "{0:MM/dd/yyyy}")%></span>
                                 </div>
