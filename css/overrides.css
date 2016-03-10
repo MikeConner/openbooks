@@ -1,7 +1,9 @@
 ﻿.controller-logo {
-    height: 70px;
-    width: 70px;
-    padding-top: 10px;
+    height: 80px;
+    width: 80px;
+    padding-top: 0px;
+    margin: 0 2rem;
+
 }
 .controller-footer h3 {
     font-weight: bold;
@@ -21,7 +23,7 @@ footer {
     background-color: #164783!important;
 }
 .footer-links li a {
-    background-color: #3d4b5b; 
+    background-color: #113766; 
     color:#fff;
 }
 .footer-links li a:hover {
@@ -54,7 +56,7 @@ div .contact {
 div .search-page {
     padding-top:45px; 
     padding-bottom:65px;
-    background-color:#fff;
+    background-color:#efefef;
 }
 
 .about .row .panel {
@@ -80,7 +82,7 @@ div .search-page {
 }
 
 #instructions p {
-    color: #fff;
+    /*color: #fff;*/
 }
 
 .items-container .instructions-content {
@@ -186,7 +188,7 @@ label .date {
     color:white !important;
 }
 .footer-links li a {
-    background: #666;
+    background: #113766;
 }
 .footer-links li:last-child a {
     margin: 0;

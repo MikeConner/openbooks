@@ -1,4 +1,8 @@
-﻿/* line 259, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_global.scss */
+﻿
+.center {
+ text-align: center;
+}
+/* line 259, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_global.scss */
 meta.foundation-version {
   font-family: "/5.1.0/"; }
 
@@ -4537,7 +4541,8 @@ meta.foundation-mq-topbar {
   height: 80px;
   line-height: 80px;
   position: relative;
-  background: #ffc600!important;
+  background-color:#edd17b!important;
+
   margin-bottom: 0; }
   /* line 131, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_top-bar.scss */
   .top-bar ul {
@@ -4640,8 +4645,8 @@ meta.foundation-mq-topbar {
         box-shadow: 0 10px 0 1px none, 0 16px 0 1px none, 0 22px 0 1px none; }
 
 .top-bar-section li > a {
-    background-color:#24201F!important; 
-    color:#fff!important; 
+ background-color: white;
+   color: #24201F;
     font-size:12px;
 }
 .top-bar-section ul .right li {
@@ -4806,7 +4811,7 @@ li .search-toggle {
       content: " ";
       display: table; }
     li.name {
-       background-color: #FFC600!important;
+      /* background-color: #FFC600!important;*/
     }
     /* line 131, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_global.scss */
     .top-bar:after {
@@ -6514,7 +6519,7 @@ footer {
       background: #333333; }
   /* line 12, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/header.css.scss */
   .header-container .name {
-    background: #2a3644; }
+    /* background: #2a3644;*/ }
     /* line 14, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/header.css.scss */
     .header-container .name a img {
       width: 145px; }
@@ -6600,7 +6605,7 @@ footer {
 @media only screen and (min-width: 64.063em) {
   /* line 52, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/home.css.scss */
   .information p {
-    min-height: 7rem; } }
+    /* min-height: 7rem; */} }
 @media only screen and (max-width: 64.063em) {
   /* line 59, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/home.css.scss */
   .finance p, .finance h3 {
@@ -6654,6 +6659,7 @@ footer {
 
 /* line 26, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/search.css.scss */
 .controls {
+    max-width: 72.5rem!important;
   padding: 1rem 0 0; }
   @media only screen and (max-width: 40em) {
     /* line 28, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/search.css.scss */
@@ -6661,7 +6667,7 @@ footer {
       margin-bottom: 2rem; } }
   /* line 32, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/search.css.scss */
   .controls .pagination span {
-    color: white;
+   /* color: white;*/
     font-size: 0.75rem;
     font-weight: bold;
     margin: 0 0.5rem;
@@ -6821,7 +6827,7 @@ footer {
 /* line 200, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/search.css.scss */
 .date-select label.date {
   font-size: 0.75rem;
-  color: #2a3644;
+  color: white;
   text-transform: uppercase;
   background-color: #333333;
   padding: 0.5rem; }
@@ -6968,7 +6974,7 @@ body {
 
 /* line 15, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/application.css.scss */
 .main-container {
-  background: #444444; }
+  background: #164783; }
 
 /* line 19, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/application.css.scss */
 h1, h2, h3, h4, h5, h6 {
