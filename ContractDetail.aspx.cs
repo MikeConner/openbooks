@@ -17,6 +17,7 @@ public partial class ContractDetail : System.Web.UI.Page
 	{
 		if (!IsPostBack)
 		{
+            ViewState["RefUrl"] = Request.UrlReferrer.ToString();
 			LoadPage();
 		}
 	}
@@ -53,4 +54,12 @@ public partial class ContractDetail : System.Web.UI.Page
 		ClientScript.RegisterStartupScript(this.GetType(), "newWindow", String.Format("<script>window.open('{0}');</script>", url));
 	}
 
+    protected void BackButton_Click(object sender, EventArgs e)
+    {
+        object refUrl = ViewState["RefUrl"];
+        if (refUrl != null)
+        {
+            Response.Redirect((string)refUrl);
+        }
+    }
 }

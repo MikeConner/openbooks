@@ -206,3 +206,10 @@ footer {
         margin-top: 2rem;
     }
 }    
+
+.obvious-button {
+    font-style:italic;
+    font-weight:bold;
+    text-decoration:underline;
+    color:blue;
+}
