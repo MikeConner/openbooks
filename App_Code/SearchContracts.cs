@@ -213,7 +213,7 @@ namespace OpenBookAllegheny
             }
 
             // Default start date from SearchRangeParamsContract
-            sp.beginDate = string.IsNullOrEmpty(Request.QueryString["startDateRange"]) ? Convert.ToDateTime("1/1/1990") : Convert.ToDateTime(Request.QueryString["startDateRange"]);
+            sp.beginDate = string.IsNullOrEmpty(Request.QueryString["startDateRange"]) ? Convert.ToDateTime("1/1/2015") : Convert.ToDateTime(Request.QueryString["startDateRange"]);
             sp.endDate = string.IsNullOrEmpty(Request.QueryString["endDateRange"]) ? DateTime.Today : Convert.ToDateTime(Request.QueryString["endDateRange"]);
             
             // Contract Amount range

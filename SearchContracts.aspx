@@ -143,9 +143,11 @@
                         <ItemTemplate>
                             <div class="item">
                                 <h2><a href="VendorDetail.aspx?ID=<%# Eval("VendorNo") %>"><%# Eval("VendorName") %>  </a></h2>
+                                <!--
                                 <div class="price-group">
                                     <span class="current">Current Contract Amount: <%# DisplayAmount(Eval("Amount", "{0:C}")) %></span>
                                 </div>
+                                -->
                                 <div class="label-group">
                                     <div class="label-item">
                                         <div class="type">Type</div>
