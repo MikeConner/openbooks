@@ -15,13 +15,13 @@
                         <ItemTemplate>
                             <table class="ob-gridview" cellpadding="0" cellspacing="0">
                                 <tr>
-                                    <th>Amount</th>
+
                                     <th>Contract Description</th>
                                     <th>Contract Approval Date</th>
                                     <th>Contract End Date</th>
                                 </tr>
                                 <tr>
-                                    <td><%# DataBinder.Eval(Container.DataItem, "Amount", "{0:C}")%></td>
+                                    
                                     <td><%# DataBinder.Eval(Container.DataItem, "AggregateDescription") %></td>
                                     <td><%# DataBinder.Eval(Container.DataItem, "OrderDate", "{0:MM/dd/yyyy}")%></td>
                                     <td><%# DataBinder.Eval(Container.DataItem, "CancelDate", "{0:MM/dd/yyyy}")%></td>
