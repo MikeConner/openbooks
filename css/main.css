@@ -4541,7 +4541,7 @@ meta.foundation-mq-topbar {
   height: 80px;
   line-height: 80px;
   position: relative;
-  background-color:#edd17b!important;
+  background-color: #ffc600!important;
 
   margin-bottom: 0; }
   /* line 131, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/vendor/bundle/ruby/2.1.0/gems/foundation-rails-5.1.1.0/vendor/assets/stylesheets/foundation/components/_top-bar.scss */
@@ -6533,7 +6533,7 @@ footer {
 
 /* line 29, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/header.css.scss */
 .search-menu {
-  background: #edd17b;
+  background: #ffc600;
   display: none;
   padding: 1rem 0.5rem 1rem; }
   /* line 33, /tmp/build_9ef9a257-ff12-4077-bc80-c9ba358d7bf7/app/assets/stylesheets/partials/header.css.scss */

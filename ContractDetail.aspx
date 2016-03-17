@@ -60,7 +60,7 @@
                                         <td>
 				<asp:Panel ID="pnlContractPDF" runat="server" Visible='True'>
 					<asp:ImageButton ID="ibtnContractPDF" runat="server" 
-						ImageUrl="~/img/viewcontract-btn.gif"
+						ImageUrl="~/img/viewcontract-btn.png"
 						CommandName="ViewPDF" 
 						CommandArgument='<%# Eval("ContractID") %>' />
 				</asp:Panel>
