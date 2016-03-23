@@ -10,6 +10,9 @@ using System.Net.Mail;
 using System.Globalization;
 using DataStreams.ETL;
 using System.Collections;
+using System.Globalization;
+using Renci.SshNet;
+using Renci.SshNet.Sftp;
 
 namespace OpenBookAllegheny
 {
@@ -21,7 +24,53 @@ namespace OpenBookAllegheny
         public static double FEE_BASED_CONTRACT_AMOUNT = 999999.99;
         public static string FEE_BASED_AMOUNT_STRING = "$999,999.99";
 
-        public static void UploadAlleghenyContracts(string filename)
+        public static void UploadAlleghenyContracts(String filename)
+        {
+            UploadAlleghenyContracts(filename, true);
+        }
+
+        public static void SSHDownload()
+        {
+            using (SftpClient client = new SftpClient(ConfigurationManager.AppSettings["SftpHost"].ToString(),
+                                                      ConfigurationManager.AppSettings["SftpUsername"].ToString(),
+                                                      ConfigurationManager.AppSettings["SftpPassword"].ToString()))
+            {
+                string remoteDirectory = "/OpenBook/";
+
+                client.Connect();
+                try
+                {
+                    IEnumerable<SftpFile> files = client.ListDirectory(remoteDirectory, null);
+                    foreach (SftpFile file in files)
+                    {
+                        if (!file.Name.StartsWith("."))
+                        {
+                            string localFile = Path.GetTempFileName();
+
+                            try
+                            {
+                                using (Stream tempFile = File.OpenWrite(localFile))
+                                {
+                                    client.DownloadFile(file.FullName, tempFile, null);
+                                }
+
+                                Admin.UploadAlleghenyContracts(localFile);
+                            }
+                            finally
+                            {
+                                File.Delete(localFile);
+                            }
+                        }
+                    }
+                }
+                finally
+                {
+                    client.Disconnect();
+                }
+            }
+        }
+
+        public static void UploadAlleghenyContracts(string filename, bool reset)
         {
             DataTable depts = new DataTable();
             DataTable types = new DataTable();
@@ -78,8 +127,9 @@ namespace OpenBookAllegheny
                     throw ex;
                 }
             }
-            
-            DataTable table = CSVParser.ParseCSV(System.AppDomain.CurrentDomain.BaseDirectory + "documents\\" + filename);
+
+            //string fname = System.AppDomain.CurrentDomain.BaseDirectory + "documents\\" + filename;
+            DataTable table = CSVParser.ParseCSV(filename);
             bool first = true;
             foreach (DataRow row in table.Rows)
             {
@@ -90,17 +140,35 @@ namespace OpenBookAllegheny
                 }
 
                 string rawOrderType = row[0].ToString();
-                int contractID = Int32.Parse(row[1].ToString());
-                double price = Double.Parse(row[2].ToString());
-                int vendorNo = Int32.Parse(row[3].ToString());
                 string vendorName = row[4].ToString();
-                DateTime start = DateTime.Parse(row[5].ToString());
-                DateTime end = DateTime.Parse(row[6].ToString());
                 string accountNo = row[7].ToString();
                 string execAction = row[8].ToString();
                 string desc1 = row[9].ToString();
                 string rawDeptName = row[10].ToString();
                 string desc2 = row[12].ToString();
+
+                int contractID;
+                double price;
+                int vendorNo;
+                DateTime start, end;
+
+                // There can be format exceptions with things like blank lines
+                try
+                {
+                    contractID = Int32.Parse(row[1].ToString());
+                    price = Double.Parse(row[2].ToString(), NumberStyles.Number);
+                    vendorNo = Int32.Parse(row[3].ToString());
+                    start = DateTime.Parse(row[5].ToString());
+                    end = DateTime.Parse(row[6].ToString());
+                }
+                catch (FormatException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    Console.WriteLine(row);
+
+                    continue;
+                }
+
                 int deptId = -1;
                 int typeId = -1;
 
@@ -230,6 +298,21 @@ namespace OpenBookAllegheny
             using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["AlleghenyCountyConnectionString"].ConnectionString))
             {
                 conn.Open();
+
+                if (reset)
+                {
+                    using (SqlCommand cmd = new SqlCommand("DELETE FROM accounts", conn))
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    using (SqlCommand cmd = new SqlCommand("DELETE FROM contracts", conn))
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
 
                 using (SqlBulkCopy bulkcopy = new SqlBulkCopy(conn))
                 {
