@@ -87,7 +87,7 @@
                     <h2>Contract Amount</h2>
                     <div class="range-slider">
                         <label>Minimum Amount</label>
-                        <input class="input-range" max="10000" min="1" type="range" value="250" id="dblMinContract" name="dblMinContract">
+                        <input class="input-range" max="10000" min="0" type="range" value="250" id="dblMinContract" name="dblMinContract">
                         <span id="minContract" class="range-value">1</span>
                     </div>
                     <div class="range-slider">
