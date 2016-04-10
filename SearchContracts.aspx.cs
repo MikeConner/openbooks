@@ -181,6 +181,28 @@ public partial class SearchContractsPage : PaginatedPage
         }
     }
 
+    /*
+     * Display "Service Contract" for $0 contracts.
+     * Don't display "Service Contract" twice; return nothing if it's "original contract amount" and 0
+     * 
+     */
+    public static string DisplayAmount(string src)
+    {
+        return DisplayAmount(src, true);
+    }
+
+    public static string DisplayAmount(string src, bool current)
+    {
+        string result = "";
+
+        if (current)
+        {
+            result = string.IsNullOrEmpty(src) ? "Service Contract" : src;
+        }
+
+        return result;
+    }
+
     // Formerly SearchParamsContract
     public void GetResultsCount(SearchRangeParamsContract sp)
     {

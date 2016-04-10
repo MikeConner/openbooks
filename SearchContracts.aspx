@@ -87,7 +87,7 @@
                     <h2>Contract Amount</h2>
                     <div class="range-slider">
                         <label>Minimum Amount</label>
-                        <input class="input-range" max="10000" min="0" type="range" value="250" id="dblMinContract" name="dblMinContract">
+                        <input class="input-range" max="10000" min="0" type="range" value="0" id="dblMinContract" name="dblMinContract">
                         <span id="minContract" class="range-value">1</span>
                     </div>
                     <div class="range-slider">
@@ -141,9 +141,8 @@
                             <div class="item">
                                 <h2><a href="VendorDetail.aspx?ID=<%# Eval("VendorNo") %>"><%# Eval("VendorName") %>  </a></h2>
                                 <div class="price-group">
-                                    <span class="original">Currrent Contract Amount: <%# Eval("Amount", "{0:C}")%></span>
-                                    <span class="current"><%# Eval("OriginalAmount", "{0:C}")%> Original Contract Amount</span>
-
+                                    <span class="original">Currrent Contract Amount: <%# DisplayAmount(Eval("Amount", "{0:C}"))%></span>
+                                    <span class="current"><%# DisplayAmount(Eval("OriginalAmount", "{0:C}"), false)%> Original Contract Amount</span>
                                 </div>
                                 <div class="label-group">
                                     <div class="label-item">
