@@ -42,7 +42,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <label>City Department: </label>
+                                            <label>County Department: </label>
                                         </td>
                                         <td><%# DataBinder.Eval(Container.DataItem, "DeptName") %></td>
                                     </tr>
