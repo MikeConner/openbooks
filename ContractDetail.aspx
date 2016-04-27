@@ -32,6 +32,8 @@
                             </div>
                             <br />
                             <div class="contractdetails">
+                                <div class="large-12 columns">
+                                    <div class="large-8 columns">
                                 <table cellpadding="0" cellspacing="0">
                                     <tr>
                                         <td>
@@ -67,6 +69,19 @@
 				</td>
                                     </tr>
                                 </table>
+                                        </div>
+                                    <div class="large-4 columns">
+                                        <br />
+                                        <br />
+                                        <br />
+                                        <br />
+                                        <br />
+                                        <br />
+                                        <br />
+                                        <br />
+                                        Please be aware that contracts will display in a popup window. If you have trouble viewing contracts please disable your popup blocker for this site.
+                                    </div>
+             
                             </div>
                         </ItemTemplate>
                     </asp:Repeater>

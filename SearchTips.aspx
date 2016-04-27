@@ -15,6 +15,7 @@
                         <li>Type in any keywords associated with this contract, separated by commas.</li>
                         <li>Select the contract approval date to narrow your search.</li>
                         <li>Select the amount the contract was for and then Click Search.</li>
+                        <li>Please be aware that contracts will display in a popup window. If you have trouble viewing contracts please disable your popup blocker for this site.</li>
                     </ul>
                 </div>
             </div>
