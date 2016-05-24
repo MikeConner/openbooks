@@ -1017,6 +1017,29 @@ namespace OpenBookPgh
             }
         }
 
+        public static DataTable GetContracts()
+        {
+            DataTable results = new DataTable("Contracts");
+
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
+            {
+                string cmdText = "SELECT ContractID, CAST(DateCountersigned AS date) AS StartDate, v.VendorName, Description, s.ServiceName, Amount, ResolutionNo, CAST(DateDuration AS date) AS Duration, OriginalAmount FROM contracts c LEFT JOIN vendors v ON c.vendorNo = v.vendorNo LEFT JOIN tlk_service s ON c.Service = s.ID;";
+                
+                using (SqlCommand cmd = new SqlCommand(cmdText, conn))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    conn.Open();
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        results.Load(reader);
+                    }
+                }
+            }
+
+            return results;
+        }
+
         public static DataTable LoadContractNos()
         {
             DataTable results = new DataTable("Results");
