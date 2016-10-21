@@ -20,7 +20,7 @@
                                     <p>As the County’s top fiscal officer, Controller Chelsa Wagner leads the fight against inefficient and inequitable spending, working to root out fraud, waste and abuse in County government. Chelsa brings a fresh, outside perspective focused on making County government more transparent and accountable to taxpayers. Chelsa ensures the Controller’s office is a direct, effective advocate for Allegheny County, this region, and most importantly, the taxpayers.</p>
                                 </div>
                                 <div class="large-4 columns">
-                                    <img alt="Chelsea Wagner" src="img/wagner.jpg">
+                                    <img alt="Chelsea Wagner" src="img/chelsa1.jpg">
                                 </div>
                             </div>
                         </div>

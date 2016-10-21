@@ -36,9 +36,10 @@ namespace OpenBookAllegheny
             {
                 string remoteDirectory = "/OpenBook/";
 
-                client.Connect();
                 try
                 {
+                    client.Connect();
+
                     IEnumerable<SftpFile> files = client.ListDirectory(remoteDirectory, null);
                     foreach (SftpFile file in files)
                     {
@@ -61,6 +62,10 @@ namespace OpenBookAllegheny
                             }
                         }
                     }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
                 }
                 finally
                 {
