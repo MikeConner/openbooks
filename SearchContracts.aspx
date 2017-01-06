@@ -145,7 +145,7 @@
                                     <span class="current"><%# DisplayAmount(Eval("OriginalAmount", "{0:C}"), false)%> Original Contract Amount</span>
                                 </div>
                                 <div class="price-group">
-                                    <span class="current">Amount Received: <%# DisplayAmountOrZero(Eval("AmountReceived", "{0:C}"))%></span>
+                                    <span class="current">Amount Paid: <%# DisplayAmountOrZero(Eval("AmountReceived", "{0:C}"))%></span>
                                 </div>
                                 <div class="label-group">
                                     <div class="label-item">

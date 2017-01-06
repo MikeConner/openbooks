@@ -20,14 +20,44 @@ namespace OpenBookPgh
         public static string ONBASE_CHECK_PDF_PATH = "http://onbaseapp.city.pittsburgh.pa.us/OpenBookPublicData/checks.csv";
         public static string ONBASE_INVOICE_PDF_PATH = "http://onbaseapp.city.pittsburgh.pa.us/OpenBookPublicData/invoices.csv";
 
-        public static List<string> UploadFinancials(string filename)
+        public static List<string> UploadPayments(string step1, string step2)
         {
             List<string> errors = new List<string>();
             Dictionary<string, decimal> amounts = new Dictionary<string, decimal>();
+            Dictionary<int, string> funds = new Dictionary<int, string>();
+            Dictionary<string, string> cost_centers = new Dictionary<string, string>();
+            Dictionary<int, string> object_accounts = new Dictionary<int, string>();
+            Dictionary<int, string> line_items = new Dictionary<int, string>();
 
-            DataTable table = CSVParser.ParseCSV(filename);
+            // Clear out old Amounts Received, and old lookup tables
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
+            {
+                conn.Open();
+
+                using (SqlCommand command = new SqlCommand(null, conn))
+                {
+                    command.CommandText = "UPDATE contracts SET AmountReceived=NULL";
+                    command.ExecuteNonQuery();
+
+                    command.CommandText = "DELETE FROM cost_centers";
+                    command.ExecuteNonQuery();
+
+                    command.CommandText = "DELETE FROM funds";
+                    command.ExecuteNonQuery();
+
+                    command.CommandText = "DELETE FROM line_items";
+                    command.ExecuteNonQuery();
+
+                    command.CommandText = "DELETE FROM obj_accounts";
+                    command.ExecuteNonQuery();
+
+                    command.CommandText = "DELETE FROM payments";
+                    command.ExecuteNonQuery();
+                }
+            }
+
+            DataTable table = CSVParser.ParseCSV(step1);
             int idx = -1;
-
             foreach (DataRow row in table.Rows)
             {
                 if (-1 == idx)
@@ -38,62 +68,273 @@ namespace OpenBookPgh
                 }
                 idx++;
 
-                string contractID = row[2].ToString().Trim();
+                string contractID = row[0].ToString().Trim();
 
                 try
                 {
-                    decimal amountReceived = decimal.Parse(row[9].ToString(), NumberStyles.Currency);
-                    decimal existingAmount;
-
-                    if (amounts.TryGetValue(contractID, out existingAmount))
-                    {
-                        amounts[contractID] = existingAmount + amountReceived;
-                    }
-                    else
-                    {
-                        amounts.Add(contractID, amountReceived);
-                    }
+                    decimal amountReceived = decimal.Parse(row[1].ToString(), NumberStyles.Currency);
+                    
+                    amounts.Add(contractID, amountReceived);
                 }
-                catch (FormatException)
+                catch (FormatException ex)
                 {
-                    // If it's null, there should be a valid number in the vouchered column (which we ignore)
-                    // If it doesn't work either, there's a real problem
+                    errors.Add("Step 1. Error in row " + idx + " (" + ex.Message + ")");
+                }
+            }
+
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
+            {
+                conn.Open();
+
+                using (SqlCommand command = new SqlCommand(null, conn))
+                {
+                    /*SqlParameter idParam = new SqlParameter("@id", SqlDbType.NVarChar, 50);
+                    SqlParameter amountParam = new SqlParameter("@amount", SqlDbType.Decimal, 0);
+                    command.Parameters.Add(idParam);
+                    command.Parameters.Add(amountParam);
+
+                    command.Prepare(); */
+                    SqlTransaction transaction = conn.BeginTransaction();
+                    command.Transaction = transaction;
+
+                    int batch = 1000;
+
+                    foreach (KeyValuePair<string, decimal> entry in amounts)
+                    {
+                        //idParam.Value = entry.Key;
+                        //amountParam.Value = entry.Value;
+                        command.CommandText = String.Format("UPDATE contracts SET AmountReceived = {0} WHERE ContractID = '{1}'", entry.Value, entry.Key);
+
+                        command.ExecuteNonQuery();
+                        batch--;
+
+                        if (0 == batch)
+                        {
+                            try
+                            {
+                                transaction.Commit();
+
+                                transaction = conn.BeginTransaction();
+                                command.Transaction = transaction;
+                            }
+                            catch (Exception)
+                            {
+                                transaction.Rollback();
+                                throw;
+                            }
+
+                            batch = 1000;
+                        }
+                    }
 
                     try
                     {
-                        decimal amountVouchered = decimal.Parse(row[11].ToString(), NumberStyles.Currency);
+                        transaction.Commit();
                     }
-                    catch (FormatException fex)
+                    catch (Exception)
                     {
-                        errors.Add("Error in row " + idx + " (" + fex.Message + ")");
+                        transaction.Rollback();
+                        throw;
                     }
                 }
             }
 
-            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["AlleghenyCountyConnectionString"].ConnectionString))
+            table = CSVParser.ParseCSV(step2);
+            idx = -1;
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
             {
                 conn.Open();
 
-                SqlCommand command = new SqlCommand(null, conn);
-
-                /*SqlParameter idParam = new SqlParameter("@id", SqlDbType.NVarChar, 50);
-                SqlParameter amountParam = new SqlParameter("@amount", SqlDbType.Decimal, 0);
-                command.Parameters.Add(idParam);
-                command.Parameters.Add(amountParam);
-
-                command.Prepare(); */
-
-                foreach (KeyValuePair<string, decimal> entry in amounts)
+                using (SqlCommand command = new SqlCommand(null, conn))
                 {
-                    //idParam.Value = entry.Key;
-                    //amountParam.Value = entry.Value;
-                    command.CommandText = String.Format("UPDATE contracts SET AmountReceived = {0} WHERE ContractID = '{1}'", entry.Value, entry.Key);
+                    SqlTransaction transaction = conn.BeginTransaction();
+                    command.Transaction = transaction;
 
-                    command.ExecuteNonQuery();
+                    int batch = 1000;
+
+                    foreach (DataRow row in table.Rows)
+                    {
+                        if (-1 == idx)
+                        {
+                            // Skip header
+                            idx++;
+                            continue;
+                        }
+                        idx++;
+
+                        try
+                        {
+                            string contractID = row[3].ToString().Trim();
+                            int fundID = int.Parse(row[4].ToString());
+                            string fund = SqlEscape(row[5].ToString());
+                            string centerID = row[6].ToString().Trim();
+                            string center = SqlEscape(row[7].ToString());
+                            int accountID = int.Parse(row[8].ToString());
+                            string account = SqlEscape(row[9].ToString());
+                            int itemID = string.IsNullOrEmpty(row[10].ToString()) ? -1 : int.Parse(row[10].ToString());
+                            string item = -1 == itemID ? null : SqlEscape(row[11].ToString());
+
+                            decimal amountReceived = decimal.Parse(row[13].ToString(), NumberStyles.Currency);
+
+                            if (false == funds.ContainsKey(fundID))
+                            {
+                                funds.Add(fundID, fund);
+                            }
+
+                            if (false == cost_centers.ContainsKey(centerID))
+                            {
+                                cost_centers.Add(centerID, center);
+                            }
+
+                            if (false == object_accounts.ContainsKey(accountID))
+                            {
+                                object_accounts.Add(accountID, account);
+                            }
+
+                            if ((-1 != itemID) && (false == line_items.ContainsKey(itemID)))
+                            {
+                                line_items.Add(itemID, item);
+                            }
+
+                            // Ignore 0 records
+                            if (0 == amountReceived)
+                            {
+                                continue;
+                            }
+
+                            if (-1 == itemID)
+                            {
+                                command.CommandText = string.Format("INSERT INTO payments (ContractID,Fund,CostCenter,ObjectAccount,AmountReceived) VALUES('{0}',{1},'{2}',{3},{4})", contractID, fundID, centerID, accountID, amountReceived);
+                            }
+                            else
+                            {
+                                command.CommandText = string.Format("INSERT INTO payments VALUES('{0}',{1},'{2}',{3},{4},{5})", contractID, fundID, centerID, accountID, itemID, amountReceived);
+                            }
+                            command.ExecuteNonQuery();
+                            batch--;
+
+                            if (0 == batch)
+                            {
+                                try
+                                {
+                                    transaction.Commit();
+
+                                    transaction = conn.BeginTransaction();
+                                    command.Transaction = transaction;
+                                }
+                                catch (Exception)
+                                {
+                                    transaction.Rollback();
+                                    throw;
+                                }
+
+                                batch = 1000;
+                            }
+                        }
+                        catch (FormatException ex)
+                        {
+                            errors.Add("Step 2. Error in row " + idx + " (" + ex.Message + ")");
+                        }
+                    }
+                    try
+                    {
+                        transaction.Commit();
+                    }
+                    catch (Exception)
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                }
+            }
+
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
+            {
+                conn.Open();
+
+                using (SqlCommand command = new SqlCommand(null, conn))
+                {
+                    SqlTransaction transaction = conn.BeginTransaction();
+                    command.Transaction = transaction;
+
+                    foreach (KeyValuePair<int, string> entry in funds)
+                    {
+                        command.CommandText = String.Format("INSERT INTO funds VALUES({0},'{1}')", entry.Key, entry.Value);
+
+                        command.ExecuteNonQuery();
+                    }
+                    try
+                    {
+                        transaction.Commit();
+                    }
+                    catch (Exception)
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+
+                    transaction = conn.BeginTransaction();
+                    command.Transaction = transaction;
+                    foreach (KeyValuePair<string, string> entry in cost_centers)
+                    {
+                        command.CommandText = String.Format("INSERT INTO cost_centers VALUES('{0}','{1}')", entry.Key, entry.Value);
+
+                        command.ExecuteNonQuery();
+                    }
+                    try
+                    {
+                        transaction.Commit();
+                    }
+                    catch (Exception)
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+
+                    transaction = conn.BeginTransaction();
+                    command.Transaction = transaction;
+                    foreach (KeyValuePair<int, string> entry in object_accounts)
+                    {
+                        command.CommandText = String.Format("INSERT INTO obj_accounts VALUES({0},'{1}')", entry.Key, entry.Value);
+
+                        command.ExecuteNonQuery();
+                    }
+                    try
+                    {
+                        transaction.Commit();
+                    }
+                    catch (Exception)
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+
+                    transaction = conn.BeginTransaction();
+                    command.Transaction = transaction;
+                    foreach (KeyValuePair<int, string> entry in line_items)
+                    {
+                        command.CommandText = String.Format("INSERT INTO line_items VALUES({0},'{1}')", entry.Key, entry.Value);
+
+                        command.ExecuteNonQuery();
+                    }
+                    try
+                    {
+                        transaction.Commit();
+                    }
+                    catch (Exception)
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
                 }
             }
 
             return errors;
+        }
+
+        private static string SqlEscape(string input)
+        {
+            return input.Trim().Replace("(", "[").Replace(")", "]").Replace("'", "''");
         }
 
         public static List<string> UploadContributions(string filename, string username, int candidateID, string office)
@@ -838,6 +1079,100 @@ namespace OpenBookPgh
             }
         }
 
+        public static DataTable GetPaymentsByContractID(string contractID)
+        {
+            DataTable rawPayments = new DataTable("raw-payments");
+            DataTable payments = new DataTable("payments");
+            payments.Columns.Add("Fund", typeof(String));
+            payments.Columns.Add("Center", typeof(String));
+            payments.Columns.Add("Account", typeof(String));
+            payments.Columns.Add("Item", typeof(String));
+            payments.Columns.Add("TotalPaid", typeof(Decimal));
+
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
+            {
+                conn.Open();
+
+                if (0 == mFundsMap.Count)
+                {
+                    // Initialize lookup tables
+                    using (SqlCommand cmd = new SqlCommand("SELECT * FROM funds", conn))
+                    {
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            DataTable funds = new DataTable("Funds");
+                            funds.Load(reader);
+                            foreach (DataRow row in funds.Rows)
+                            {
+                                mFundsMap.Add(int.Parse(row["ID"].ToString()), row["Name"].ToString().Trim());
+                            }
+                        }
+                    }
+
+                    using (SqlCommand cmd = new SqlCommand("SELECT * FROM cost_centers", conn))
+                    {
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            DataTable centers = new DataTable("CostCenters");
+                            centers.Load(reader);
+                            foreach (DataRow row in centers.Rows)
+                            {
+                                mCostCenterMap.Add(row["ID"].ToString().Trim(), row["Name"].ToString().Trim());
+                            }
+                        }
+                    }
+
+                    using (SqlCommand cmd = new SqlCommand("SELECT * FROM obj_accounts", conn))
+                    {
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            DataTable accounts = new DataTable("Accounts");
+                            accounts.Load(reader);
+                            foreach (DataRow row in accounts.Rows)
+                            {
+                                mAccountMap.Add(int.Parse(row["ID"].ToString()), row["Name"].ToString().Trim());
+                            }
+                        }
+                    }
+
+                    using (SqlCommand cmd = new SqlCommand("SELECT * FROM line_items", conn))
+                    {
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            DataTable items = new DataTable("Items");
+                            items.Load(reader);
+                            foreach (DataRow row in items.Rows)
+                            {
+                                mLineItemMap.Add(int.Parse(row["ID"].ToString()), row["Name"].ToString().Trim());
+                            }
+                        }
+                    }
+                }
+
+                using (SqlCommand cmd = new SqlCommand("GetPaymentsByContractID", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@ContractID", SqlDbType.NVarChar, 50).Value = contractID;
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        rawPayments.Load(reader);
+                        foreach (DataRow row in rawPayments.Rows)
+                        {
+                            // Read Raw table (with codes), look up the codes, and create new DataTable with text values
+                            DataRow paymentsRow = payments.Rows.Add();
+                            paymentsRow["Fund"] = mFundsMap[int.Parse(row["Fund"].ToString())];
+                            paymentsRow["Center"] = mCostCenterMap[row["CostCenter"].ToString()];
+                            paymentsRow["Account"] = mAccountMap[int.Parse(row["ObjectAccount"].ToString())];
+                            paymentsRow["Item"] = mLineItemMap[int.Parse(row["LineItem"].ToString())];
+                            paymentsRow["TotalPaid"] = decimal.Parse(row["Total"].ToString());
+                        }
+
+                        return payments;
+                    }
+                }
+            }
+        }
+
         public static DataTable GetContractByContractID(string contractID, int supplementalNo)
         {
             DataTable contracts = new DataTable("contracts");
@@ -1228,5 +1563,10 @@ namespace OpenBookPgh
 
         private static SortedDictionary<string, int> mCandidateMap = new SortedDictionary<string, int>();
         private static SortedDictionary<string, int> mContributionType = new SortedDictionary<string, int>();
+        private static SortedDictionary<int, string> mFundsMap = new SortedDictionary<int, string>();
+        private static SortedDictionary<string, string> mCostCenterMap = new SortedDictionary<string, string>();
+        private static SortedDictionary<int, string> mAccountMap = new SortedDictionary<int, string>();
+        private static SortedDictionary<int, string> mLineItemMap = new SortedDictionary<int, string>();
+
     }
 }

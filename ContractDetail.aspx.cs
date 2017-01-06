@@ -30,6 +30,9 @@ public partial class ContractDetail : System.Web.UI.Page
 			rptContractDetails.DataSource = Admin.GetContractByContractID(contractID, supplementalNo);
 			rptContractDetails.DataBind();
 
+            rptContractPayments.DataSource = Admin.GetPaymentsByContractID(contractID);
+            rptContractPayments.DataBind();
+
 			// Check local Onbase table if PDF exists
 			//int result = Admin.CheckOnbaseContract(contractID);
 			//if(result != -1)
@@ -47,7 +50,8 @@ public partial class ContractDetail : System.Web.UI.Page
 			OpenNewWindow("http://onbaseapp.city.pittsburgh.pa.us/PublicAccess/Contracts.aspx?OBKey__138_1=" + contractID);
 		}
 	}
-	public void OpenNewWindow(string url)
+
+    public void OpenNewWindow(string url)
 	{
 		ClientScript.RegisterStartupScript(this.GetType(), "newWindow", String.Format("<script>window.open('{0}');</script>", url));
 	}
