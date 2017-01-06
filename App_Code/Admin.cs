@@ -20,6 +20,82 @@ namespace OpenBookPgh
         public static string ONBASE_CHECK_PDF_PATH = "http://onbaseapp.city.pittsburgh.pa.us/OpenBookPublicData/checks.csv";
         public static string ONBASE_INVOICE_PDF_PATH = "http://onbaseapp.city.pittsburgh.pa.us/OpenBookPublicData/invoices.csv";
 
+        public static List<string> UploadFinancials(string filename)
+        {
+            List<string> errors = new List<string>();
+            Dictionary<string, decimal> amounts = new Dictionary<string, decimal>();
+
+            DataTable table = CSVParser.ParseCSV(filename);
+            int idx = -1;
+
+            foreach (DataRow row in table.Rows)
+            {
+                if (-1 == idx)
+                {
+                    // Skip header
+                    idx++;
+                    continue;
+                }
+                idx++;
+
+                string contractID = row[2].ToString().Trim();
+
+                try
+                {
+                    decimal amountReceived = decimal.Parse(row[9].ToString(), NumberStyles.Currency);
+                    decimal existingAmount;
+
+                    if (amounts.TryGetValue(contractID, out existingAmount))
+                    {
+                        amounts[contractID] = existingAmount + amountReceived;
+                    }
+                    else
+                    {
+                        amounts.Add(contractID, amountReceived);
+                    }
+                }
+                catch (FormatException)
+                {
+                    // If it's null, there should be a valid number in the vouchered column (which we ignore)
+                    // If it doesn't work either, there's a real problem
+
+                    try
+                    {
+                        decimal amountVouchered = decimal.Parse(row[11].ToString(), NumberStyles.Currency);
+                    }
+                    catch (FormatException fex)
+                    {
+                        errors.Add("Error in row " + idx + " (" + fex.Message + ")");
+                    }
+                }
+            }
+
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["AlleghenyCountyConnectionString"].ConnectionString))
+            {
+                conn.Open();
+
+                SqlCommand command = new SqlCommand(null, conn);
+
+                /*SqlParameter idParam = new SqlParameter("@id", SqlDbType.NVarChar, 50);
+                SqlParameter amountParam = new SqlParameter("@amount", SqlDbType.Decimal, 0);
+                command.Parameters.Add(idParam);
+                command.Parameters.Add(amountParam);
+
+                command.Prepare(); */
+
+                foreach (KeyValuePair<string, decimal> entry in amounts)
+                {
+                    //idParam.Value = entry.Key;
+                    //amountParam.Value = entry.Value;
+                    command.CommandText = String.Format("UPDATE contracts SET AmountReceived = {0} WHERE ContractID = '{1}'", entry.Value, entry.Key);
+
+                    command.ExecuteNonQuery();
+                }
+            }
+
+            return errors;
+        }
+
         public static List<string> UploadContributions(string filename, string username, int candidateID, string office)
         {
             List<string> errors = new List<string>();

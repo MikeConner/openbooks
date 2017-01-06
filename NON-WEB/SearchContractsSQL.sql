@@ -1,7 +1,7 @@
 USE [CityController]
 GO
 
-/****** Object:  StoredProcedure [dbo].[SearchContractsSQL]    Script Date: 3/10/2015 11:39:46 PM ******/
+/****** Object:  StoredProcedure [dbo].[SearchContractsSQL]    Script Date: 1/6/2017 2:26:29 AM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -57,7 +57,7 @@ FROM
  	FROM 
 	(
 		SELECT c.ContractID, c.SupplementalNo, c.VendorNo, c.DepartmentID, 
-			c.Service, c.Amount, c.OriginalAmount, c.Description, 
+			c.Service, c.Amount, c.OriginalAmount, c.AmountReceived, c.Description, 
 			c.DateSolicitor, c.DateDuration, 
 			c.DateCountersigned, c.DateEntered,
 			v.VendorName, 
@@ -175,4 +175,5 @@ END
 
 
 GO
+
 

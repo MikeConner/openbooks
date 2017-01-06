@@ -203,6 +203,11 @@ public partial class SearchContractsPage : PaginatedPage
         return result;
     }
 
+    public static string DisplayAmountOrZero(string src)
+    {
+        return string.IsNullOrEmpty(src) ? "$0" : src;
+    }
+
     // Formerly SearchParamsContract
     public void GetResultsCount(SearchRangeParamsContract sp)
     {
