@@ -58,8 +58,6 @@ public partial class Admin_DownloadContractsPage : System.Web.UI.Page
             {
                 columnNames[x] = contracts.Columns[x].ColumnName;
             }
-            /*IEnumerable<string> columnNames = contracts.Columns.Cast<DataColumn>().
-                                              Select(column => column.ColumnName);*/
 
             sb.AppendLine(string.Join(",", columnNames));
 
@@ -78,17 +76,18 @@ public partial class Admin_DownloadContractsPage : System.Web.UI.Page
                 fields[8] = row["OriginalAmount"].ToString();
 
                 sb.AppendLine(string.Join(",", fields));
-
-                //IEnumerable<string> fields = row.ItemArray.Select(field => field.ToString());
             }
-            string tempFile = Path.GetTempFileName();
 
-            File.WriteAllText(tempFile, sb.ToString());
-            
-            WebClient webClient = new WebClient();
-            //webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
-            //webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressChanged);
-            webClient.DownloadFile(new Uri(tempFile), "contracts.csv");
+            Response.Clear();
+            Response.AddHeader("content-disposition", "attachment; filename=Contracts.csv");
+            Response.AddHeader("content-type", "text/plain");
+
+            using (StreamWriter writer = new StreamWriter(Response.OutputStream))
+            {
+                writer.WriteLine(sb.ToString());
+            }
+            Response.End();
+
             lblDownloadCompleted.Visible = true;
         }
         else
