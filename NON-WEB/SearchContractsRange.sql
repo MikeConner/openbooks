@@ -1,12 +1,13 @@
 USE [CityController]
 GO
 
-/****** Object:  StoredProcedure [dbo].[SearchContractsRange]    Script Date: 1/23/2017 6:17:20 PM ******/
+/****** Object:  StoredProcedure [dbo].[SearchContractsRange]    Script Date: 1/24/2017 12:39:07 AM ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
+
 
 
 
@@ -130,7 +131,7 @@ SELECT @sql = @sql + ' WHERE 1 = 1 ';
 		  SET @amountField = 'Amount';
 
 		IF @minContractAmt IS NOT NULL AND @maxContractAmt IS NOT NULL
-			SELECT @sql = @sql + ' AND Amount >= @xminContractAmt AND ' + @amountField + ' <= @xmaxContractAmt ';
+			SELECT @sql = @sql + ' AND ' + @amountField + ' >= @xminContractAmt AND ' + @amountField + ' <= @xmaxContractAmt ';
 SELECT @sql = @sql + ' ) AS results ';
 
 /* Paging Filter */
@@ -162,6 +163,7 @@ EXEC sp_executesql @sql, @paramlist,
 	@cityDept, @contractID, @vendorID, @vendorKeywords, @contractType, @keywords, @beginDate, @endDate, @minContractAmt, @maxContractAmt, @byPaidAmount
 
 END
+
 
 
 

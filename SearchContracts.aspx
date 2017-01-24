@@ -100,7 +100,7 @@
                         <input type="hidden" id="StickyMinContract" value="<%= stickyMinContract %>" />
                         <input type="hidden" id="StickyMaxContract" value="<%= stickyMaxContract %>" />
                         <label>Maximum Amount</label>
-                        <input class="input-range" min="1" type="range" id="dblMaxContract" name="dblMaxContract">
+                        <input class="input-range" min="10001" type="range" id="dblMaxContract" name="dblMaxContract">
                         <span id="maxContract" class="range-value">36000000</span>
                     </div>
                 </div>

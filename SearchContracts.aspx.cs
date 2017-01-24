@@ -15,9 +15,9 @@ public partial class SearchContractsPage : PaginatedPage
 
     // .NET 2.0 doesn't support ClientIDMode, and name mangling (which JS needs to match) depends on page settings, which can vary
     //   between 
-    public int maxContractAmount;
-    public int stickyMinContract;
-    public int stickyMaxContract;
+    public static int maxContractAmount;
+    public static int stickyMinContract;
+    public static int stickyMaxContract;
 
     public SearchContractsPage() {
         mPageController = new PagingControls(this);
@@ -40,6 +40,7 @@ public partial class SearchContractsPage : PaginatedPage
             Keywords.Text = sp.keywords;
             stickyMinContract = sp.minContractAmt;
             stickyMaxContract = sp.maxContractAmt;
+            
         }
 
         maxContractAmount = SearchContracts.GetMaxContractPrice();
