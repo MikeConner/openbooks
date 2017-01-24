@@ -102,6 +102,7 @@ public partial class SearchContractsPage : PaginatedPage
         {
             CityDepartment.Items.FindByValue(sp.cityDept.ToString()).Selected = true;
             ContractType.Items.FindByValue(sp.contractType.ToString()).Selected = true;
+            ContractAmountType.SelectedValue = sp.byPaidAmount ? "Paid" : "Contract";
         }
     }
 
@@ -139,8 +140,8 @@ public partial class SearchContractsPage : PaginatedPage
         string searchKeywords = Keywords.Text;
         string keywordOptions = rbVendor.SelectedValue;
         string contractID = string.IsNullOrEmpty(ContractID.Text) ? null : ContractID.Text;
-
-        string queryString = SearchContracts.GenerateRangeQueryString(0, contractID, vendorKeywords, keywordOptions, cityDept, contractType, searchKeywords, startDate, endDate, minContractAmount, maxContractAmount);
+        bool searchByPaid = "Paid" == ContractAmountType.Text;
+        string queryString = SearchContracts.GenerateRangeQueryString(0, contractID, vendorKeywords, keywordOptions, cityDept, contractType, searchKeywords, startDate, endDate, minContractAmount, maxContractAmount, searchByPaid);
         Response.Redirect(queryString + "&click=1");
     }
 

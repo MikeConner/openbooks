@@ -1,12 +1,13 @@
 USE [CityController]
 GO
 
-/****** Object:  StoredProcedure [dbo].[SearchContractsRange]    Script Date: 1/6/2017 2:24:53 AM ******/
+/****** Object:  StoredProcedure [dbo].[SearchContractsRange]    Script Date: 1/23/2017 6:17:20 PM ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
+
 
 
 
@@ -37,6 +38,7 @@ ALTER PROCEDURE [dbo].[SearchContractsRange]
 	@endDate DATETIME = NULL, 
 	@minContractAmt INT = NULL,
 	@maxContractAmt INT = NULL,
+	@byPaidAmount BIT = 0,
 	@debug	BIT = 0
 
 AS
@@ -46,7 +48,7 @@ BEGIN
 DECLARE @startRowIndex INT;
 SET @startRowIndex = (@pageIndex * @maximumRows);
 
-DECLARE @sql NVARCHAR(4000), @paramlist NVARCHAR(4000);
+DECLARE @sql NVARCHAR(4000), @paramlist NVARCHAR(4000), @amountField NVARCHAR(100);
 
 SELECT @sql = 'SELECT * 
 FROM
@@ -122,9 +124,13 @@ SELECT @sql = @sql + ' WHERE 1 = 1 ';
 			SELECT @sql = @sql + ' AND DateEntered BETWEEN @xbeginDate AND @xendDate ';
 
 		/* Amount */
-		IF @minContractAmt IS NOT NULL AND @maxContractAmt IS NOT NULL
-		    SELECT @sql = @sql + ' AND Amount >= @xminContractAmt AND Amount <= @xmaxContractAmt ';
+		IF (@byPaidAmount = 1) 
+		  SET @amountField = 'AmountReceived';
+	    ELSE
+		  SET @amountField = 'Amount';
 
+		IF @minContractAmt IS NOT NULL AND @maxContractAmt IS NOT NULL
+			SELECT @sql = @sql + ' AND Amount >= @xminContractAmt AND ' + @amountField + ' <= @xmaxContractAmt ';
 SELECT @sql = @sql + ' ) AS results ';
 
 /* Paging Filter */
@@ -147,14 +153,16 @@ SELECT @paramlist = '@xstartRowIndex INT,
 	@xbeginDate DATETIME, 
 	@xendDate DATETIME,
 	@xminContractAmt INT,
-	@xmaxContractAmt INT';
+	@xmaxContractAmt INT,
+	@xbyPaidAmount BIT';
 
 
 EXEC sp_executesql @sql, @paramlist, 
 	@startRowIndex, @maximumRows, 
-	@cityDept, @contractID, @vendorID, @vendorKeywords, @contractType, @keywords, @beginDate, @endDate, @minContractAmt, @maxContractAmt
+	@cityDept, @contractID, @vendorID, @vendorKeywords, @contractType, @keywords, @beginDate, @endDate, @minContractAmt, @maxContractAmt, @byPaidAmount
 
 END
+
 
 
 

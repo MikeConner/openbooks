@@ -13,7 +13,7 @@ namespace OpenBookPgh
         public SearchRangeParamsContract() { }
 
         private SearchRangeParamsContract(int vendorID, string contractID, string vendorKeywords, string vendorSearchOptions, int cityDept, int contractType,
-        string keywords, DateTime beginDate, DateTime endDate, int minContractAmt, int maxContractAmt)
+        string keywords, DateTime beginDate, DateTime endDate, int minContractAmt, int maxContractAmt, bool byPaidAmount)
         {
             this.vendorID = vendorID;
             this.contractID = contractID;
@@ -26,6 +26,7 @@ namespace OpenBookPgh
             this.endDate = endDate;
             this.minContractAmt = minContractAmt;
             this.maxContractAmt = maxContractAmt;
+            this.byPaidAmount = byPaidAmount;
             //this.pageIndex = pageIndex;
         }
         //private int _pageIndex = 0;
@@ -101,6 +102,12 @@ namespace OpenBookPgh
         {
             get { return _maxContractAmt; }
             set { _maxContractAmt = value; }
+        }
+        private bool _byPaidAmount = false;
+        public bool byPaidAmount
+        {
+            get { return _byPaidAmount;  }
+            set { _byPaidAmount = value; }
         }
     }
 }

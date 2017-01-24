@@ -40,7 +40,7 @@ namespace OpenBookPgh
 
         // Replacement for GenerateQueryString
         public static string GenerateRangeQueryString(int vendorID, string contractID, string vendorKeywords, string vendorSearchOptions, int cityDept, int contractType, string keywords,
-                                                      string startDate, string endDate, int minAmount, int maxAmount)
+                                                      string startDate, string endDate, int minAmount, int maxAmount, bool searchByPaid)
         {
             string queryString = "~/SearchContracts.aspx?";
 
@@ -94,6 +94,10 @@ namespace OpenBookPgh
                 if (maxAmount != 0)
                 {
                     queryString += "&amtMax=" + maxAmount.ToString();
+                }
+                if (searchByPaid)
+                {
+                    queryString += "&byPaid=1";
                 }
             }
 
@@ -227,6 +231,8 @@ namespace OpenBookPgh
             {
                 sp.maxContractAmt = maxAmount;
             }
+
+            sp.byPaidAmount = 1 == Utils.GetIntFromQueryString(Request.QueryString["byPaid"]);
 
             return sp;
         }
@@ -372,6 +378,7 @@ namespace OpenBookPgh
                     cmd.Parameters.Add("@endDate", SqlDbType.DateTime).Value = sp.endDate;
                     cmd.Parameters.Add("@minContractAmt", SqlDbType.Int).Value = (sp.minContractAmt == 0) ? System.DBNull.Value : (object)sp.minContractAmt;
                     cmd.Parameters.Add("@maxContractAmt", SqlDbType.Int).Value = (sp.maxContractAmt == 0) ? System.DBNull.Value : (object)sp.maxContractAmt;
+                    cmd.Parameters.Add("@byPaidAmount", SqlDbType.Bit).Value = sp.byPaidAmount;
 
                     conn.Open();
                     cmd.ExecuteNonQuery();
@@ -436,6 +443,7 @@ namespace OpenBookPgh
                     cmd.Parameters.Add("@endDate", SqlDbType.DateTime).Value = sp.endDate;
                     cmd.Parameters.Add("@minContractAmt", SqlDbType.Int).Value = (sp.minContractAmt == 0) ? System.DBNull.Value : (object)sp.minContractAmt;
                     cmd.Parameters.Add("@maxContractAmt", SqlDbType.Int).Value = (sp.maxContractAmt == 0) ? System.DBNull.Value : (object)sp.maxContractAmt;
+                    cmd.Parameters.Add("@byPaidAmount", SqlDbType.Bit).Value = sp.byPaidAmount;
 
                     int rowCount = 0;
                     try

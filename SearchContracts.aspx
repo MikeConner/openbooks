@@ -84,7 +84,12 @@
                     </div>
                 </div>
                 <div class="search-field">
-                    <h2>Contract Amount</h2>
+                    <h2>Search by Amount</h2>
+                    <asp:RadioButtonList ID="ContractAmountType" runat="server" RepeatDirection="Horizontal">
+                        <asp:ListItem Text="Contract" Value="Contract" selected="True" />
+                        <asp:ListItem Text="Paid" Value="Paid" />
+                    </asp:RadioButtonList>
+
                     <div class="range-slider">
                         <label>Minimum Amount</label>
                         <input class="input-range" max="10000" min="0" type="range" value="0" id="dblMinContract" name="dblMinContract">

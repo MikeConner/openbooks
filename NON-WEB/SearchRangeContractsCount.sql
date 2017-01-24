@@ -1,7 +1,7 @@
 USE [CityController]
 GO
 
-/****** Object:  StoredProcedure [dbo].[SearchRangeContractsCount]    Script Date: 3/11/2015 1:51:57 AM ******/
+/****** Object:  StoredProcedure [dbo].[SearchRangeContractsCount]    Script Date: 1/23/2017 9:54:08 PM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -32,19 +32,20 @@ ALTER PROCEDURE [dbo].[SearchRangeContractsCount]
 	@endDate DATETIME = NULL, 
 	@minContractAmt INT = NULL,
 	@maxContractAmt INT = NULL,
+	@byPaidAmount BIT = 0,
 	@debug	BIT = 0
 
 AS
 
 BEGIN
 
-DECLARE @sql NVARCHAR(4000), @paramlist NVARCHAR(4000);
+DECLARE @sql NVARCHAR(4000), @paramlist NVARCHAR(4000), @amountField NVARCHAR(100);
 
 SELECT @sql = 'SELECT COUNT(ContractOrder) 
 FROM
 (
 	SELECT ROW_NUMBER() OVER(ORDER BY ContractID ASC, DateEntered DESC) AS ContractOrder, 
-		ContractID, VendorNo, DepartmentID, Amount, OriginalAmount, 
+		ContractID, VendorNo, DepartmentID, Amount, OriginalAmount, AmountReceived,
 		Description, DateSolicitor, DateDuration, DateCountersigned, DateEntered, 
 		VendorName,
 		ServiceName,
@@ -52,7 +53,7 @@ FROM
  	FROM 
 	(
 		SELECT c.ContractID, c.VendorNo, c.DepartmentID, 
-			c.Service, c.Amount, c.OriginalAmount, c.Description, 
+			c.Service, c.Amount, c.OriginalAmount, c.AmountReceived, c.Description, 
 			c.DateSolicitor, c.DateDuration, 
 			c.DateCountersigned, c.DateEntered,
 			v.VendorName, 
@@ -102,8 +103,13 @@ SELECT @sql = @sql + ' WHERE 1 = 1 ';
 			SELECT @sql = @sql + ' AND DateEntered BETWEEN @xbeginDate AND @xendDate ';
 
 		/* Amount */
+		IF (@byPaidAmount = 1) 
+		  SET @amountField = 'AmountReceived';
+	    ELSE
+		  SET @amountField = 'Amount';
+
 		IF @minContractAmt IS NOT NULL AND @maxContractAmt IS NOT NULL
-		    SELECT @sql = @sql + ' AND Amount >= @xminContractAmt AND AMOUNT <= @xmaxContractAmt ';
+		    SELECT @sql = @sql + ' AND Amount >= @xminContractAmt AND ' + @amountField + ' <= @xmaxContractAmt ';
 
 SELECT @sql = @sql + ' ) AS results ';
 
@@ -121,11 +127,12 @@ SELECT @paramlist = '
 	@xbeginDate DATETIME, 
 	@xendDate DATETIME,
 	@xminContractAmt INT,
-	@xmaxContractAmt INT';
+	@xmaxContractAmt INT,
+	@xbyPaidAmount BIT';
 
 
 EXEC sp_executesql @sql, @paramlist, 
-	@cityDept, @contractID, @vendorID, @vendorKeywords, @contractType, @keywords, @beginDate, @endDate, @minContractAmt, @maxContractAmt
+	@cityDept, @contractID, @vendorID, @vendorKeywords, @contractType, @keywords, @beginDate, @endDate, @minContractAmt, @maxContractAmt, @byPaidAmount
 
 END
 
@@ -133,4 +140,5 @@ END
 
 
 GO
+
 
