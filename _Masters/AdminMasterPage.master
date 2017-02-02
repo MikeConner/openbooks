@@ -82,6 +82,7 @@
                     <li><asp:HyperLink ID="HyperLink13" NavigateUrl="~/Admin/UploadContributions.aspx" Text="Upload Contributions" runat="server" /></li>
                     <li><asp:HyperLink ID="HyperLink14" NavigateUrl="~/Admin/UploadExpenditures.aspx" Text="Upload Expenditures" runat="server" /></li>
                     <li><asp:HyperLink ID="HyperLink15" NavigateUrl="~/Admin/DownloadContracts.aspx" Text="Download Contracts" runat="server" /></li>
+                    <li><asp:HyperLink ID="HyperLink16" NavigateUrl="~/Admin/DownloadContributions.aspx" Text="Download Contributions" runat="server" /></li>
                 </asp:Panel>
 
                 <asp:Panel ID="panelCandidateFunction" runat="server" Visible ="false">

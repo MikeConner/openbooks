@@ -1451,6 +1451,28 @@ namespace OpenBookPgh
             return results;
         }
 
+        public static DataTable GetContributions()
+        {
+            DataTable results = new DataTable("Contributions");
+
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("GetContributions", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    conn.Open();
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        results.Load(reader);
+                    }
+                }
+            }
+
+            return results;
+        }
+
         public static DataTable LoadContractNos()
         {
             DataTable results = new DataTable("Results");
