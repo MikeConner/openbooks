@@ -33,6 +33,9 @@ public partial class ContractDetail : System.Web.UI.Page
             rptContractPayments.DataSource = Admin.GetPaymentsByContractID(contractID);
             rptContractPayments.DataBind();
 
+            rptPaymentDetails.DataSource = Admin.GetPaymentDetailsByContractID(contractID);
+            rptPaymentDetails.DataBind();
+
 			// Check local Onbase table if PDF exists
 			//int result = Admin.CheckOnbaseContract(contractID);
 			//if(result != -1)

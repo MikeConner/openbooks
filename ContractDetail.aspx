@@ -15,8 +15,7 @@
                         <ItemTemplate>
                             <table class="ob-gridview" cellpadding="0" cellspacing="0">
                                 <tr>
-                                    <th>Amount</th>
-                                    <th>Original Amount</th>
+                                    <th>Total Amount</th>
                                     <th>Amount Paid</th>
                                     <th>Contract Description</th>
                                     <th>Contract Approval Date</th>
@@ -24,7 +23,6 @@
                                 </tr>
                                 <tr>
                                     <td><%# DataBinder.Eval(Container.DataItem, "Amount", "{0:C}")%></td>
-                                    <td><%# DataBinder.Eval(Container.DataItem, "OriginalAmount", "{0:C}")%></td>
                                     <td><%# DataBinder.Eval(Container.DataItem, "AmountReceived", "{0:C}")%></td>
                                     <td><%# DataBinder.Eval(Container.DataItem, "Description") %></td>
                                     <td><%# DataBinder.Eval(Container.DataItem, "DateCountersigned", "{0:MM/dd/yyyy}")%></td>
@@ -71,6 +69,12 @@
                                     </tr>
                                     <tr>
                                         <td>
+                                            <label>Original Amount: </label>
+                                        </td>
+                                        <td><%# DataBinder.Eval(Container.DataItem, "OriginalAmount", "{0:C}") %></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
                                             <label>Resolution No.: </label>
                                         </td>
                                         <td><%# DataBinder.Eval(Container.DataItem, "ResolutionNo") %></td>
@@ -103,22 +107,36 @@
                         </ItemTemplate>
                     </asp:Repeater>
                     <% if (rptContractPayments.Items.Count > 0) { %>
+                    <h3>Payment Summary</h3>
                     <table class="ob-gridview" cellpadding="0" cellspacing="0">
                         <tr>
-                            <th>Fund</th>
                             <th>Center</th>
                             <th>Account</th>
-                            <th>Item</th>
                             <th>Total Paid</th>
                         </tr>
                        <asp:Repeater ID="rptContractPayments" runat="server">
                             <ItemTemplate>
                                 <tr>
-                                    <td><%# DataBinder.Eval(Container.DataItem, "Fund", "{0:C}")%></td>
                                     <td><%# DataBinder.Eval(Container.DataItem, "Center", "{0:C}")%></td>
                                     <td><%# DataBinder.Eval(Container.DataItem, "Account", "{0:C}")%></td>
-                                    <td><%# DataBinder.Eval(Container.DataItem, "Item") %></td>
                                     <td><%# DataBinder.Eval(Container.DataItem, "TotalPaid", "{0:C}")%></td>
+                                </tr>
+                            </ItemTemplate>
+                        </asp:Repeater>
+                        </table>
+                    <% } %>
+                    <% if (rptPaymentDetails.Items.Count > 0) { %>
+                    <h3>Payment Details</h3>
+                    <table class="ob-gridview" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <th>Date Paid</th>
+                            <th>Amount Paid</th>
+                        </tr>
+                       <asp:Repeater ID="rptPaymentDetails" runat="server">
+                            <ItemTemplate>
+                                <tr>
+                                    <td><%# DataBinder.Eval(Container.DataItem, "PaidDate", "{0:MM/dd/yyyy}")%></td>
+                                    <td><%# DataBinder.Eval(Container.DataItem, "AmountPaid", "{0:C}")%></td>
                                 </tr>
                             </ItemTemplate>
                         </asp:Repeater>

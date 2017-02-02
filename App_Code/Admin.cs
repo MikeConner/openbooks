@@ -8,6 +8,8 @@ using System.IO;
 using System.Collections.Generic;
 using System.Net.Mail;
 using System.Globalization;
+using Renci.SshNet;
+using Renci.SshNet.Sftp;
 
 namespace OpenBookPgh
 {
@@ -53,32 +55,87 @@ namespace OpenBookPgh
 
                     command.CommandText = "DELETE FROM payments";
                     command.ExecuteNonQuery();
-                }
-            }
 
-            DataTable table = CSVParser.ParseCSV(step1);
-            int idx = -1;
-            foreach (DataRow row in table.Rows)
-            {
-                if (-1 == idx)
-                {
-                    // Skip header
-                    idx++;
-                    continue;
-                }
-                idx++;
+                    command.CommandText = "DELETE FROM payment_details";
+                    command.ExecuteNonQuery();               
 
-                string contractID = row[0].ToString().Trim();
+                    SqlTransaction transaction = conn.BeginTransaction();
+                    command.Transaction = transaction;
 
-                try
-                {
-                    decimal amountReceived = decimal.Parse(row[1].ToString(), NumberStyles.Currency);
-                    
-                    amounts.Add(contractID, amountReceived);
-                }
-                catch (FormatException ex)
-                {
-                    errors.Add("Step 1. Error in row " + idx + " (" + ex.Message + ")");
+                    int batch = 1000;
+
+                    DataTable table = CSVParser.ParseCSV(step1);
+                    int idx = -1;
+                    foreach (DataRow row in table.Rows)
+                    {
+                        if (-1 == idx)
+                        {
+                            // Skip header
+                            idx++;
+                            continue;
+                        }
+                        idx++;
+
+                        string contractID = row[0].ToString().Trim();
+                        DateTime paymentDate;
+
+                        try
+                        {
+                            decimal amountReceived = decimal.Parse(row[2].ToString(), NumberStyles.Currency);
+
+                            if (amounts.ContainsKey(contractID))
+                            {
+                                amounts[contractID] += amountReceived;
+                            }
+                            else
+                            {
+                                amounts.Add(contractID, amountReceived);
+                            }
+
+                            if (DateTime.TryParse(row[3].ToString(), out paymentDate))
+                            {
+                                command.CommandText = String.Format("INSERT INTO payment_details (ContractID, AmountPaid, DatePaid) VALUES('{0}',{1},'{2}')", contractID, amountReceived, paymentDate);
+                            }
+                            else
+                            {
+                                command.CommandText = String.Format("INSERT INTO payment_details (ContractID, AmountPaid) VALUES('{0}',{1})", contractID, amountReceived);
+                            }
+
+                            command.ExecuteNonQuery();
+                            batch--;
+
+                            if (0 == batch)
+                            {
+                                try
+                                {
+                                    transaction.Commit();
+
+                                    transaction = conn.BeginTransaction();
+                                    command.Transaction = transaction;
+                                }
+                                catch (Exception)
+                                {
+                                    transaction.Rollback();
+                                    throw;
+                                }
+
+                                batch = 1000;
+                            }
+                        }
+                        catch (FormatException ex)
+                        {
+                            errors.Add("Step 1. Error in row " + idx + " (" + ex.Message + ")");
+                        }
+                    }
+                    try
+                    {
+                        transaction.Commit();
+                    }
+                    catch (Exception)
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
                 }
             }
 
@@ -139,14 +196,15 @@ namespace OpenBookPgh
                 }
             }
 
-            table = CSVParser.ParseCSV(step2);
-            idx = -1;
             using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
             {
                 conn.Open();
 
                 using (SqlCommand command = new SqlCommand(null, conn))
                 {
+                    DataTable table = CSVParser.ParseCSV(step2);
+                    int idx = -1;
+
                     SqlTransaction transaction = conn.BeginTransaction();
                     command.Transaction = transaction;
 
@@ -335,6 +393,52 @@ namespace OpenBookPgh
         private static string SqlEscape(string input)
         {
             return input.Trim().Replace("(", "[").Replace(")", "]").Replace("'", "''");
+        }
+
+        public static void SSHDownload()
+        {
+            using (SftpClient client = new SftpClient(ConfigurationManager.AppSettings["SftpHost"].ToString(),
+                                                      ConfigurationManager.AppSettings["SftpUsername"].ToString(),
+                                                      ConfigurationManager.AppSettings["SftpPassword"].ToString()))
+            {
+                string remoteDirectory = "/OpenBook/";
+
+                try
+                {
+                    client.Connect();
+
+                    IEnumerable<SftpFile> files = client.ListDirectory(remoteDirectory, null);
+                    foreach (SftpFile file in files)
+                    {
+                        if (!file.Name.StartsWith("."))
+                        {
+                            string localFile = Path.GetTempFileName();
+
+                            try
+                            {
+                                using (Stream tempFile = File.OpenWrite(localFile))
+                                {
+                                    client.DownloadFile(file.FullName, tempFile, null);
+                                }
+
+                                //Admin.UploadAlleghenyContracts(localFile);
+                            }
+                            finally
+                            {
+                                File.Delete(localFile);
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                finally
+                {
+                    client.Disconnect();
+                }
+            }
         }
 
         public static List<string> UploadContributions(string filename, string username, int candidateID, string office)
@@ -1079,6 +1183,30 @@ namespace OpenBookPgh
             }
         }
 
+        public static DataTable GetPaymentDetailsByContractID(string contractID)
+        {
+            DataTable details = new DataTable("payments");
+            details.Columns.Add("AmountPaid", typeof(Decimal));
+            details.Columns.Add("DatePaid", typeof(DateTime));
+
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = new SqlCommand("GetPaymentDetailsByContractID", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@ContractID", SqlDbType.NVarChar, 50).Value = contractID;
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        details.Load(reader);
+                    }
+                }
+            }
+
+            return details;
+        }
+
         public static DataTable GetPaymentsByContractID(string contractID)
         {
             DataTable rawPayments = new DataTable("raw-payments");
@@ -1160,10 +1288,10 @@ namespace OpenBookPgh
                         {
                             // Read Raw table (with codes), look up the codes, and create new DataTable with text values
                             DataRow paymentsRow = payments.Rows.Add();
-                            paymentsRow["Fund"] = mFundsMap[int.Parse(row["Fund"].ToString())];
+                            //paymentsRow["Fund"] = mFundsMap[int.Parse(row["Fund"].ToString())];
                             paymentsRow["Center"] = mCostCenterMap[row["CostCenter"].ToString()];
                             paymentsRow["Account"] = mAccountMap[int.Parse(row["ObjectAccount"].ToString())];
-                            paymentsRow["Item"] = mLineItemMap[int.Parse(row["LineItem"].ToString())];
+                            //paymentsRow["Item"] = mLineItemMap[int.Parse(row["LineItem"].ToString())];
                             paymentsRow["TotalPaid"] = decimal.Parse(row["Total"].ToString());
                         }
 
