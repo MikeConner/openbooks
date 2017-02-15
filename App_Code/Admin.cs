@@ -401,32 +401,59 @@ namespace OpenBookPgh
                                                       ConfigurationManager.AppSettings["SftpUsername"].ToString(),
                                                       ConfigurationManager.AppSettings["SftpPassword"].ToString()))
             {
-                string remoteDirectory = "/OpenBook/";
+                string remoteDirectory = ConfigurationManager.AppSettings["SftpFolderName"].ToString();
 
                 try
                 {
                     client.Connect();
 
+                    // Individual_Voucher_and_Payment.csv = Contracts_Step1
+                    // City_Contracts.csv = Contracts_Step2
+                    // Cumulative_Voucher_and_Payment.csv = old summary doc; not used
                     IEnumerable<SftpFile> files = client.ListDirectory(remoteDirectory, null);
+                    string step1 = null;
+                    string step2 = null;
+
                     foreach (SftpFile file in files)
                     {
                         if (!file.Name.StartsWith("."))
                         {
                             string localFile = Path.GetTempFileName();
 
-                            try
+                            if (file.Name.StartsWith("City_Contracts"))
                             {
-                                using (Stream tempFile = File.OpenWrite(localFile))
-                                {
-                                    client.DownloadFile(file.FullName, tempFile, null);
-                                }
+                                step2 = localFile;
+                            }
+                            else if (file.Name.StartsWith("Individual_Voucher"))
+                            {
+                                step1 = localFile;
+                            }
+                            else
+                            {
+                                continue;
+                            }
 
-                                //Admin.UploadAlleghenyContracts(localFile);
-                            }
-                            finally
+                            using (Stream tempFile = File.OpenWrite(localFile))
                             {
-                                File.Delete(localFile);
+                                client.DownloadFile(file.FullName, tempFile, null);
                             }
+                        }
+                    }
+
+                    if ((step1 != null) && (step2 != null))
+                    {
+                        try
+                        {
+                            List<string> errors = Admin.UploadPayments(step1, step2);
+                            foreach (string error in errors)
+                            {
+                                Console.WriteLine(error);
+                            }
+                        }
+                        finally
+                        {
+                            File.Delete(step1);
+                            File.Delete(step2);
                         }
                     }
                 }
