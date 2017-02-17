@@ -1628,6 +1628,28 @@ namespace OpenBookPgh
             return results;
         }
 
+        public static DataTable GetExpenditures()
+        {
+            DataTable results = new DataTable("Expenditures");
+
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("GetExpenditures", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    conn.Open();
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        results.Load(reader);
+                    }
+                }
+            }
+
+            return results;
+        }
+
         public static DataTable LoadContractNos()
         {
             DataTable results = new DataTable("Results");

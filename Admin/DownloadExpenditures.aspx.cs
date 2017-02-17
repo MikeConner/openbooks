@@ -10,7 +10,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using OpenBookPgh;
 
-public partial class Admin_DownloadContributions : System.Web.UI.Page
+public partial class Admin_DownloadExpenditures : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -46,41 +46,38 @@ public partial class Admin_DownloadContributions : System.Web.UI.Page
 
     protected void btnDownload_Click(object sender, EventArgs e)
     {
-        DataTable contributions = Admin.GetContributions();
-        if (contributions.Rows.Count > 0)
+        DataTable expenditures = Admin.GetExpenditures();
+        if (expenditures.Rows.Count > 0)
         {
             StringBuilder sb = new StringBuilder();
-            string[] columnNames = new string[contributions.Columns.Count];
+            string[] columnNames = new string[expenditures.Columns.Count];
 
-            for (int x = 0; x < contributions.Columns.Count; x++)
+            for (int x = 0; x < expenditures.Columns.Count; x++)
             {
-                columnNames[x] = contributions.Columns[x].ColumnName;
+                columnNames[x] = expenditures.Columns[x].ColumnName;
             }
 
             sb.AppendLine(string.Join(",", columnNames));
 
-            foreach (DataRow row in contributions.Rows)
+            foreach (DataRow row in expenditures.Rows)
             {
-                string[] fields = new string[contributions.Columns.Count];
+                string[] fields = new string[expenditures.Columns.Count];
 
                 fields[0] = row["CandidateName"].ToString();
                 fields[1] = row["OfficeName"].ToString();
-                fields[2] = row["ContributionType"].ToString();
-                fields[3] = row["ContributorTypeName"].ToString();
-                fields[4] = "\"" + row["ContributorName"].ToString() + "\"";
-                fields[5] = "\"" + row["City"].ToString() + "\"";
-                fields[6] = row["State"].ToString();
-                fields[7] = row["Zip"].ToString();
-                fields[8] = "\"" + row["Employer"].ToString() + "\"";
-                fields[9] = "\"" + row["Occupation"].ToString() + "\"";
-                fields[10] = row["Amount"].ToString();
-                fields[11] = String.Format("{0:MM/dd/yyyy}", row["ContributionDate"]);
+                fields[2] = "\"" + row["CompanyName"].ToString() + "\"";
+                fields[3] = "\"" + row["City"].ToString() + "\"";
+                fields[4] = row["State"].ToString();
+                fields[5] = row["Zip"].ToString();
+                fields[6] = row["Amount"].ToString();
+                fields[7] = String.Format("{0:MM/dd/yyyy}", row["ExpenditureDate"]);
+                fields[8] = row["Description"].ToString();
 
                 sb.AppendLine(string.Join(",", fields));
             }
 
             Response.Clear();
-            Response.AddHeader("content-disposition", "attachment; filename=Contributions.csv");
+            Response.AddHeader("content-disposition", "attachment; filename=Expenditures.csv");
             Response.AddHeader("content-type", "text/plain");
 
             using (StreamWriter writer = new StreamWriter(Response.OutputStream))
@@ -93,7 +90,7 @@ public partial class Admin_DownloadContributions : System.Web.UI.Page
         }
         else
         {
-            lblProgress.Text = "No contributions to download.";
+            lblProgress.Text = "No expenditures to download.";
         }
     }
 
