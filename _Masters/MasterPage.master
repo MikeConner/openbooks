@@ -91,11 +91,17 @@
 <div class='large-12 columns'>
 <span><img alt="Footer logo" src="../img/footer-logo.png" /></span>
 <span class='copy'>
-
-
     Copyright <asp:Literal ID="CopyYear" runat="server" />, Pittsburgh City Controller
 </span>
 </div>
+</div>
+<div class='row'>
+    <div class='large-12 columns'>
+        <div class="fb-share-button" style="float:right" data-href="http://www.openbookpittsburgh.com/" data-layout="button" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.openbookpittsburgh.com%2F&amp;src=sdkpreparse">Share</a></div>
+        <a class="twitter-share-button" 
+            href="https://twitter.com/intent/tweet">
+        Tweet</a>
+    </div>
 </div>
 </div>
     <script src="/js/vendor/modernizr.js" type="text/javascript"></script>
