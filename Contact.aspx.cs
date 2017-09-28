@@ -36,10 +36,10 @@ public partial class _Contact : System.Web.UI.Page
 			              "Comments: " + CommentsTB.Text + "<br />";
 
             Admin.SendMail("douglas.anderson@pittsburghpa.gov", null, "Contact Form From OpenBook Pittsburgh", body);
+            Admin.SendMail("mark.ptak@pittsburghpa.gov", null, "Contact Form From OpenBook Pittsburgh", body);
            
 			formPH.Visible = false;
 			sucessPH.Visible = true;
-
 		} 
     }
 
