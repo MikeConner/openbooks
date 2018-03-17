@@ -1,17 +1,12 @@
 ﻿//DAS
 
 using System;
-using System.Collections.Generic;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Collections;
-using OpenBookPgh;
-
 using System.Data;
-using System.Data.SqlClient;
-using System.Configuration;
 
+using OpenBookPgh;
 
 public partial class SearchLobbyistsPage : PaginatedPage
 {
@@ -260,6 +255,11 @@ public partial class SearchLobbyistsPage : PaginatedPage
     protected override string getPageCategory()
     {
         return "Lobbyists";
+    }
+
+    public string InterpretForCity(string value)
+    {
+        return "True" == value ? "Yes" : "No";
     }
 
     private PagingControls mPageController = null;

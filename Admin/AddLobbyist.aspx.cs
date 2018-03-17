@@ -106,9 +106,10 @@ public partial class Admin_AddLobbyist : System.Web.UI.Page
 		string empState = ddlEmpState.SelectedValue;
 		string empZip = txtEmpZip.Text;
 		string lobbyiststatus = txtLobbyistStatus.Text;
+        bool forCity = cbForCity.Checked;
 
-		// Add Lobbyist & Get LobbyistID
-		int lobbyistID = Admin.AddLobbyist(lobbyist, position, employer, empAddress, empCity, empState, empZip, lobbyiststatus);
+        // Add Lobbyist & Get LobbyistID
+        int lobbyistID = Admin.AddLobbyist(lobbyist, position, employer, empAddress, empCity, empState, empZip, lobbyiststatus, forCity);
 		
 		// Add Additional Companies?
 		DataTable lineitems = dsTemp.Tables["companies.lineitems"];
@@ -130,5 +131,4 @@ public partial class Admin_AddLobbyist : System.Web.UI.Page
 		Response.Redirect("Lobbyists.aspx");
 
 	}
-
 }

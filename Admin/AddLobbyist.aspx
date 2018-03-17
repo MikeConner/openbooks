@@ -68,6 +68,10 @@ Inherits="Admin_AddLobbyist" %>
 			<td><label>Status (i.e. expired, terminated, completed):</label></td>
 			<td><asp:TextBox ID="txtLobbyistStatus" runat="server" Width="200" MaxLength="50" /></td>
 		</tr>
+        <tr>
+            <td><label>On Behalf of City:</label></td>
+            <td><asp:CheckBox ID="cbForCity" runat="server"/></td>
+        </tr>
 	</table>
 
 <br />
@@ -138,8 +142,6 @@ Inherits="Admin_AddLobbyist" %>
     <asp:ImageButton ID="btnSave" runat="server" ImageUrl="~/img/savebtn.gif" OnClick="Button1_Click" ValidationGroup="LobbyistGroup" />
 
 	<asp:Label ID="lblMessage" runat="server" />
-
-
 
 </div></div>
 

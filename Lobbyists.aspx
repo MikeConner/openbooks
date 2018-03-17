@@ -55,6 +55,7 @@
                                 </ItemTemplate>
                             </asp:Repeater>
                             <td><%#Eval ("LobbyistStatus") %>&nbsp;&nbsp;</td>
+                        <td><asp:CheckBox Checked=<%# Eval("ForCity")%> runat="server"/></td>
                     </tr>
                 </ItemTemplate>
             </asp:Repeater>

@@ -73,6 +73,10 @@ Inherits="Admin_EditLobbyist" %>
 					ValidationGroup="LobbyistGroup" />
 			</td>
 		</tr>
+        <tr>
+            <td><label>On Behalf of City:</label></td>
+            <td><asp:CheckBox ID="cbForCity" runat="server" /></td>
+        </tr>
 	</table>
 
 <br/>

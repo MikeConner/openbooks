@@ -94,6 +94,7 @@ Inherits="Admin_Lobbyists" %>
 			</td>
 			<!--<td class="date"><%# DataBinder.Eval(Container.DataItem, "DateEntered", "{0:MM/dd/yyyy}")%></td>-->
 			<td><%#Eval ("LobbyistStatus") %>&nbsp;&nbsp;</td>
+            <td><asp:CheckBox Checked=<%# Eval("ForCity")%> runat="server" /></td>
 		</tr>
 	</ItemTemplate>
 </asp:Repeater>

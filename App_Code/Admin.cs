@@ -3,7 +3,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Net;
-using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Collections.Generic;
 using System.Net.Mail;
@@ -393,6 +393,87 @@ namespace OpenBookPgh
         private static string SqlEscape(string input)
         {
             return input.Trim().Replace("(", "[").Replace(")", "]").Replace("'", "''");
+        }
+
+        // Could make the Db varbinary(max), and call FetchImage to store it
+        // Instead, for simplicity, we're just storing the filename
+        private static byte[] FetchImage(string fname)
+        {
+            string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+
+            Image img = Image.FromFile(baseDir + "/img/politicians/" + fname);
+            byte[] arr;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                arr = ms.ToArray();
+            }
+
+            return arr;
+        }
+
+        public static void InitializeElectedOfficials()
+        {
+            DataTable table = new DataTable();
+            table.Columns.Add("ID", typeof(int));
+            table.Columns.Add("Name", typeof(string));
+            table.Columns.Add("Office", typeof(string));
+            table.Columns.Add("Committee", typeof(string));
+            table.Columns.Add("Salary", typeof(decimal));
+            table.Columns.Add("DisclosureLink", typeof(string));
+            table.Columns.Add("PersonalPage", typeof(string));
+            table.Columns.Add("ImageUrl", typeof(string));
+
+            table.Rows.Add(1, "Bill Peduto", "Mayor", "People for Peduto", 111843.0,
+                           "http://apps.pittsburghpa.gov/redtail/images/1487_Peduto.pdf",
+                           "http://pittsburghpa.gov/mayor/mayor-profile.html", "peduto.jpg");
+            table.Rows.Add(2, "Michael Lamb", "City Controller", "Committee to Elect Michael Lamb", 73917.0,
+                           "http://apps.pittsburghpa.gov/redtail/images/1490_Lamb.pdf",
+                           "http://pittsburghpa.gov/controller/about/co-bio.html", "controller.jpg");
+            table.Rows.Add(3, "Darlene Harris", "City Council District 1", "Darlene Harris Election Committee", 66371.0,
+                           "http://apps.pittsburghpa.gov/redtail/images/1492_Harris.pdf",
+                           "http://pittsburghpa.gov/council/district1/harris.html", "harris.jpg");
+            table.Rows.Add(4, "Theresa Kail-Smith", "City Council District 2", "Friends to Elect Theresa Smith", 66371.0,
+                           "http://apps.pittsburghpa.gov/redtail/images/1486_Smith.pdf",
+                           "http://pittsburghpa.gov/council/district2/kail-smith.html", "smith.jpg");
+            table.Rows.Add(5, "Bruce Kraus", "City Council District 3", "Friends of Bruce Kraus", 66371.0,
+                           "http://apps.pittsburghpa.gov/redtail/images/1491_Kraus.pdf",
+                           "http://pittsburghpa.gov/council/district3/kraus.html", "kraus.jpg");
+            table.Rows.Add(6, "Anthony Coghill", "City Council District 4", "Coghill for City Council", 66371.0,
+                           "http://apps.pittsburghpa.gov/redtail/images/1493_Coghill.pdf",
+                           "http://pittsburghpa.gov/council/district4/contacts.html", "Anthony_Coghill.jpg");
+            table.Rows.Add(7, "Corey O’Connor", "City Council District 5", "Friends of Corey O’Connor", 66371.0,
+                           "http://apps.pittsburghpa.gov/redtail/images/1488_O'Connor.pdf",
+                           "http://pittsburghpa.gov/council/district5/oconnor.html", "oconnor.jpg");
+            table.Rows.Add(8, "Daniel Lavelle", "City Council District 6", "Citizens for Daniel Lavelle", 66371.0,
+                           "http://apps.pittsburghpa.gov/redtail/images/1489_Lavelle.pdf",
+                           "http://pittsburghpa.gov/council/district6/lavelle.html", "lavelle.jpg");
+            table.Rows.Add(9, "Deborah Gross", "City Council District 7", "Friends of Deb Gross", 66371.0,
+                           "http://apps.pittsburghpa.gov/co/Gross_Dist_7.pdf",
+                           "http://pittsburghpa.gov/council/district7/gross.html", "gross.jpg");
+            table.Rows.Add(10, "Erika Strassburger", "City Council District 8", "Friends of Erika", 66371.0, null,
+                           "http://pittsburghpa.gov/council/district8/contacts.html", "erika_strassburger_pittsburgh.jpg");
+            table.Rows.Add(11, "Ricky Burgess", "City Council District 9", "Friends of Ricky Burgess", 66371.0,
+                           "http://apps.pittsburghpa.gov/redtail/images/1494_Burgess.pdf",
+                           "http://pittsburghpa.gov/council/district9/burgess.html", "burgess.jpg");
+
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
+            {
+                conn.Open();
+
+                using (var bulkCopy = new SqlBulkCopy(conn.ConnectionString, SqlBulkCopyOptions.KeepIdentity))
+                {
+                    // my DataTable column names match my SQL Column names, so I simply made this loop. However if your column names don't match, just pass in which datatable name matches the SQL column name in Column Mappings
+                    foreach (DataColumn col in table.Columns)
+                    {
+                        bulkCopy.ColumnMappings.Add(col.ColumnName, col.ColumnName);
+                    }
+
+                    bulkCopy.BulkCopyTimeout = 60;
+                    bulkCopy.DestinationTableName = "[elected_officials]";
+                    bulkCopy.WriteToServer(table);
+                }
+            }
         }
 
         public static void SSHDownload()
@@ -931,7 +1012,7 @@ namespace OpenBookPgh
             }
         }
 
-        public static int AddLobbyist(string lobbyist, string position, string employer, string address, string city, string state, string zip, string lobbyiststatus)
+        public static int AddLobbyist(string lobbyist, string position, string employer, string address, string city, string state, string zip, string lobbyiststatus, bool forCity)
         {
             int lobbyistID = 0;
             using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
@@ -948,6 +1029,7 @@ namespace OpenBookPgh
                     cmd.Parameters.Add("@State", SqlDbType.NVarChar, 4).Value = state;
                     cmd.Parameters.Add("@Zip", SqlDbType.NVarChar, 15).Value = zip;
                     cmd.Parameters.Add("@LobbyistStatus", SqlDbType.NVarChar, 50).Value = lobbyiststatus;
+                    cmd.Parameters.Add("@ForCity", SqlDbType.Bit).Value = forCity;
                     conn.Open();
                     cmd.ExecuteNonQuery();
                     lobbyistID = (int)cmd.Parameters["@LobbyistID"].Value;
@@ -1130,7 +1212,7 @@ namespace OpenBookPgh
             }
         }
 
-        public static void UpdateLobbyist(int lobbyistID, string lobbyist, string position, string employer, string address, string city, string state, string zip, string lobbyiststatus)
+        public static void UpdateLobbyist(int lobbyistID, string lobbyist, string position, string employer, string address, string city, string state, string zip, string lobbyiststatus, bool forCity)
         {
             using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
             {
@@ -1146,6 +1228,7 @@ namespace OpenBookPgh
                     cmd.Parameters.Add("@State", SqlDbType.NVarChar, 4).Value = state;
                     cmd.Parameters.Add("@Zip", SqlDbType.NVarChar, 15).Value = zip;
                     cmd.Parameters.Add("@LobbyistStatus", SqlDbType.NVarChar, 50).Value = lobbyiststatus;
+                    cmd.Parameters.Add("@ForCity", SqlDbType.Bit).Value = forCity;
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }

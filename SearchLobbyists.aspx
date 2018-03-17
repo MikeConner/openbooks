@@ -99,7 +99,8 @@
                                 <h2><%# Eval("LobbyistName") %></h2>
                                 <div class="information">
                                     <span class="position"><%# Eval("Position") %></span>
-                                    <span class="status"><%#Eval ("LobbyistStatus") %></span>
+                                    <span class="status"><%#Eval ("LobbyistStatus") %></span><br />
+                                    <span class="status">For City: <%# InterpretForCity(Eval("ForCity").ToString()) %></span>
                                 </div>
                                 <div class="label-group">
                                     <div class="label-item">

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 
 using System.Data;
@@ -49,6 +45,7 @@ public partial class Admin_EditLobbyist : System.Web.UI.Page
 			ddlEmpState.SelectedValue = row["State"].ToString();
 			txtEmpZip.Text = row["Zip"].ToString();
 			txtLobbyistStatus.Text = row["LobbyistStatus"].ToString();
+            cbForCity.Checked = "True" == row["ForCity"].ToString();
 		}
 	}
 	private void PreLoadDataSet()
@@ -133,51 +130,54 @@ public partial class Admin_EditLobbyist : System.Web.UI.Page
 		grvLineItems.DataSource = dsTemp;
 		grvLineItems.DataBind();
 	}
-	protected void Button1_Click(object sender, EventArgs e)
-	{
-		// Update Lobbyist
-		string lobbyist = txtLobbyist.Text;
-		string position = txtPosition.Text;
-		string employer = txtEmployer.Text;
-		string empAddress = txtEmpAddress.Text;
-		string empCity = txtEmpCity.Text;
-		string empState = ddlEmpState.SelectedValue;
-		string empZip = txtEmpZip.Text;
-		string lobbyiststatus = txtLobbyistStatus.Text;
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        // Update Lobbyist
+        string lobbyist = txtLobbyist.Text;
+        string position = txtPosition.Text;
+        string employer = txtEmployer.Text;
+        string empAddress = txtEmpAddress.Text;
+        string empCity = txtEmpCity.Text;
+        string empState = ddlEmpState.SelectedValue;
+        string empZip = txtEmpZip.Text;
+        string lobbyiststatus = txtLobbyistStatus.Text;
+        bool forCity = cbForCity.Checked;
 
-		// Get LobbyistID
-		int lobbyistID = Convert.ToInt32(Request.QueryString["ID"].ToString());
+        // Get LobbyistID
+        int lobbyistID = Convert.ToInt32(Request.QueryString["ID"].ToString());
 
-		// Update Lobbyist Employer info & Delete existing Additional Companies
-		Admin.UpdateLobbyist(lobbyistID, lobbyist, position, employer, empAddress, empCity, empState, empZip, lobbyiststatus);
+        // Update Lobbyist Employer info & Delete existing Additional Companies
+        Admin.UpdateLobbyist(lobbyistID, lobbyist, position, employer, empAddress, empCity, empState, empZip, lobbyiststatus, forCity);
 
 
-		// Add Additional Companies?
-		DataTable lineitems = dsTemp.Tables["companies.lineitems"];
-		if (lineitems.Rows.Count > 0)
-		{
+        // Add Additional Companies?
+        DataTable lineitems = dsTemp.Tables["companies.lineitems"];
+        if (lineitems.Rows.Count > 0)
+        {
 
-			for (int i = 0; i < lineitems.Rows.Count; i++)
-			{
-				DataRow row = lineitems.Rows[i];
+            for (int i = 0; i < lineitems.Rows.Count; i++)
+            {
+                DataRow row = lineitems.Rows[i];
 
-				string company = row["company"].ToString();
-				string address = row["address"].ToString();
-				string city = row["city"].ToString();
-				string state = row["state"].ToString();
-				string zip = row["zip"].ToString();
+                string company = row["company"].ToString();
+                string address = row["address"].ToString();
+                string city = row["city"].ToString();
+                string state = row["state"].ToString();
+                string zip = row["zip"].ToString();
 
-				// Aditional Company records
-				Admin.AddLobbyistCompany(lobbyistID, company, address, city, state, zip);
-			}
-		}
+                // Aditional Company records
+                Admin.AddLobbyistCompany(lobbyistID, company, address, city, state, zip);
+            }
+        }
 
-		// Redirect
-		if (Session["PreviousPage"] != null)
-			Response.Redirect((string)Session["PreviousPage"]);
-		else
-			Response.Redirect("~/Admin/Default.aspx");
-		
-	}
-
+        // Redirect
+        if (Session["PreviousPage"] != null)
+        {
+            Response.Redirect((string)Session["PreviousPage"]);
+        }
+        else
+        {
+            Response.Redirect("~/Admin/Default.aspx");
+        }
+    }
 }
