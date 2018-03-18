@@ -44,6 +44,7 @@ public partial class Admin_AddExpenditure : System.Web.UI.Page
         }
 
         ddlState.SelectedValue = "PA";
+        ddlCountry.SelectedValue = "US";
 		txtDate.Text = DateTime.Now.ToShortDateString();
 	}
 	protected void Button1_Click(object sender, EventArgs e)
@@ -55,7 +56,9 @@ public partial class Admin_AddExpenditure : System.Web.UI.Page
         string address2 = txtAddress2.Text;
 		string city = txtCity.Text;
 		string state = ddlState.SelectedValue;
+        string province = txtProvince.Text;
 		string zip = txtZip.Text;
+        string country = ddlCountry.SelectedValue;
 		string description = txtDescription.Text;
 
 
@@ -69,8 +72,12 @@ public partial class Admin_AddExpenditure : System.Web.UI.Page
 			dateExpenditure = Convert.ToDateTime(txtDate.Text);
 		}
 
+        if (false == string.IsNullOrWhiteSpace(province))
+        {
+            state = "FR";
+        }
 
-        int result = Admin.AddExpenditure(candidateID, office, company, address, address2, city, state, zip, description, amount, User.Identity.Name, dateExpenditure);
+        int result = Admin.AddExpenditure(candidateID, office, company, address, address2, city, state, province, zip, country, description, amount, User.Identity.Name, dateExpenditure);
 		if (result != 0)
 		{
 			lblMessage.Text = "There were problems adding this expenditure. Error Code: [" + result + "]";
@@ -92,6 +99,8 @@ public partial class Admin_AddExpenditure : System.Web.UI.Page
         string address2 = txtAddress2.Text;
 		string city = txtCity.Text;
 		string state = ddlState.SelectedValue;
+        string province = txtProvince.Text;
+        string country = ddlCountry.SelectedValue;
 		string zip = txtZip.Text;
 		string description = txtDescription.Text;
 
@@ -106,8 +115,12 @@ public partial class Admin_AddExpenditure : System.Web.UI.Page
 			dateExpenditure = Convert.ToDateTime(txtDate.Text);
 		}
 
-		//int result = 0;
-        int result = Admin.AddExpenditure(candidateID, office, company, address, address2, city, state, zip, description, amount, User.Identity.Name, dateExpenditure);
+        if (false == string.IsNullOrWhiteSpace(province))
+        {
+            state = "FR";
+        }
+
+        int result = Admin.AddExpenditure(candidateID, office, company, address, address2, city, state, province, zip, country, description, amount, User.Identity.Name, dateExpenditure);
 		if (result != 0)
 		{
 			lblMessage.Text = "There were problems adding this expenditure. Error Code: [" + result + "]";

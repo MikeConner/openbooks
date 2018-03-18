@@ -76,11 +76,15 @@ Inherits="Admin_EditContribution" %>
 			</td>
 		</tr>
 		<tr>
+			<td><label>Street Address</label></td>
+			<td><asp:TextBox ID="txtStreet" runat="server" Width="200" Text='<%# Bind("StreetAddress") %>' /></td>
+		</tr>			
+		<tr>
 			<td><label>City</label></td>
 			<td><asp:TextBox ID="txtCity" runat="server" Width="200" Text='<%# Bind("City") %>' /></td>
 		</tr>			
 		<tr>
-			<td><label>State</label></td>
+			<td><label>US State (Ignored if Foreign)</label></td>
 			<td><asp:DropDownList ID="ddlState" runat="server" 
 					DataSourceID="SqlDataSource1" 
 					DataTextField="state_name" 
@@ -92,9 +96,26 @@ Inherits="Admin_EditContribution" %>
 					SelectCommand="SELECT * FROM [tlk_States] ORDER BY state_name ASC" />
 			</td>
 		</tr>	
+        <tr>
+            <td><label>Foreign Province</label></td>
+            <td><asp:TextBox ID="txtProvince" runat="server" Width="200" Text='<%# Bind("Province") %>'/></td>
+        </tr>
 		<tr>
-			<td><label>Zip Code</label></td>
+			<td><label>Zip/Postal Code</label></td>
 			<td><asp:TextBox ID="txtZip" runat="server" Width="100" Text='<%# Bind("Zip") %>' /></td>
+		</tr>	
+		<tr>
+			<td><label>Country</label></td>
+			<td><asp:DropDownList ID="ddlCountry" runat="server" 
+					DataSourceID="SqlDataSource2" 
+					DataTextField="country_name" 
+					DataValueField="country_code" 
+					SelectedValue='<%# Bind("Country") %>'
+					/> 
+				<asp:SqlDataSource ID="SqlDataSource2" runat="server" 
+					ConnectionString="<%$ ConnectionStrings:CityControllerConnectionString %>" 
+					SelectCommand="SELECT * FROM [tlk_Countries] ORDER BY country_name ASC" />
+			</td>
 		</tr>	
 		<tr>
 			<td><label>Employer</label></td>

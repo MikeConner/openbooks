@@ -35,6 +35,8 @@ public partial class Admin_EditExpenditure : System.Web.UI.Page
 		DropDownList CandidateName = (DropDownList)frmExpenditure.FindControl("ddlCandidateName");
 		DropDownList Office = (DropDownList)frmExpenditure.FindControl("ddlOffice");
 		DropDownList State = (DropDownList)frmExpenditure.FindControl("ddlState");
+        DropDownList Country = (DropDownList)frmExpenditure.FindControl("ddlCountry");
+        TextBox Province = (TextBox)frmExpenditure.FindControl("txtProvince");
 		TextBox Company = (TextBox)frmExpenditure.FindControl("txtCompany");
 		TextBox Address = (TextBox)frmExpenditure.FindControl("txtAddress1");
 		TextBox City = (TextBox)frmExpenditure.FindControl("txtCity");
@@ -49,7 +51,7 @@ public partial class Admin_EditExpenditure : System.Web.UI.Page
 		int expenditureID = Utils.IntFromQueryString("ID", 0);
 
 		int result = Admin.UpdateExpenditure( expenditureID, candidateID, Office.Text, Company.Text, 
-			Address.Text, City.Text, State.Text, Zip.Text, Description.Text, amount, dateExpenditure);
+			Address.Text, City.Text, State.Text, Province.Text, Zip.Text, Country.SelectedValue, Description.Text, amount, dateExpenditure);
 
 		Label error = (Label)frmExpenditure.FindControl("lblMessage");
 		if (result != 0)
@@ -63,7 +65,5 @@ public partial class Admin_EditExpenditure : System.Web.UI.Page
 			else
 				Response.Redirect("~/Admin/Default.aspx");	
 		}
-
-
 	}
 }

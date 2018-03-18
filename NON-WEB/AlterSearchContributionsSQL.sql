@@ -1,13 +1,12 @@
 USE [CityController]
 GO
 
-/****** Object:  StoredProcedure [dbo].[SearchContributionsSQL]    Script Date: 3/18/2018 1:00:08 AM ******/
+/****** Object:  StoredProcedure [dbo].[SearchContributionsSQL]    Script Date: 3/17/2018 3:57:38 PM ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
-
 
 -- =============================================
 -- Author:		Zeo
@@ -55,7 +54,7 @@ SELECT @sql = 'SELECT
 			ELSE NULL 
 		END AS ctype,
 		Description,
-		StreetAddress, City, State, Province, Zip, Country, Employer, Occupation, Amount, DateContribution, DateEntered, CreatedBy, Approved,
+		StreetAddress, City, State, Zip, Country, Employer, Occupation, Amount, DateContribution, DateEntered, CreatedBy, Approved,
 		CandidateName';
 	IF @searchZip = 1
 		--SET @sortColumn = 'Zip';
@@ -67,7 +66,7 @@ SELECT @sql = @sql +
 	SELECT 
 		ROW_NUMBER() OVER(ORDER BY ' + @sortColumn + ' ' + @sortDirection + ' ,DateEntered DESC) AS ContributionOrder, 
 		ContributionID, CandidateID, Office, ContributorType, ContributorName, ContributionType, Description,
-		StreetAddress, City, State, Province, Zip, Country, Employer, Occupation, Amount, DateContribution, DateEntered, CreatedBy, Approved,
+		StreetAddress, City, State, Zip, Country, Employer, Occupation, Amount, DateContribution, DateEntered, CreatedBy, Approved,
 		CandidateName'; 
     IF @searchZip = 1
         SELECT @sql = @sql + ', z.Latitude, z.Longitude';
@@ -76,7 +75,7 @@ SELECT @sql = @sql +
 	' FROM 
 	(
 		SELECT c.ContributionID, c.CandidateID, c.Office, c.ContributorType, c.ContributorName, c.ContributionType, c.Description,
-		c.StreetAddress, c.City, c.State, c.Province, c.Zip, c.Country, c.Employer, c.Occupation, c.Amount, c.DateContribution, c.DateEntered, c.CreatedBy, c.Approved,
+		c.StreetAddress, c.City, c.State, c.Zip, c.Country, c.Employer, c.Occupation, c.Amount, c.DateContribution, c.DateEntered, c.CreatedBy, c.Approved,
 		tc.CandidateName 
 		FROM contributions c 
 

@@ -572,16 +572,31 @@ namespace OpenBookPgh
                 decimal amount;
                 DateTime contributionDate;
 
+                // 0 = Contributor Type
+                // 1 = Name
+                // 2 = Contribution Type
+                // 3 = Adddress
+                // 4 = City
+                // 5 = State
+                // 6 = Province
+                // 7 = Zip / Postal Code
+                // 8 = Country
+                // 9 = Employer
+                // 10 = Occupation
+                // 11 = Amount
+                // 12 = Date
+                // 13 = Description
+
                 if (mContributionType.TryGetValue(row[2].ToString(), out contributionTypeID))
                 {
-                    if (Decimal.TryParse(row[8].ToString(), NumberStyles.Currency, CultureInfo.CurrentCulture, out amount))
+                    if (Decimal.TryParse(row[11].ToString(), NumberStyles.Currency, CultureInfo.CurrentCulture, out amount))
                     {
-                        if (DateTime.TryParse(row[9].ToString(), out contributionDate))
+                        if (DateTime.TryParse(row[12].ToString(), out contributionDate))
                         {
                             int result = AddContribution(candidateID, office, row[0].ToString(), row[1].ToString(), contributionTypeID, 
-                                                         row[10].ToString(), row[3].ToString(), row[4].ToString(), row[5].ToString(),
-                                                         row[6].ToString(), row[7].ToString(), amount, username, contributionDate);
-
+                                                         row[12].ToString(), row[3].ToString(), row[4].ToString(), row[5].ToString(),
+                                                         row[6].ToString(), row[7].ToString(), row[8].ToString(), row[9].ToString(),
+                                                         row[10].ToString(), amount, username, contributionDate);
                             if (result != 0)
                             {
                                 errors.Add("Error in row " + idx + ". Error Code: [" + result + "]");
@@ -589,12 +604,12 @@ namespace OpenBookPgh
                         }
                         else
                         {
-                            errors.Add(row + ": " + row[9].ToString() + " is not a valid date.");
+                            errors.Add(row + ": " + row[12].ToString() + " is not a valid date.");
                         }
                     }
                     else
                     {
-                        errors.Add(row + ": " + row[8].ToString() + " is not a valid dollar amount.");
+                        errors.Add(row + ": " + row[11].ToString() + " is not a valid dollar amount.");
                     }
                 }
                 else
@@ -625,12 +640,25 @@ namespace OpenBookPgh
                 decimal amount;
                 DateTime expenditureDate;
 
-                if (Decimal.TryParse(row[6].ToString(), NumberStyles.Currency, CultureInfo.CurrentCulture, out amount))
+                // 0 = Name
+                // 1 = Address
+                // 2 = Address2
+                // 3 = City
+                // 4 = US State
+                // 5 = Province
+                // 6 = Zip
+                // 7 = Country
+                // 8 = Amount
+                // 9 = Date
+                // 10 = Description
+
+                if (Decimal.TryParse(row[8].ToString(), NumberStyles.Currency, CultureInfo.CurrentCulture, out amount))
                 {
-                    if (DateTime.TryParse(row[7].ToString(), out expenditureDate))
+                    if (DateTime.TryParse(row[9].ToString(), out expenditureDate))
                     {
-                        int result = AddExpenditure(candidateID, office, row[0].ToString(), row[1].ToString(), row[2].ToString(), row[3].ToString(), row[4].ToString(), row[5].ToString(), row[8].ToString(),
-                                                    amount, username, expenditureDate);
+                        int result = AddExpenditure(candidateID, office, row[0].ToString(), row[1].ToString(), row[2].ToString(), row[3].ToString(), 
+                                                    row[4].ToString(), row[5].ToString(), row[6].ToString(), row[7].ToString(),
+                                                    row[10].ToString(), amount, username, expenditureDate);
 
                         if (result != 0)
                         {
@@ -639,15 +667,14 @@ namespace OpenBookPgh
                     }
                     else
                     {
-                        errors.Add(row + ": " + row[6].ToString() + " is not a valid date.");
+                        errors.Add(row + ": " + row[9].ToString() + " is not a valid date.");
                     }
                 }
                 else
                 {
-                    errors.Add(row + ": " + row[5].ToString() + " is not a valid dollar amount.");
+                    errors.Add(row + ": " + row[8].ToString() + " is not a valid dollar amount.");
                 }
             }
-
 
             return errors;
         }
@@ -876,8 +903,8 @@ namespace OpenBookPgh
         }
 
         public static int AddContribution(int candidateID, string office, string contributorType, string contributorName, int contributionType,
-                                        string description, string city, string state, string zip, string employer, string occupation,
-                                        decimal amount, string createdBy, DateTime? dateContribution)
+                                        string description, string address, string city, string state, string province, string zip, string country, 
+                                        string employer, string occupation, decimal amount, string createdBy, DateTime? dateContribution)
         {
             using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
             {
@@ -891,9 +918,12 @@ namespace OpenBookPgh
                     cmd.Parameters.Add("@ContributorName", SqlDbType.NVarChar, 100).Value = contributorName;
                     cmd.Parameters.Add("@ContributionType", SqlDbType.Int).Value = contributionType;
                     cmd.Parameters.Add("@Description", SqlDbType.NVarChar, 255).Value = description;
+                    cmd.Parameters.Add("@StreetAddress", SqlDbType.NVarChar, 50).Value = address;
                     cmd.Parameters.Add("@City", SqlDbType.NVarChar, 50).Value = city;
                     cmd.Parameters.Add("@State", SqlDbType.NVarChar, 4).Value = state;
+                    cmd.Parameters.Add("@Province", SqlDbType.NVarChar, 50).Value = province;
                     cmd.Parameters.Add("@Zip", SqlDbType.NVarChar, 15).Value = zip;
+                    cmd.Parameters.Add("@Country", SqlDbType.NVarChar, 2).Value = country;
                     cmd.Parameters.Add("@Employer", SqlDbType.NVarChar, 100).Value = employer;
                     cmd.Parameters.Add("@Occupation", SqlDbType.NVarChar, 100).Value = occupation;
                     cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = amount;
@@ -909,8 +939,8 @@ namespace OpenBookPgh
         }
 
         public static int AddExpenditure(int candidateID, string office, string company,
-                                string address, string address2, string city, string state, string zip, string description,
-                                decimal amount, string createdBy, DateTime? dateExpenditure)
+                                string address, string address2, string city, string state, string province, string zip, string country,
+                                string description, decimal amount, string createdBy, DateTime? dateExpenditure)
         {
             using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
             {
@@ -925,7 +955,9 @@ namespace OpenBookPgh
                     cmd.Parameters.Add("@Address2", SqlDbType.NVarChar, 100).Value = address2;
                     cmd.Parameters.Add("@City", SqlDbType.NVarChar, 50).Value = city;
                     cmd.Parameters.Add("@State", SqlDbType.NVarChar, 4).Value = state;
+                    cmd.Parameters.Add("@Province", SqlDbType.NVarChar, 50).Value = province;
                     cmd.Parameters.Add("@Zip", SqlDbType.NVarChar, 15).Value = zip;
+                    cmd.Parameters.Add("@Country", SqlDbType.NVarChar, 2).Value = country;
                     cmd.Parameters.Add("@Description", SqlDbType.NVarChar, 100).Value = description;
                     cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = amount;
                     cmd.Parameters.Add("@DatePaid", SqlDbType.DateTime).Value = dateExpenditure;
@@ -1094,8 +1126,8 @@ namespace OpenBookPgh
         }
 
         public static int UpdateContribution(int contributionID, int candidateID, string office, string contributorType, string contributorName,
-                                int contributionType, string description, string city, string state, string zip, string employer, string occupation,
-                                decimal amount, DateTime? dateContribution)
+                                int contributionType, string description, string address, string city, string state, string province, string zip, string country, 
+                                string employer, string occupation, decimal amount, DateTime? dateContribution)
         {
             using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
             {
@@ -1111,9 +1143,12 @@ namespace OpenBookPgh
                     cmd.Parameters.Add("@ContributionType", SqlDbType.Int).Value = contributionType;
                     cmd.Parameters.Add("@ContributorName", SqlDbType.NVarChar, 100).Value = contributorName;
                     cmd.Parameters.Add("@Description", SqlDbType.NVarChar, 255).Value = description;
+                    cmd.Parameters.Add("@StreetAddress", SqlDbType.NVarChar, 50).Value = address;
                     cmd.Parameters.Add("@City", SqlDbType.NVarChar, 50).Value = city;
                     cmd.Parameters.Add("@State", SqlDbType.NVarChar, 4).Value = state;
+                    cmd.Parameters.Add("@Province", SqlDbType.NVarChar, 50).Value = province;
                     cmd.Parameters.Add("@Zip", SqlDbType.NVarChar, 15).Value = zip;
+                    cmd.Parameters.Add("@Country", SqlDbType.NVarChar, 2).Value = country;
                     cmd.Parameters.Add("@Employer", SqlDbType.NVarChar, 100).Value = employer;
                     cmd.Parameters.Add("@Occupation", SqlDbType.NVarChar, 100).Value = occupation;
                     cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = amount;
@@ -1128,8 +1163,8 @@ namespace OpenBookPgh
         }
 
         public static int UpdateExpenditure(int expenditureID, int candidateID, string office, string company,
-                                string address, string city, string state, string zip, string description,
-                                decimal amount, DateTime? dateExpenditure)
+                                string address, string city, string state, string province, string zip, string country,
+                                string description, decimal amount, DateTime? dateExpenditure)
         {
             using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["CityControllerConnectionString"].ConnectionString))
             {
@@ -1144,7 +1179,9 @@ namespace OpenBookPgh
                     cmd.Parameters.Add("@Address", SqlDbType.NVarChar, 100).Value = address;
                     cmd.Parameters.Add("@City", SqlDbType.NVarChar, 50).Value = city;
                     cmd.Parameters.Add("@State", SqlDbType.NVarChar, 4).Value = state;
+                    cmd.Parameters.Add("@Province", SqlDbType.NVarChar, 50).Value = province;
                     cmd.Parameters.Add("@Zip", SqlDbType.NVarChar, 15).Value = zip;
+                    cmd.Parameters.Add("@Country", SqlDbType.NVarChar, 2).Value = country;
                     cmd.Parameters.Add("@Description", SqlDbType.NVarChar, 100).Value = description;
                     cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = amount;
                     cmd.Parameters.Add("@DatePaid", SqlDbType.DateTime).Value = dateExpenditure;

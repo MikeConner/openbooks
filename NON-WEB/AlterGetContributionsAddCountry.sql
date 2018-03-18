@@ -1,13 +1,12 @@
 USE [CityController]
 GO
 
-/****** Object:  StoredProcedure [dbo].[GetContributions]    Script Date: 3/18/2018 1:06:58 AM ******/
+/****** Object:  StoredProcedure [dbo].[GetContributions]    Script Date: 3/17/2018 4:08:16 PM ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
-
 
 
 
@@ -31,7 +30,7 @@ BEGIN
 	CASE WHEN ContributorType = 'in' THEN 'Contributor'
 		 ELSE 'Committee'			
 	END AS ContributorTypeName,
-	ContributorName, StreetAddress, City, State, Province, Zip, Country, Employer, Occupation, Amount, CAST(DateContribution AS date) AS ContributionDate
+	ContributorName, StreetAddress, City, State, Zip, Country, Employer, Occupation, Amount, CAST(DateContribution AS date) AS ContributionDate
 	FROM contributions c
 	LEFT JOIN tlk_contributionType t ON c.ContributionType = t.ID
 	LEFT JOIN tlk_candidate cand ON c.CandidateID = cand.ID

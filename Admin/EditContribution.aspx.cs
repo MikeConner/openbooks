@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Data;
 using OpenBookPgh;
 
 public partial class Admin_EditContribution : System.Web.UI.Page
@@ -41,9 +36,11 @@ public partial class Admin_EditContribution : System.Web.UI.Page
 
 		TextBox Contributor = (TextBox)frmContribution.FindControl("txtContributor");
 		TextBox Description = (TextBox)frmContribution.FindControl("txtDescription");
+        TextBox Street = (TextBox)frmContribution.FindControl("txtStreet");
 		TextBox City = (TextBox)frmContribution.FindControl("txtCity");
-
+        TextBox Province = (TextBox)frmContribution.FindControl("txtProvince");
 		TextBox Zip = (TextBox)frmContribution.FindControl("txtZip");
+        DropDownList Country = (DropDownList)frmContribution.FindControl("ddlCountry");
 		TextBox Employer = (TextBox)frmContribution.FindControl("txtEmployer");
 		TextBox Occupation = (TextBox)frmContribution.FindControl("txtOccupation");
 		TextBox Amount = (TextBox)frmContribution.FindControl("txtAmount");
@@ -74,9 +71,12 @@ public partial class Admin_EditContribution : System.Web.UI.Page
 			Contributor.Text, 
 			contributionType, 
 			Description.Text,
+            Street.Text,
 			City.Text,
-			State.Text, 
+			State.Text,
+            Province.Text, 
 			Zip.Text,
+            Country.SelectedValue,
 			Employer.Text, 
 			Occupation.Text, 
 			amount,

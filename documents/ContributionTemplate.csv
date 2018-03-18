@@ -1,2 +1,3 @@
-Contributor Type,Name,Contribution Type,City,State,Zip Code,Employer,Occupation,Amount,Date,Description
-Contributor,John Doe,Standard,Pittsburgh,PA,15237,US Steel,Worker,"$1,250.50",2/8/2013,"Description of the contribution, with commas"
+Contributor Type,Name,Contribution Type,Adddress,City,US State (or FR if foreign),Province,Zip/Postal Code,Country,Employer,Occupation,Amount,Date,Description
+US Contributor,John Doe,Standard,220 Fleet St.,Pittsburgh,PA,,15237,US,US Steel,Worker,"$1,250.50",2/8/2013,"Description of the contribution, with commas"
+Foreign Contributor,Jane Doe Eh,Standard,1 Hockey Way,Waterloo,FR,Ontario,1G32D2,CA,CA Steel,Worker,"$1,250.50",2/8/2013,"Description of the contribution, with commas"

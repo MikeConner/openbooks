@@ -68,13 +68,16 @@ public partial class Admin_DownloadContributions : System.Web.UI.Page
                 fields[2] = row["ContributionType"].ToString();
                 fields[3] = row["ContributorTypeName"].ToString();
                 fields[4] = "\"" + row["ContributorName"].ToString() + "\"";
-                fields[5] = "\"" + row["City"].ToString() + "\"";
-                fields[6] = row["State"].ToString();
-                fields[7] = row["Zip"].ToString();
-                fields[8] = "\"" + row["Employer"].ToString() + "\"";
-                fields[9] = "\"" + row["Occupation"].ToString() + "\"";
-                fields[10] = row["Amount"].ToString();
-                fields[11] = String.Format("{0:MM/dd/yyyy}", row["ContributionDate"]);
+                fields[5] = "\"" + row["StreetAddress"].ToString() + "\"";
+                fields[6] = "\"" + row["City"].ToString() + "\"";
+                fields[7] = row["State"].ToString();
+                fields[8] = row["Province"].ToString();
+                fields[9] = row["Zip"].ToString();
+                fields[10] = row["Country"].ToString();
+                fields[11] = "\"" + row["Employer"].ToString() + "\"";
+                fields[12] = "\"" + row["Occupation"].ToString() + "\"";
+                fields[13] = row["Amount"].ToString();
+                fields[14] = String.Format("{0:MM/dd/yyyy}", row["ContributionDate"]);
 
                 sb.AppendLine(string.Join(",", fields));
             }

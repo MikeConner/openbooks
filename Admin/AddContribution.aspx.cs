@@ -46,6 +46,7 @@ public partial class Admin_AddContributionPage : System.Web.UI.Page
 
 		rblContributor.SelectedValue = "in";
 		ddlState.SelectedValue = "PA";
+        ddlCountry.SelectedValue = "US";
 		txtDate.Text = DateTime.Now.ToShortDateString();
     }
 	protected void Button1_Click(object sender, EventArgs e)
@@ -55,9 +56,12 @@ public partial class Admin_AddContributionPage : System.Web.UI.Page
 		string contributorType = rblContributor.SelectedValue;
 		string contributor = txtContributor.Text;
 		string description = txtDescription.Text;
+        string address = txtStreet.Text;
 		string city = txtCity.Text;
 		string state = ddlState.SelectedValue;
+        string province = txtProvince.Text;
 		string zip = txtZip.Text;
+        string country = ddlCountry.SelectedValue;
 		string employer = txtEmployer.Text;
 		string occupation = txtOccupation.Text;
 
@@ -75,8 +79,13 @@ public partial class Admin_AddContributionPage : System.Web.UI.Page
 			dateContribution = Convert.ToDateTime(txtDate.Text);
 		}
 
-		int result = Admin.AddContribution(candidateID, office, contributorType, contributor, contributionType, description, city, state, zip, 
-												employer, occupation, amount, User.Identity.Name, dateContribution);
+        if (false == string.IsNullOrWhiteSpace(province))
+        {
+            state = "FR";
+        }
+
+		int result = Admin.AddContribution(candidateID, office, contributorType, contributor, contributionType, description, address, city, state, province, zip, 
+												country, employer, occupation, amount, User.Identity.Name, dateContribution);
 		if (result != 0)
 		{
 			lblMessage.Text = "There were problems adding this contribution. Error Code: [" + result + "]";
@@ -96,9 +105,12 @@ public partial class Admin_AddContributionPage : System.Web.UI.Page
 		string contributorType = rblContributor.SelectedValue;
 		string contributor = txtContributor.Text;
 		string description = txtDescription.Text;
+        string address = txtStreet.Text;
 		string city = txtCity.Text;
 		string state = ddlState.SelectedValue;
+        string province = txtProvince.Text;
 		string zip = txtZip.Text;
+        string country = ddlCountry.SelectedValue;
 		string employer = txtEmployer.Text;
 		string occupation = txtOccupation.Text;
 
@@ -116,10 +128,13 @@ public partial class Admin_AddContributionPage : System.Web.UI.Page
 			dateContribution = Convert.ToDateTime(txtDate.Text);
 		}
 
-		//int result = 0;
-		int result = Admin.AddContribution(candidateID, office, contributorType, contributor, contributionType, description, city, state, zip,
-		                                        employer, occupation, amount, User.Identity.Name, dateContribution);
-												
+        if (false == string.IsNullOrWhiteSpace(province))
+        {
+            state = "FR";
+        }
+
+        int result = Admin.AddContribution(candidateID, office, contributorType, contributor, contributionType, description, address, city, state, province, zip,
+		                                        country, employer, occupation, amount, User.Identity.Name, dateContribution);												
 		if (result != 0)
 		{
 			lblMessage.Text = "There were problems adding this contribution. Error Code: [" + result + "]";
@@ -132,9 +147,12 @@ public partial class Admin_AddContributionPage : System.Web.UI.Page
 			txtDescription.Text = "";
 			txtCity.Text = "";
 			txtZip.Text = "";
+            txtProvince.Text = "";
 			txtEmployer.Text = "";
 			txtOccupation.Text = "";
 			txtAmount.Text = "0";
+            txtStreet.Text = "";
+            ddlCountry.SelectedValue = "US";
 			
 			// Set Focus
 			txtContributor.Focus();
