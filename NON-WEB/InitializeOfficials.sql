@@ -5,7 +5,7 @@
  GO
 
  INSERT INTO dbo.elected_officials
- (ID, Name, Office, Committee, Salary, PersonalPage, DisclosureLink, ImageUrl)
+ (ID, Name, Office, Committee, Salary, DisclosureLink, PersonalPage,  ImageUrl)
      VALUES
 	 (1, 'Bill Peduto', 'Mayor', 'People for Peduto', 111843.0,
                            'http://apps.pittsburghpa.gov/redtail/images/1487_Peduto.pdf',
