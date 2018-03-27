@@ -28,48 +28,107 @@ namespace OpenBookAllegheny
             UploadAlleghenyContracts(filename, true);
         }
 
-        public static void SSHDownload()
+        static void Log(string action, string result)
         {
-            using (SftpClient client = new SftpClient(ConfigurationManager.AppSettings["SftpHost"].ToString(),
-                                                      ConfigurationManager.AppSettings["SftpUsername"].ToString(),
-                                                      ConfigurationManager.AppSettings["SftpPassword"].ToString()))
-            {
-                string remoteDirectory = "/OpenBook/";
+            Log(action, result, null);
+        }
 
+        static void Log(string action, string result, string data)
+        {
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["AlleghenyCountyConnectionString"].ConnectionString))
+            {
                 try
                 {
-                    client.Connect();
+                    conn.Open();
 
-                    IEnumerable<SftpFile> files = client.ListDirectory(remoteDirectory, null);
-                    foreach (SftpFile file in files)
+                    if (null == data)
                     {
-                        if (!file.Name.StartsWith("."))
-                        {
-                            string localFile = Path.GetTempFileName();
+                        string sql = "INSERT INTO logger(action, result) VALUES(@param1,@param2)";
+                        SqlCommand cmd = new SqlCommand(sql, conn);
 
-                            try
-                            {
-                                using (Stream tempFile = File.OpenWrite(localFile))
-                                {
-                                    client.DownloadFile(file.FullName, tempFile, null);
-                                }
+                        cmd.Parameters.AddWithValue("@param1", action);
+                        cmd.Parameters.AddWithValue("@param2", result);
+                        cmd.CommandType = CommandType.Text;
 
-                                Admin.UploadAlleghenyContracts(localFile);
-                            }
-                            finally
-                            {
-                                File.Delete(localFile);
-                            }
-                        }
+                        cmd.ExecuteNonQuery();
+                    }
+                    else
+                    {
+                        string sql = "INSERT INTO logger(action, result, data) VALUES(@param1,@param2,@param3)";
+                        SqlCommand cmd = new SqlCommand(sql, conn);
+
+                        cmd.Parameters.AddWithValue("@param1", action);
+                        cmd.Parameters.AddWithValue("@param2", result);
+                        cmd.Parameters.AddWithValue("@param3", data);
+                        cmd.CommandType = CommandType.Text;
+
+                        cmd.ExecuteNonQuery();
                     }
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
+            }
+        }
+
+        public static void SSHDownload()
+        {
+            Log("Entered SSHDownload", "Top of function");
+            Log("Trying to create SFTP Client", "?", string.Format("Host={0}; Username={1}; Password={2}", 
+                ConfigurationManager.AppSettings["SftpHost"].ToString(),
+                ConfigurationManager.AppSettings["SftpUsername"].ToString(),
+                ConfigurationManager.AppSettings["SftpPassword"].ToString()));
+            using (SftpClient client = new SftpClient(ConfigurationManager.AppSettings["SftpHost"].ToString(),
+                                                      ConfigurationManager.AppSettings["SftpUsername"].ToString(),
+                                                      ConfigurationManager.AppSettings["SftpPassword"].ToString()))
+            {
+                string remoteDirectory = "/OpenBook/";
+                Log("Trying to open SFTP", "Success");
+
+                try
+                {
+                    client.Connect();
+                    Log("Connected to SFTP", "Success");
+
+                    IEnumerable<SftpFile> files = client.ListDirectory(remoteDirectory, null);
+                    foreach (SftpFile file in files)
+                    {
+                        if (!file.Name.StartsWith("."))
+                        {
+                            Log("Got File from client directory", file.Name);
+                            string localFile = Path.GetTempFileName();
+                            Log("Generated temp filename", localFile);
+
+                            try
+                            {
+                                using (Stream tempFile = File.OpenWrite(localFile))
+                                {
+                                    Log("Opened local file", "Success");
+                                    client.DownloadFile(file.FullName, tempFile, null);
+                                    Log("Downloaded into local file", "Success");
+                                }
+
+                                Log("Trying to upload contracts", "?");
+                                Admin.UploadAlleghenyContracts(localFile);
+                            }
+                            finally
+                            {
+                                File.Delete(localFile);
+                                Log("Deleted local file", "Success");
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log("ERROR!", ex.Message);
+                    Console.WriteLine(ex.Message);
+                }
                 finally
                 {
                     client.Disconnect();
+                    Log("Disconnected client", "Success");
                 }
             }
         }
@@ -135,6 +194,7 @@ namespace OpenBookAllegheny
             //string fname = System.AppDomain.CurrentDomain.BaseDirectory + "documents\\" + filename;
             DataTable table = CSVParser.ParseCSV(filename);
             bool first = true;
+            Log("Parsed Contract File", table.Rows.Count.ToString());
             foreach (DataRow row in table.Rows)
             {
                 if (first)
