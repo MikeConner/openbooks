@@ -30,7 +30,8 @@ namespace OpenBookAllegheny
                         {
                             Object[] result = new Object[1];
                             reader.GetValues(result);
-                            maxPrice = Convert.ToInt32(result[0]);
+                            if (!(result[0] is DBNull))
+                                maxPrice = Convert.ToInt32(result[0]);
                         }
                     }
                 }

@@ -35,7 +35,7 @@
 -->
 <li><a href="../SearchContracts.aspx">Search</a></li>
 <li><a href="../About.aspx">About</a></li>
-<li><a href="http://www.alleghenycontroller.com/contact.php?fn_name=contact" target="_blank">Contact</a></li>
+<li><a href="http://www.alleghenycontroller.com/geninquiry" target="_blank">Contact</a></li>
 <li class='controller'><img alt="Controller logo" class="controller-logo" src="../img/county-logo.png" /></li>
 </ul>
 </section>
