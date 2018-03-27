@@ -12,6 +12,7 @@ using DataStreams.ETL;
 using System.Collections;
 using Renci.SshNet;
 using Renci.SshNet.Sftp;
+using System.Threading;
 
 namespace OpenBookAllegheny
 {
@@ -69,6 +70,19 @@ namespace OpenBookAllegheny
                 {
                     Console.WriteLine(ex.Message);
                 }
+            }
+        }
+
+        public static bool IsFileReady(string sFilename)
+        {
+            try
+            {
+                using (FileStream inputStream = File.Open(sFilename, FileMode.Open, FileAccess.Read, FileShare.None))
+                    return inputStream.Length > 0;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
 
@@ -192,6 +206,14 @@ namespace OpenBookAllegheny
             }
 
             //string fname = System.AppDomain.CurrentDomain.BaseDirectory + "documents\\" + filename;
+            int cnt = 1;
+            while (false == IsFileReady(filename))
+            {
+                Log("Waiting for file to be ready", cnt.ToString());
+                Thread.Sleep(1000);
+                cnt += 1;
+            }
+
             DataTable table = CSVParser.ParseCSV(filename);
             bool first = true;
             Log("Parsed Contract File", table.Rows.Count.ToString());
