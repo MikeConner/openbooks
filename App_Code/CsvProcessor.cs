@@ -15,7 +15,10 @@ namespace OpenBookAllegheny
         public static DataTable ParseCSV(string path)
         {
             if (!File.Exists(path))
+            {
+                Admin.Log("CSVParser: File doesn't Exist", path);
                 return null;
+            }
 
             string full = Path.GetFullPath(path);
             string file = Path.GetFileName(full);
@@ -26,9 +29,12 @@ namespace OpenBookAllegheny
               + "Data Source=\"" + dir + "\\\";"
               + "Extended Properties=\"text;HDR=No;FMT=Delimited\"";
 
+            Admin.Log("CSVParser: connString", connString);
+            Admin.Log("CSVParser: full", full);
             //create the database query
             string query = "SELECT * FROM " + file;
 
+            Admin.Log("CSVParser: Query", query);
             //create a DataTable to hold the query results
             DataTable dTable = new DataTable();
 
@@ -39,9 +45,11 @@ namespace OpenBookAllegheny
             {
                 //fill the DataTable
                 dAdapter.Fill(dTable);
+                Admin.Log("CSVParser: Filled DataTable", "Success");
             }
             catch (InvalidOperationException ex)
             {
+                Admin.Log("CSVParser: Error during Ole", ex.Message);
                 Console.WriteLine(ex.Message);
             }
 

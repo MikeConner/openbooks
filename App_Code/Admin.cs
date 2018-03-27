@@ -29,12 +29,12 @@ namespace OpenBookAllegheny
             UploadAlleghenyContracts(filename, true);
         }
 
-        static void Log(string action, string result)
+        public static void Log(string action, string result)
         {
             Log(action, result, null);
         }
 
-        static void Log(string action, string result, string data)
+        public static void Log(string action, string result, string data)
         {
             using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["AlleghenyCountyConnectionString"].ConnectionString))
             {
@@ -212,6 +212,11 @@ namespace OpenBookAllegheny
                 Log("Waiting for file to be ready", cnt.ToString());
                 Thread.Sleep(1000);
                 cnt += 1;
+
+                if (cnt > 10)
+                {
+                    break;
+                }
             }
 
             DataTable table = CSVParser.ParseCSV(filename);
