@@ -74,12 +74,12 @@ public partial class Admin_AddContributionPage : System.Web.UI.Page
 
 		DateTime? dateContribution = null;
 
-		if (!String.IsNullOrEmpty(txtDate.Text))
+		if (!string.IsNullOrEmpty(txtDate.Text))
 		{
 			dateContribution = Convert.ToDateTime(txtDate.Text);
 		}
 
-        if (false == string.IsNullOrWhiteSpace(province))
+        if (false == string.IsNullOrEmpty(province))
         {
             state = "FR";
         }
@@ -123,12 +123,12 @@ public partial class Admin_AddContributionPage : System.Web.UI.Page
 
 		DateTime? dateContribution = null;
 
-		if (!String.IsNullOrEmpty(txtDate.Text))
+		if (!string.IsNullOrEmpty(txtDate.Text))
 		{
 			dateContribution = Convert.ToDateTime(txtDate.Text);
 		}
 
-        if (false == string.IsNullOrWhiteSpace(province))
+        if (false == string.IsNullOrEmpty(province))
         {
             state = "FR";
         }

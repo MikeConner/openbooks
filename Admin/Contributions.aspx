@@ -95,7 +95,7 @@
 			<td><%# DataBinder.Eval(Container.DataItem, "Occupation") %></td>
             <td><%# DataBinder.Eval(Container.DataItem, "StreetAddress") %></td>
 			<td><%# DataBinder.Eval(Container.DataItem, "City")%>, 
-                <%# string.IsNullOrWhiteSpace(DataBinder.Eval(Container.DataItem, "Province").ToString()) ? DataBinder.Eval(Container.DataItem, "State") : DataBinder.Eval(Container.DataItem, "Province")%> 
+                <%# string.Empty == (DataBinder.Eval(Container.DataItem, "Province").ToString()) ? DataBinder.Eval(Container.DataItem, "State") : DataBinder.Eval(Container.DataItem, "Province")%> 
                 <%# DataBinder.Eval(Container.DataItem, "Zip")%></td>
             <td><%# DataBinder.Eval(Container.DataItem, "Country") %></td>
 			<td><%# DataBinder.Eval(Container.DataItem, "Amount", "{0:C}")%></td>

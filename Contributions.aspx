@@ -50,7 +50,7 @@
                         <td><%# DataBinder.Eval(Container.DataItem, "Employer")%></td>
                         <td><%# DataBinder.Eval(Container.DataItem, "Occupation") %></td>
                         <td><%# DataBinder.Eval(Container.DataItem, "City")%>, 
-                            <%# string.IsNullOrWhiteSpace(DataBinder.Eval(Container.DataItem, "Province").ToString()) ? DataBinder.Eval(Container.DataItem, "State") : DataBinder.Eval(Container.DataItem, "Province")%> 
+                            <%# null == (DataBinder.Eval(Container.DataItem, "Province").ToString()) ? DataBinder.Eval(Container.DataItem, "State") : DataBinder.Eval(Container.DataItem, "Province")%> 
                             <%# DataBinder.Eval(Container.DataItem, "Zip")%></td>
                         <td><%# DataBinder.Eval(Container.DataItem, "Amount", "{0:C}")%></td>
                         <td><%# DataBinder.Eval(Container.DataItem, "DateContribution", "{0:MM/dd/yyyy}")%></td>

@@ -67,12 +67,12 @@ public partial class Admin_AddExpenditure : System.Web.UI.Page
 
 		DateTime? dateExpenditure = null;
 
-		if (!String.IsNullOrEmpty(txtDate.Text))
+		if (false == string.IsNullOrEmpty(txtDate.Text))
 		{
 			dateExpenditure = Convert.ToDateTime(txtDate.Text);
 		}
 
-        if (false == string.IsNullOrWhiteSpace(province))
+        if ((province != null) && (province != ""))
         {
             state = "FR";
         }
@@ -115,7 +115,7 @@ public partial class Admin_AddExpenditure : System.Web.UI.Page
 			dateExpenditure = Convert.ToDateTime(txtDate.Text);
 		}
 
-        if (false == string.IsNullOrWhiteSpace(province))
+        if ((province != null) && (province != ""))
         {
             state = "FR";
         }

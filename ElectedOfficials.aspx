@@ -19,8 +19,7 @@
                 <th>Committee</th>
                 <th>
                     <asp:LinkButton ID="lb2" Text="Salary" OnClick="sortSalary" runat="server" /></th>
-                <th>Personal Page</th>
-                <th>Disclosure Page</th>
+                <th>Financial Disclosure</th>
             </tr>
             <asp:Repeater ID="rptOfficials" runat="server">
                 <ItemTemplate>
@@ -29,15 +28,14 @@
                             <!--<asp:Image ImageUrl="data:image;base64," + Convert.ToBase64String(<%# Eval("ImageUrl") %>)" />-->
                             <asp:Image height="100" Width="100" ImageUrl=<%# WrapFilename(Eval("ImageUrl").ToString()) %> runat="server" />
                         </td>
-                        <td><%# Eval("Name") %></td>
+                        <td>
+                            <asp:HyperLink NavigateUrl=<%# Eval("PersonalPage") %> Target="_blank" Text='<%# Eval("Name") %>' runat="server"></asp:HyperLink>
+                        </td>
                         <td><%# Eval("Office") %></td>
                         <td><%# Eval("Committee") %></td>
                         <td><%# string.Format("{0:C}", Eval("Salary")) %></td>
                         <td>
-                            <asp:HyperLink NavigateUrl=<%# Eval("PersonalPage") %> Target="_blank" Text='<%# string.IsNullOrEmpty(Eval("PersonalPage").ToString()) ? "Unavailable" : "Link"%>' runat="server"></asp:HyperLink>
-                        </td>
-                        <td>
-                            <asp:HyperLink NavigateUrl=<%# Eval("DisclosureLink") %> Target="_blank" Text='<%# string.IsNullOrEmpty(Eval("DisclosureLink").ToString()) ? "Unavailable" : "Link"%>' runat="server"></asp:HyperLink>
+                            <asp:HyperLink NavigateUrl=<%# Eval("DisclosureLink") %> Target="_blank" Text='<%# string.IsNullOrEmpty(Eval("DisclosureLink").ToString()) ? "n/a" : "Link"%>' runat="server"></asp:HyperLink>
                         </td>
                     </tr>
                 </ItemTemplate>

@@ -461,7 +461,7 @@ namespace OpenBookPgh
             {
                 conn.Open();
 
-                using (var bulkCopy = new SqlBulkCopy(conn.ConnectionString, SqlBulkCopyOptions.KeepIdentity))
+                using (SqlBulkCopy bulkCopy = new SqlBulkCopy(conn.ConnectionString, SqlBulkCopyOptions.KeepIdentity))
                 {
                     // my DataTable column names match my SQL Column names, so I simply made this loop. However if your column names don't match, just pass in which datatable name matches the SQL column name in Column Mappings
                     foreach (DataColumn col in table.Columns)
